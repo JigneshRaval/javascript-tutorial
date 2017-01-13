@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Javascript Code Snippets</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<!--<link rel="stylesheet" href="assets/css/bootstrap.css" />-->
+		<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+	<!--<script src="assets/js/bootstrap.js"></script>-->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+		<link rel="stylesheet" href="assets/css/plugins/github.css">
+		<style>
+			body {
+				font-family: 'Open Sans', sans-serif;
+				line-height: 1.8;
+				font-size: 14px;
+			}
+			code { background-color: #f4f4f4; border: 1px solid #CCC; padding: 1px 5px; border-radius: 3px; color: #E91E63; }
+			pre { border: 0px solid #CCC; padding: 2em; border-radius: 0px; background-color: #f4f4f4; margin: 0; box-shadow: inset  0  8px 8px -8px rgba(0,0,0,0.2)/*, inset  0 -8px 8px -8px rgba(0,0,0,0.2)*/; }
+			.example {border: 1px solid #CCC; margin: 5em 0; }
+			.example:hover { border: 1px solid #2196f3; box-shadow: 0px 0px 15px 2px rgba(0,0,0,0.2); }
+			.example:hover h2 { border-bottom: 1px solid #2196f3; }
+			.example__title { padding: 0.3em 1em; margin: 0; border-bottom: 1px solid #CCC; box-shadow: 0px 2px 16px rgba(0,0,0,0.1); position: relative; color: #555; }
+			.grd_wg { background: #ffffff;
+background: -moz-linear-gradient(top, #ffffff 0%, #f4f4f4  100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #f4f4f4 ));
+background: -webkit-linear-gradient(top, #ffffff 0%, #f4f4f4  100%);
+background: -o-linear-gradient(top, #ffffff 0%, #f4f4f4  100%);
+background: -ms-linear-gradient(top, #ffffff 0%, #f4f4f4  100%);
+background: linear-gradient(to bottom, #ffffff 0%, #f4f4f4  100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f4f4f4 ', GradientType=0 );}
+			.example__content { padding: 1em; }
+			.example__description { padding: 0.5em; position: relative; box-shadow: 0 10px 7px -7px rgba(0,0,0,0.1); }
+			.example__description article { padding: 0.5em 1em; color: #777777; font-size: 15px; }
+			.example__note { background-color: #fff4cc; border: 1px solid #ffc107; padding: 1em; }
+			h2 { font-size: 1.7em; font-weight: 400; }
+			.tr { text-align: right; }
+			.no-margin-all { margin: 0; }
+			.row { width: 70%; margin: 0 auto;}
+			.lnk-view-more { text-decoration: none; display: inline-block; padding: 5px 10px; }
+			.arrow { display: inline-block; width: 0px; height: 0; border: 1px solid #FFF; border-left-color: transparent; border-right-color: transparent; border-bottom-color: transparent; border-left-width: 20px; border-right-width: 20px; border-bottom-width: 0px; border-top-width: 20px; position: absolute; left: 50%; top: 100%; }
+			.arrow:before { content: ""; position: absolute; box-shadow: 0px 5px 5px rgba(0,0,0,0.2); }
+			
+			h3 { padding-left: 1.5em; }
+		</style>
+	</head>
+	<body>
+		<div class="container">
+		<!--<h2>Javascript Code Snippets</h2>-->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">Using an Object Literal</h2>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>This is the easiest way to create a JavaScript Object. Using an object literal, you both define and create an object in one statement.</p>
+
+								<p>An object literal is a list of name:value pairs (like age:50) inside curly braces {}.</p>
+							</article>
+							<span class="arrow"></span>
+						</section>
+						<pre>var person = { 
+	firstName:"John",
+	lastName:"Doe",
+	age:50,
+	eyeColor:"blue"
+};</pre>
+						
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">Create Object Using the JavaScript Keyword <code>new</code></h2>
+						
+						<pre>var person = new Object();
+						
+person.firstName = "John";
+person.lastName = "Doe";
+person.age = 50;
+person.eyeColor = "blue";</pre>
+
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>A function that is called using new operator for creation of new objects is called a Constructor Function.</p>
+<p>Creating a function creates an object of type Function. That means, any new function will have its __proto__ point to prototype of 'Function'.</p>
+<p>As a side note: Function is a global internal Object, it doesn't have any properties of its own but inherits them from Function.prototype.</p>
+<p>Further, objects of type Function have another property called 'prototype' pointing to the prototype of the objects which will be created using this function.</p>
+							</article>
+							<span class="arrow"></span>
+						</section>
+
+						<pre>function Person(name, age){
+   this.name = name;
+   this.age = age;
+   this.shoutYourName = function(){
+                              alert('My name is ' + name +'!');
+                        };
+}
+//create Objects
+var John = new Person('John'25);
+var Donn = new Person('Donn'29);
+
+console.log(John.name);  //John
+console.log(John.age);  //25
+John.shoutYourName();   //alerts 'My name is John!'</pre>
+						
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">Module Design Pattern</h2>
+						
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>JavaScript modules are the most prevalently used design patterns for keeping particular pieces of code independent of other components. This provides loose coupling to support well-structured code.</p>
+
+								<p>For those that are familiar with object-oriented languages, modules are JavaScript "classes". One of the many advantages of classes is encapsulation – protecting states and behaviors from being accessed from other classes. The module pattern allows for public and private (plus the lesser-know protected and privileged) access levels.</p>
+
+								<p>Modules should be Immediately-Invoked-Function-Expressions (IIFE) to allow for private scopes – that is, a closure that protect variables and methods (however, it will return an object instead of a function). This is what it looks like:</p>
+							</article>
+							<span class="arrow"></span>
+						</section>
+						
+						<pre>
+  // EXAMPLE 1
+  //======================================
+  
+  var HTMLChanger = (function() {
+  // Private variable so it can not be excessed outside
+  var contents = 'contents';
+  
+  // Inner Function which is Private
+  var changeHTML = function() {
+    var element = document.getElementById('attribute-to-change');
+    element.innerHTML = contents;
+  }
+
+  return {
+    callChangeHTML: function() {
+      changeHTML();
+      console.log(contents);
+    }
+  };
+
+})();
+
+HTMLChanger.callChangeHTML();       // Outputs: 'contents'
+console.log(HTMLChanger.contents);  // undefined</pre>
+
+<pre>
+// REF. : http://viralpatel.net/blogs/javascript-module-pattern/
+//====================================================================
+
+CalcModule = (function(){
+	// 1. Create New Object
+	var pub = {}; 
+	
+	// 2. Add new Methods and Properties to it
+	pub.add = function(a, b) {
+		console.log('in add()', a, b);
+		return a + b;
+	};
+
+	pub.sub = function(a, b) {
+		console.log('in sub()', a, b);
+		return a - b;
+	};
+	
+	// 3. Return Object
+	return pub;
+})();
+
+// 4. Invoke or Use Function
+CalcModule.add(5,2) //returns : 7
+CalcModule.sub(5,2) //returns : 3
+
+</pre>
+
+<pre>
+// REF. : http://viralpatel.net/blogs/javascript-module-pattern/
+//====================================================================
+
+// Importing Parameters in JavaScript Module
+//====================================================================
+CalcModule = (function($){
+	var pub = {};
+	var INVALID = 'invalid input';
+	pub.add = function(a,b){
+		if($.isNumeric(a) && $.isNumeric(b)){
+			return a+b;
+		}
+		else{
+			return INVALID;
+		}
+	};
+	
+	pub.sub = function(a,b){
+		if($.isNumeric(a) && $.isNumeric(b)){
+			return a-b;
+		}
+		else{
+			return INVALID;
+		}
+	};
+	
+	return pub;
+})(jQuery); //passed 'jQuery' global variable into local parameter '$'
+
+CalcModule.add(5,2) //returns : 7
+CalcModule.sub(5,2) //returns : 3
+</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<h3>Separating Module across different JS files: Augmentation</h3>
+								<p>First things to notice in above code is passing of parameters into the module. We pass the same javascript module 'CalcModule' as argument into the anonymous function and which gets assigned to parameter 'pub'. Inside the function, we add properties to this parameter 'pub', and then return the same variable which gets assigned back to CalcModule. Thus, we managed to extend the existing CalcModule with new properties.</p>
+
+								<p>Second thing to notice is the OR ( || ) condition in the call. This is what makes above files independent of each other with respect to order of execution. If the CalcModule doesn't exists yet, a new object is created (using '{}') and passed to the parameter 'pub' which is then assigned to CalcModule. This ability to allow loading of scripts in any order, converts a Strict Augmentation to Loosely Augmentation.</p>
+
+								<p>This functionality to extend the module with other members is called Augmentation. And if the order in which these modules are loaded is defined than its called a Strict Augmentation, or else if the order is not important as in example above, it is called Loose Augmentation.</p>
+							</article>
+						</section>
+<pre>
+// REF. : http://viralpatel.net/blogs/javascript-module-pattern/
+//====================================================================
+
+// Separating Module across different JS files: Augmentation
+//====================================================================
+
+// File 1: calc.js
+//=========================================
+
+var CalcModule = (function($, pub){
+	//jQuery will still be available via $
+	var mem = new Array(); //private variable
+	
+	pub.storeInMemory = function(val){
+		mem.push(val);
+	};
+	
+	pub.retrieveFromMemory = function(){
+		return mem.pop();
+	};
+	
+	return pub;
+	
+})(jQuery, CalcModule || {});
+
+// File 2: calc_functions.js
+//=========================================
+
+var CalcModule = (function($, pub){
+	//jQuery will still be available via $
+	pub.add = function(a,b){ 
+		var result = a + b;
+		pub.storeInMemory(result);
+		return result;
+	};
+	
+	pub.sub = function(a,b){
+		var result = a - b;
+		pub.storeInMemory(result);
+		return result;
+	};
+	
+	return pub;
+	
+}(jQuery, CalcModule || {}));
+</pre>
+						
+						
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">Revealing Module Pattern</h2>
+						
+						<pre>var Exposer = (function() {
+  var privateVariable = 10;
+
+  var privateMethod = function() {
+    console.log('Inside a private method!');
+    privateVariable++;
+  }
+
+  var methodToExpose = function() {
+    console.log('This is a method I want to expose!');
+  }
+
+  var otherMethodIWantToExpose = function() {
+    privateMethod();
+  }
+
+  return {
+      first: methodToExpose,
+      second: otherMethodIWantToExpose
+  };
+})();
+
+Exposer.first();        // Output: This is a method I want to expose!
+Exposer.second();       // Output: Inside a private method!
+Exposer.methodToExpose; // undefined
+</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>A variation of the module pattern is called the Revealing Module Pattern. The purpose is to maintain encapsulation and reveal certain variables and methods returned in an object literal. The direct implementation looks like this</p>
+							</article>
+						</section>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">Prototype Design Pattern</h2>
+						
+						<pre>
+// Way 1
+//=========================================
+
+var TeslaModelS = function() {
+  this.numWheels    = 4;
+  this.manufacturer = 'Tesla';
+  this.make         = 'Model S';
+}
+
+TeslaModelS.prototype.go = function() {
+  // Rotate wheels
+}
+
+TeslaModelS.prototype.stop = function() {
+  // Apply brake pads
+}
+
+// Way 2
+//=========================================
+
+var TeslaModelS = function() {
+  this.numWheels    = 4;
+  this.manufacturer = 'Tesla';
+  this.make         = 'Model S';
+}
+
+TeslaModelS.prototype = {
+  go: function() {
+    // Rotate wheels
+  },
+  stop: function() {
+    // Apply brake pads
+  }
+}
+
+// REVEALING PROTOTYPE PATTERN
+//=========================================
+
+/**
+ * The Revealing Prototype Pattern provides encapsulation with public and private members since it returns an object literal.
+ */
+
+var TeslaModelS = function() {
+  this.numWheels    = 4;
+  this.manufacturer = 'Tesla';
+  this.make         = 'Model S';
+}
+
+TeslaModelS.prototype = function() {
+
+  var go = function() {
+    // Rotate wheels
+  };
+
+  var stop = function() {
+    // Apply brake pads
+  };
+
+  return {
+    pressBrakePedal: stop,
+    pressGasPedal: go
+  }
+
+}();
+</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>Any JavaScript developer has either seen the keyword prototype, confused by the prototypical inheritance, or implemented prototypes in their code. The Prototype design pattern relies on the JavaScript prototypical inheritance. The prototype model is used mainly for creating objects in performance-intensive situations.</p>
+
+								<p>The objects created are clones (shallow clones) of the original object that are passed around. One use case of the prototype pattern is performing an extensive database operation to create an object used for other parts of the application. If another process needs to use this object, instead of having to perform this substantial database operation, it would be advantageous to clone the previously created object.</p>
+								<p>To clone an object, a constructor must exist to instantiate the first object. Next, by using the keyword prototype variables and methods bind to the object's structure.</p>
+								<p class="example__note">Following the ECMAScript standard, the notation someObject.[[Prototype]] is used to designate the prototype of someObject. This is equivalent to the JavaScript property __proto__ (now deprecated). It should not be confused with the func.prototype property of functions, which instead specifies the [[Prototype]] of all instances of the given function. Since ECMAScript 6, the [[Prototype]] is accessed using the accessors Object.getPrototypeOf() and Object.setPrototypeOf().</p>
+								
+								<p>Every JavaScript object has a prototype. The prototype is also an object.</p>
+
+								<p>All JavaScript objects inherit their properties and methods from their prototype.</p>
+								<p>All JavaScript objects inherit the properties and methods from their prototype.</p>
+
+								<p>Objects created using an object literal, or with new Object(), inherit from a prototype called Object.prototype.</p>
+
+								<p>Objects created with new Date() inherit the Date.prototype.</p>
+
+								<p>The Object.prototype is on the top of the prototype chain.</p>
+
+								<p>All JavaScript objects (Date, Array, RegExp, Function, ....) inherit from the Object.prototype.</p>
+								<p>The standard way to create an object prototype is to use an object constructor function. With a constructor function, you can use the new keyword to create new objects from the same prototype.</p>
+								
+								<p class="example__note">The constructor function is the prototype for Person objects.
+It is considered good practice to name constructor function with an upper-case first letter.</p>
+							</article>
+						</section>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">The <code>this</code> Keyword</h2>
+						
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>In JavaScript, the thing called this, is the object that "owns" the JavaScript code.</p>
+
+								<p>The value of this, when used in a function, is the object that "owns" the function.</p>
+
+								<p>The value of this, when used in an object, is the object itself.</p>
+
+								<p>The this keyword in an object constructor does not have a value. It is only a substitute for the new object.</p>
+
+								<p>The value of this will become the new object when the constructor is used to create an object.</p>
+
+								<p>Note that this is not a variable. It is a keyword. You cannot change the value of this.</p>
+							</article>
+						</section>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">Design Pattern : Pub-Sub ( Publish/Subscribe) </h2>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>There are three keys to effective AJAX-driven websites:  event delegation, History management, and effective app-wide communication with pub/sub.</p>
+								
+								<p>The Publish/Subscribe pattern, however, uses a topic/event channel that sits between the objects wishing to receive notifications (subscribers) and the object firing the event (the publisher). This event system allows code to define application-specific events that can pass custom arguments containing values needed by the subscriber. The idea here is to avoid dependencies between the subscriber and publisher.</p>
+
+								<p>This differs from the Observer pattern since any subscriber implementing an appropriate event handler to register for and receive topic notifications broadcast by the publisher.</p>
+
+								<p>Many developers choose to aggregate the publish/subscribe design pattern with the observer though there is a distinction. Subscribers in the publish/subscribe pattern are notified through some messaging medium, but observers are notified by implementing a handler similar to the subject.</p>
+
+								<p>In AngularJS, a subscriber 'subscribes' to an event using $on('event', callback), and a publisher 'publishes' an event using $emit('event', args) or $broadcast('event', args).</p>
+								<p>If you've not used pub/sub before, the gist is that you publish to a topic and anyone can subscribe, much like the way a radio works: a radio station broadcasts (publishes) and anyone can listen (subscribes).</p>
+								<p>This is excellent for highly modular web applications; it's a license to globally communicate without attaching to any specific object.</p>
+								<p>In software architecture, publish–subscribe is a messaging pattern where senders of messages, called publishers, do not program the messages to be sent directly to specific receivers, called subscribers. Instead, published messages are characterized into classes, without knowledge of what, if any, subscribers there may be. Similarly, subscribers express interest in one or more classes, and only receive messages that are of interest, without knowledge of what, if any, publishers there are.</p>
+								<p>This pattern uses an event system that sits between the objects wishing to receive notifications (subscribers) and the objects firing the events (the publishers).</p>
+							</article>
+						</section>
+						
+						<pre>
+// REF. : http://jsfiddle.net/qvkj30f8/
+//---------------------------------------------------
+
+var PubSub = function () {
+	this.handlers = [];
+ };
+
+ PubSub.prototype = {
+     subscribe: function (event, handler, context) {
+         if (typeof context === 'undefined') {
+             context = handler;
+         }
+         this.handlers.push({
+             event: event,
+             handler: handler.bind(this)
+         });
+     },
+
+     publish: function (event) {
+         for (var i = 0; i &lt; this.handlers.length; i++) {
+             if (this.handlers[i].event === event) {
+                 this.handlers[i].handler.call();
+             }
+         }
+     }
+ };
+
+
+ var Player = function () {
+     this.pubsub = new PubSub();
+     this.pubsub.subscribe('player_die', this.onDeath, this);
+ };
+
+ Player.prototype = {
+     kill: function () {
+         this.pubsub.publish('player_die');
+     },
+     onDeath: function () {
+         console.log("i'm dead.");
+     }
+ };
+
+ var john = new Player();
+ john.kill();</pre>
+<pre>
+// REF. : https://scotch.io/bar-talk/4-javascript-design-patterns-you-should-know
+//---------------------------------------------------
+
+var Subject = function() {
+  this.observers = [];
+
+  return {
+    subscribeObserver: function(observer) {
+      this.observers.push(observer);
+    },
+    unsubscribeObserver: function(observer) {
+      var index = this.observers.indexOf(observer);
+      if(index > -1) {
+        this.observers.splice(index, 1);
+      }
+    },
+    notifyObserver: function(observer) {
+      var index = this.observers.indexOf(observer);
+      if(index > -1) {
+        this.observers[index].notify(index);
+      }
+    },
+    notifyAllObservers: function() {
+      for(var i = 0; i &lt; this.observers.length; i++){
+        this.observers[i].notify(i);
+      };
+    }
+  };
+};
+
+var Observer = function() {
+  return {
+    notify: function(index) {
+      console.log("Observer " + index + " is notified!");
+    }
+  }
+}
+
+var subject = new Subject();
+
+var observer1 = new Observer();
+var observer2 = new Observer();
+var observer3 = new Observer();
+var observer4 = new Observer();
+
+subject.subscribeObserver(observer1);
+subject.subscribeObserver(observer2);
+subject.subscribeObserver(observer3);
+subject.subscribeObserver(observer4);
+
+subject.notifyObserver(observer2); // Observer 2 is notified!
+
+subject.notifyAllObservers();
+// Observer 1 is notified!
+// Observer 2 is notified!
+// Observer 3 is notified!
+// Observer 4 is notified!
+	</pre>
+	
+<pre>
+// REF. : https://paul.kinlan.me/building-a-pubsub-api-in-javascript/
+//---------------------------------------------------
+
+var EventManager = new (function() {
+	var events = {};
+	
+	this.publish = function(name, data) {
+		var handlers = events[name];
+		if(!!handlers === false) return;
+		handlers.forEach(function(handler) {
+			handler.call(this, data);
+		});
+	};
+	
+	this.subscribe = function(name, handler) {
+		var handlers = events[name];
+		if(!!handlers === false) {
+			handlers = events[name] = [];
+		}
+		handlers.push(handler);
+	};
+	
+	this.unsubscribe = function(name, handler) {
+		var handlers = events[name];
+		if(!!handlers === false) return;
+		
+		var handlerIdx = handlers.indexOf(handler);
+		handlers.splice(handlerIdx);
+	};
+});
+
+/* When a user is added, do something useful (like update UI) */
+EventManager.subscribe('useradded', function(user) {
+	console.log(user)
+});
+
+/* The UI submits the data, lets publish the event. */
+form.onsubmit(function(e) {
+	e.preventDefault();
+	
+	// do something with user fields
+	
+	EventManager.publish('useradded', user);
+})
+</pre>
+						
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>I use pub/sub religiously on this website and this object has done me a world of good.  I have one topic that fires upon each AJAX page load, and several subscriptions fire during that event (ad re-rendering, comment re-rendering, social button population, etc.).  Evaluate your application and see where you might be able to use pub/sub!</p>
+							</article>
+						</section>
+<pre>
+// Ref : https://davidwalsh.name/pubsub-javascript
+	
+var events = (function(){
+  var topics = {};
+  var hOP = topics.hasOwnProperty;
+
+  return {
+    subscribe: function(topic, listener) {
+      // Create the topic's object if not yet created
+      if(!hOP.call(topics, topic)) topics[topic] = [];
+
+      // Add the listener to queue
+      var index = topics[topic].push(listener) -1;
+
+      // Provide handle back for removal of topic
+      return {
+        remove: function() {
+          delete topics[topic][index];
+        }
+      };
+    },
+    publish: function(topic, info) {
+      // If the topic doesn't exist, or there's no listeners in queue, just leave
+      if(!hOP.call(topics, topic)) return;
+
+      // Cycle through topics queue, fire!
+      topics[topic].forEach(function(item) {
+      		item(info != undefined ? info : {});
+      });
+    }
+  };
+})();
+
+// Publishing to a topic:
+events.publish('/page/load', {
+	url: '/some/url/path' // any argument
+});
+
+// ...and subscribing to said topic in order to be notified of events:
+var subscription = events.subscribe('/page/load', function(obj) {
+	// Do something now that the event has occurred
+});
+
+// ...sometime later where I no longer want subscription...
+subscription.remove();
+</pre>
+<h3>EXAMPLE</h3>
+<pre>
+// REF. : http://dev.housetrip.com/2014/09/15/decoupling-javascript-apps-using-pub-sub-pattern/
+
+var EventBus = {
+  topics: {},
+
+  subscribe: function(topic, listener) {
+    // create the topic if not yet created
+    if(!this.topics[topic]) this.topics[topic] = [];
+
+    // add the listener
+    this.topics[topic].push(listener);
+  },
+
+  publish: function(topic, data) {
+    // return if the topic doesn't exist, or there are no listeners
+    if(!this.topics[topic] || this.topics[topic].length &lt; 1) return;
+
+    // send the event to all listeners
+    this.topics[topic].forEach(function(listener) {
+      listener(data || {});
+    });
+  }
+};
+
+// Usage
+EventBus.subscribe('foo', alert);
+EventBus.publish('foo', 'Hello World!');
+
+// Example
+//============================
+var Mailer = function() {
+  EventBus.subscribe('order/new', this.sendPurchaseEmail);
+};
+
+Mailer.prototype = {
+  sendPurchaseEmail: function(userEmail) {
+    console.log("Sent email to " + userEmail);
+  }
+};
+
+var Order = function(params) {
+  this.params = params;
+};
+
+Order.prototype = {
+  saveOrder: function() {
+    EventBus.publish('order/new', this.params.userEmail);
+  }
+};
+
+> var mailer = new Mailer();
+> var order = new Order({userEmail: 'john@gmail.com'});
+> order.saveOrder();
+> "Sent email to john@gmail.com"
+</pre>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">4 ways to Invoke JavaScript Functions</h2>
+						<pre>
+// 1. Invoking a Function as a Function
+//============================================
+
+function myFunction(a, b) {
+    return a * b;
+}
+myFunction(10, 2);           // myFunction(10, 2) will return 20
+
+// OR
+
+window.myFunction(10, 2);    // window.myFunction(10, 2) will also return 20
+</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>The function above does not belong to any object. But in JavaScript there is always a default global object.</p>
+
+<p>In HTML the default global object is the HTML page itself, so the function above "belongs" to the HTML page.</p>
+
+<p>In a browser the page object is the browser window. The function above automatically becomes a window function.</p>
+
+<p>myFunction() and window.myFunction() is the same function</p>
+<p class="example__note">This is a common way to invoke a JavaScript function, but not a very good practice.
+Global variables, methods, or functions can easily create name conflicts and bugs in the global object.</p>
+							</article>
+						</section>
+						<pre>
+// 2. Invoking a Function as an Object Method
+//==============================================
+
+/**
+ * Invoking a function as an object method, causes the value of this to be the object itself.
+ */
+
+var myObject = {
+    firstName:"John",
+    lastName: "Doe",
+    fullName: function () {
+        return this.firstName + " " + this.lastName; // this refers to myObject
+    }
+}
+myObject.fullName();         // Will return "John Doe"</pre>
+
+<pre>
+// 3. Invoking a Function with a Function Constructor
+//==============================================
+
+/**
+ * A constructor invocation creates a new object. The new object inherits the properties and methods from its constructor.
+ * The this keyword in the constructor does not have a value.
+ * The value of this will be the new object created when the function is invoked.
+ */
+
+// This is a function constructor:
+function myFunction(arg1, arg2) {
+    this.firstName = arg1;
+    this.lastName  = arg2;
+}
+
+// This creates a new object
+var x = new myFunction("John", "Doe");
+x.firstName;                             // Will return "John"
+</pre>
+
+<pre>
+// 4. Invoking a Function with a Function 
+//==============================================
+
+/**
+ * call() and apply() are predefined JavaScript function methods. 
+ * Both methods can be used to invoke a function, and both methods must have the owner object as first parameter.
+ * In JavaScript strict mode, the first argument becomes the value of this in the invoked function, even if the argument is not an object.
+ * In "non-strict" mode, if the value of the first argument is null or undefined, it is replaced with the global object.
+ */
+
+function myFunction(a, b) {
+    return a * b;
+}
+myObject = myFunction.<b>call</b>(myObject, 10, 2);     // Will return 20
+
+function myFunction(a, b) {
+    return a * b;
+}
+myArray = [10, 2];
+myObject = myFunction.apply(myObject, myArray);  		// Will also return 20
+</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>JavaScript functions can be invoked in 4 different ways.
+
+Each method differs in how this is initialized.</p>
+<p>The code in a function is not executed when the function is defined. It is executed when the function is invoked.
+
+Some people use the term "call a function" instead of "invoke a function".
+
+It is also quite common to say "call upon a function", "start a function", or "execute a function".
+
+In this tutorial, we will use invoke, because a JavaScript function can be invoked without being called.</p>
+							</article>
+						</section>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">The Class in JavaScript</h2>
+						<pre>
+// 1. Define the class Car
+function Car() { 
+
+}
+
+// For creating instances of any class 
+var car1 = new Car();
+var car2 = new Car();
+
+// 2. Adding Property (object attribute) in Class
+
+//Define the class Car
+function Car(speed) {
+
+	// speed property is added using this.speed
+	// Property of a class can be accessed within the class using this keyword.
+	
+	this.speed = speed; 
+	
+}
+
+var car1 = new Car(40);
+var car2 = new Car(60);
+
+alert("Car1 Speed: " + car1.speed);
+alert("Car2 Speed: " + car2.speed);
+
+// 3. Add Method to the Class
+
+Car.prototype.setSpeed = function(speed) {
+	this.speed = speed;
+	alert("Car speed changed");
+}
+
+var car1 = new Car(40);
+var car2 = new Car(60);
+
+car1.setSpeed(120);
+car2.setSpeed(140);
+</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>JavaScript does not contains class statement. JavaScript is a prototype-based language. JavaScript uses functions as classes.</p>
+								<p>In object oriented methodology, a Constructor is a method that is used to initiate the properties of any class instance. </p>
+								<p>Thus the constructor gets called when the class is instantiated.</p>
+								<p>As in JavaScript there is no class keyword and the function serves as class definition</p>
+								<p>there is no need of defining constructor explicitly. The function defined for the class acts as constructor</p>
+								<p>Property of a class can be accessed within the class using this keyword. </p>
+							</article>
+						</section>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">Inheritance in JavaScript</h2>
+<pre>
+//Define the Car class
+function Car() { }
+Car.prototype.speed= 'Car Speed';
+Car.prototype.setSpeed = function(speed) {
+	this.speed = speed;
+	alert("Car speed changed");
+}
+
+
+//Define the Ferrari class
+function Ferrari() { }
+Ferrari.prototype = new Car();
+
+
+// correct the constructor pointer because it points to Car
+Ferrari.prototype.constructor = Ferrari;
+
+// replace the setSpeed method
+Ferrari.prototype.setSpeed = function(speed) {
+	this.speed = speed;
+	alert("Ferrari speed changed");
+}
+
+var car = new Ferrari();
+car.setSpeed();	
+</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>JavaScript supports single class inheritance. To create a child class that inherit parent class, we create a Parent class object and assign it to the Child class.</p>
+							</article>
+						</section>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">JavaScript Singleton Design Pattern</h2>
+<pre>
+// Singleton Design Pattern Example 1 (JavaScript Module Pattern)
+// We created a variable Sun, and instantiated it using JavaScript Module Pattern. 
+//======================================================
+
+var Sun = (function(){
+	var sunInstance; // private variable to hold the 
+	//only instance of Sun that will exits.
+
+	var createSun = function(){
+		var privateMass = 10000000000; // private
+		
+		var looseMass = function(mass){
+			privateMass -= mass;    
+		};
+		
+		var publicEmitLight = function(){
+			//some complex Nuclear fission 
+			//calling looseMass()
+			looseMass(10);
+		};
+		
+		var getMass = function(){
+			return privateMass;
+		};
+		
+		return {
+			emitLight: publicEmitLight,
+			getMass: getMass
+		};
+	};
+
+	return {
+		getInstance: function(){
+		
+			if(!sunInstance){
+				sunInstance = createSun(); 
+			}
+			
+			return sunInstance; 
+		}
+	};
+})();
+
+// whenever we need to obtain an instance of sun in our code, all we do is use:
+
+var mySun = Sun.getInstance(); // Use it like this
+
+mySun.emitLight();
+mySun.getMass();
+</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>JavaScript Singleton pattern ensure that only a single instance of the class may exits in application.</p>
+								<p>This pattern comes in handy when you want to create a class whose functionality doesn't change for its multiple instances for e.g. an Ajax handler or Util class.</p>
+								</article>
+						</section>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">UMD: JavaScript modules that run anywhere</h2>
+<pre>
+(function (root, factory) {
+    if (typeof define === "function" && define.amd) {
+        define(["jquery", "underscore"], factory);
+    } else if (typeof exports === "object") {
+        module.exports = factory(require("jquery"), require("underscore"));
+    } else {
+        root.Requester = factory(root.$, root._);
+    }
+}(this, function ($, _) {
+    // this is where I defined my module implementation
+
+    var Requester = { // ... };
+	
+    return Requester;
+}));</pre>
+
+<pre>
+// EXAMPLE 1
+//==============================================
+
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD
+        define(['jquery'], factory);
+    } else if (typeof exports === 'object') {
+        // Node, CommonJS-like
+        module.exports = factory(require('jquery'));
+    } else {
+        // Browser globals (root is window)
+        root.returnExports = factory(root.jQuery);
+    }
+}(this, function ($) {
+    //    methods
+    function myFunc(){};
+
+    //    exposed public method
+    return myFunc;
+}));
+
+// EXAMPLE 2
+//==============================================
+
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD
+        define(['jquery', 'underscore'], factory);
+    } else if (typeof exports === 'object') {
+        // Node, CommonJS-like
+        module.exports = factory(require('jquery'), require('underscore'));
+    } else {
+        // Browser globals (root is window)
+        root.returnExports = factory(root.jQuery, root._);
+    }
+}(this, function ($, _) {
+    //    methods
+    function a(){};    //    private because it's not returned (see below)
+    function b(){};    //    public because it's returned
+    function c(){};    //    public because it's returned
+
+    //    exposed public methods
+    return {
+        b: b,
+        c: c
+    }
+}));</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>ExampleDescription</p>
+							</article>
+						</section>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">Extend OR Clone Object</h2>
+<pre>
+var defaults = {
+	letterDelay: 100, //milliseconds
+	sentenceDelay: 1000, //milliseconds
+	loop: false,
+	startOnFocus: true,
+	shuffle: false,
+	showCursor: true,
+	cursor: '|'
+};
+	
+// EXAMPLE 1
+//=========================================
+
+function extend(obj1, obj2) {
+	var obj = {};
+	for (var key in obj1) {
+		obj[key] = obj2[key] === undefined ? obj1[key] : obj2[key];
+	}
+	return obj;
+}
+
+// Usage
+var options = extend(defaults, options);
+
+// EXAMPLE 2
+//=========================================
+
+function extendDefaults(source, properties) {
+	var property;
+	for (property in properties) {
+		if (properties.hasOwnProperty(property)) {
+			source[property] = properties[property];
+		}
+	}
+	return source;
+}
+// Usage
+var options = extendDefaults(defaults, options);
+
+</pre>
+
+<pre>
+// SYNTEX : Object.assign(target, ...sources)
+// The Object.assign() method is used to copy the values of all enumerable own properties from one or more source objects to a target object. 
+//It will return the target object.
+/**
+ * REF : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+ *
+ * var obj = { a: 1 };
+ * var copy = Object.assign({}, obj);
+ * console.log(copy); // { a: 1 }
+*/
+
+
+// Object.assign ponyfill
+// REF. : https://github.com/pawelgrzybek/siema/blob/master/src/siema.js
+//=====================================
+
+const objectAssign = Object.assign || function(srcObj) {
+	for (let i = 1; i &lt; arguments.length; i++) {
+		for (const objProperty in arguments[i]) {
+			if (Object.prototype.hasOwnProperty.call(arguments[i], objProperty)) {
+				srcObj[objProperty] = arguments[i][objProperty];
+			}
+		}
+	}
+	
+	return srcObj;
+};
+
+// Merge defaults with user's settings
+this.config = objectAssign({
+	selector: '.siema',
+	duration: 200,
+	easing: 'ease-out',
+	perPage: 1,
+	startIndex: 0,
+	draggable: true,
+	threshold: 20,
+	loop: false,
+}, options);
+</pre>
+
+<pre>
+// REF. : https://googlechrome.github.io/samples/object-assign-es6/
+//====================================================================
+
+'use strict';
+
+// Merge an object
+let first = {name: 'Tony'};
+let last = {lastName: 'Stark'};
+let person = Object.assign(first, last);
+
+ChromeSamples.log(person);
+// {name: 'Tony', lastName: 'Stark'}
+
+ChromeSamples.log(first);
+// first = {name: 'Tony', lastName: 'Stark'} as the target also changed
+
+// Merge multiple sources
+let a = Object.assign({foo: 0}, {bar: 1}, {baz: 2});
+ChromeSamples.log(a);
+// {foo: 0, bar: 1, baz: 2}
+
+// Merge and overwrite equal keys
+let b = Object.assign({foo: 0}, {foo: 1}, {foo: 2});
+ChromeSamples.log(b);
+// {foo: 2}
+
+// Clone an object
+let obj = {person: 'Thor Odinson'};
+let clone = Object.assign({}, obj);
+ChromeSamples.log(clone);
+// {person: 'Thor Odinson'}	
+</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>ExampleDescription</p>
+							</article>
+						</section>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">Event Delegation</h2>
+<pre>
+// HTML 
+
+&lt;h2>Great Web resources&lt;/h2>
+&lt;ul id="resources">
+	&lt;li>&lt;a href="http://opera.com/wsc">Opera Web Standards Curriculum&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="http://sitepoint.com">Sitepoint&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="http://alistapart.com">A List Apart&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="http://yuiblog.com">YUI Blog&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="http://blameitonthevoices.com">Blame it on the voices&lt;/a>&lt;/li>
+	&lt;li>&lt;a href="http://oddlyspecific.com">Oddly specific&lt;/a>&lt;/li>
+&lt;/ul>
+</pre>
+<pre>
+// Classic event handling example
+
+(function(){
+	var resources = document.getElementById('resources');
+	var links = resources.getElementsByTagName('a');
+	var all = links.length;
+	
+	for(var i=0; i&lt;all; i++){
+		// Attach a listener to each link
+		links[i].addEventListener('click',handler,false);
+	};
+	
+	function handler(e){
+		var x = e.target; // Get the link that was clicked
+		alert(x);
+		e.preventDefault();
+	};
+})();
+</pre>
+<pre>
+// This could also be done with a single event handler:
+
+(function(){
+	var resources = document.getElementById('resources');
+	resources.addEventListener('click',handler,false);
+	
+	function handler(e){
+		var x = e.target; // get the link tha
+		if(x.nodeName.toLowerCase() === 'a'){
+			alert('Event delegation:' + x);
+			e.preventDefault();
+		}
+	};
+})();
+</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>ExampleDescription</p>
+							</article>
+						</section>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">ExampleTitle</h2>
+						<pre>ExampleCode</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>ExampleDescription</p>
+							</article>
+						</section>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">ExampleTitle</h2>
+						<pre>ExampleCode</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>ExampleDescription</p>
+							</article>
+						</section>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+		</div>
+		<ul>
+			<li>AMD/UMD Pattern</li>
+			<li>Javascript Plugin Development patterns</li>
+			<li>Extend Javascript Objects</li>
+			<li>JavaScript MVC Pattern</li>
+			<li>Javascript Gotchas</li>
+			<li>Diffrent Array Methods</li>
+			<li>Tips & Tricks</li>
+			<li>Event Delegation</li>
+			<li>JavaScript Custom Events</li>
+		</ul>
+
+		<script src="assets/js/highlight.pack.js"></script>
+		<script>
+		$(document).ready(function() {
+			$('pre').each(function(i, block) {
+				hljs.highlightBlock(block);
+			});
+		});
+		</script>
+		<script>
+			$(document).ready(function() {
+				$('.lnk-view-more').on('click', function(){
+					$(this).closest('.example__description').find('article').show();
+				});
+			});
+		</script>
+	</body>
+</html>				
