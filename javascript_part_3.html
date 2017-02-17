@@ -7,20 +7,34 @@
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!--<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>-->
+		<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i|PT+Serif:400,700" rel="stylesheet">
 		<style>
 			body { 
 			font-family: 'Open Sans', sans-serif;
-			font-size: 1em;
+			font-size: 15px;
 			line-height: 1.8;
 			padding: 0.5em;
-			background-color: #EEE;
+			font-family: 'PT Sans', sans-serif;;
 			}
 			img { display: block; margin: 0 auto; max-width: 100%; }
-			pre { border: 1px dashed #333; padding: 1em; font-family: Consolas,monospace; background-color: #FFF; overflow-x: scroll; font-size: 0.8em;  white-space: pre-wrap; word-wrap: break-word; }
-			code { background-color: #FFF; padding: 3px; font-family: Consolas,monospace; }
+			pre { border: 1px dashed #333; padding: 1em 2em; font-family: Consolas,monospace; background-color: #EEE; overflow-x: scroll; font-size: 0.8em;  white-space: pre-wrap; word-wrap: break-word; }
+			code { background-color: #EEE; padding: 3px; font-family: Consolas,monospace; }
 			pre code { background-color: transparent; padding: 0;}
-			h1 { font-size: 1.5em; border-bottom: 2px solid #CCC; }
-			h2 { font-size: 1.2em; }
+			h1 { font-size: 1.8em; border-bottom: 2px solid #000; font-family: 'PT Serif', serif; padding: 10px 0; margin: 0; }
+			h2 { 
+			font-size: 1.2em;
+			font-family: 'PT Serif', serif;
+			padding-left: 1em;
+			border-left: 2px solid; 
+			}
+			.cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
+.cf:after {
+    clear: both;
+}
 		</style>	
 	</head>
 	<body>
@@ -3047,6 +3061,1433 @@ I wouldn't say I'm a performance addict, but I do like to write code which is ef
     <div class="more">
 		    </div>
   </div>
+					</div>
+				</article>
+				<!-- END :: Tutorial -->
+				
+				<!-- START :: Tutorial -->
+				<article>
+					<h1>Glossary of Modern JavaScript Concepts: Part 1</h1>
+					<h3>Learn the fundamentals of functional programming, reactive programming, and functional reactive programming in JavaScript.</h3>
+					<div class="tutorial__content">
+						<div class="entry-content js-entry-content" itemprop="articleBody">
+              <p class="selectionShareable"><strong>TL;DR:</strong> In the first part of the Glossary of Modern JS Concepts series, we'll gain an understanding of <em>functional programming</em>, <em>reactive programming</em>, and <em>functional reactive programming</em>. To do so, we'll learn about purity, statefulness and statelessness, immutability and mutability, imperative and declarative programming, higher-order functions, observables, and the FP, RP, and FRP paradigms.</p>
+
+<hr>
+
+<h2>Introduction</h2>
+
+<p class="selectionShareable">Modern JavaScript has experienced massive proliferation over recent years and shows no signs of slowing. Numerous concepts appearing in JS blogs and documentation are still unfamiliar to many front-end developers. In this post series, we'll learn intermediate and advanced concepts in the current front-end programming landscape and explore how they apply to modern JavaScript.</p>
+
+<hr>
+
+<h2>Concepts</h2>
+
+<p class="selectionShareable">In this article, we'll address concepts that are crucial to understanding <strong>functional programming, reactive programming, and functional reactive programming and their use with JavaScript</strong>.</p>
+
+<p class="selectionShareable">You can jump straight into each concept here, or continue reading to learn about them in order.</p>
+
+<ul>
+<li><a href="#purity" target="_self">Purity: Pure Functions, Impure Functions, Side Effects</a></li>
+<li><a href="#state" target="_self">State: Stateful and Stateless</a></li>
+<li><a href="#immutable-mutable" target="_self">Immutability and Mutability</a></li>
+<li><a href="#imperative-declarative" target="_self">Imperative and Declarative Programming</a></li>
+<li><a href="#higher-order-functions" target="_self">Higher-order Functions</a></li>
+<li><a href="#functional-programming" target="_self">Functional Programming</a></li>
+<li><a href="#observables" target="_self">Observables: Hot and Cold</a></li>
+<li><a href="#reactive-programming" target="_self">Reactive Programming</a></li>
+<li><a href="#functional-reactive-programming" target="_self">Functional Reactive Programming</a></li>
+</ul>
+
+
+<hr>
+
+<h2><span id="purity"></span>Purity: Pure Functions, Impure Functions, Side Effects</h2>
+
+<h3>Pure Functions</h3>
+
+<p class="selectionShareable">A <strong>pure function</strong>'s <em>return value</em> is determined only by its <em>input values</em> (arguments) with no side effects. When given the same argument, the result will always be the same. Here is an example:</p>
+
+<pre><code class="js hljs javascript"><span class="function"><span class="keyword">function</span> <span class="title">half</span>(<span class="params">x</span>) </span>{
+  <span class="keyword">return</span> x / <span class="number">2</span>;
+}
+</code></pre>
+
+<p class="selectionShareable">The <code>half(x)</code> function takes a number <code>x</code> and returns a value of half of <code>x</code>. If we pass an argument of <code>8</code> to this function, the function will always return <code>4</code>. When invoked, a pure function can be replaced by its result. For example, we could replace <code>half(8)</code> with <code>4</code> wherever used in our code with no change to the final outcome. This is called <a href="https://en.wikipedia.org/wiki/Referential_transparency" target="_blank"><em>referential transparency</em></a>.</p>
+
+<p class="selectionShareable">Pure functions only depend on what's passed to them. For example, a pure function cannot reference variables from a parent scope unless they are explicitly passed into the function as arguments. Even then, the function can <em>not modify</em> the parent scope.</p>
+
+<pre><code class="js hljs javascript"><span class="keyword">var</span> someNum = <span class="number">8</span>;
+
+<span class="comment">// this is NOT a pure function</span>
+<span class="function"><span class="keyword">function</span> <span class="title">impureHalf</span>(<span class="params"></span>) </span>{
+  <span class="keyword">return</span> someNum / <span class="number">2</span>;
+}
+</code></pre>
+
+<p class="selectionShareable">In summary:</p>
+
+<ul>
+<li>Pure functions must take arguments.</li>
+<li>The same input (arguments) will always produce the same output (return).</li>
+<li>Pure functions rely only on local state and do not mutate external state (<em>note:</em> <code>console.log</code> changes global state).</li>
+<li>Pure functions do not produce <a href="https://en.wikipedia.org/wiki/Side_effect_%28computer_science%29" target="_blank">side effects</a>.</li>
+<li>Pure functions cannot call impure functions.</li>
+</ul>
+
+
+<h3>Impure Functions</h3>
+
+<p class="selectionShareable">An <strong>impure function</strong> mutates state outside its scope. Any function that has <em>side effects</em> (see below) is impure. Procedural functions with no utilized return value are also impure.</p>
+
+<p class="selectionShareable">Consider the following examples:</p>
+
+<pre><code class="js hljs javascript"><span class="comment">// impure function producing a side effect</span>
+<span class="function"><span class="keyword">function</span> <span class="title">showAlert</span>(<span class="params"></span>) </span>{
+  alert(<span class="string">'This is a side effect!'</span>);
+}
+
+<span class="comment">// impure function mutating external state</span>
+<span class="keyword">var</span> globalVal = <span class="number">1</span>;
+<span class="function"><span class="keyword">function</span> <span class="title">incrementGlobalVal</span>(<span class="params">x</span>) </span>{
+  globalVal += x;
+}
+
+<span class="comment">// impure function calling pure functions procedurally</span>
+<span class="function"><span class="keyword">function</span> <span class="title">proceduralFn</span>(<span class="params"></span>) </span>{
+  <span class="keyword">const</span> result1 = pureFnFirst(<span class="number">1</span>);
+  <span class="keyword">const</span> result2 = pureFnLast(<span class="number">2</span>);
+  <span class="built_in">console</span>.log(<span class="string">`Done with <span class="subst">${result1}</span> and <span class="subst">${result2}</span>!`</span>);
+}
+
+<span class="comment">// impure function that resembles a pure function,</span>
+<span class="comment">// but returns different results given the same inputs</span>
+<span class="function"><span class="keyword">function</span> <span class="title">getRandomRange</span>(<span class="params">min, max</span>) </span>{
+  <span class="keyword">return</span> <span class="built_in">Math</span>.random() * (max - min) + min;
+}
+</code></pre>
+
+<h3>Side Effects in JavaScript</h3>
+
+<p class="selectionShareable">When a function or expression modifies state outside its own context, the result is a <strong>side effect</strong>. Examples of side effects include making a call to an API, manipulating the DOM, raising an alert dialog, writing to a database, etc. If a function produces side effects, it is considered <em>impure</em>. Functions that cause side effects are less predictable and harder to test since they result in changes outside their local scope.</p>
+
+<h3>Purity Takeaways</h3>
+
+<p class="selectionShareable">Plenty of quality code consists of <em>impure</em> functions that procedurally invoke <em>pure</em> functions. This still produces advantages for testing and immutability. Referential transparency also enables <a href="https://www.interviewcake.com/concept/python/memoization" target="_blank"><em>memoization</em></a>: caching and storing function call results and <a href="https://www.sitepoint.com/implementing-memoization-in-javascript/" target="_blank">reusing the cached results</a> when the same inputs are used again. It can be a challenge to determine when functions are truly pure.</p>
+
+<p class="selectionShareable">To learn more about <strong>purity</strong>, check out the following resources:</p>
+
+<ul>
+<li><a href="https://toddmotto.com/pure-versus-impure-functions" target="_blank">Pure versus impure functions</a></li>
+<li><a href="https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-pure-function-d1c076bec976#.kt48h2bfa" target="_blank">Master the JavaScript Interview: What is a Pure Function?</a></li>
+<li><a href="https://www.sitepoint.com/functional-programming-pure-functions/" target="_blank">Functional Programming: Pure Functions</a></li>
+</ul>
+
+
+<hr>
+
+<h2><span id="state"></span>State</h2>
+
+<p class="selectionShareable"><strong>State</strong> refers to the information a program has access to and can operate on at a point in time. This includes data stored in memory as well as OS memory, input/output ports, database, etc. For example, the contents of variables in an application at any given instant are representative of the application's <em>state</em>.</p>
+
+<h3>Stateful</h3>
+
+<p class="selectionShareable"><strong>Stateful</strong> programs, apps, or components store data in memory about the current state. They can modify the state as well as access its history. The following example is <em>stateful</em>:</p>
+
+<pre><code class="js hljs javascript"><span class="comment">// stateful</span>
+<span class="keyword">var</span> number = <span class="number">1</span>;
+<span class="function"><span class="keyword">function</span> <span class="title">increment</span>(<span class="params"></span>) </span>{
+  <span class="keyword">return</span> number++;
+}
+increment(); <span class="comment">// global variable modified: number = 2</span>
+</code></pre>
+
+<h3>Stateless</h3>
+
+<p class="selectionShareable"><strong>Stateless</strong> functions or components perform tasks as though running them for the first time, every time. This means they do not reference or utilize any information from earlier in their execution. Statelessness enables <em>referential transparency</em>. Functions depend only on their arguments and do not access or need knowledge of anything outside their scope. <a href="#purity" target="_self">Pure functions</a> are stateless. See the following example:</p>
+
+<pre><code class="js hljs javascript"><span class="comment">// stateless</span>
+<span class="keyword">var</span> number = <span class="number">1</span>;
+<span class="function"><span class="keyword">function</span> <span class="title">increment</span>(<span class="params">n</span>) </span>{
+  <span class="keyword">return</span> n + <span class="number">1</span>;
+}
+increment(number); <span class="comment">// global variable NOT modified: returns 2</span>
+</code></pre>
+
+<p class="selectionShareable">Stateless applications <em>do</em> still manage state. However, they return their current state without <em>mutating</em> previous state. This is a tenet of <a href="#functional-programming" target="_blank">functional programming</a>.</p>
+
+<h3>State Takeaways</h3>
+
+<p class="selectionShareable">State management is important for any complex application. Stateful functions or components modify state and store history, but are more difficult to test and debug. Stateless functions rely only on their inputs to produce outputs. A stateless program returns new state rather than <em>modifying</em> existing state.</p>
+
+<p class="selectionShareable">To learn more about <strong>state</strong>, check out the following resources:</p>
+
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/State_(computer_science)" target="_blank">State</a></li>
+<li><a href="http://stackoverflow.com/questions/844536/advantages-of-stateless-programming" target="_blank">Advantages of stateless programming</a></li>
+<li><a href="https://toddmotto.com/stateful-stateless-components" target="_blank">Stateful and stateless components, the missing manual</a></li>
+<li><a href="http://redux.js.org/" target="_blank">Redux: predictable state container for JavaScript apps</a></li>
+</ul>
+
+
+<hr>
+
+<h2><span id="immutable-mutable"></span>Immutability and Mutability</h2>
+
+<p class="selectionShareable">The concepts of <strong>immutability and mutability</strong> are slightly more nebulous in JavaScript than in some other programming languages. However, you will hear a lot about immutability when reading about <a href="#functional-programming" target="_self">functional programming</a> in JS. It's important to know what these terms mean classically and also how they are referenced and implemented in JavaScript. The definitions are simple enough:</p>
+
+<h3>Immutable</h3>
+
+<p class="selectionShareable">If an object is <strong>immutable</strong>, its value cannot be modified after creation.</p>
+
+<h3>Mutable</h3>
+
+<p class="selectionShareable">If an object is <strong>mutable</strong>, its value can be modified after creation.</p>
+
+<h3>By Design: Immutability and Mutability in JavaScript</h3>
+
+<p class="selectionShareable">In JavaScript, strings and number literals are <em>immutable by design</em>. This is easily understandable if we consider how we operate on them:</p>
+
+<pre><code class="js hljs javascript"><span class="keyword">var</span> str = <span class="string">'Hello!'</span>;
+<span class="keyword">var</span> anotherStr = str.substring(<span class="number">2</span>);
+<span class="comment">// result: str = 'Hello!' (unchanged)</span>
+<span class="comment">// result: anotherStr = 'llo!' (new string)</span>
+</code></pre>
+
+<p class="selectionShareable">Using the <code>.substring()</code> method on our <code>Hello!</code> string does <em>not</em> modify the original string. Instead, it creates a <em>new</em> string. We could reassign the <code>str</code> <em>variable value</em> to something else, but once we've created our <code>Hello!</code> string, it will always be <code>Hello!</code>.</p>
+
+<p class="selectionShareable">Number literals are immutable as well. The following will always have the same result:</p>
+
+<pre><code class="js hljs javascript"><span class="keyword">var</span> three = <span class="number">1</span> + <span class="number">2</span>;
+<span class="comment">// result: three = 3</span>
+</code></pre>
+
+<p class="selectionShareable">Under no circumstances could <code>1 + 2</code> evaluate to anything other than <code>3</code>.</p>
+
+<p class="selectionShareable">This demonstrates that immutability by design does exist in JavaScript. However, JS developers are aware that the language allows most things to be changed. For example, objects and arrays are <em>mutable by design</em>. Consider the following:</p>
+
+<pre><code class="js hljs javascript"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+arr.push(<span class="number">4</span>);
+<span class="comment">// result: arr = [1, 2, 3, 4]</span>
+
+<span class="keyword">var</span> obj = { greeting: <span class="string">'Hello'</span> };
+obj.name = <span class="string">'Jon'</span>;
+<span class="comment">// result: obj = { greeting: 'Hello', name: 'Jon' }</span>
+</code></pre>
+
+<p class="selectionShareable">In these examples, the <em>original</em> objects are mutated. New objects are not returned.</p>
+
+<p class="selectionShareable">To learn more about mutability in other languages, check out <a href="https://www.interviewcake.com/concept/java/mutable" target="_blank">Mutable vs Immutable Objects</a>.</p>
+
+<h3>In Practice: Immutability in JavaScript</h3>
+
+<p class="selectionShareable"><a href="#functional-programming" target="_self">Functional programming</a> in JavaScript has gained a lot of momentum. But by design, JS is a very mutable, multi-paradigm language. Functional programming emphasizes <em>immutability</em>. Other functional languages will raise errors when a developer tries to mutate an immutable object. So how can we reconcile the innate mutability of JS when writing functional or functional reactive JS?</p>
+
+<p class="selectionShareable">When we talk about functional programming in JS, the word "immutable" is used a lot, but it's the responsibility of the developer to write their code with immutability <em>in mind</em>. For example, <a href="https://egghead.io/lessons/javascript-redux-the-single-immutable-state-tree" target="_blank">Redux relies on a single, immutable state tree</a>. However, <em>JavaScript itself</em> is capable of mutating the state object. To implement an immutable state tree, we need to <a href="https://egghead.io/lessons/javascript-redux-avoiding-array-mutations-with-concat-slice-and-spread" target="_blank">return a <em>new</em></a> <a href="https://egghead.io/lessons/javascript-redux-avoiding-object-mutations-with-object-assign-and-spread" target="_blank">state object</a> each time the state changes.</p>
+
+<p class="selectionShareable">JavaScript objects <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze" target="_blank">can also be frozen</a> with <code>Object.freeze(obj)</code> <a href="http://adripofjavascript.com/blog/drips/immutable-objects-with-object-freeze.html" target="_blank">to make them immutable</a>. Note that this is <em>shallow</em>, meaning object values within a frozen object can still be mutated. To further ensure immutability, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze" target="_blank">functions like Mozilla's deepFreeze()</a> and <a href="https://www.npmjs.com/package/deep-freeze" target="_blank">npm deep-freeze</a> can recursively freeze objects. Freezing is most practical when used in <em>tests</em> rather than in application JS. Tests will alert developers when mutations occur so they can be corrected or avoided in the actual build without <code>Object.freeze</code> cluttering up the core code.</p>
+
+<p class="selectionShareable">There are also libraries available to support immutability in JS. <a href="http://swannodette.github.io/mori/" target="_blank">Mori</a> delivers persistent data structures based on Clojure. <a href="https://facebook.github.io/immutable-js/" target="_blank">Immutable.js</a> by Facebook also provides <a href="https://auth0.com/blog/intro-to-immutable-js/" target="_blank">immutable collections for JS</a>. Utility libraries like <a href="http://underscorejs.org" target="_blank">Underscore.js</a> and <a href="http://www.lodash.com" target="_blank">lodash</a> provide methods and modules to promote a more immutable <a href="https://github.com/lodash/lodash/wiki/FP-Guide" target="_blank">functional programming <em>style</em></a>.</p>
+
+<h3>Immutability and Mutability Takeaways</h3>
+
+<p class="selectionShareable">Overall, JavaScript is a very mutable language. Some styles of JS coding <em>rely</em> on this innate mutability. However, when writing functional JS, implementing immutability requires mindfulness. JS will not natively throw errors when you modify something unintentionally. Testing and libraries can assist, but working with immutability in JS takes practice and methodology.</p>
+
+<p class="selectionShareable">Immutability has advantages. It results in code that is simpler to reason about. It also enables <a href="https://en.wikipedia.org/wiki/Persistence_(computer_science)" target="_blank"><em>persistency</em></a>, the ability to keep older versions of a data structure and copy only the parts that have changed.</p>
+
+<p class="selectionShareable">The disadvantage of immutability is that many algorithms and operations cannot be implemented efficiently.</p>
+
+<p class="selectionShareable">To learn more about <strong>immutability and mutability</strong>, check out the following resources:</p>
+
+<ul>
+<li><a href="https://www.sitepoint.com/immutability-javascript/" target="_blank">Immutability in JavaScript</a></li>
+<li><a href="http://adripofjavascript.com/blog/drips/immutable-objects-with-object-freeze.html" target="_blank">Immutable Objects with Object Freeze</a></li>
+<li><a href="https://www.interviewcake.com/concept/java/mutable" target="_blank">Mutable vs Immutable Objects</a></li>
+<li><a href="http://jlongster.com/Using-Immutable-Data-Structures-in-JavaScript" target="_blank">Using Immutable Data Stuctures in JavaScript</a></li>
+<li><a href="https://egghead.io/courses/getting-started-with-redux" target="_blank">Getting Started with Redux</a> (includes examples for addressing immutable state)</li>
+</ul>
+
+
+<hr>
+
+<h2><span id="imperative-declarative"></span>Imperative and Declarative Programming</h2>
+
+<p class="selectionShareable">While some languages were designed to be <strong>imperative</strong> (C, PHP) or <strong>declarative</strong> (SQL, HTML), JavaScript (and others like <a href="http://openjdk.java.net/projects/lambda/" target="_blank">Java</a> and <a href="https://msdn.microsoft.com/en-us/library/bb534803(v=vs.110).aspx" target="_blank">C#</a>) can support both programming paradigms.</p>
+
+<p class="selectionShareable">Most developers familiar with even the most basic JavaScript have written imperative code: instructions informing the computer <em>how</em> to achieve a desired result. If you've written a <code>for</code> loop, you've written imperative JS.</p>
+
+<p class="selectionShareable">Declarative code tells the computer <em>what</em> you want to achieve rather than how, and the computer takes care of how to achieve the end result without explicit description from the developer. If you've used <code>Array.map</code>, you've written declarative JS.</p>
+
+<h3>Imperative Programming</h3>
+
+<p class="selectionShareable"><strong>Imperative programming</strong> describes <em>how</em> a program's logic works in explicit commands with statements that modify the program state.</p>
+
+<p class="selectionShareable">Consider a function that increments every number in an array of integers. An imperative JavaScript example of this might be:</p>
+
+<pre><code class="js hljs javascript"><span class="function"><span class="keyword">function</span> <span class="title">incrementArray</span>(<span class="params">arr</span>) </span>{
+  <span class="keyword">let</span> resultArr = [];
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++) {
+    resultArr.push(arr[i] + <span class="number">1</span>);
+  }
+  <span class="keyword">return</span> resultArr;
+}
+</code></pre>
+
+<p class="selectionShareable">This function shows exactly <em>how</em> the function's logic works: we iterate over the array and explicitly increase each number, pushing it to a new array. We then return the resulting array. This is a step-by-step description of the function's logic.</p>
+
+<h3>Declarative Programming</h3>
+
+<p class="selectionShareable"><strong>Declarative programming</strong> describes <em>what</em> a program's logic accomplishes <em>without</em> describing how.</p>
+
+<p class="selectionShareable">A very straightforward example of declarative programming can be demonstrated with <a href="https://www.khanacademy.org/computing/computer-programming/sql" target="_blank">SQL</a>. We can query a database table (<code>People</code>) for people with the last name <code>Smith</code> like so:</p>
+
+<pre><code class="sql hljs"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> People <span class="keyword">WHERE</span> LastName = <span class="string">'Smith'</span>
+</code></pre>
+
+<p class="selectionShareable">This code is easy to read and describes <em>what</em> we want to accomplish. There is no description of <em>how</em> the result should be achieved. The computer takes care of that.</p>
+
+<p class="selectionShareable">Now consider the <code>incrementArray()</code> function we implemented imperatively above. Let's implement this declaratively now:</p>
+
+<pre><code class="js hljs javascript"><span class="function"><span class="keyword">function</span> <span class="title">incrementArray</span>(<span class="params">arr</span>) </span>{
+  <span class="keyword">return</span> arr.map(item =&gt; item + <span class="number">1</span>);
+}
+</code></pre>
+
+<p class="selectionShareable">We show <em>what</em> we want to achieve, but not how it works. The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map" target="_blank"><code>Array.map()</code> method</a> returns a new array with the results of running the callback on each item from the passed array. This approach does not modify existing values, nor does it include any sequential logic showing <em>how</em> it creates the new array.</p>
+
+<blockquote><p class="selectionShareable"><strong>Note:</strong> JavaScript's <a href="https://www.sitepoint.com/map-reduce-functional-javascript/" target="_blank"><code>map</code>, <code>reduce</code>,</a> <a href="https://danmartensen.svbtle.com/javascripts-map-reduce-and-filter" target="_blank">and <code>filter</code></a> are declarative, <a href="#functional-programming" target="_self">functional</a> array methods. Utility libraries like <a href="https://lodash.com/" target="_blank">lodash</a> provide methods like <a href="https://lodash.com/docs/4.17.4#every" target="_blank"><code>every</code></a>, <a href="https://lodash.com/docs/4.17.4#sortBy" target="_blank"><code>sortBy</code></a>, <a href="https://lodash.com/docs/4.17.4#uniq" target="_blank"><code>uniq</code></a>, and more in addition to <code>map</code>, <code>reduce</code>, and <code>filter</code>.</p></blockquote>
+
+<h3>Imperative and Declarative Programming Takeaways</h3>
+
+<p class="selectionShareable">As a language, JavaScript allows both <strong>imperative and declarative programming</strong> paradigms. Much of the JS code we read and write is imperative. However, with the rise of <a href="#functional-programming" target="_self">functional programming</a> in JS, declarative approaches are becoming more common.</p>
+
+<p class="selectionShareable">Declarative programming has obvious advantages with regard to brevity and readability, but at the same time it can feel magical.  Many JavaScript beginners can benefit from gaining experience writing imperative JS before diving too deep into declarative programming.</p>
+
+<p class="selectionShareable">To learn more about <strong>imperative and declarative programming</strong>, check out the following resources:</p>
+
+<ul>
+<li><a href="https://tylermcginnis.com/imperative-vs-declarative-programming/" target="_blank">Imperative vs Declarative Programming</a></li>
+<li><a href="http://softwareengineering.stackexchange.com/questions/117092/whats-the-difference-between-imperative-procedural-and-structured-programming" target="_blank">What's the Difference Between Imperative, Procedural, and Structured Programming?</a></li>
+<li><a href="http://www.redotheweb.com/2015/09/18/declarative-imperative-js.html" target="_blank">Imperative and (Functional) Declarative JS In Practice</a></li>
+<li><a href="https://danmartensen.svbtle.com/javascripts-map-reduce-and-filter" target="_blank">JavaScript's Map, Reduce, and Filter</a></li>
+</ul>
+
+
+<hr>
+
+<h2><span id="higher-order-functions"></span>Higher-order Functions</h2>
+
+<p class="selectionShareable">A <strong>higher-order function</strong> is a function that:</p>
+
+<ul>
+<li>accepts another function as an argument, or</li>
+<li>returns a function as a result.</li>
+</ul>
+
+
+<p class="selectionShareable">In JavaScript, functions are <a href="http://helephant.com/2008/08/19/functions-are-first-class-objects-in-javascript/" target="_blank"><em>first-class objects</em></a>. They can be stored and passed around as <em>values</em>: we can assign a function to a variable or pass a function to another function.</p>
+
+<pre><code class="js hljs javascript"><span class="keyword">const</span> double = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>{
+  <span class="keyword">return</span> x * <span class="number">2</span>;
+}
+<span class="keyword">const</span> timesTwo = double;
+
+timesTwo(<span class="number">4</span>); <span class="comment">// result: returns 8</span>
+</code></pre>
+
+<p class="selectionShareable">One example of taking a function as an argument is a <em>callback</em>. Callbacks can be inline anonymous functions or named functions:</p>
+
+<pre><code class="js hljs javascript"><span class="keyword">const</span> myBtn = <span class="built_in">document</span>.getElementById(<span class="string">'myButton'</span>);
+
+<span class="comment">// anonymous callback function</span>
+myBtn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>{ <span class="built_in">console</span>.log(<span class="string">`Click event: <span class="subst">${e}</span>`</span>); });
+
+<span class="comment">// named callback function</span>
+<span class="function"><span class="keyword">function</span> <span class="title">btnHandler</span>(<span class="params">e</span>) </span>{
+  <span class="built_in">console</span>.log(<span class="string">`Click event: <span class="subst">${e}</span>`</span>);
+}
+myBtn.addEventListener(<span class="string">'click'</span>, btnHandler);
+</code></pre>
+
+<p class="selectionShareable">We can also pass a function as an argument to any other function we create and then execute that argument:</p>
+
+<pre><code class="js hljs javascript"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params"></span>) </span>{
+  alert(<span class="string">'Hi!'</span>);
+}
+<span class="function"><span class="keyword">function</span> <span class="title">greet</span>(<span class="params">greeting</span>) </span>{
+  greeting();
+}
+greet(sayHi); <span class="comment">// alerts "Hi!"</span>
+</code></pre>
+
+<blockquote><p class="selectionShareable"><strong>Note:</strong> When <em>passing a named function as an argument</em>, as in the two examples above, we don't use parentheses <code>()</code>. This way we're passing the function as an object. Parentheses <em>execute</em> the function and pass the result instead of the function itself.</p></blockquote>
+
+<p class="selectionShareable">Higher-order functions can also return another function:</p>
+
+<pre><code class="js hljs javascript"><span class="function"><span class="keyword">function</span> <span class="title">whenMeetingJohn</span>(<span class="params"></span>) </span>{
+  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>{
+    alert(<span class="string">'Hi!'</span>);
+  }
+}
+<span class="keyword">var</span> atLunchToday = whenMeetingJohn();
+
+atLunchToday(); <span class="comment">// alerts "Hi!"</span>
+</code></pre>
+
+<h3>Higher-order Function Takeaways</h3>
+
+<p class="selectionShareable">The nature of JavaScript functions as first-class objects make them prime for facilitating <a href="#functional-programming" target="_self">functional programming</a>.</p>
+
+<p class="selectionShareable">To learn more about <strong>higher-order functions</strong>, check out the following resources:</p>
+
+<ul>
+<li><a href="http://helephant.com/2008/08/19/functions-are-first-class-objects-in-javascript/" target="_blank">Functions are first class objects in JavaScript</a></li>
+<li><a href="https://www.sitepoint.com/higher-order-functions-javascript/" target="_blank">Higher-Order Functions in JavaScript</a></li>
+<li><a href="https://www.youtube.com/watch?v=BMUiFMZr7vk" target="_blank">Higher-order functions - Part 1 of Functional Programming in JavaScript</a></li>
+<li><a href="http://eloquentjavascript.net/05_higher_order.html" target="_blank">Eloquent JavaScript - Higher-order Functions</a></li>
+<li><a href="https://medium.com/functional-javascript/higher-order-functions-78084829fff4#.dwg58papp" target="_blank">Higher Order Functions</a></li>
+</ul>
+
+
+<hr>
+
+<h2><span id="functional-programming"></span>Functional Programming</h2>
+
+<p class="selectionShareable">Now we've learned about purity, statelessness, immutability, declarative programming, and higher-order functions. These are all concepts that are important in understanding the functional programming paradigm.</p>
+
+<h3>In Practice: Functional Programming with JavaScript</h3>
+
+<p class="selectionShareable"><strong>Functional programming</strong> encompasses the above concepts in the following ways:</p>
+
+<ul>
+<li>Core functionality is implemented using pure functions without side effects.</li>
+<li>Data is immutable.</li>
+<li>Functional programs are stateless.</li>
+<li>Imperative container code manages side effects and executes declarative, pure core code.*</li>
+</ul>
+
+
+<blockquote><p class="selectionShareable">*If we tried to write a JavaScript web application composed of nothing but pure functions with no side effects, it couldn't interact with its environment and therefore wouldn't be particularly useful.</p></blockquote>
+
+<p class="selectionShareable">Let's explore an example. Say we have some text copy and we want to get its word count. We also want to find keywords that are longer than five characters. Using functional programming, our resulting code might look something like this:</p>
+
+<pre><code class="js hljs javascript"><span class="keyword">const</span> fpCopy = <span class="string">`Functional programming is powerful and enjoyable to write. It's very cool!`</span>;
+
+<span class="comment">// remove punctuation from string </span>
+<span class="keyword">const</span> stripPunctuation = (str) =&gt;
+  str.replace(<span class="regexp">/[.,\/#!$%\^&amp;\*;:{}=\-_`~()]/g</span>, <span class="string">''</span>);
+
+<span class="comment">// split passed string on spaces to create an array</span>
+<span class="keyword">const</span> getArr = (str) =&gt;
+  str.split(<span class="string">' '</span>);
+
+<span class="comment">// count items in the passed array</span>
+<span class="keyword">const</span> getWordCount = (arr) =&gt;
+  arr.length;
+
+<span class="comment">// find items in the passed array longer than 5 characters</span>
+<span class="comment">// make items lower case</span>
+<span class="keyword">const</span> getKeywords = (arr) =&gt;
+  arr
+    .filter(item =&gt; item.length &gt; <span class="number">5</span>)
+    .map(item =&gt; item.toLowerCase());
+
+<span class="comment">// process copy to prep the string, create an array, count words, and get keywords</span>
+<span class="function"><span class="keyword">function</span> <span class="title">processCopy</span>(<span class="params">str, prepFn, arrFn, countFn, kwFn</span>) </span>{
+  <span class="keyword">const</span> copyArray = arrFn(prepFn(str));
+
+  <span class="built_in">console</span>.log(<span class="string">`Word count: <span class="subst">${countFn(copyArray)}</span>`</span>);
+  <span class="built_in">console</span>.log(<span class="string">`Keywords: <span class="subst">${kwFn(copyArray)}</span>`</span>);
+}
+
+processCopy(fpCopy, stripPunctuation, getArr, getWordCount, getKeywords);
+<span class="comment">// result: Word count: 11</span>
+<span class="comment">// result: Keywords: functional,programming,powerful,enjoyable</span>
+</code></pre>
+
+<p class="selectionShareable">This code is available to run at this <a href="https://jsfiddle.net/kmaida/xxc7g0ve/" target="_blank">JSFiddle: Functional Programming with JavaScript</a>. It's broken into digestible, declarative functions with clear purpose. If we step through it and read the comments, no further explanation of the code should be necessary. Each <em>core</em> function is modular and relies only on its inputs (<a href="#purity" target="_self">pure</a>). The last function processes the core to generate the collective outputs. This function, <code>processCopy()</code>, is the impure container that executes the core and manages side effects. We've used a <a href="#higher-order-functions" target="_self">higher-order function</a> that accepts the other functions as arguments to maintain the functional style.</p>
+
+<h3>Functional Programming Takeaways</h3>
+
+<p class="selectionShareable">Immutable data and statelessness mean that the program's existing state is not modified. Instead, new values are returned. Pure functions are used for core functionality. In order to implement the program and handle necessary side effects, impure functions can call pure functions imperatively.</p>
+
+<p class="selectionShareable">To learn more about <strong>functional programming</strong>, check out the following resources:</p>
+
+<ul>
+<li><a href="https://auth0.com/blog/intro-to-immutable-js/" target="_blank">Introduction to Immutable.js and Functional Programming Concepts</a></li>
+<li><a href="http://www.defmacro.org/ramblings/fp.html" target="_blank">Functional Programming For The Rest of Us</a></li>
+<li><a href="http://stephen-young.me.uk/2013/01/20/functional-programming-with-javascript.html" target="_blank">Functional Programming with JavaScript</a></li>
+<li><a href="https://www.smashingmagazine.com/2014/07/dont-be-scared-of-functional-programming/" target="_blank">Don't be Scared of Functional Programming</a></li>
+<li><a href="https://medium.com/@cscalfani/so-you-want-to-be-a-functional-programmer-part-1-1f15e387e536#.q8a7nwjat" target="_blank">So You Want to be a Functional Programmer</a></li>
+<li><a href="https://github.com/lodash/lodash/wiki/FP-Guide" target="_blank">lodash - Functional Programming Guide</a></li>
+<li><a href="http://stackoverflow.com/questions/17826380/what-is-difference-between-functional-and-imperative-programming-languages" target="_blank">What is the difference between functional and imperative programming languages?</a></li>
+<li><a href="http://eloquentjavascript.net/1st_edition/chapter6.html" target="_blank">Eloquent JavaScript, 1st Edition - Functional Programming</a></li>
+<li><a href="http://tobyho.com/2015/11/09/functional-programming-by-example/" target="_blank">Functional Programming by Example</a></li>
+<li><a href="https://www.youtube.com/watch?v=BMUiFMZr7vk&amp;list=PL0zVEGEvSaeEd9hlmCXrk5yUyqUag-n84" target="_blank">Functional Programming in JavaScript - Video Series</a></li>
+<li><a href="https://medium.com/functional-javascript/introduction-to-functional-javascript-45a9dca6c64a#.2qjh0i04y" target="_blank">Introduction to Functional JavaScript</a></li>
+<li><a href="http://stackoverflow.com/questions/18172947/how-to-perform-side-effects-in-pure-functional-programming" target="_blank">How to perform side effects in pure functional programming</a></li>
+<li><a href="https://davidwalsh.name/preventing-sideeffects-javascript" target="_blank">Preventing Side Effects in JavaScript</a></li>
+</ul>
+
+
+<hr>
+
+<h2><span id="observables"></span>Observables</h2>
+
+<p class="selectionShareable"><strong>Observables</strong> are similar to arrays, except instead of being stored in memory, items arrive asynchronously over time (also called <em>streams</em>). We can <em>subscribe</em> to observables and react to events emitted by them. JavaScript observables are an implementation of the <a href="http://stackoverflow.com/a/15596243" target="_blank"><em>observer pattern</em></a>. <a href="http://reactivex.io/" target="_blank">Reactive Extensions</a> (commonly known as Rx*) provides an observables library for JS via <a href="https://github.com/ReactiveX/rxjs" target="_blank">RxJS</a>.</p>
+
+<p class="selectionShareable">To demonstrate the concept of observables, let's consider a simple example: resizing the browser window. It's easy to understand observables in this context. Resizing the browser window emits a stream of events over a period of time as the window is dragged to its desired size. We can create an observable and subscribe to it to react to the stream of resize events:</p>
+
+<pre><code class="js hljs javascript"><span class="comment">// create window resize stream</span>
+<span class="comment">// throttle resize events</span>
+<span class="keyword">const</span> resize$ = 
+  Rx.Observable
+    .fromEvent(<span class="built_in">window</span>, <span class="string">'resize'</span>)
+    .throttleTime(<span class="number">350</span>);
+
+<span class="comment">// subscribe to the resize$ observable</span>
+<span class="comment">// log window width x height</span>
+<span class="keyword">const</span> subscription = 
+  resize$.subscribe((event) =&gt; {
+    <span class="keyword">let</span> t = event.target;
+    <span class="built_in">console</span>.log(<span class="string">`<span class="subst">${t.innerWidth}</span>px x <span class="subst">${t.innerHeight}</span>px`</span>);
+  });
+</code></pre>
+
+<p class="selectionShareable">The example code above shows that as the window size changes, we can throttle the observable stream and subscribe to the changes to respond to new values in the collection. This is an example of a <em>hot observable</em>.</p>
+
+<h3>Hot Observables</h3>
+
+<p class="selectionShareable">User interface events like button clicks, mouse movement, etc. are <em>hot</em>. <strong>Hot observables</strong> will always push even if we're not specifically reacting to them with a subscription. The window resize example above is a hot observable: the <code>resize$</code> observable fires whether or not <code>subscription</code> exists.</p>
+
+<h3>Cold Observables</h3>
+
+<p class="selectionShareable">A <strong>cold observable</strong> begins pushing <em>only</em> when we subscribe to it. If we subscribe again, it will start over.</p>
+
+<p class="selectionShareable">Let's create an observable collection of numbers ranging from <code>1</code> to <code>5</code>:</p>
+
+<pre><code class="js hljs javascript"><span class="comment">// create source number stream</span>
+<span class="keyword">const</span> source$ = Rx.Observable.range(<span class="number">1</span>, <span class="number">5</span>);
+
+<span class="comment">// subscribe to source$ observable</span>
+<span class="keyword">const</span> subscription = source$.subscribe(
+  (value) =&gt; { <span class="built_in">console</span>.log(<span class="string">`Next: <span class="subst">${value}</span>`</span>); }, <span class="comment">// onNext</span>
+  (event) =&gt; { <span class="built_in">console</span>.log(<span class="string">`Error: <span class="subst">${event}</span>`</span>); }, <span class="comment">// onError</span>
+  () =&gt; { <span class="built_in">console</span>.log(<span class="string">'Completed!'</span>); }  <span class="comment">// onCompleted</span>
+);
+</code></pre>
+
+<p class="selectionShareable">We can <a href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/operators/subscribe.md" target="_blank"><code>subscribe()</code></a> to the <code>source$</code> observable we just created. Upon subscription, the values are sent in sequence to the observer. The <code>onNext</code> callback logs the values: <code>Next: 1</code>, <code>Next: 2</code>, etc. until completion: <code>Completed!</code>. The cold <code>source$</code> observable we created doesn't push unless we <em>subscribe</em> to it.</p>
+
+<h3>Observables Takeaways</h3>
+
+<p class="selectionShareable">Observables are streams. We can observe any stream: from resize events to existing arrays to API responses. We can create observables from almost anything. A <em>promise</em> is an observable with a single emitted value, but observables can return many values over time.</p>
+
+<p class="selectionShareable">We can operate on observables in many ways. <a href="https://github.com/Reactive-Extensions/RxJS/tree/master/doc/api/core/operators" target="_blank">RxJS utilizes numerous operator methods</a>. Observables are often visualized using points on a line, as demonstrated on the <a href="http://rxmarbles.com" target="_blank">RxMarbles</a> site. Since the stream consists of asynchronous events over <em>time</em>, it's easy to conceptualize this in a linear fashion and use such visualizations to understand Rx* operators. For example, the following RxMarbles image illustrates the <a href="http://rxmarbles.com/#filter" target="_blank">filter operator</a>:</p>
+
+<p class="selectionShareable"><img src="https://cdn.auth0.com/blog/jsglossary/rxmarbles.png" alt="reactive programming with Rx observables: filter operator from rxmarbles.com"></p>
+
+<p class="selectionShareable">To learn more about <strong>observables</strong>, check out the following resources:</p>
+
+<ul>
+<li><a href="http://reactivex.io/documentation/observable.html" target="_blank">Reactive Extensions: Observable</a></li>
+<li><a href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/creating.md" target="_blank">Creating and Subscribing to Simple Observable Sequences</a></li>
+<li><a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754#request-and-response" target="_blank">The introduction to Reactive Programming you've been missing: Request and Response</a></li>
+<li><a href="https://egghead.io/lessons/javascript-introducing-the-observable" target="_blank">Introducing the Observable</a></li>
+<li><a href="http://rxmarbles.com/" target="_blank">RxMarbles</a></li>
+<li><a href="https://xgrommx.github.io/rx-book/content/observable/index.html" target="_blank">Rx Book - Observable</a></li>
+<li><a href="https://egghead.io/lessons/javascript-introducing-the-observable" target="_blank">Introducing the Observable</a></li>
+</ul>
+
+
+<hr>
+
+<h2><span id="reactive-programming"></span>Reactive Programming</h2>
+
+<p class="selectionShareable"><strong>Reactive programming</strong> is concerned with propagating and responding to incoming events over time, <a href="#imperative-declarative" target="_self">declaratively</a> (describing <em>what</em> to do rather than <em>how</em>).</p>
+
+<p class="selectionShareable">Reactive programming is often associated with <a href="http://reactivex.io/" target="_blank">Reactive Extensions</a>, an API for asynchronous programming with <a href="#observables" target="_self">observable streams</a>. Reactive Extensions (abbreviated Rx*) <a href="http://reactivex.io/languages.html" target="_blank">provides libraries for a variety of languages</a>, including JavaScript (<a href="https://github.com/Reactive-Extensions/RxJS" target="_blank">RxJS</a>).</p>
+
+<h3>In Practice: Reactive Programming with JavaScript</h3>
+
+<p class="selectionShareable">Here is an example of reactive programming with observables. Let's say we have an input where the user can enter a six-character confirmation code and we want to print out the latest valid code attempt. Our HTML might look like this:</p>
+
+<div class="highlight"><pre><code class="language-html hljs xml" data-lang="html"><span class="c"><span class="comment">&lt;!-- HTML --&gt;</span></span>
+<span class="nt"><span class="tag">&lt;<span class="name">input</span></span></span><span class="tag"> </span><span class="na"><span class="tag"><span class="attr">id</span>=</span></span><span class="s"><span class="tag"><span class="string">"confirmation-code"</span></span></span><span class="tag"> </span><span class="na"><span class="tag"><span class="attr">type</span>=</span></span><span class="s"><span class="tag"><span class="string">"text"</span></span></span><span class="nt"><span class="tag">&gt;</span></span>
+<span class="nt"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span>
+  <span class="nt"><span class="tag">&lt;<span class="name">strong</span>&gt;</span></span>Valid code attempt:<span class="nt"><span class="tag">&lt;/<span class="name">strong</span>&gt;</span></span>
+  <span class="nt"><span class="tag">&lt;<span class="name">code</span></span></span><span class="tag"> </span><span class="na"><span class="tag"><span class="attr">id</span>=</span></span><span class="s"><span class="tag"><span class="string">"attempted-code"</span></span></span><span class="nt"><span class="tag">&gt;</span><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span>
+<span class="nt"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></code></pre></div>
+
+
+<p class="selectionShareable">We'll use RxJS and create a stream of input events to implement our functionality, like so:</p>
+
+<pre><code class="js hljs javascript"><span class="comment">// JS</span>
+<span class="keyword">const</span> confCodeInput = <span class="built_in">document</span>.getElementById(<span class="string">'confirmation-code'</span>);
+<span class="keyword">const</span> attemptedCode = <span class="built_in">document</span>.getElementById(<span class="string">'attempted-code'</span>);
+
+<span class="keyword">const</span> confCodes$ = 
+  Rx.Observable
+    .fromEvent(confCodeInput, <span class="string">'input'</span>)
+    .map(e =&gt; e.target.value)
+    .filter(code =&gt; code.length === <span class="number">6</span>);
+
+<span class="keyword">const</span> subscription = confCodes$.subscribe(
+  (value) =&gt; attemptedCode.innerText = value,
+  (event) =&gt; { <span class="built_in">console</span>.warn(<span class="string">`Error: <span class="subst">${event}</span>`</span>); },
+  () =&gt; { <span class="built_in">console</span>.info(<span class="string">'Completed!'</span>); }
+);
+</code></pre>
+
+<p class="selectionShareable">This code can be run at this <a href="https://jsfiddle.net/kmaida/v1ozuwgu/" target="_blank">JSFiddle: Reactive Programming with JavaScript</a>. We'll observe <a href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/operators/fromevent.md" target="_blank">events from</a> the <code>confCodeInput</code> input element. Then we'll use the <a href="http://reactivex.io/documentation/operators/map.html" target="_blank"><code>map</code> operator</a> to get the <code>value</code> from each input event. Next, we'll <a href="http://reactivex.io/documentation/operators/filter.html" target="_blank"><code>filter</code></a> any results that are not six characters so they won't appear in the returned stream. Finally, we'll <a href="http://reactivex.io/documentation/operators/subscribe.html" target="_blank"><code>subscribe</code></a> to our <code>confCodes$</code> observable and print out the latest valid confirmation code attempt. Note that this was done in response to events over time, declaratively: this is the crux of reactive programming.</p>
+
+<h3>Reactive Programming Takeaways</h3>
+
+<p class="selectionShareable">The reactive programming paradigm involves observing and reacting to events in asynchronous data streams. RxJS is used in <a href="https://medium.com/google-developer-experts/angular-introduction-to-reactive-extensions-rxjs-a86a7430a61f#.41aap1i8a" target="_blank">Angular</a> and is gaining popularity as a JavaScript solution for reactive programming.</p>
+
+<p class="selectionShareable">To learn more about <strong>reactive programming</strong>, check out the following resources:</p>
+
+<ul>
+<li><a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754" target="_blank">The introduction to Reactive Programming you've been missing</a></li>
+<li><a href="http://www.introtorx.com/" target="_blank">Introduction to Rx</a></li>
+<li><a href="http://www.reactivemanifesto.org/" target="_blank">The Reactive Manifesto</a></li>
+<li><a href="https://auth0.com/blog/understanding-reactive-programming-and-rxjs/" target="_blank">Understanding Reactive Programming and RxJS</a></li>
+<li><a href="http://paulstovell.com/blog/reactive-programming" target="_blank">Reactive Programming</a></li>
+<li><a href="https://davidwalsh.name/modernization-reactivity" target="_blank">Modernization of Reactivity</a></li>
+<li><a href="https://github.com/Reactive-Extensions/RxJS/tree/master/doc/api/core" target="_blank">Reactive-Extensions RxJS API Core</a></li>
+</ul>
+
+
+<hr>
+
+<h2><span id="functional-reactive-programming"></span>Functional Reactive Programming</h2>
+
+<p class="selectionShareable">In simple terms, functional reactive programming could be summarized as declaratively responding to events or behaviors over time. To understand the tenets of FRP in more depth, let's take a look at FRP's formulation. Then we'll examine its use in relation to JavaScript.</p>
+
+<h3>What is Functional Reactive Programming?</h3>
+
+<p class="selectionShareable">A <a href="http://stackoverflow.com/a/5386908" target="_blank">more complete definition</a> from <a href="https://twitter.com/conal" target="_blank">Conal Elliot, FRP's formulator</a>, would be that <strong>functional reactive programming</strong> is "<a href="https://en.wikibooks.org/wiki/Haskell/Denotational_semantics" target="_blank">denotative</a> and temporally continuous". Elliot mentions that he prefers to describe this programming paradigm as <em>denotative continuous-time programming</em> as opposed to "functional reactive programming".</p>
+
+<p class="selectionShareable"><strong>Functional reactive programming</strong>, at its most basic, original  definition, has two fundamental properties:</p>
+
+<ul>
+<li><strong>denotative</strong>: the meaning of each function or type is precise, simple, and implementation-independent ("functional" references this)</li>
+<li><strong>continuous time</strong>: <a href="https://en.wikipedia.org/wiki/Discrete_time_and_continuous_time#Continuous_time" target="_blank">variables have a particular value for a very short time: between any two points are an infinite number of other points</a>; provides transformation flexibility, efficiency, modularity, and accuracy ("reactive" references this)</li>
+</ul>
+
+
+<p class="selectionShareable">Again, when we put it simply: <a href="https://www.quora.com/What-is-Functional-Reactive-Programming" target="_blank"><strong>functional reactive programming</strong> is programming declaratively with time-varying values</a>.</p>
+
+<p class="selectionShareable">To understand <em>continuous time / temporal continuity</em>, consider an analogy using vector graphics. Vector graphics have an <em>infinite resolution</em>. Unlike bitmap graphics (discrete resolution), vector graphics scale indefinitely. They never pixellate or become indistinct when particularly large or small the way bitmap graphics do.</p>
+
+<blockquote><p class="selectionShareable">"FRP expressions describe entire evolutions of values over time, representing these evolutions directly as first-class values."</p>
+
+<p class="selectionShareable">—<em>Conal Elliot</em></p></blockquote>
+
+<p class="selectionShareable">Functional reactive programming should be:</p>
+
+<ul>
+<li>dynamic: can react over time <em>or</em> to input changes</li>
+<li>time-varying: reactive <em>behaviors</em> can change continually while reactive <em>values</em> change discretely</li>
+<li>efficient: minimize amount of processing necessary when inputs change</li>
+<li>historically aware: pure functions map state from a previous point in time to the next point in time; state changes concern the local element and not the global program state</li>
+</ul>
+
+
+<p class="selectionShareable">Conal Elliot's slides on the <a href="http://conal.net/talks/essence-and-origins-of-frp-lambdajam-2015.pdf" target="_blank">Essence and Origins of FRP can be viewed here</a>. The programming language <a href="https://wiki.haskell.org/Functional_Reactive_Programming" target="_blank">Haskell</a> lends itself to true FRP due to its functional, pure, and lazy nature. Evan Czaplicki, the creator of <a href="http://elm-lang.org" target="_blank">Elm</a>, gives a great overview of FRP in his talk <a href="https://www.youtube.com/watch?v=Agu6jipKfYw" target="_blank">Controlling Time and Space: Understanding the Many Formulations of FRP</a>.</p>
+
+<p class="selectionShareable">In fact, let's talk briefly about <a href="http://people.seas.harvard.edu/~chong/pubs/pldi13-elm.pdf" target="_blank">Evan Czapliki</a>'s <a href="https://auth0.com/blog/creating-your-first-elm-app-part-1/" target="_blank">Elm</a>. Elm is a functional, typed language for building web applications. It compiles to JavaScript, CSS, and HTML. <a href="https://guide.elm-lang.org/architecture/" target="_blank">The Elm Architecture</a> was the inspiration for the <a href="http://redux.js.org/" target="_blank">Redux</a> state container for JS apps. <a href="https://www.youtube.com/watch?v=Agu6jipKfYw" target="_blank">Elm was originally considered a true functional reactive programming language</a>, but as of version 0.17, it implemented <em>subscriptions</em> instead of signals in the interest of making the language easier to learn and use. In doing so, Elm <a href="http://elm-lang.org/blog/farewell-to-frp" target="_blank">bid farewell to FRP</a>.</p>
+
+<h3>In Practice: Functional Reactive Programming and JavaScript</h3>
+
+<p class="selectionShareable">The traditional definition of FRP can be difficult to grasp, especially for developers who don't have experience with languages like Haskell or Elm. However, the term has come up more frequently in the front-end ecosystem, so let's shed some light on its application in JavaScript.</p>
+
+<p class="selectionShareable">In order to reconcile what you may have read about FRP in JS, it's important to understand that <a href="https://www.sitepoint.com/functional-reactive-programming-rxjs/" target="_blank">Rx*</a>, <a href="https://baconjs.github.io/" target="_blank">Bacon.js</a>, <a href="http://blog.angular-university.io/functional-reactive-programming-for-angular-2-developers-rxjs-and-observables/" target="_blank">Angular</a>, and others are <em>not</em> consistent with the two primary fundamentals of Conal Elliot's definition of FRP. <a href="https://stackoverflow.com/questions/5875929/specification-for-a-functional-reactive-programming-language#comment36554089_5878525" target="_blank">Elliot states that Rx* and Bacon.js are not FRP. Instead, they are "compositional event systems <em>inspired</em> by FRP"</a>.</p>
+
+<p class="selectionShareable">Functional reactive programming, <em>as it relates specifically to JavaScript implementations</em>, refers to programming in a <a href="#functional-programming" target="_self">functional</a> style while creating and reacting to <a href="#observables" target="_self">streams</a>. This is fairly far from Elliot's original formulation (which <a href="http://conal.net/talks/essence-and-origins-of-frp-lambdajam-2015.pdf" target="_blank">specifically <em>excludes</em> streams as a component</a>), but is nevertheless inspired by traditional FRP.</p>
+
+<p class="selectionShareable">It's also crucial to understand that JavaScript inherently interacts with the user and UI, the DOM, and often a backend. <a href="#purity" target="_self">Side effects</a> and <a href="#imperative-declarative" target="_self">imperative</a> code are par for the course, even when taking a <a href="#functional-programming" target="_self">functional</a> or functional reactive approach. <em>Without</em> imperative or impure code, a JS web application with a UI wouldn't be much use because it couldn't interact with its environment.</p>
+
+<p class="selectionShareable">Let's take a look at an example to demonstrate the basic principles of <em>FRP-inspired</em> JavaScript. This sample uses RxJS and prints out mouse movements over a period of ten seconds:</p>
+
+<pre><code class="js hljs javascript"><span class="comment">// create a time observable that adds an item every 1 second</span>
+<span class="comment">// map so resulting stream contains event values</span>
+<span class="keyword">const</span> time$ = 
+  Rx.Observable
+    .timer(<span class="number">0</span>, <span class="number">1000</span>)
+    .timeInterval()
+    .map(e =&gt; e.value);
+
+<span class="comment">// create a mouse movement observable</span>
+<span class="comment">// throttle to every 350ms</span>
+<span class="comment">// map so resulting stream pushes objects with x and y coordinates</span>
+<span class="keyword">const</span> move$ = 
+  Rx.Observable
+    .fromEvent(<span class="built_in">document</span>, <span class="string">'mousemove'</span>)
+    .throttleTime(<span class="number">350</span>)
+    .map(e =&gt; { <span class="keyword">return</span> {x: e.clientX, y: e.clientY} });
+
+<span class="comment">// merge time + mouse movement streams</span>
+<span class="comment">// complete after 10 seconds</span>
+<span class="keyword">const</span> source$ = 
+  Rx.Observable
+    .merge(time$, move$)
+    .takeUntil(Rx.Observable.timer(<span class="number">10000</span>));
+
+<span class="comment">// subscribe to merged source$ observable</span>
+<span class="comment">// if value is a number, createTimeset()</span>
+<span class="comment">// if value is a coordinates object, addPoint()</span>
+<span class="keyword">const</span> subscription = 
+  source$.subscribe(
+    <span class="comment">// onNext</span>
+    (x) =&gt; { 
+      <span class="keyword">if</span> (<span class="keyword">typeof</span> x === <span class="string">'number'</span>) {
+        createTimeset(x);
+      } <span class="keyword">else</span> {
+        addPoint(x);
+      }
+    },
+    <span class="comment">// onError</span>
+    (err) =&gt; { <span class="built_in">console</span>.warn(<span class="string">'Error:'</span>, err); },
+    <span class="comment">// onCompleted</span>
+    () =&gt; { <span class="built_in">console</span>.info(<span class="string">'Completed'</span>); }
+  );
+
+<span class="comment">// add element to DOM to list out points touched in a particular second</span>
+<span class="function"><span class="keyword">function</span> <span class="title">createTimeset</span>(<span class="params">n</span>) </span>{
+  <span class="keyword">const</span> elem = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);
+  <span class="keyword">const</span> num = n + <span class="number">1</span>;
+  elem.id = <span class="string">'t'</span> + num;
+  elem.innerHTML = <span class="string">`&lt;strong&gt;<span class="subst">${num}</span>&lt;/strong&gt;: `</span>;
+  <span class="built_in">document</span>.body.appendChild(elem);
+}
+
+<span class="comment">// add points touched to latest time in stream</span>
+<span class="function"><span class="keyword">function</span> <span class="title">addPoint</span>(<span class="params">pointObj</span>) </span>{
+  <span class="comment">// add point to last appended element</span>
+  <span class="keyword">const</span> numberElem = <span class="built_in">document</span>.getElementsByTagName(<span class="string">'body'</span>)[<span class="number">0</span>].lastChild;
+  numberElem.innerHTML += <span class="string">` (<span class="subst">${pointObj.x}</span>, <span class="subst">${pointObj.y}</span>) `</span>;
+}
+</code></pre>
+
+<p class="selectionShareable">You can check out this code in action in this <a href="https://jsfiddle.net/kmaida/3v8yw02s/" target="_blank">JSFiddle: FRP-inspired JavaScript</a>. Run the fiddle and move your mouse over the result area of the screen as it counts up to 10 seconds. You should see mouse coordinates appear along with the counter. This indicates where your mouse was during each 1-second time interval.</p>
+
+<p class="selectionShareable">Let's briefly discuss this implementation step-by-step.</p>
+
+<p class="selectionShareable">First, we'll create an <a href="#observables" target="_self">observable</a> called <code>time$</code>. This is a timer that adds a value to the collection every <code>1000ms</code> (every second). We need to <code>map</code> the timer event to extract its <code>value</code> and push it in the resulting stream.</p>
+
+<p class="selectionShareable">Next, we'll create a <code>move$</code> observable from the <code>document.mousemove</code> event. Mouse movement is <em>continuous</em>. At any point in the sequence, there are an infinite number of points in between. We'll throttle this so the resulting stream is more manageable. Then we can <code>map</code> the event to return an object with <code>x</code> and <code>y</code> values to represent mouse coordinates.</p>
+
+<p class="selectionShareable">Next we want to <a href="https://github.com/Reactive-Extensions/RxJS/blob/master/doc/api/core/operators/merge.md" target="_blank">merge</a> the <code>time$</code> and <code>move$</code> streams. This is a <em>combining operator</em>. This way we can plot which mouse movements occurred during each time interval. We'll call the resulting observable <code>source$</code>. We'll also limit the <code>source$</code> observable so that it completes after ten seconds (<code>10000ms</code>).</p>
+
+<p class="selectionShareable">Now that we have our merged stream of time and movement, we'll create a <code>subscription</code> to the <code>source$</code> observable so we can react to it. In our <code>onNext</code> callback, we'll check to see if the value is a <code>number</code> or not. If it is, we want to call a function called <code>createTimeset()</code>. If it's a coordinates object, we'll call <code>addPoint()</code>. In the <code>onError</code> and <code>onCompleted</code> callbacks, we'll simply log some information.</p>
+
+<p class="selectionShareable">Let's look at the <code>createTimeset(n)</code> function. We'll create a new <code>div</code> element for each second interval, label it, and append it to the DOM.</p>
+
+<p class="selectionShareable">In the <code>addPoint(pointObj)</code> function, we'll print out the latest coordinates in the most recent timeset <code>div</code>. This will associate each set of coordinates with its corresponding time interval. We can now read where the mouse has been over time.</p>
+
+<blockquote><p class="selectionShareable"><strong>Note:</strong> These functions are <a href="#purity" target="_self">impure</a>: they have no return value and they also produce side effects. The side effects are DOM manipulations. As mentioned earlier, the JavaScript we need to write for our apps frequently interacts with scope outside its functions.</p></blockquote>
+
+<h3>Functional Reactive Programming Takeaways</h3>
+
+<p class="selectionShareable">FRP encodes actions that react to events using pure functions that map state from a previous point in time to the next point in time.  FRP in JavaScript doesn't adhere to the two primary fundamentals of Conal Elliot's FRP, but there is certainly value in abstractions of the original concept. JavaScript relies heavily on side effects and imperative programming, but we can certainly take advantage of the power of FRP concepts to improve our JS.</p>
+
+<p class="selectionShareable">Finally, consider this quote from the <a href="http://eloquentjavascript.net/1st_edition/" target="_blank">first edition of Eloquent JavaScript</a> (the <a href="http://eloquentjavascript.net" target="_blank">second edition is available here</a>):</p>
+
+<blockquote><p class="selectionShareable">"Fu-Tzu had written a small program that was full of global state and dubious shortcuts. Reading it, a student asked 'You warned us against these techniques, yet I find them in your program. How can this be?'</p>
+
+<p class="selectionShareable">Fu-Tzu said 'There is no need to fetch a water hose when the house is not on fire.' {This is not to be read as an encouragement of sloppy programming, but rather as a warning against neurotic adherence to rules of thumb.}"</p>
+
+<p class="selectionShareable">—<em>Marijn Haverbeke, <a href="http://eloquentjavascript.net/1st_edition/chapter6.html" target="_blank">Eloquent JavaScript, 1st Edition, Chapter 6</a></em></p></blockquote>
+
+<p class="selectionShareable">To learn more about <strong>functional reactive programming (FRP)</strong>, check out the following resources:</p>
+
+<ul>
+<li><a href="https://www.youtube.com/watch?v=vLmaZxegahk" target="_blank">Functional Reactive Programming for Beginners</a></li>
+<li><a href="https://sideeffects.xyz/2015/the-functional-reactive-misconception/" target="_blank">The Functional Reactive Misconception</a></li>
+<li><a href="http://stackoverflow.com/questions/1028250/what-is-functional-reactive-programming/1030631#1030631" target="_blank">What is Functional Reactive Programming?</a></li>
+<li><a href="https://wiki.haskell.org/Functional_Reactive_Programming" target="_blank">Haskell - Functional Reactive Programming</a></li>
+<li><a href="http://conal.net/fran/tutorial.htm" target="_blank">Composing Reactive Animations</a></li>
+<li><a href="https://stackoverflow.com/questions/5875929/specification-for-a-functional-reactive-programming-language#5878525" target="_blank">Specification for a functional reactive programming language</a></li>
+<li><a href="https://github.com/conal/talk-2015-more-elegant-frp" target="_blank">A more elegant specification for FRP</a></li>
+<li><a href="https://www.youtube.com/watch?v=vLmaZxegahk" target="_blank">Functional Reactive Programming for Beginners</a></li>
+<li><a href="http://elm-lang.org/blog/farewell-to-frp" target="_blank">Elm - A Farewell to FRP</a></li>
+<li><a href="http://conal.net/blog/posts/early-inspirations-and-new-directions-in-functional-reactive-programming" target="_blank">Early inspirations and new directions in functional reactive programming</a></li>
+<li><a href="https://blogs.janestreet.com/breaking-down-frp/" target="_blank">Breaking Down FRP</a></li>
+<li><a href="https://twitter.com/ReactiveX/status/483625917491970048" target="_blank">Rx* is not FRP</a></li>
+</ul>
+
+
+<hr>
+
+<h2>Conclusion</h2>
+
+<p class="selectionShareable">We'll conclude with another excellent quote from the first edition of <a href="http://eloquentjavascript.net/1st_edition/" target="_blank">Eloquent JavaScript</a>:</p>
+
+<blockquote><p class="selectionShareable">"A student had been sitting motionless behind his computer for hours, frowning darkly. He was trying to write a beautiful solution to a difficult problem, but could not find the right approach. Fu-Tzu hit him on the back of his head and shouted '<em>Type something!</em>' The student started writing an ugly solution. After he had finished, he suddenly understood the beautiful solution."</p>
+
+<p class="selectionShareable">—<em>Marijn Haverbeke, <a href="http://eloquentjavascript.net/1st_edition/chapter6.html" target="_blank">Eloquent JavaScript, 1st Edition, Chapter 6</a></em></p></blockquote>
+
+<p class="selectionShareable">The concepts necessary for understanding <a href="#functional-programming" target="_self">functional programming</a>, <a href="#reactive-programming" target="_self">reactive programming</a>, and <a href="#functional-reactive-programming" target="_self">functional reactive programming</a> can be difficult to grasp, let alone <em>master</em>. Writing code that takes advantage of a paradigm's fundamentals is the initial step, even if it isn't entirely faithful at first. Practice illuminates the path ahead and also reveals potential revisions.</p>
+
+<p class="selectionShareable">With this glossary as a starting point, you can begin taking advantage of these concepts and programming paradigms to increase your JavaScript expertise. If anything is still unclear regarding these topics, please consult the links in each section for additional resources. We'll cover more concepts in the next Modern JS Glossary post!</p>
+
+            </div>
+					</div>
+				</article>
+				<!-- END :: Tutorial -->
+				
+				<!-- START :: Tutorial -->
+				<article>
+					<h1>ES6 Features</h1>
+					<div class="tutorial__content">
+						<a href="https://codetower.github.io/es6-features/">https://codetower.github.io/es6-features/</a>
+						
+<h2 id="arrow-functions">Arrow Functions</h2>
+<p>A short hand notation for <code>function()</code>, but it does not bind <code>this</code>.</p>
+<pre><code class="lang-javascript">no-eval
+var odds = evens.map(v =&gt; v + 1);  // no parentes and no brackets
+var nums = evens.map((v, i) =&gt; v + i);
+var pairs = evens.map(v =&gt; ({even: v, odd: v + 1}));
+
+// Statement bodies
+nums.forEach(v =&gt; {
+  if (v % 5 === 0)
+    fives.push(v);
+});
+</code></pre>
+<p>How does <code>this</code> work?</p>
+<pre><code class="lang-javascript">var object = {
+    name: &quot;Name&quot;, 
+    arrowGetName: () =&gt; this.name,
+    regularGetName: function() { return this.name },
+    arrowGetThis: () =&gt; this,
+    regularGetThis: function() { return this }
+}
+
+console.log(this.name)
+console.log(object.arrowGetName());
+console.log(object.arrowGetThis());
+console.log(this)
+console.log(object.regularGetName());
+console.log(object.regularGetThis());
+</code></pre>
+
+<h2 id="classes">Classes</h2>
+<p>As we know them from &quot;real&quot; languages. Syntactic sugar on top of prototype-inheritence. </p>
+<pre><code class="lang-javascript">no-eval
+class SkinnedMesh extends THREE.Mesh {
+  constructor(geometry, materials) {
+    super(geometry, materials);
+
+    this.idMatrix = SkinnedMesh.defaultMatrix();
+    this.bones = [];
+    this.boneMatrices = [];
+    //...
+  }
+  update(camera) {
+    //...
+    super.update();
+  }
+  get boneCount() {
+    return this.bones.length;
+  }
+  set matrixType(matrixType) {
+    this.idMatrix = SkinnedMesh[matrixType]();
+  }
+  static defaultMatrix() {
+    return new THREE.Matrix4();
+  }
+}
+</code></pre>
+<p><a href="https://lebab.io/#">Lebab.io</a></p>
+<h2 id="enhanced-object-literals">Enhanced Object Literals</h2>
+<pre><code class="lang-javascript">var theProtoObj = {
+  toString: function() {
+    return &quot;The ProtoOBject To string&quot;
+  }
+}
+
+var handler = () =&gt; &quot;handler&quot;
+
+
+var obj = {
+    // __proto__
+    __proto__: theProtoObj,
+
+    // Shorthand for ‘handler: handler’
+    handler,
+
+    // Methods
+    toString() {
+
+     // Super calls
+     return &quot;d &quot; + super.toString();
+    },
+
+    // Computed (dynamic) property names
+    [ &quot;prop_&quot; + (() =&gt; 42)() ]: 42
+};
+
+console.log(obj.handler)
+console.log(obj.handler())
+console.log(obj.toString())
+console.log(obj.prop_42)
+</code></pre>
+<h2 id="string-interpolation">String interpolation</h2>
+<p>Nice syntax for string interpolation (but sligthly worse performance, <a href="http://stackoverflow.com/questions/29055518/are-es6-template-literals-faster-than-string-concatenation">Source</a>)</p>
+<pre><code class="lang-javascript">var name = &quot;Bob&quot;, time = &quot;today&quot;;
+
+var multiLine = `This
+
+Line
+
+Spans Multiple
+
+Lines`
+
+
+console.log(`Hello ${name},how are you ${time}?`)
+console.log(multiLine)
+</code></pre>
+<h2 id="destructuring">Destructuring</h2>
+<pre><code class="lang-javascript">// list &quot;matching&quot;
+var [a, , b] = [1,2,3];
+console.log(a)
+console.log(b)
+</code></pre>
+<p> Objects can be destructured as well. </p>
+<pre><code class="lang-javascript">nodes = () =&gt; { return {op: &quot;a&quot;, lhs: &quot;b&quot;, rhs: &quot;c&quot;}}
+var { op: a, lhs: b , rhs: c } = nodes()
+console.log(a)
+console.log(b)
+console.log(c)
+</code></pre>
+<p> Using Shorthand notation.</p>
+<pre><code class="lang-javascript">nodes = () =&gt; { return {lhs: &quot;a&quot;, op: &quot;b&quot;, rhs: &quot;c&quot;}}
+
+// binds `op`, `lhs` and `rhs` in scope
+var {op, lhs, rhs} = nodes()
+
+console.log(op)
+console.log(lhs)
+console.log(rhs)
+</code></pre>
+<p>Can be used in parameter position</p>
+<pre><code class="lang-javascript">
+function g({name: x}) {
+  return x
+}
+
+function m({name}) {
+  return name
+}
+
+console.log(g({name: 5}))
+console.log(m({name: 5}))
+</code></pre>
+<p>Fail-soft destructuring</p>
+<pre><code class="lang-javascript">var [a] = []
+var [b = 1] = []
+var c = [];
+console.log(a)
+console.log(b);
+console.log(c);
+</code></pre>
+<h2 id="default">Default</h2>
+<pre><code class="lang-javascript">function f(x, y=12) {
+  return x + y;
+}
+
+console.log(f(3))
+</code></pre>
+<h2 id="spread">Spread</h2>
+<p>In functions</p>
+<pre><code class="lang-javascript">function f(x, y, z) {
+  return x + y + z;
+}
+// Pass each elem of array as argument
+console.log(f(...[1,2,3]))
+</code></pre>
+<p>In arrays</p>
+<pre><code class="lang-javascript">var parts = [&quot;shoulders&quot;, &quot;knees&quot;];
+var lyrics = [&quot;head&quot;, ...parts, &quot;and&quot;, &quot;toes&quot;]; 
+
+console.log(lyrics)
+</code></pre>
+<h2 id="spread-object-literals">Spread + Object Literals</h2>
+<p>We can do cool stuff with this in object creations.</p>
+<pre><code class="lang-javascript">no-eval
+let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
+console.log(x); // 1
+console.log(y); // 2
+console.log(z); // { a: 3, b: 4 }
+
+// Spread properties
+let n = { x, y, ...z };
+console.log(n); // { x: 1, y: 2, a: 3, b: 4 }
+console.log(obj)
+</code></pre>
+<p>Sadly it is not support yet</p>
+<p><code>npm install --save-dev babel-plugin-transform-object-rest-spread</code></p>
+<h2 id="rest">Rest</h2>
+<pre><code class="lang-javascript">function demo(part1, ...part2) {
+    return ({part1, part2})
+}
+
+console.log(demo(1,2,3,4,5,6))
+</code></pre>
+<h2 id="let">Let</h2>
+<p><code>Let</code> is the new <code>var</code>. As it has &quot;sane&quot; bindings.</p>
+<pre><code class="lang-javascript">{
+   var globalVar = &quot;from demo1&quot;
+}
+
+{
+   let globalLet = &quot;from demo2&quot;;
+}
+
+console.log(globalVar)
+console.log(globalLet)
+</code></pre>
+<p>However, it does not assigne anything to <code>window</code></p>
+<pre><code class="lang-javascript">let me = &quot;go&quot;;  // globally scoped
+var i = &quot;able&quot;; // globally scoped
+
+console.log(window.me); 
+console.log(window.i);
+</code></pre>
+<p>It is not possible to redeclare a variable using <code>let</code></p>
+<pre><code class="lang-javascript">
+let me = &quot;foo&quot;;
+let me = &quot;bar&quot;; 
+console.log(me);
+</code></pre>
+<pre><code class="lang-javascript">
+var me = &quot;foo&quot;;
+var me = &quot;bar&quot;; 
+console.log(me)
+</code></pre>
+<h2 id="const">Const</h2>
+<p><code>Const</code> is for read only variables</p>
+<pre><code class="lang-javascript">const a = &quot;b&quot;
+a = &quot;a&quot;
+</code></pre>
+<h2 id="for-of">For..of</h2>
+<p>New type of iterators with an alternative to the <code>for..in</code>. It returns the value instead of the <code>keys</code>.</p>
+<pre><code class="lang-javascript">let list = [4, 5, 6];
+
+console.log(list)
+
+for (let i in list) {
+   console.log(i);
+}
+</code></pre>
+<pre><code class="lang-javascript">let list = [4, 5, 6];
+
+console.log(list)
+
+
+for (let i of list) {
+   console.log(i); 
+}
+</code></pre>
+<h3 id="iterators">Iterators</h3>
+<p>The iterator is a more dynamic type than arrays. </p>
+<pre><code class="lang-javascript">let infinite = {
+  [Symbol.iterator]() {
+    let c = 0;
+    return {
+      next() {
+        c++;
+        return { done: false, value: c }
+      }
+    }
+  }
+}
+
+console.log(&quot;start&quot;);
+
+for (var n of infinite) {
+  // truncate the sequence at 1000
+  if (n &gt; 10)
+    break;
+  console.log(n);
+}
+</code></pre>
+<p>Using Typescript interfaces we can see how it looks</p>
+<pre><code class="lang-javascript">no-eval
+interface IteratorResult {
+  done: boolean;
+  value: any;
+}
+interface Iterator {
+  next(): IteratorResult;
+}
+interface Iterable {
+  [Symbol.iterator](): Iterator
+}
+</code></pre>
+<h3 id="generators">Generators</h3>
+<p>Generators create iterators, and are more dynamic than iterators. They do not have to keep track of state in the same manner and does not support the concept of done. </p>
+<pre><code class="lang-javascript">var infinity = {
+  [Symbol.iterator]: function*() {
+    var c = 1;
+    for (;;) {   
+      yield c++;
+    }
+  }
+}
+
+console.log(&quot;start&quot;)
+for (var n of infinity) {
+  // truncate the sequence at 1000
+  if (n &gt; 10)
+    break;
+  console.log(n);
+}
+</code></pre>
+<p>Using typescript again to show the interfaces. </p>
+<pre><code class="lang-javascript">no-eval
+interface Generator extends Iterator {
+    next(value?: any): IteratorResult;
+    throw(exception: any);
+}
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*">function*</a>
+<a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Iterators_and_Generators">Iterators and generator</a></p>
+<p>An example of yield* </p>
+<pre><code class="lang-javascript">function* anotherGenerator(i) {
+  yield i + 1;
+  yield i + 2;
+  yield i + 3;
+}
+
+function* generator(i) {
+  yield i;
+  yield* anotherGenerator(i);
+  yield i + 10;
+}
+
+var gen = generator(10);
+
+console.log(gen.next().value); 
+console.log(gen.next().value); 
+console.log(gen.next().value); 
+console.log(gen.next().value); 
+console.log(gen.next().value);
+</code></pre>
+<h2 id="unicode">Unicode</h2>
+<p>ES6 provides better support for Unicode. </p>
+<pre><code class="lang-javascript">var regex = new RegExp(&#39;\u{61}&#39;, &#39;u&#39;);
+
+console.log(regex.unicode)
+console.log(&quot;\uD842\uDFD7&quot;)
+console.log(&quot;\uD842\uDFD7&quot;.codePointAt())
+</code></pre>
+<h2 id="modules-module-loaders">Modules &amp; Module Loaders</h2>
+<p>Native support for modules.</p>
+<pre><code class="lang-javascript">no-eval
+import defaultMember from &quot;module-name&quot;;
+import * as name from &quot;module-name&quot;;
+import { member } from &quot;module-name&quot;;
+import { member as alias } from &quot;module-name&quot;;
+import { member1 , member2 } from &quot;module-name&quot;;
+import { member1 , member2 as alias2 , [...] } from &quot;module-name&quot;;
+import defaultMember, { member [ , [...] ] } from &quot;module-name&quot;;
+import defaultMember, * as name from &quot;module-name&quot;;
+import &quot;module-name&quot;;
+</code></pre>
+<pre><code class="lang-javascript">no-eval
+export { name1, name2, …, nameN };
+export { variable1 as name1, variable2 as name2, …, nameN };
+export let name1, name2, …, nameN; // also var
+export let name1 = …, name2 = …, …, nameN; // also var, const
+
+export expression;
+export default expression;
+export default function (…) { … } // also class, function*
+export default function name1(…) { … } // also class, function*
+export { name1 as default, … };
+
+export * from …;
+export { name1, name2, …, nameN } from …;
+export { import1 as name1, import2 as name2, …, nameN } from …;
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import">Import</a></p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export">Export</a></p>
+<h2 id="set">Set</h2>
+<p>Sets as in the mathematical counterpart where all items are unique. </p>
+<pre><code class="lang-javascript">var set = new Set();
+set.add(&quot;Potato&quot;).add(&quot;Tomato&quot;).add(&quot;Tomato&quot;);
+console.log(set.size)
+console.log(set.has(&quot;Tomato&quot;))
+
+for(var item of set) {
+   console.log(item)
+}
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a></p>
+<h2 id="weakset">WeakSet</h2>
+<p>The <code>WeakSet</code> object lets you store weakly held objects in a collection. Objects without an reference will be garbage collected. </p>
+<pre><code class="lang-javascript">var item = { a:&quot;Potato&quot;}
+var set = new WeakSet();
+set.add({ a:&quot;Potato&quot;}).add(item).add({ a:&quot;Tomato&quot;}).add({ a:&quot;Tomato&quot;});
+console.log(set.size)
+console.log(set.has({a:&quot;Tomato&quot;}))
+console.log(set.has(item))
+
+for(let item of set) {
+   console.log(item)
+}
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet">WeakSet</a></p>
+<h2 id="map">Map</h2>
+<p>Maps, also known as dictonary. </p>
+<pre><code class="lang-javascript">var map = new Map();
+map.set(&quot;Potato&quot;, 12);
+map.set(&quot;Tomato&quot;, 34);
+
+console.log(map.get(&quot;Potato&quot;))
+
+
+for(let item of map) {
+   console.log(item)
+}
+
+
+for(let item in map) {
+   console.log(item)
+}
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a></p>
+<h2 id="weakmap">WeakMap</h2>
+<p>Uses objects for keys, and only keeps weak reference to the keys.</p>
+<pre><code class="lang-javascript">var wm = new WeakMap();
+
+var o1  = {}
+var o2  = {}
+var o3  = {}
+
+
+wm.set(o1, 1);
+wm.set(o2, 2);
+wm.set(o3, {a: &quot;a&quot;});
+wm.set({}, 4);
+
+console.log(wm.get(o2));
+console.log(wm.has({}))
+
+delete o2;
+
+console.log(wm.get(o3));
+
+for(let item in wm) {
+   console.log(item)
+}
+
+
+for(let item of wm) {
+   console.log(item)
+}
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap">WeakMap</a></p>
+<h2 id="proxies">Proxies</h2>
+<p>Proxies can be used to alter objects behavoir. It allows us to define traps.</p>
+<pre><code class="lang-javascript">
+var obj = function ProfanityGenerator() {
+    return {
+       words: &quot;Horrible words&quot;    
+    }
+}()
+
+var handler = function CensoringHandler() {
+        return {
+        get: function (target, key) {
+            return target[key].replace(&quot;Horrible&quot;, &quot;Nice&quot;);
+        },
+    }
+
+}()
+
+var proxy = new Proxy(obj, handler);
+
+console.log(proxy.words);
+</code></pre>
+<p>The following traps are available</p>
+<pre><code class="lang-javascript">no-eval
+var handler =
+{
+  get:...,
+  set:...,
+  has:...,
+  deleteProperty:...,
+  apply:...,
+  construct:...,
+  getOwnPropertyDescriptor:...,
+  defineProperty:...,
+  getPrototypeOf:...,
+  setPrototypeOf:...,
+  enumerate:...,
+  ownKeys:...,
+  preventExtensions:...,
+  isExtensible:...
+}
+</code></pre>
+<p><a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Proxy">Proxies</a></p>
+<h2 id="symbols">Symbols</h2>
+<p>Symbols are a new type. Can be used to create anomymous properties.</p>
+<pre><code class="lang-javascript">var typeSymbol = Symbol(&quot;type&quot;);
+
+class Pet {
+
+  constructor(type) {
+
+    this[typeSymbol] = type;
+
+  }
+  getType() {
+     return this[typeSymbol];
+  }
+
+}
+
+
+var a = new Pet(&quot;dog&quot;);
+console.log(a.getType());
+console.log(Object.getOwnPropertyNames(a))
+
+
+console.log(Symbol(&quot;a&quot;) === Symbol(&quot;a&quot;))
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol">More info</a></p>
+<h2 id="inheritable-built-ins">Inheritable Built-ins</h2>
+<p>We can now inherit from native classes. </p>
+<pre><code class="lang-javascript">
+class CustomArray extends Array {
+
+}
+
+var a = new CustomArray();
+
+a[0] = 2
+console.log(a[0])
+</code></pre>
+<p>It is not possible to override the getter function without using Proxies of arrays.</p>
+<h2 id="new-library">New Library</h2>
+<p>Various new methods and constants.</p>
+<pre><code class="lang-javascript">console.log(Number.EPSILON)
+console.log(Number.isInteger(Infinity))
+console.log(Number.isNaN(&quot;NaN&quot;))
+
+console.log(Math.acosh(3))
+console.log(Math.hypot(3, 4))
+console.log(Math.imul(Math.pow(2, 32) - 1, Math.pow(2, 32) - 2))
+
+console.log(&quot;abcde&quot;.includes(&quot;cd&quot;) )
+console.log(&quot;abc&quot;.repeat(3) )
+
+
+console.log(Array.of(1, 2, 3) )
+console.log([0, 0, 0].fill(7, 1) )
+console.log([1, 2, 3].find(x =&gt; x == 3) )
+console.log([1, 2, 3].findIndex(x =&gt; x == 2)) 
+console.log([1, 2, 3, 4, 5].copyWithin(3, 0)) 
+console.log([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;].entries() )
+console.log([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;].keys() )
+console.log([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;].values() )
+
+console.log(Object.assign({}, { origin: new Point(0,0) }))
+</code></pre>
+<p>Documentation: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math">Math</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from">Array.from</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of">Array.of</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin">Array.prototype.copyWithin</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign">Object.assign</a></p>
+<h2 id="binary-and-octal">Binary and Octal</h2>
+<p>Literals for binary and octal numbering.</p>
+<pre><code class="lang-javascript">console.log(0b11111)
+console.log(0o2342)
+
+console.log(0xff); // also in es5
+</code></pre>
+<h2 id="promises">Promises</h2>
+<p>The bread and butter for async programing. </p>
+<pre><code class="lang-javascript">var p1 = new Promise((resolve, reject) =&gt; {
+  setTimeout(() =&gt; resolve(&quot;1&quot;), 101)
+})
+var p2 = new Promise((resolve, reject) =&gt; {
+  setTimeout(() =&gt; resolve(&quot;2&quot;), 100)
+})
+
+Promise.race([p1, p2]).then((res) =&gt; {
+   console.log(res)
+})
+
+Promise.all([p1, p2]).then((res) =&gt; {
+   console.log(res)
+})
+</code></pre>
+<h3 id="quick-promise">Quick Promise</h3>
+<p>Need a quick always resolved promise?</p>
+<pre><code class="lang-javascript">
+var p1 = Promise.resolve(&quot;1&quot;)
+var p2 = Promise.reject(&quot;2&quot;)
+
+Promise.race([p1, p2]).then((res) =&gt; {
+   console.log(res)
+})
+</code></pre>
+<h3 id="fail-fast">Fail fast</h3>
+<p>If a promise fails <code>all</code> and <code>race</code> will reject as well. </p>
+<pre><code class="lang-javascript">var p1 = new Promise((resolve, reject) =&gt; {
+  setTimeout(() =&gt; resolve(&quot;1&quot;), 1001)
+})
+var p2 = new Promise((resolve, reject) =&gt; {
+  setTimeout(() =&gt; reject(&quot;2&quot;), 1)
+})
+
+Promise.race([p1, p2]).then((res) =&gt; {
+   console.log(&quot;success&quot; + res)
+}, res =&gt; {
+   console.log(&quot;error &quot; + res)
+})
+
+Promise.all([p1, p2]).then((res) =&gt; {
+   console.log(&quot;success&quot; + res)
+}, res =&gt; {
+   console.log(&quot;error &quot; + res)
+})
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">More Info</a></p>
+<h2 id="reflect">Reflect</h2>
+<p>New type of meta programming with new API for existing and also few new methods. </p>
+<pre><code class="lang-javascript">
+var z = {w: &quot;Super Hello&quot;}
+var y = {x: &quot;hello&quot;, __proto__: z};
+
+console.log(Reflect.getOwnPropertyDescriptor(y, &quot;x&quot;));
+console.log(Reflect.has(y, &quot;w&quot;));
+console.log(Reflect.ownKeys(y, &quot;w&quot;));
+
+console.log(Reflect.has(y, &quot;x&quot;));
+console.log(Reflect.deleteProperty(y,&quot;x&quot;))
+console.log(Reflect.has(y, &quot;x&quot;));
+</code></pre>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect">More Info</a></p>
+<h2 id="tail-call-optimization">Tail Call Optimization</h2>
+<p>ES6 should fix ensure tail calls does not generate stack overflow. (Not all implementations work).</p>
+<pre><code class="lang-javascript">
+function factorial(n, acc = 1) {
+    if (n &lt;= 1) return acc; 
+    return factorial(n - 1, n * acc);
+}
+console.log(factorial(10))
+console.log(factorial(100))
+console.log(factorial(1000))
+console.log(factorial(10000))
+console.log(factorial(100000))
+console.log(factorial(1000000))
+</code></pre>
+
+<!-- endinject -->
+
 					</div>
 				</article>
 				<!-- END :: Tutorial -->
