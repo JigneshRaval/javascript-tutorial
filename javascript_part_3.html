@@ -13484,6 +13484,1010 @@ var c = (!!variableThatDoesntExist); // c is false even though you're checking a
 				
 				<!-- START :: Tutorial -->
 				<article>
+					<h1>Design Patterns - Decorating in JavaScript</h1>
+					<div class="tutorial__content">
+					<span>http://dealwithjs.io/design-patterns-decorating-in-javascript/</span>
+<p><a name="top"></a> <br />
+Today we are going to talk about the decorator design pattern. More specifically, how to decorate functions in JavaScript.</p>
+
+<h3 id="tldr">TL; DR</h3>
+
+<p>Source code can be found on <a href="https://github.com/gergob">GitHub</a>, <a href="https://github.com/gergob/jsDecorator">jsDecorator</a> or <a href="https://jsfiddle.net/zord/8coed3p4/">jsFiddle</a></p>
+
+<hr />
+
+<h6 id="designpatterns">Design Patterns</h6>
+
+<h3 id="decoratinginjavascript">Decorating in JavaScript</h3>
+
+<blockquote>
+  <p>The decorator design pattern is for extending the functionality or state of an object by repeatedly wrapping it. </p>
+</blockquote>
+
+<p>That's quite a broad definition, it can mean many different things. In JavaScript - and other languages with first class functions, like Python - there is a specific use case for this. Namely, to extend a function by wrapping it in an outer function.</p>
+
+<p>This can be useful for temporarily augment functions while developing or debugging an application (logging, call counting, performance profiling, etc). But even production code can be greatly simplified and made more readable by adding frequently used extra functionality via decorators (authentication, caching, permission handling, analytics, etc).</p>
+
+<p>Let's say we have a suspected bottleneck function:  </p>
+
+<pre><code class="language-javascript">function isPrime(num) {  
+    if (num === 2 || num === 3) { 
+        return true; 
+    }
+    if (num % 2 === 0) { 
+        return false; 
+    }
+    let max = Math.ceil(Math.sqrt(num));
+    for (let i = 3; i &lt;= max; i += 2) {
+        if (num % i === 0) {
+            return false;
+        }
+    }
+    return true;
+}
+</code></pre>
+
+<p>We want to measure the time it takes to execute this function, but we don't really want to manually modify it's code, and revert it after the measurement. Not to mention this is a fairly common thing we do, so an ideal solution would be a write once - reuse any time. We can achieve that by a decorator function.  </p>
+
+<pre><code class="language-javascript">function logDecorator(func) {  
+    let decorated = function () {
+        let start = performance.now(),
+            result = func.apply(this, arguments),
+            time = Math.round((performance.now() - start) * 1000);
+        console.log(`${time} μs`);
+        return result;
+    };  
+    return decorated;
+}
+</code></pre>
+
+<p>As you can see, our decorator function gets a <code>func</code> function argument, creates and returns a <code>decorated</code> replacement function, which does the extra functionality we want (logging time in this case), and calls the original <code>func</code> function, much like we used to call <code>super</code> in overridden methods.</p>
+
+<p>We can apply our decorator to any function like this:  </p>
+
+<pre><code class="language-javascript">let isPrimeLog = logDecorator(isPrime);  
+isPrimeLog(22586101147);    
+
+// output:
+// 4555 μs
+</code></pre>
+
+<p>I think it's easier to understand if we give it a separate name, also we will compare two differently decorated functions later, and in that case, they need different names anyway. But of course we could just as easily decorate the <code>isPrime</code> function in place:  </p>
+
+<pre><code class="language-javascript">isPrime = logDecorator(isPrime);  
+</code></pre>
+
+<p>By adding two more things, we can make our log decorator more generic and useful:</p>
+
+<ol>
+<li>The anonymous <code>decorated</code> function should be a named one. I generally try not to use anonymous functions unless it's justifiable, because they lead to unreadable stack traces. Also, I would like to log the function name. So I derive a name from the original name of <code>func</code>.  </li>
+<li>I compile a string from the arguments, so I can log that too. </li>
+</ol>
+
+<p>These functionalities will also be useful in our second example, so I've put them in separate utility functions (which I omitted for brevity - see the source code for details).</p>
+
+<pre><code class="language-javascript">function logDecorator(func) {  
+    let decorated = function () {
+        let params = formatArguments(arguments),
+            start = performance.now(),
+            result = func.apply(this, arguments),
+            time = Math.round((performance.now() - start) * 1000);
+        console.log(`${decorated.name}(${params}) =&gt; ${result} (${time} μs)`);
+        return result;
+    };  
+    return renameFunction(decorated, func.name + 'Log');
+}
+
+// output for the same call:
+// isPrimeLog(22586101147) =&gt; true (4555 μs)
+</code></pre>
+
+<p>As you can see, the output became more rich and useful. And we can put this on any function we want. Now it's probably easier for you to imagine the things we can do with this. And we aren't limited to adding functionality, we can also add state via closure. </p>
+
+<p>Consider the second example: we want to add caching to functions. If we call our function with a set of arguments, it calculates the result and stores it. Whenever we call it with the same set of arguments again, it will get the result from the cache instead of recalculating it every time. This is called <a href="https://en.wikipedia.org/wiki/Memoization">memoization</a>, and can be a massive performance increase in many situations. And if we have an easily applicable solution, we can try it on any function without messing with our code too much.  </p>
+
+<pre><code class="language-javascript">function memoDecorator(func) {  
+    let cache = {},
+        decorated = function () {
+            let params = formatArguments(arguments);
+            if (params in cache) {
+                return cache[params];
+            } else {
+                let result = func.apply(this, arguments);
+                cache[params] = result;
+                return result;
+            }
+        };
+    return renameFunction(decorated, func.name + 'Memo');
+}
+</code></pre>
+
+<p>Let's try it out:  </p>
+
+<pre><code class="language-javascript">let num = 22586101147;
+
+let isPrimeLog = logDecorator(isPrime);  
+isPrimeLog(num);  
+isPrimeLog(num);  
+isPrimeLog(num);
+
+// output
+// isPrimeLog(22586101147) =&gt; true (4555 μs)
+// isPrimeLog(22586101147) =&gt; true (5645 μs)
+// isPrimeLog(22586101147) =&gt; true (3925 μs)
+
+isPrimeMemoLog = logDecorator(memoDecorator(isPrime));  
+isPrimeMemoLog(num);  
+isPrimeMemoLog(num);  
+isPrimeMemoLog(num);
+
+// output
+// isPrimeMemoLog(22586101147) =&gt; true (3485 μs)
+// isPrimeMemoLog(22586101147) =&gt; true (5 μs)
+// isPrimeMemoLog(22586101147) =&gt; true (5 μs)
+</code></pre>
+
+<p>Mostly we did the same thing as in the first example. One key difference to note is how we create the <code>cache</code> object in our decorator, so the <code>decorated</code> function can access it via closure. In other words, we gave a shared state to the different calls of the <code>decorated</code> function. </p>
+
+<p>Also note how we double-decorated our second function.</p>
+
+<p>As you can see <code>memoDecorator</code> makes subsequent calls return the cached result instantly.</p>
+
+<p>When you wrap your head around it, using decorators in JavaScript is a simple, but very powerful design pattern. It can be used effectively and elegantly, but - as almost everything - can be abused too. I encourage you to try it, play with it, try to come up with use cases in your line of work, and see what you can build with it.</p>
+
+<p>Finally, I want to mention that there are plans to include a special syntax for using decorators in ES7. You can read more about that <a href="https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841#.zhzguo5o8">here</a>.</p>
+
+<hr />
+
+<p>If you enjoyed reading this blog post, please share it or like the <a href="https://www.facebook.com/dealwithjs">Facebook page</a> of the website to get regular updates. You can also follow us <a href="https://twitter.com/dealwithjs">@dealwithjs</a>.</p>
+
+<p>Happy decorating!</p>
+					</div>
+				</article>
+				<!-- END :: Tutorial -->
+				
+				<!-- START :: Tutorial -->
+				<article>
+					<h1>Design Patterns - The Builder Pattern in JavaScript</h1>
+					<div class="tutorial__content">
+						<span>http://dealwithjs.io/design-patterns-the-builder-pattern-in-javascript/</span>
+						
+<h3 id="tldr">TL; DR</h3>
+
+<p>Source code can be found on <a href="https://github.com/gergob">GitHub</a>, <a href="https://github.com/gergob/jsBuilder">jsBuilder repo</a></p>
+
+<hr />
+
+<h3 id="designpatternsthebuilder">Design Patterns - The Builder</h3>
+
+<p>The Builder pattern is a creational design pattern, which should be applied when complex objects have to be created. When applying this pattern the goal is to separate the object creation (or initialization) logic from the representation.</p>
+
+<blockquote>
+  <p>This pattern should be used when object creation is complicated and involves a lot of code.</p>
+</blockquote>
+
+<p>UML diagram<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> with the Builder pattern:</p>
+
+<p><img src="/content/images/2016/11/Builder_UML_class_diagram.svg" alt="Builder Pattern with UML diagram" /></p>
+
+<p>This pattern has three components, the <strong>Director</strong> which uses the Builder to create objects, the role of the Director is to coordinate the object creation in case there are multiple Builders involved. The Director also provides an extra abstraction layer when implementing this pattern. <br />
+The <strong>Builder</strong> is an abstraction layer above all the Concrete Builders which create the objects. In JavaScript the <strong>Builder</strong> is not separated clearly and in some case it can be left out completely (<em>although I forced it to be in the sample code</em>). <br />
+The <strong>Concrete Builder</strong>s implement the real object creation. Concrete Builders, internally, can use <a href="http://dealwithjs.io/design-patterns-the-factory-pattern-in-javascript/">Factories</a> for building parts of the final object (<em>I used factories in my implementation to demonstrate this</em>). </p>
+
+<p>I present the Builder pattern using an analogy. </p>
+
+<p>Lets imagine the process of "building" a cake. In this analogy a cake is considered a complex object, because it is hard to create. The cake object has three parts, the layers, the cream and the topping.</p>
+
+<p>I modeled this scenario in code. Let's start from the Director implementation. In this scenario the Director or Coordinator is represented by the <code>PastryCook</code> function, this handles everything related to "building" the cake.</p>
+
+<pre><code class="language-javascript">function PastryCook() {  
+    var chocolateCakeBuilder = ChocolateCakeBuilder.getBuilder();
+    var strawberryCakeBuilder = StrawberryCakeBuilder.getBuilder();
+    var traditionalCakeBuilder = TraditionalCakeBuilder.getBuilder();
+
+    return {
+        buildCake: function(flavor) {
+            var cake = null;
+            switch (flavor) {
+                case 'chocolate':
+                    cake = chocolateCakeBuilder.buildCake();
+                    break;
+                case 'strawberry':
+                    cake = strawberryCakeBuilder.buildCake();
+                    break;
+                default:
+                    cake = traditionalCakeBuilder.buildCake();
+                    break;
+            }
+
+            return cake;
+        }
+    };
+}
+</code></pre>
+
+<p>The <code>PastryCook</code> has a <code>buildCake</code> function, which receives the <code>flavor</code> argument. Based on the value of the argument I used different <strong>Builders</strong> to build the cake. By adding the possibility to create different cake objects based on a parameter passed to the Director I could demonstrate how to use multiple builders.</p>
+
+<p>The implementation of <code>ChocolateCakeBuilder</code> handles the steps of building a chocolate cake. In this Builder I used factories to simplify the implementation and to provide an extra layer of abstraction. </p>
+
+<pre><code class="language-javascript">function ChocolateCakeBuilder() {  
+    var layerFactory = LayerFactory.getInstance();
+    var creamFactory = CreamFactory.getInstance();
+    var toppingFactory = ToppingFactory.getInstance();
+
+    return {
+        buildCake: function() {
+            return {
+                layer: layerFactory.getStandard(),
+                cream: creamFactory.getChocolate(),
+                topping: toppingFactory.getChocolate()
+            }
+        }
+    };
+}
+</code></pre>
+
+<p>Every Builder implements the <code>buildCake</code> function, this is the method which delivers the Product (<em>referring to the UML diagram</em>).</p>
+
+<p>The <code>StrawberryCakeBuilder</code> is very similar in implementation: </p>
+
+<pre><code class="language-javascript">function StrawberryCakeBuilder() {  
+    var layerFactory = LayerFactory.getInstance();
+    var creamFactory = CreamFactory.getInstance();
+    var toppingFactory = ToppingFactory.getInstance();
+
+    return {
+        buildCake: function() {
+            return {
+                layer: layerFactory.getLowCarb(),
+                cream: creamFactory.getWhipped(),
+                topping: toppingFactory.getStrawberry()
+            }
+        }
+    };
+}
+</code></pre>
+
+<p>For the Builders I used Factories, because these (<em>in general</em>) add more flexibility to the code and reduce the maintenance cost of the codebase.</p>
+
+<p>The source code of <code>ToppingFactory</code> is below; all it does is return a <code>string</code> with the selected topping.</p>
+
+<pre><code class="language-javascript">function ToppingFactory() {  
+    return {
+        getChocolate: function() {
+            return 'Topping: [Chocolate]';
+        },
+
+        getVanilla: function() {
+            return 'Topping: [Vanilla]';
+        },
+
+        getStrawberry: function() {
+            return 'Topping: [Strawberry]';
+        },
+    };
+}
+
+module.exports = {  
+    getInstance: ToppingFactory
+};
+</code></pre>
+
+<p>Sample code was written for <code>node</code>, the <a href="https://github.com/gergob/jsBuilder/blob/master/index.js"><code>index.js</code></a> has the demo code:</p>
+
+<pre><code class="language-javascript">var PastryCook = require('./PastryCook');
+
+var cakeBuilder = PastryCook.getBuilder();
+
+var chocolateCake = cakeBuilder.buildCake('chocolate');  
+var strawberryCake = cakeBuilder.buildCake('strawberry');  
+var cake = cakeBuilder.buildCake();
+
+console.log("The Chocolate cake is compound of:");  
+console.log(JSON.stringify(chocolateCake, null, 2));
+
+console.log("The Strawberry cake is compound of:");  
+console.log(JSON.stringify(strawberryCake, null, 2));
+
+console.log("The cake is compound of:");  
+console.log(JSON.stringify(cake, null, 2));
+</code></pre>
+
+<p>Once the code is executed the output should be:</p>
+
+<pre><code>The Chocolate cake is compound of:  
+{
+  "layer": "Layer: [Standard]",
+  "cream": "Cream: [Chocolate]",
+  "topping": "Topping: [Chocolate]"
+}
+The Strawberry cake is compound of:  
+{
+  "layer": "Layer: [LowCarb]",
+  "cream": "Cream: [Whipped]",
+  "topping": "Topping: [Strawberry]"
+}
+The cake is compound of:  
+{
+  "layer": "Layer: [Standard]",
+  "cream": "Cream: [Peanut Butter]",
+  "topping": "Topping: [Strawberry]"
+}
+</code></pre>
+
+<p>I tried to keep the implementation clean and developer friendly so the real use case of the Builder design pattern can be seen and understood.</p>
+
+<p>If you enjoyed reading this blog post, please share it or <a href="https://www.facebook.com/dealwithjs">like</a> the Facebook page of the website to get regular updates.</p>
+
+<p>Thank you for reading!</p>
+
+					</div>
+				</article>
+				<!-- END :: Tutorial -->
+				
+				<!-- START :: Tutorial -->
+				<article>
+					<h1>Better JavaScript with ES6, Pt. II: A Deep Dive into Classes</h1>
+					<div class="tutorial__content">
+					<span>https://scotch.io/tutorials/better-javascript-with-es6-pt-ii-a-deep-dive-into-classes</span>
+   <h2>Out with the Old, In with the <code>new</code></h2>
+<p>Let's be clear about one thing from the start:</p>
+<blockquote>
+<p>Under the hood, ES6 classes are not something that is radically new: They mainly provide more convenient syntax to create old-school constructor functions. ~ Axel Rauschmayer</p>
+</blockquote>
+<p>Functionally, <code>class</code> is little more than syntactic sugar over the prototype-based behavior delegation capabilities we've had all along. This article will take a close look at the basic use of ES2015's <code>class</code> keyword, from the perspective of its relation to prototypes. We'll cover:</p>
+<ul>
+<li>Defining and instantiating classes;</li>
+<li>Creating subclasses with <code>extends</code>;</li>
+<li><code>super</code> calls from subclasses; and </li>
+<li>Examples of important symbol methods.  </li>
+</ul>
+<p>Along the way, we'll pay special attention to how <code>class</code> maps to prototype-based code under the hood.  </p>
+<p>Let's take it from the top.</p>
+<h2>A Step Back: What Classes <em>Aren't</em></h2>
+<p>JavaScript's &quot;classes&quot; aren't anything like classes in Java, Python, or . . . Really, any other object-oriented language you're likely to have used. Which, by the way, I'll refer to as <em>class</em>-oriented languages, as that's more accurate.</p>
+<p>In traditional class-oriented languages, you create <em>classes</em>, which are templates for <em>objects</em>. When you want a new object, you <em>instantiate</em> the class, which tells the language engine to <em>copy</em> the methods and properties of the class into a new entity, called an <em>instance</em>. The <em>instance</em> is your object, and, after instantiation, has absolutely no active relation with the parent class. </p>
+<p>JavaScript does <em>not</em> have such copy mechanics. &quot;Instantiating&quot; a <code>class</code> in JavaScript <em>does</em> create a new object, but <em>not</em> one that is  independent of its parent class.</p>
+<p>Rather, it creates an object that is linked to a <em>prototype</em>. Changes to that prototype propagate to the new object, <em>even after</em> instantiation. </p>
+<p>Prototypes are an immensely powerful design pattern in their own right. There are a number of techniques for using them to emulate something like traditional class mechanics, and it's these techniques that <code>class</code> provides compact syntax for.</p>
+<p>To summarize:</p>
+<ol>
+<li>JavaScript <em>does not</em> have classes, the way that Java and other languages have classes; and</li>
+<li>JavaScript's <code>class</code> is (mostly) just syntactical sugar for prototypes, which are <em>very</em> different from traditional classes.   </li>
+</ol>
+<p>With that out of the way, let's get our feet wet with <code>class</code>.</p>
+<h2>Base Classes: Declarations &amp; Expressions</h2>
+<p>You create classes with the <code>class</code> keyword, followed by an identifier, and finally, a code block, called the <em>class body</em>. These are called <strong>class declarations</strong>. Class declarations that don't use the <code>extends</code> keyword are called <em>base classes</em>:</p>
+<pre><code class="language-javascript">"use strict";
+
+// Food is a base class
+class Food {
+
+    constructor (name, protein, carbs, fat) {
+        this.name = name;
+        this.protein = protein;
+        this.carbs = carbs;
+        this.fat = fat;
+    }
+
+    toString () {
+        return `${this.name} | ${this.protein}g P :: ${this.carbs}g C :: ${this.fat}g F`
+    }
+
+    print () {
+      console.log( this.toString() );
+    }
+}
+
+const chicken_breast = new Food('Chicken Breast', 26, 0, 3.5);
+
+chicken_breast.print(); // 'Chicken Breast | 26g P :: 0g C :: 3.5g F'
+console.log(chicken_breast.protein); // 26 (LINE A)</code></pre>
+<p>A few things to note.</p>
+<ul>
+<li>Classes can <em>only</em> contain method definitions, <strong>not</strong> data properties;</li>
+<li>When defining methods, you use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Method_definitions">shorthand method definitions</a>;</li>
+<li>Unlike when creating objects, you do <em>not</em> separate method definitions in class bodies with commas; and</li>
+<li>You <em>can</em> refer to properties on instances of the class directly (Line A).</li>
+</ul>
+<p>A distinctive feature of classes is the function called <strong>constructor</strong>. This is where you initialize your object's properties. </p>
+<p>You don't  <em>have</em>  to define a constructor function. If you choose not to, the engine will insert an empty one for you:</p>
+<pre><code class="language-javascript">"use strict";
+
+class NoConstructor { 
+    /* JavaScript inserts something like this:
+     constructor () { }
+    */
+}
+
+const nemo = new NoConstructor(); // Works, but pretty boring</code></pre>
+<p>Assigning a class to a variable is called a <strong>class expression</strong>, and is an alternative to the above syntax:</p>
+<pre><code class="language-javascript">"use strict";
+
+// This is an anonymous class expression -- you can't refer to the it by name within the class body.
+const Food = class {
+    // Class definition is the same as before. . . 
+}
+
+// This is a named class expression -- you /can/ refer to this class by name within the class body . . . 
+const Food = class FoodClass {
+    // Class definition is the same as before . . . 
+
+    //  Adding new method, to demonstrate we can refer to FoodClass by name
+    //   within the class . . . 
+    printMacronutrients () {
+      console.log(`${FoodClass.name} | ${FoodClass.protein} g P :: ${FoodClass.carbs} g C :: ${FoodClass.fat} g F`)
+    }
+}
+
+const chicken_breast = new Food('Chicken Breast', 26, 0, 3.5);
+chicken_breast.printMacronutrients(); // 'Chicken Breast | 26g P :: 0g C :: 3.5g F'
+
+// . . . But /not/ outside of it
+try {
+    console.log(FoodClass.protein); // ReferenceError 
+} catch (err) { 
+    // pass
+}</code></pre>
+<p>This behavior is analogous to that of <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function">anonymous and named function expressions</a>.</p>
+<h2>Creating Subclasses with <code>extends</code> &amp; Calling with <code>super</code></h2>
+<p>Classes created with <code>extends</code> are called <strong>subclasses</strong>, or <strong>derived classes</strong>. Using them is straightforward. Building on our Food example:</p>
+<pre><code class="language-javascript">"use strict";
+
+// FatFreeFood is a derived class
+class FatFreeFood extends Food {
+
+    constructor (name, protein, carbs) {
+        super(name, protein, carbs, 0);
+    }
+
+    print () {
+        super.print(); 
+        console.log(`Would you look at that -- ${this.name} has no fat!`);
+    }
+
+}
+
+const fat_free_yogurt = new FatFreeFood('Greek Yogurt', 16, 12);
+fat_free_yogurt.print(); // 'Greek Yogurt | 26g P :: 16g C :: 0g F  /  Would you look at that -- Greek Yogurt has no fat!'</code></pre>
+<p>Everything we discussed above regarding base classe holds true for derived classes, but with a few additional points.</p>
+<ul>
+<li>Subclasses are declared with the <code>class</code> keyword, followed by an identifier, and then the <code>extends</code> keyword, followed by an <em>arbitrary expression</em>. This will generally just be an identifier, <a href="https://gist.github.com/sebmarkbage/fac0830dbb13ccbff596">but could, in theory, be a function</a>.</li>
+<li>If your derived class needs to refer to the class it extends, it can do so with the <code>super</code> keyword.</li>
+<li>A derived class can't contain an empty constructor. Even if all the constructor does is call <code>super()</code>, you'll still have to do so explicitly. It can, however, contain <em>no</em> constructor.</li>
+<li>You <em>must</em> call <code>super</code> in the constructor of a derived class before you use <code>this</code>.</li>
+</ul>
+<p>In JavaScript, there are precisely two use cases for the <code>super</code> keyword. </p>
+<ol>
+<li><strong>Within subclass constructor calls</strong>. If initializing your derived class requires you to use the parent class's constructor, you can call <code>super(parentConstructorParams[ )</code> within the subclass constructor, passing along any necessary parameters. </li>
+<li><strong>To refer to methods in the superclass</strong>. Within normal method definitions, derived classes can refer to methods on the parent class with dot notation: <code>super.methodName</code>. </li>
+</ol>
+<p>Our <code>FatFreeFood</code> demonstrates both use cases:</p>
+<ol>
+<li>In the constructor, we simply call <code>super</code>, passing along <code>0</code> as our quantity of fat.</li>
+<li>In our <code>print</code> method, we first call <code>super.print</code>, and add additional logic after.</li>
+</ol>
+<p>Believe it or not, that wraps up the basic syntactical overview of <code>class</code>; this is all you need to start experimenting.</p>
+<h2>Prototypes: A Deep Dive</h2>
+<p>It's time we turn our attention to how <code>class</code> maps to JavaScript's underlying prototype mechanisms. We'll look at:</p>
+<ul>
+<li>Creating objects with constructor calls;</li>
+<li>The nature of prototype linkages;</li>
+<li>Property &amp; method delegation; and</li>
+<li>Emulating classes with prototypes</li>
+</ul>
+<h3>Creating Objects with Constructor Calls</h3>
+<p>Constructors are nothing new. Calling <em>any</em> function with the <code>new</code> keyword causes it to return an object -- this is called making a <em>constructor call</em>, and such functions are generally called <em>constructors</em>:</p>
+<pre><code class="language-javascript">"use strict";
+
+function Food (name, protein, carbs, fat) {
+    this.name    = name;
+    this.protein = protein;
+    this.carbs    = carbs;
+    this.fat          = fat;
+}
+
+// Calling Food with 'new' is a "constructor call", and results in its returning an object 
+const chicken_breast = new Food('Chicken Breast', 26, 0, 3.5);
+console.log(chicken_breast.protein) // 26
+
+// Failing to call Food with 'new' results in its returning 'undefined'
+const fish = Food('Halibut', 26, 0, 2);
+console.log(fish); // 'undefined'</code></pre>
+<p>When you call a function with <code>new</code>, four things happen under the hood:</p>
+<ol>
+<li>A new object gets created (let's call it <strong>O</strong>);</li>
+<li><strong>O</strong> gets linked to another object, called its <em>prototype</em>;</li>
+<li>The function's <code>this</code> value is set to refer to <strong>O</strong>;</li>
+<li>The function implicitly returns <strong>O</strong>.</li>
+</ol>
+<p>It's between steps three and four that the engine executes your function's specific logic.</p>
+<p>Knowing this, we can rewrite our <code>Food</code> function to work <em>without</em> the <code>new</code> keyword:</p>
+<pre><code class="language-javascript">"use strict";
+
+// Eliminating the need for 'new' -- just for demonstration
+function Food (name, protein, carbs, fat) {
+       // Step One: Create a new Object
+    const obj = { }; 
+
+    // Step Two: Link prototypes -- we'll cover this in greater detail shortly
+    Object.setPrototypeOf(obj, Food.prototype);
+
+    // Step Three: Set 'this' to point to our new Object
+    //    Since we can't reset `this` inside of a running execution context, 
+    //      we simulate Step Three by using 'obj' instead of 'this'
+    obj.name    = name;
+    obj.protein = protein;
+    obj.carbs    = carbs;
+    obj.fat         = fat;
+
+    // Step Four: Return the newly created object
+    return obj;
+}
+
+const fish = Food('Halibut', 26, 0, 2);
+console.log(fish.protein); // 26</code></pre>
+<p>Three of these four steps are straightforward. Creating an object, assigning properties, and writing a <code>return</code> statement are unlikely to give most developers any conceptual trouble: It's the prototype weirdness that trips people up.</p>
+<h3>Grokking the Prototype Chain</h3>
+<p>Under normal circumstances, all objects in JavaScript -- including Functions -- are linked to another object, called its <em>prototype</em>. </p>
+<p>If you request a property on an object that the object doesn't have, JavaScript checks the object's prototype for that property. In other words, if you ask for a property on an object that the object doesn't have, it says: &quot;I don't know. Ask my prototype.&quot;</p>
+<p>This process -- referring lookups for nonexistent properties to another object -- is called <em>delegation</em>.</p>
+<pre><code class="language-javascript">"use strict";
+
+// joe has no toString property . . . 
+const joe    = { name : 'Joe' },
+       sara  = { name : 'Sara' };
+
+Object.hasOwnProperty(joe, toString); // false
+Object.hasOwnProperty(sara, toString); // false
+
+// . . . But we can call it anyway!
+joe.toString(); // '[object Object]', instead of ReferenceError!
+sara.toString(); // '[object Object]', instead of ReferenceError!</code></pre>
+<p>The output from our <code>toString</code> calls is utterly useless, but note that this snippet doesn't raise a single <code>ReferenceError</code>! That's because, while neither <code>joe</code> or <code>sara</code> has a <code>toString</code> property, <em>their prototype does</em>.</p>
+<p>When we look for <code>sara.toString()</code>, <code>sara</code> says, &quot;I don't have a <code>toString</code> property. Ask my prototype.&quot; JavaScript, obligingly, does as told, and asks <code>Object.prototype</code> if <em>it</em> has a <code>toString</code> property. Since it does, it hands <code>Object.prototype</code>'s <code>toString</code> back to our program, which executes it. </p>
+<p>It doesn't matter that <code>sara</code> didn't have the property herself -- <em>we just delegated the lookup to the prototype</em>.</p>
+<p>In other words, we can access non-existent properties on an object <em>as long as that object's prototype <strong>does</strong> have those properties</em>. We can take advantage of this by assigning properties and methods to an object's prototype, so that we can use them as if they existed on the object itself. </p>
+<p>Even better, if several objects share the same prototype -- as is the case with <code>joe</code> and <code>sara</code> above -- they can <em>all</em> access that prototype's properties, immediately after we assign them, <em>without</em> our having to copy those properties or methods to each individual object. </p>
+<p>This is what people generally refer to as <em>prototypical/prototypal inheritance</em> -- if my object doesn't have it, but my object's prototype does, my object <em>inherits</em> the property. </p>
+<p>In reality, there's no &quot;inheritance&quot; going on, here. In class-oriented languages, inheritance implies behavior is <em>copied</em> from a parent to a child. In JavaScript, no such copying takes place -- which is, in fact, one of the major benefits of prototypes over classes.</p>
+<p>Here's a quick recap before we see precisely where these prototypes come from:</p>
+<ul>
+<li><code>joe</code> and <code>sara</code> do <em>not</em> &quot;inherit&quot; a <code>toString</code> property;</li>
+<li><code>joe</code> and <code>sara</code>, as a matter of fact, do <em>not</em> &quot;inherit&quot; from <code>Object.prototype</code> <em>at all</em>;</li>
+<li><code>joe</code> and <code>sara</code> <em>are</em> <strong>linked</strong> to <code>Object.prototype</code>;</li>
+<li>Both <code>joe</code> and <code>sara</code> are linked to the <em>same</em> <code>Object.prototype</code>.</li>
+<li>To find the prototype of an object -- let's call it <strong>O</strong> -- you use: <code>Object.getPrototypeOf(O)</code>.</li>
+</ul>
+<p>And, just to hammer it home: Objects do not &quot;inherit from&quot; their prototypes. They <em>delegate</em> to them.</p>
+<p>Period.</p>
+<p>Let's dig deeper.</p>
+<h2>Setting an Object's Prototype</h2>
+<p>We learned above that (almost) every object (<strong>O</strong>) has a <em>prototype</em> (<strong>P</strong>), and that, when you look for a property on <strong>O</strong> that <strong>O</strong> doesn't have, the JavaScript engine will look for that property on <strong>P</strong> instead.</p>
+<p>From here, the questions are:</p>
+<ol>
+<li>How do <em>functions</em> play into all of this?</li>
+<li>Where do these prototypes come from, anyway?</li>
+</ol>
+<h3>A Function Named Object</h3>
+<p>Before the JavaScript engine executes a program, it builds an environment to run it in, in which it creates a function, called <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>, and an associated object, called <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/prototype">Object.prototype</a>. </p>
+<p>In other words, <code>Object</code> and <code>Object.prototype</code> <em>always</em> exist, in <em>any</em> executing JavaScript program.</p>
+<p>The <em>function</em>, <code>Object</code>, is like any other function. In particular, it's a <em>constructor</em> -- calling it returns a new object:</p>
+<pre><code class="language-javascript">"use strict";
+
+typeof new Object(); // "object"
+typeof Object();         // A peculiarity of the Object function is that it does /not/ need to be called with new.</code></pre>
+<p>The <em>object</em>, <code>Object.prototype</code>, is . . . Well, an object. And, like many objects, it has properties.</p>
+<p><img src="https://i.imgsafe.org/ebbd5e3.png" alt="Properties on Object.prototype" /></p>
+<p>Here's what you need to know about <code>Object</code> and <code>Object.prototype</code>:</p>
+<ol>
+<li>The <em>function</em>, <code>Object</code>, has a property, called <code>.prototype</code>, which points to an object (<code>Object.prototype</code>);</li>
+<li>The <em>object</em>, <code>Object.prototype</code>, has a property, called <code>.constructor</code>, which points to a function (<code>Object</code>).</li>
+</ol>
+<p>As it turns out, this general scheme is true for <em>all</em> functions in JavaScript. When you create a function -- <code>someFunction</code> -- it will have a property, <code>.prototype</code>, that points to an object, called <code>someFunction.prototype</code>.</p>
+<p>Conversely, that object -- <code>someFunction.prototype</code> -- will have a property, called <code>.constructor</code>, which points <em>back</em> to the function <code>someFunction</code>.</p>
+<pre><code class="language-javascript">"use strict";
+
+function foo () {  console.log('Foo!');  }
+
+console.log(foo.prototype); // Points to an object called 'foo'
+console.log(foo.prototype.constructor); // Points to the function, 'foo'
+
+foo.prototype.constructor(); // Prints 'Foo!' -- just proving that 'foo.prototype.constructor' does, in fact, point to our original function </code></pre>
+<p>The major points to keep in mind are these:</p>
+<ol>
+<li>All functions have a property, called <code>.prototype</code>, which points to an object associated with that function.</li>
+<li>All function prototypes have a property, called <code>.constructor</code>, which points back to the function.</li>
+<li>A function prototype's <code>.constructor</code> does not necessarily point to the function that created the function prototype . . . Confusingly enough. We'll touch on this in greater detail soon.</li>
+</ol>
+<p>These are the rules for setting a <em>function's</em> prototype. With that out of the way, we can cover three rules for setting an object's prototype:</p>
+<ol>
+<li>The &quot;default&quot; rule;</li>
+<li>Setting the prototype implicitly, with <code>new</code>;</li>
+<li>Setting the prototype explicitly, with <code>Object.create</code>.</li>
+</ol>
+<h3>The Default Rule</h3>
+<p>Consider this snippet:</p>
+<pre><code class="language-javascript">"use strict";
+
+const foo = { status : 'foobar' };</code></pre>
+<p>Refreshingly simple. All we've done is create an object, called <code>foo</code>, and give it a property, called <code>status</code>.</p>
+<p>Behind the scenes, however, JavaScript does a little extra work. When we create an object literal, JavaScript sets the object's prototype reference to <code>Object.prototype</code>, and sets its <code>.constructor</code> reference to <code>Object</code>:</p>
+<pre><code class="language-javascript">"use strict";
+
+const foo = { status : 'foobar' };
+
+Object.getPrototypeOf(foo) === Object.prototype; // true
+foo.constructor === Object; // true</code></pre>
+<h3>Setting the Prototype Implicitly with <code>new</code></h3>
+<p>Let's take another look at our modified <code>Food</code> example.</p>
+<pre><code class="language-javascript">"use strict";
+
+function Food (name, protein, carbs, fat) {
+    this.name    = name;
+    this.protein = protein;
+    this.carbs    = carbs;
+    this.fat          = fat;
+}</code></pre>
+<p>By now, we know that the <em>function</em> <code>Food</code> will be associated with an <em>object</em>, called <code>Food.prototype</code>. </p>
+<p>When we create an object using the <code>new</code> keyword, JavaScript:</p>
+<ol>
+<li>Sets the object's prototype reference to the <code>.prototype</code> property of the function you called with <code>new</code>; and</li>
+<li>Sets the object's <code>.constructor</code> reference to the function you called <code>new</code> with.</li>
+</ol>
+<pre><code class="language-javascript">const tootsie_roll = new Food('Tootsie Roll', 0, 26, 0);
+
+Object.getPrototypeOf(tootsie_roll) === Food.prototype; // true
+tootsie_roll.constructor === Food; // true</code></pre>
+<p>This is what lets us do slick stuff like this:</p>
+<pre><code class="language-javascript">"use strict";
+
+Food.prototype.cook = function cook () {
+    console.log(`${this.name} is cooking!`);
+};
+
+const dinner = new Food('Lamb Chops', 52, 8, 32);
+dinner.cook(); // 'Lamb Chops are cooking!'</code></pre>
+<h3>Setting the Prototype Explicitly with <code>Object.create</code></h3>
+<p>Finally, we can set an object's prototype reference <em>manually</em>, using a utility called <code>Object.create</code>.</p>
+<pre><code class="language-javascript">"use strict";
+
+const foo = {
+    speak () {
+    console.log('Foo!');
+    }
+};
+
+const bar = Object.create(foo);
+
+bar.speak(); // 'Foo!'
+Object.getPrototypeOf(bar) === foo; // true</code></pre>
+<p>Remember the four things that JavaScript does under the hood when you call a function with <code>new</code>? <code>Object.create</code> does all but the third step:</p>
+<ol>
+<li>Create a new object;</li>
+<li>Set its prototype reference; and</li>
+<li>Return the new object.</li>
+</ol>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">You can see this yourself if you take a look at the polyfill</a>.</p>
+<h3>Emulating <code>class</code> Behavior</h3>
+<p>Using prototypes directly, emulating class-oriented behavior required a bit of manual acrobatics.</p>
+<pre><code class="language-javascript">"use strict";
+
+function Food (name, protein, carbs, fat) {
+    this.name    = name;
+    this.protein = protein;
+    this.carbs    = carbs;
+    this.fat          = fat;
+}
+
+Food.prototype.toString = function () {
+    return `${this.name} | ${this.protein}g P :: ${this.carbs}g C :: ${this.fat}g F`;
+};
+
+function FatFreeFood (name, protein, carbs) {
+    Food.call(this, name, protein, carbs, 0);
+}
+
+// Setting up "subclass" relationships
+// =====================
+// LINE A :: Using Object.create to manually set FatFreeFood's "parent".
+FatFreeFood.prototype = Object.create(Food.prototype);
+
+// LINE B :: Manually (re)setting constructor reference (!)
+Object.defineProperty(FatFreeFood.constructor, "constructor", {
+    enumerable : false,
+    writeable      : true,
+    value             : FatFreeFood
+});</code></pre>
+<p>At Line A, we have to set <code>FatFreeFood.prototype</code> equal to a new object, whose prototype reference is to <code>Food.prototype</code>. If we fail to do this, our &quot;child classes&quot; won't have access to &quot;superclass&quot; methods. </p>
+<p>Unfortunately, this results in the rather bizarre behavior that <code>FatFreeFood.constructor</code> is <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a> . . . Not <code>FatFreeFood</code>. So, to keep everything sane, we have to manually set <code>FatFreeFood.constructor</code> by hand at Line B.</p>
+<p>Sparing developers from the noise and unwieldliness of emulating class behavior with prototypes is one of the motives for the <code>class</code> keyword. It <em>does</em> provide a solution to the most common gotchas of prototype syntax.</p>
+<p>Now that we've seen so much of JavaScript's prototype mechanics, it should be easier to appreciate just <em>how</em> much easier it can make things! </p>
+<h2>A Closer Look at Methods</h2>
+<p>Now that we've seen the essentials of JavaScript's prototype system, we'll wrap up by taking a closer look at three kinds of methods classes support, and a special case of the last sort:</p>
+<ul>
+<li>Constructors;</li>
+<li>Static methods; </li>
+<li>Prototype methods; and</li>
+<li>&quot;Symbol methods&quot;, a special case of <em>prototype methods</em></li>
+</ul>
+<p>I didn't come up with these groups -- credit goes to Dr Rauschmayer for identifying them in <a href="http://exploringjs.com/es6/ch_classes.html">Exploring ES6</a>.</p>
+<h3>Class Constructors</h3>
+<p>A class's <code>constructor</code> function is where you'll focus your initialization logic. The <code>constructor</code> is special in a few ways:</p>
+<ol>
+<li>It's the only method of a class from which you can make a superconstructor call;</li>
+<li>It handles all the dirty work of setting up the prototype chain properly; and </li>
+<li>It acts as the definition of the class.</li>
+</ol>
+<p>Point 2 is one of the principle benefits to using <code>class</code> in JavaScript. To quote heading 15.2.3.1 of Exploring ES6:</p>
+<blockquote>
+<p><strong>The prototype of a subclass is the superclass.</strong></p>
+</blockquote>
+<p>As we've seen, setting this up manually is tedious and error-prone. That the language takes care of it all behind the scenes if we use <code>class</code> is a major boon. </p>
+<p>Point 3 is interesting. In JavaScript, a class is just a function -- it's equivalent to the <code>constructor</code> method in the class.</p>
+<pre><code class="language-javascript">"use strict";
+
+class Food {
+    // Class definition is the same as before . . . 
+}
+
+typeof Food; // 'function'</code></pre>
+<p>Unlike normal-functions-as-constructors, you can't call a class's constructor without the <code>new</code> keyword:</p>
+<p><code>const burrito = Food('Heaven', 100, 100, 25); // TypeError</code></p>
+<p>. . . Which raises another question: What happens when we call a function-as-constructor <em>without</em> new?</p>
+<p>The short answer: It returns <code>undefined</code>, as does any function without an explicit return. You just have to trust your users will constructor-call your function. This is why the community has adopted the convention of only capitalizing constructor names: It's a reminder to call with <code>new</code>. </p>
+<pre><code class="language-javascript">"use strict";
+
+function Food (name, protein, carbs, fat) {
+    this.name    = name;
+    this.protein = protein;
+    this.carbs    = carbs;
+    this.fat          = fat;
+}
+
+const fish = Food('Halibut', 26, 0, 2); // D'oh . . .
+console.log(fish); // 'undefined'</code></pre>
+<p>The long answer: It returns <code>undefined</code>, <em>unless</em> you manually detect that it wasn't called with <code>new</code>, and then do something about it yourself. </p>
+<p>ES2015 introdues a property that makes this check trivial: <code>[new.target]</code>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new.target">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new.target</a>).</p>
+<p><code>new.target</code> is a property defined on all functions called with <code>new</code>, including class constructors. When you call a function with the <code>new</code> keyword, the value of <code>new.target</code> within the function body is the function itself. If the function wasn't called with <code>new</code>, its value is <code>undefined</code>.</p>
+<pre><code class="language-javascript">"use strict";
+
+// Enforcing constructor call
+function Food (name, protein, carbs, fat) {
+    // Manually call 'new' if user forgets
+    if (!new.target)
+        return new Food(name, protein, carbs, fat); 
+
+    this.name    = name;
+    this.protein = protein;
+    this.carbs    = carbs;
+    this.fat          = fat;
+}
+
+const fish = Food('Halibut', 26, 0, 2); // Oops -- but, no problem!
+fish; // 'Food {name: "Halibut", protein: 20, carbs: 5, fat: 0}'</code></pre>
+<p>This wasn't any worse in ES5:</p>
+<pre><code class="language-javascript">"use strict";
+
+function Food (name, protein, carbs, fat) {
+
+    if (!(this instanceof Food))
+        return new Food(name, protein, carbs, fat); 
+
+    this.name    = name;
+    this.protein = protein;
+    this.carbs    = carbs;
+    this.fat          = fat;
+}</code></pre>
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new.target">MDN documentation</a> has more details on <code>new.target</code>, and the <a href="https://tc39.github.io/ecma262/#sec-built-in-function-objects">spec is the definitive reference</a> for the truly curious. The  descriptions of [[Construct]] are particularly illuminating.</p>
+<h3>Static Methods</h3>
+<p><em>Static methods</em> are methods on the constructor function itself, which are <em>not</em> available on instances of the class. You define them by using the <code>static</code> keyword.</p>
+<pre><code class="language-javascript">"use strict";
+
+class Food {
+     // Class definition is the same as before . . . 
+
+     // Adding a static method
+     static describe () {
+       console.log('"Food" is a data type for storing macronutrient information.');
+      }
+}
+
+Food.describe(); // '"Food" is a data type for storing macronutrient information.'</code></pre>
+<p>Static methods are analogous to attaching properties directly to old-school functions-as-constructors:</p>
+<pre><code class="language-javascript">"use strict";
+
+function Food (name, protein, carbs, fat) {
+    Food.count += 1;
+
+    this.name    = name;
+    this.protein = protein;
+    this.carbs    = carbs;
+    this.fat          = fat;
+}
+
+Food.count = 0;
+Food.describe = function count () {
+       console.log(`You've created ${Food.count} food(s).`);
+};
+
+const dummy = new Food();
+Food.describe(); // "You've created 1 food."</code></pre>
+<h3>Prototype Methods</h3>
+<p>Any method that isn't a constructor or a static method is <em>prototype method</em>. The name comes from the fact that we used to achieve this functionality by attaching functions to the <code>.prototype</code> of functions-as-constructors:</p>
+<pre><code class="language-javascript">"use strict";
+
+// Using ES6:
+class Food {
+
+    constructor (name, protein, carbs, fat) {
+        this.name = name;
+        this.protein = protein;
+        this.carbs = carbs;
+        this.fat = fat;
+    }
+
+    toString () {  
+    return `${this.name} | ${this.protein}g P :: ${this.carbs}g C :: ${this.fat}g F`; 
+    }
+
+    print () {  
+    console.log( this.toString() );  
+    }
+}
+
+// In ES5:
+function Food  (name, protein, carbs, fat) {
+    this.name = name;
+    this.protein = protein;
+    this.carbs = carbs;
+    this.fat = fat;
+}
+
+// The name "prototype methods" presumably comes from the fact that we 
+//    used to attach such methods to the '.prototype' old-school functions-as-constructors.
+Food.prototype.toString = function toString () {
+    return `${this.name} | ${this.protein}g P :: ${this.carbs}g C :: ${this.fat}g F`; 
+};
+
+Food.prototype.print = function print () {
+    console.log( this.toString() ); 
+};</code></pre>
+<p>To be clear, it's perfectly fine to use generators in method definitions, as well:</p>
+<pre><code class="language-javascript">"use strict";
+
+class Range {
+
+  constructor(from, to) {
+    this.from = from;
+    this.to   = to;
+  }
+
+  * generate () {
+    let counter = this.from,
+        to      = this.to;
+
+    while (counter &lt; to) {
+      if (counter == to)
+        return counter++;
+      else
+        yield counter++;
+    }
+  }
+}
+
+const range = new Range(0, 3);
+const gen = range.generate();
+for (let val of range.generate()) {
+  console.log(`Generator value is: ${ val }. `);
+  //  Prints:
+  //    Generator value is: 0.
+  //    Generator value is: 1.
+  //    Generator value is: 2.
+}</code></pre>
+<h3>Symbol Methods</h3>
+<p>Finally, there are the <em>symbol methods</em>. These are functions whose names are <code>Symbol</code> values, and which the JavaScript engine recognizes and uses when you use certain built-in constructs with your custom objects.</p>
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol">MDN docs</a> provide a succinct overview of what Symbols are in general:</p>
+<blockquote>
+<p>A symbol is a unique and immutable data type and may be used as an identifier for object properties.</p>
+</blockquote>
+<p>Creating a new symbol provides you with a value that is guaranteed to be unique within your program. This is what makes it useful for naming object properties: You're guaranteed never to accidentally shadow anything. Symbol-valued keys also aren't innumerable, so they're largely invisible to the outside world (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/ownKeys">but not completely</a>).</p>
+<pre><code class="language-javascript">"use strict";
+
+const secureObject = {
+    // This key is guaranteed to be unique.
+    [new Symbol("name")] : 'Dr. Secure A. F.'
+};
+
+console.log( Object.getKeys(superSecureObject) ); // [] -- The symbol property is pretty hard to get at . . .  
+console.log( Reflect.ownKeys(secureObject) ); // [Symbol("name")] -- . . . But, not /truly/ hidden.</code></pre>
+<p>More interestingly for us, they give us a way to tell the JavaScript engine to use certain functions for special purposes.</p>
+<p>The so-called <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol">Well-known Symbols</a> are special object keys that identify functions the JavaScript engine invokes when you use certain built-in constructs with custom objects.</p>
+<p>This is a bit exotic for JavaScript, so let's see an example:</p>
+<pre><code class="language-javascript">"use strict";
+
+// Extending Array lets us use 'length' in an intuitive way,
+//   and also gives us access to built-in array methods, like 
+//   map, filter, reduce, push, pop, etc.
+class FoodSet extends Array {
+
+    // ...foods collects arbitrary number of arguments into an array
+    //   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator
+    constructor(...foods) {
+        super();
+        this.foods = [];
+        foods.forEach((food) =&gt; this.foods.push(food))
+    }
+
+     // Custom iterator behavior. This isn't very *useful* iterator behavior, mind you, but it's a fine example.
+     // The asterisk *must* precede the name of the key.
+     * [Symbol.iterator] () {
+        let position = 0;
+        while (position &lt; this.foods.length) {
+          if (position === this.foods.length) {
+              return "Done!"
+          } else {
+              yield `${this.foods[ position++ ]} is the food item at position ${position}`;
+          }
+         }
+     }
+
+      // Return an object of type Array, rather than type FoodSet, when users
+      //   use built-in array methods. This makes our FoodSet interoperable
+      //   with code expecting an array.
+      static get [Symbol.species] () {
+          return Array;
+      }
+}
+
+const foodset = new FoodSet(new Food('Fish', 26, 0, 16), new Food('Hamburger', 26, 48, 24));
+
+// When you use for . . . of with a FoodSet, JavaScript will iterate using the function you 
+//    assoiated with the key [Symbol.iterator].
+for (let food of foodset) {
+  // Prints all of our foods
+  console.log( food );
+}
+
+// JavaScript creates and returns a new object when you `filter` on an array, 
+//    which it creates using the default constructor of the object you execute `filter` on.
+//
+//    Since most code would expect filter to return an Array, we can tell JavaScript
+//       to use the Array constructor when implicitly creating a new instance by 
+//       overriding [Symbol.species].
+const healthy_foods = foodset.filter((food) =&gt; food.name !== 'Hamburger');
+
+console.log( healthy_foods instanceof FoodSet ); // 
+console.log( healthy_foods instanceof Array );</code></pre>
+<p>When you use a <code>for...of</code> loop on an object, JavaScript will try to execute the object's <em>iterator</em> function, which is the function associated with the key, <code>Symbol.iterator</code>. If you provide your own definition, JavaScript will use that. If you don't, it'll use the default implementation, if there is one; or do nothing, if there isn't.</p>
+<p><code>Symbol.species</code> is a bit more exotic. In a custom class, the default <code>Symbol.species</code> function is the constructor for your class. When you subclass built-in collections, like <code>Array</code> or <code>Set</code>, however, you'll often want to be able to use your subclass wherever you could use an instance of the parent class.</p>
+<p>Returning instances of the parent class from methods on the class <em>instead</em> of instances of the derived class gets us closer to ensuring full interoperability of a subclass with more general code. This is  <code>Symbol.species</code> allows.</p>
+<p>Don't sweat it if this bit doesn't make much sense. Using symbols this way -- or at all -- is still a niche case, and the point of these examples is to demonstrate:</p>
+<ol>
+<li>That you <em>can</em> use certain built-in JavaScript constructs with custom classes; and</li>
+<li><em>How</em> you achieve that, in two common cases.</li>
+</ol>
+<h2>Conclusion</h2>
+<p>ES2015's <code>class</code> keyword does <em>not</em> bring us &quot;true classes&quot;, a là Java or SmallTalk. Rather, it simply provides a more convenient syntax for creating objects related via prototype linkage. Under the hood, there's nothing new here. </p>
+<p>I covered enough of JavaScript's prototype mechanism for our discussion, but there's quite a bit more to say. Read Kyle Simpson's <a href="https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes">this &amp; Object Prototypes</a> for fuller coverage on that front. <a href="https://github.com/getify/You-Dont-Know-JS/blob/master/this%20&amp;%20object%20prototypes/apA.md">Appendix A</a> is particularly relevant.</p>
+<p>For the nitty-gritty on ES2015 classes, Dr Rauschmayer's <a href="http://exploringjs.com/es6/ch_classes.html">Exploring ES6: Classes</a> should be your go-to resource. It was the inspiration for much of what I've written here.</p>
+<p>Finally, if you've got questions, drop a line in the comments, or <a href="https://twitter.com/PelekeS">hit me on Twitter</a>. I'll do my best to get back to everyone directly.</p>
+<p>What do you think about <code>class</code>? Love it, hate it, no strong feelings? It seems like everyone's got an opinion -- let us know yours below!</p>
+					</div>
+				</article>
+				<!-- END :: Tutorial -->
+				
+				<!-- START :: Tutorial -->
+				<article>
+					<h1>Index</h1>
+					<div class="tutorial__content">
+						
+					</div>
+				</article>
+				<!-- END :: Tutorial -->
+				
+				<!-- START :: Tutorial -->
+				<article>
 					<h1>Index</h1>
 					<div class="tutorial__content">
 						
