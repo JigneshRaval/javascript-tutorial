@@ -22923,7 +22923,1950 @@ for (var i = 0, len = els.length; i &lt; len; i++) {
 				
 				<!--================= START :: Tutorial =================-->
 				<article style="display:none;">
+					<h1>Is everything in JavaScript an Object?</h1>
+					<div class="tutorial__content">
+<span>https://blog.simpleblend.net/is-everything-in-javascript-an-object/</span>
+
+
+          
+      <p>I have always found this statement confusing: &#8220;Everything in JavaScript is an Object&#8221;. What did they mean by this? How can a Function or an Array at the same time be an Object? Before we tackle this question, we need to understand how the different Data Types are categorized.</p>
+<p>In JavaScript, there are two Data Types: <strong>Primitives</strong> and <strong>Objects</strong>. (Object Types are also sometimes referred to as Reference Types). <span class="citation-num" data-citation-num="1">1</span></p>
+<table>
+<thead>
+<tr>
+<th>Primitive</th>
+<th>Object</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Number</td>
+<td>Function</td>
+</tr>
+<tr>
+<td>String</td>
+<td>Object</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>Symbol</td>
+<td></td>
+</tr>
+<tr>
+<td>null</td>
+<td></td>
+</tr>
+<tr>
+<td>undefined</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Based on this categorizing, the simple anwser is no, not everything in JavaScript is an Object. Only values that belong to that Type are Objects. Another way of looking at it is, any Type that isn&#8217;t a Primitive Type is an Object Type. But what is it that <em>differentiates</em> Primitives from Objects? And more importantly, what do people <em>really mean</em> when they say &#8220;everything&#8221; or &#8220;almost everything&#8221; is an Object&#8221;? There are two main distinctions: mutability, and comparison.</p>
+<h2>Mutability</h2>
+<p>From my experience, what people <em>really mean</em> when they talk about values being &#8220;object like&#8221; is their mutability. More specifically, they&#8217;re talking about the ability to add and remove properties. For example, because Functions and Arrays belong to the Object Type you can add properties to them just like you would an object literal.</p>
+<pre><code class="language-javascript">var func = function() {};
+func.firstName = "Andrew";
+func.firstName; // "Andrew"
+
+var arry = [];
+arry.age = 26;
+arry.age; // 26
+</code></pre>
+<p>This opens the door to all sorts of fascinating use cases, and is really the key to understanding how Prototypes and Constructors work.</p>
+<p>However because Primitive Types are immutable, we&#8217;re unable to assign properties to them. <span class="citation-num" data-citation-num="2">2</span> The parser will immediately discard them when attemping to read their value.</p>
+<pre><code class="language-javascript">var me = "Andrew";
+me.lastname = "Robbins";
+me.lastname; // undefined
+
+var num = 10;
+num.prop = 11;
+num.prop; // undefined
+</code></pre>
+<p>At this point, I think it would be useful to examine things at a more fundamental level. With regards to primitives, what does it really mean to say that their values cannot be changed? Consider the following code:</p>
+<pre><code class="language-javascript">1 = 2; // ReferenceError
+</code></pre>
+<p>This might seem like a silly example, but I think it shines a much needed light on exactly what we&#8217;re talking about when we talk about mutability. When you type the number 1 into the JavaScript console, the compiler assigns that piece of data to the Primitive data type. Therefore when you attempt to change the number 1 to the number 2, it fails and probably has a heartattack.</p>
+<h2>Comparison and passing around</h2>
+<p>Besides mutability, another important distinction between Primitive Types and Object Types is the way they&#8217;re compared and passed around within the program. Primitive Types are compared by value, while Object Types are compared by reference. What does this mean? Let&#8217;s look at Primitives first. Consider the following code:</p>
+<pre><code class="language-javascript">"a" === "a"; // true
+</code></pre>
+<p>This is true because the value &#8220;a&#8221; is equal to &#8220;a&#8221;. Simple. However what happens when we introduce variables into the picture? Nothing has changed except that we&#8217;re now storing our Primitive Types into variables.</p>
+<pre><code class="language-javascript">var a = "a",
+    b = "a";
+
+a === b; // true
+</code></pre>
+<p>Since Primitive Types are compared by value, the result will true. The value of the variable a is exactly equal to the value of the variable b. In other words, &#8220;a&#8221; equals &#8220;a&#8221;. Aristotle would be proud. However look at this. If we apply the same example to an Object Type, we get the opposite result.</p>
+<pre><code class="language-javascript">var a = {name: "andrew"},
+    b = {name: "andrew"};
+
+a === b; // false
+</code></pre>
+<p>Why is this? Object Types must reference the same object in order for its comparison to be true. In the example above, we&#8217;re creating a <em>new</em> object for the variable b. As David Flanagan puts it:</p>
+<blockquote><p>&#8220;&#8230;we say that objects are compared by reference: two object values are the same if and only if they refer to the same underlying object.&#8221; <span class="citation-num" data-citation-num="3">3</span></p></blockquote>
+<p>Now, what happens when we pass these values around?</p>
+<pre><code class="language-javascript">var a = {name: "andrew"},
+    b = a;
+
+b.name = "robbins";
+
+a === b; // true
+</code></pre>
+<p>This might seem strange at first, but look closer at what&#8217;s happening. Because objects are part of the Object type, it&#8217;s values are compared and passed by reference. Reference to what? Reference to the same underlying object. In the above example, we&#8217;re setting b equal to a. We didn&#8217;t create a <em>new</em> object. We&#8217;re simply creating a <em>reference</em> to another object. A different way of looking at it is that we&#8217;re pointing the variable b to a. Therefore when we mutate the &#8220;name&#8221; property on b, we&#8217;re at the same time mutating the &#8220;name&#8221; property on a.</p>
+<p>Back to Primitives, how would the same example apply to them?</p>
+<pre><code class="language-javascript">var a = "Andrew",
+    b = a;
+
+b = "Robbins";
+
+a === b; // false
+</code></pre>
+<p>Remembering that Primitives are compared and passed by value, when we set b equal to a, we&#8217;re actually creating a new copy of a. Therefore when we change the value of b and then compare it to a, the value is not the same anymore.</p>
+<h2>Wrapper Objects</h2>
+<p>Some of you may be wondering, &#8220;Ok, if Primitives aren&#8217;t Objects then why can I call methods on them?&#8221; The answer is Wrapper Objects.</p>
+<p>When you attempt to call methods on a Primitive, JavaScript does a magic trick behind the scenes. It takes your Primitive value and converts it to a <em>temporary</em> Object using a constructor function. <span class="citation-num" data-citation-num="4">4</span> The decision of which constructor function to use will depend on the Primitive value you&#8217;re attempting to change. For example, calling .length on a string will use the built in String() constructor to <em>temporarily</em> change the Primitive to an Object—allowing you to use the length method to mutate it. This temporary Object is called a Wrapper Object. <span class="citation-num" data-citation-num="5">5</span></p>
+<p>Interestingly enough, the two Primitive values null and undefined do not behave this way. Trying to call methods on these values will result in a TypeError.</p>
+<p>We can use the typeof keyword to show the difference.</p>
+<pre><code class="language-javascript">typeof "s"; // "string"
+typeof new String(s); // "object"
+</code></pre>
+<p>As a sidenote, it&#8217;s useful to know that there&#8217;s a well-documented bug <span class="citation-num" data-citation-num="6">6</span> in JS compilers which returns &#8220;object&#8221; when executing typeof null.</p>
+<pre><code class="language-javascript">typeof null // "object"
+</code></pre>
+<p>Considering that JavaScript was written in 10 days <span class="citation-num" data-citation-num="7">7</span>, I&#8217;m not going to lose any sleep over it =)</p>
+<p>It&#8217;s also useful to know that properties on Primitives are read-only, and temporary.</p>
+<pre><code class="language-javascript">var hello = "hello";
+hello.slice(1); // "ello" (Here we're actually calling slice not on hello, but of a copy of hello)
+hello; // "hello"
+</code></pre>
+<h2>Summary</h2>
+<p>JavaScript values can be categorized into two Types: Primitives and Objects. The Primitive Types are String, Number, Boolean, Symbol, undefined and null. The Object Types are Function, Object and Array.</p>
+<p>The two distinctions between Primitives and Objects are their mutability and the way they&#8217;re compared and &#8220;passed around&#8221; within the program.</p>
+<p>Primitives are immutable. Another way of saying this is that their values can&#8217;t be changed. On the other hand, Objects are mutable. Their values can be updated and changed.</p>
+<p>Primitives are compared by value. When assigning one primitive to another using variables, a copy is made. Objects on the other hand are compared by reference. Reference to what? Reference to the underlying Object. When assigning one Object to another, a reference / pointer is created. At this stage, mutating a value on one Object will update the value on the other Object.</p>
+<p>When attempting to call methods on Primitive values, JavaScript uses a Wrapper Object to temporarily coerce the Primitive. The resulting Object is read-only and garbage collected after execution.</p>
+<p>In the next section, we&#8217;ll go over how these Types fit into the bigger picture by analyzing Prototypes, Constructors, and Inheritance.</p>
+<h2>Update: 11/8/14</h2>
+<p>Recently there was a discussion over at <a href="https://javascriptkicks.com/stories/1669">https://javascriptkicks.com/stories/1669</a> regarding the performance of both Objects and Primitives. <a href="https://twitter.com/drewpcodes">@drewpcodes</a> wanted to know which approach would be faster: storing floating point numbers in Primitive form or Objects form? I was curious to know as-well so I wrote a small program to test it out. You can find the code I used here: <a href="http://jsfiddle.net/pmqortov">http://jsfiddle.net/pmqortov</a></p>
+<p>I created two arrays: one array stored the data as Objects, and another stored the data as Primitives. Based on <a href="https://twitter.com/drewpcodes">@drewpcodes</a> use-case, the data I used was 150 floating point numbers. I also decided to limit both arrays to 150 entries so it wouldn&#8217;t freeze my computer.</p>
+<p>I then iterated over the arrays and saved a timestamp before and after every iteration. Then I did a little math on each timestamp and found the average in ms. For the sake of accuracy, I looped 5000 times for each instance. I noticed increasing this number would freeze Chrome. =)</p>
+<p>Surprisingly enough, the list containing the data stored as Objects was actually 2ms faster then stored as Primitives! Here were the actual numbers:</p>
+<pre><code class="language-javascript">// List with Objects 
+// Average execution across 5000 repetitions: 16.8528 ms 
+ 
+// List with Primitives 
+// Average execution across 5000 repetitions: 18.2898 ms 
+</code></pre>
+<p>At this point I don&#8217;t have an opinion either way of which method is best for storing your data. It could be that at higher volumes the Object method would be advantagous, but I&#8217;d like to see more evidence first.</p>
+<p>Cheers!</p>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Partial Application with Function#bind</h1>
+					<span>http://adripofjavascript.com/blog/drips/partial-application-with-function-bind.html</span>
+					<div class="tutorial__content">
+<div class="post">
+        <h1 class="post-title">Partial Application with Function#bind</h1>
+        
+            <p><i>
+                Originally published in the 
+                <a href="/">A Drip of JavaScript newsletter</a>.
+            </i></p>
+        
+
+        <p>In <a href="/blog/drips/partial-application-with-function-bind.html">last week's drip</a>, we covered using <code>bind</code> to create bound functions. But <code>bind</code> is also a very convenient way of implementing partial application. First, let's take a look at exactly what partial application is.</p>
+
+<p>According to <a href="https://en.wikipedia.org/wiki/Partial_application">Wikipedia</a>, partial application "refers to the process of fixing a number of arguments to a function, producing another function of smaller arity." Arity refers to the number of arguments that a function takes.</p>
+
+<p>Here's an example:</p>
+<pre><code>function multiply (x, y) {
+    return x * y;
+}
+
+function double (num) {
+    return multiply(2, num);
+}
+</code></pre>
+<p>That's a very rudimentary form of partial application, where inside <code>double</code> we permanently fix <code>multiply</code>'s first argument as <code>2</code>, producing a new function <code>double</code>.</p>
+
+<p>But explicitly declaring the body of the new function isn't actually necessary if you use <code>bind</code>. Here's how we could rewrite that:</p>
+<pre><code>function multiply (x, y) {
+    return x * y;
+}
+
+var double = multiply.bind(null, 2);
+</code></pre>
+<p>As we covered last time, the first argument to <code>bind</code> sets it's internal <code>this</code> value. Since our function doesn't depend on <code>this</code>, we just pass in <code>null</code>. But any subsequent arguments that we supply will be used to permanently fix the arguments of the function we are binding. In this case, we are only fixing one argument, but we can potentially fix as many as we want.</p>
+<pre><code>function greet (salutation, person, delivery) {
+    var message = '"'+ salutation + ', ' + person + '," ' +
+                  delivery + ' the greeter.';
+
+    console.log(message);
+}
+
+var hail = greet.bind(null, "Hail");
+
+// Outputs: '"Hail, Lord Elrond," said the greeter.'
+hail("Lord Elrond", "said");
+
+var begone = greet.bind(null, "Begone", "Wormtongue", "commanded");
+
+// Outputs: '"Begone, Wormtongue," commanded the greeter.'
+begone();
+</code></pre>
+<p>One thing you may have noticed is that <code>bind</code> always fixes the arguments from left to right. This means that it isn't suitable for all forms of partial application, but it does cover the most common ones.</p>
+
+<p>You may be wondering if partial application is actually all that useful in real code. To answer, let's revisit an example from our <a href="http://designpepper.com/blog/drips/using-dispatch-tables-to-avoid-conditionals-in-javascript">discussion of dispatch tables</a>:</p>
+<pre><code>var commandTable = {
+    north:    function() { movePlayer("north"); },
+    east:     function() { movePlayer("east");  },
+    south:    function() { movePlayer("south"); },
+    west:     function() { movePlayer("west");  },
+    look:     describeLocation,
+    backpack: showBackpack
+};
+
+function processUserInput(command) {
+    commandTable[command]();
+}
+</code></pre>
+<p>In this example we are taking user input from a text adventure game, and then calling the appropriate command from <code>commandTable</code>. As you can see, we're using the same rudimentary form of partial application that we saw in our first example.</p>
+
+<p>Using <code>bind</code> we can clean this up a bit.</p>
+<pre><code>var commandTable = {
+    north:    movePlayer.bind(null, "north"),
+    east:     movePlayer.bind(null, "east"),
+    south:    movePlayer.bind(null, "south"),
+    west:     movePlayer.bind(null, "west"),
+    look:     describeLocation,
+    backpack: showBackpack
+};
+
+function processUserInput(command) {
+    commandTable[command]();
+}
+</code></pre>
+<p>As I mentioned last time, <code>bind</code> isn't available in IE8 and older, so you may want to use a polyfill or library to achieve the same functionality. If you only want to implement partial application and don't need to create bound functions, you might want to consider the <code>partial</code> methods in <a href="http://underscorejs.org/#partial">Underscore</a> and <a href="http://lodash.com/docs#partial">Lo-Dash</a>.</p>
+
+    </div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article style="display:none;">
+					<h1>Partial Application in JavaScript</h1>
+					<span>http://blakeembrey.com/articles/2014/01/partial-application-in-javascript/</span>
+					<div class="tutorial__content">
+						<article class="content article"><p>Partial application is the act of pre-filling arguments of a function and returning a new function of smaller arity. The returned function can be called with additional parameters and in JavaScript, the <code>this</code> context can also be changed when called. Using a partially applied function is extremely common in functional programming with JavaScript as it allows us to compose some really nifty utilities and avoid repeating ourselves in code.</p>
+<p>In modern JavaScript engines, there is a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">bind function</a> which can be used to achieve a similar result. The difference between <code>partial</code> and <code>bind</code> is that the a partial functions <code>this</code> context is set when the returned function is called, while a bound functions <code>this</code> context has already been defined and can't be changed.</p>
+<pre><code>var __slice = Array.prototype.slice;
+
+/**
+ * Wrap a function with default arguments for partial application.
+ *
+ * @param  {Function} fn
+ * @param  {*}        ...
+ * @return {Function}
+ */
+var partial = function (fn /*, ...args */) {
+  var args = __slice.call(arguments, 1);
+
+return function () {
+    return fn.apply(this, args.concat(__slice.call(arguments)));
+  };
+};
+</code></pre>
+<p>From the function above, we can understand that <code>partial</code> accepts the function to be pre-filled and it's default arguments. It then returns a new function which can be called with some more arguments. It's important to note that the context (<code>this</code>) is being defined when the returned function is called. But when would you even want to use this?</p>
+<p>Normally I would be happy to give a simple example of transforming an <code>add</code> function into an <code>add5</code> by partially applying it - <code>partial(add, 5)</code>. This definitely demonstates how we can use the utility, but doesn't really touch on why.</p>
+<p>Consider writing a logging utility that accepts some different arguments that need to be logged - <code>var log = function (type, value) {}</code>. Fantastic, it looks like a really simple function to use. But now we want set every log in our file to the <code>testing</code> type. We can do a couple of things to achieve this. One option would be to assign our type to a variable and reuse the variable - <code>var testType = 'Testing'</code> and <code>log(testType, value)</code>. This will get messy after we write it more than once. What if we just wrapped the <code>log</code> function automatically?</p>
+<pre><code>var testLog = function () {
+  return log.apply(this, ['testing'].concat(__slice.call(arguments)));
+};
+</code></pre>
+<p>Great, this looks familiar - we could have just used partial - <code>var testLog = partial(log, 'Testing')</code>. Now we have a function we can continue to reuse any number of times without fear of repeating ourselves.</p>
+<h2 id="bonus-points">Bonus Points</h2>
+<p>If you've been reading any of my previous blog posts, you may have noticed me abusing the usefulness of <a href="http://blakeembrey.com/articles/forcing-function-arity-in-javascript/">function arity</a> in anonymously returned functions. And in another article I wrote about a utility that can help us remove the <a href="http://blakeembrey.com/articles/javascript-variadic-function/">repetitive argument slicing</a>. If you haven't checked out these utilities yet, take a quick look and I bet you'll see how we could use them here.</p>
+<pre><code>var partial = variadic(function (fn, args) {
+  var remaining = Math.max(fn.length - args.length, 0);
+
+  return arity(remaining, variadic(function (called) {
+    return fn.apply(this, args.concat(called));
+  }));
+});
+</code></pre>
+<p>Now the returned partially applied function gives us the correct number of trailing arguments still to be filled using the <code>arity</code> utility. On top of that, we managed to get rid of slicing arguments constantly by using the <code>variadic</code> utility. In fact, I've been so interested in these reusable utilities that I published the <a href="https://github.com/blakeembrey/partial">partial utility on Github</a> so I can reuse it later.</p>
+</article>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Composing Functions in JavaScript</h1>
+					<span>http://blakeembrey.com/articles/2014/01/compose-functions-javascript/</span>
+					<div class="tutorial__content">
+<article class="content article"><p>Composing multiple functions to create more complex ones is a common utility in any programming language. And the ability to construct functions in a way that is easily composable is a true talent, but it really shines with code maintenance and reuse. It's not uncommon to find huge applications composed of many, much smaller functions. Inspired by this pattern of extremely modular functions, I've been slowly migrating my programming style to allow for more composable and reusable functions.</p>
+<p>To compose functions together, we will need to accept a list of functions for it to be made up from. Let's call the functions <code>a</code>, <code>b</code> and <code>c</code>. Now that we have the list of functions, we need to call each of them with the result of the next function. In JavaScript, we would do this with <code>a(b(c(x)))</code> - with <code>x</code> being the starting value. However, it would be much more useful to have something a little more reusable than this.</p>
+<pre><code>var compose = function () {
+  var fns = arguments;
+
+  return function (result) {
+    for (var i = fns.length - 1; i &gt; -1; i--) {
+      result = fns[i].call(this, result);
+    }
+
+    return result;
+  };
+};
+</code></pre>
+<p>The above function iterates over the function list (our arguments) in reverse - the last function to pass in is executed first. Given a single value as the initial input, it'll chain that value between every function call and return the final result. This allows us to do some really cool things.</p>
+<pre><code>var number = compose(Math.round, parseFloat);
+
+number('72.5'); //=&gt; 73
+</code></pre>
+<h2 id="sequence">Sequence</h2>
+<p>Another utility I've seen about in some functional libraries is called <a href="https://github.com/raganwald/allong.es#functional-composition">sequence</a>. It's very similar to <code>compose</code>, except the arguments are executed in reverse. For example:</p>
+<pre><code>var sequence = function () {
+  var fns = arguments;
+
+  return function (result) {
+    for (var i = 0; i &lt; fns.length; i++) {
+      result = fns[i].call(this, result);
+    }
+
+    return result;
+  };
+};
+</code></pre>
+<p>However, we should make a note of the almost identical function signature to <code>compose</code>. Usually, seeing something like this should trigger a warning in your head to find some way to reuse previous functionality, instead of replicating it. In this example, we can reuse the <code>compose</code> function to write the <code>sequence</code> implementation.</p>
+<pre><code>var __slice = Array.prototype.slice;
+
+var sequence = function () {
+  return compose.apply(this, __slice.call(arguments).reverse());
+};
+</code></pre>
+</article>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>A JavaScript Invoke Function</h1>
+					<span>http://blakeembrey.com/articles/2014/01/javascript-invoke-function/</span>
+					<div class="tutorial__content">
+<article class="content article"><p><strong>Update:</strong> Now available on <a href="https://github.com/blakeembrey/invoke">github</a> and <a href="https://www.npmjs.org/package/util-invoke">npm</a>.</p>
+<p>Under certain functional JavaScript toolbelts, we can find a utility that is used purely for invoking a method on a passed in object. The utility is a really simple snippet that can be used in a number of different circumstances.</p>
+<pre><code>var __slice = Array.prototype.slice;
+
+var invoke = function (method /*, ...args */) {
+  var args = __slice.call(arguments, 1);
+
+  return function (obj /*, ..args */) {
+    return obj[method].apply(obj, args.concat(__slice.call(arguments, 1)));
+  };
+};
+</code></pre>
+<p>The most useful situation for a utility such as this is in combination with other functional utilities and iterators. Consider the case where we have an array of objects with identical methods. Not uncommon in a complex MVC application where you may be tracking child views. To remove every child view, we need to iterate over an array of views and call <code>remove</code>.</p>
+<pre><code>var children = [/* ... */];
+
+children.forEach(invoke('remove'));
+</code></pre>
+</article>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>YOU MIGHT NOT NEED JQUERY</h1>
+					<span class="ref-site">http://youmightnotneedjquery.com/</span>
+					<div class="tutorial__content">
+<div class="comparisons">
+      <div class="empty-message">Your search didn't match any comparisons.</div>
+      <section id="ajax" class="odd">
+        <div class="inner">
+          <h2>AJAX</h2>
+          <div class="alternatives-block">
+            <h4>Alternatives:</h4>
+            <ul class="alternatives">
+              <li><a href=" https://github.com/ded/Reqwest" target="_blank">reqwest</a></li>
+              <li><a href=" https://github.com/then/request" target="_blank">then-request</a></li>
+              <li><a href=" https://github.com/visionmedia/superagent" target="_blank">superagent</a></li>
+            </ul>
+          </div>
+          <div id="json" class="comparison">
+            <h3><a href="#json">JSON</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.getJSON('/my/url', function(data) {
+
+});
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>var request = new XMLHttpRequest();
+request.open('GET', '/my/url', true);
+
+request.onreadystatechange = function() {
+  if (this.readyState === 4) {
+    if (this.status &gt;= 200 &amp;&amp; this.status &lt; 400) {
+      // Success!
+      var data = JSON.parse(this.responseText);
+    } else {
+      // Error :(
+    }
+  }
+};
+
+request.send();
+request = null;
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>var request = new XMLHttpRequest();
+request.open('GET', '/my/url', true);
+
+request.onload = function() {
+  if (request.status &gt;= 200 &amp;&amp; request.status &lt; 400) {
+    // Success!
+    var data = JSON.parse(request.responseText);
+  } else {
+    // We reached our target server, but it returned an error
+
+  }
+};
+
+request.onerror = function() {
+  // There was a connection error of some sort
+};
+
+request.send();
+</code></pre>
+            </div>
+            <div data-browser="ie10" class="browser ie10" style="display: none;">
+              <h4>IE10+</h4>
+              <pre><code>var request = new XMLHttpRequest();
+request.open('GET', '/my/url', true);
+
+request.onload = function() {
+  if (this.status &gt;= 200 &amp;&amp; this.status &lt; 400) {
+    // Success!
+    var data = JSON.parse(this.response);
+  } else {
+    // We reached our target server, but it returned an error
+
+  }
+};
+
+request.onerror = function() {
+  // There was a connection error of some sort
+};
+
+request.send();
+</code></pre>
+            </div>
+          </div>
+          <div id="post" class="comparison">
+            <h3><a href="#post">Post</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.ajax({
+  type: 'POST',
+  url: '/my/url',
+  data: data
+});
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>var request = new XMLHttpRequest();
+request.open('POST', '/my/url', true);
+request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+request.send(data);
+</code></pre>
+            </div>
+          </div>
+          <div id="request" class="comparison">
+            <h3><a href="#request">Request</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.ajax({
+  type: 'GET',
+  url: '/my/url',
+  success: function(resp) {
+
+  },
+  error: function() {
+
+  }
+});
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>var request = new XMLHttpRequest();
+request.open('GET', '/my/url', true);
+
+request.onreadystatechange = function() {
+  if (this.readyState === 4) {
+    if (this.status &gt;= 200 &amp;&amp; this.status &lt; 400) {
+      // Success!
+      var resp = this.responseText;
+    } else {
+      // Error :(
+    }
+  }
+};
+
+request.send();
+request = null;
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>var request = new XMLHttpRequest();
+request.open('GET', '/my/url', true);
+
+request.onload = function() {
+  if (request.status &gt;= 200 &amp;&amp; request.status &lt; 400) {
+    // Success!
+    var resp = request.responseText;
+  } else {
+    // We reached our target server, but it returned an error
+
+  }
+};
+
+request.onerror = function() {
+  // There was a connection error of some sort
+};
+
+request.send();
+</code></pre>
+            </div>
+            <div data-browser="ie10" class="browser ie10" style="display: none;">
+              <h4>IE10+</h4>
+              <pre><code>var request = new XMLHttpRequest();
+request.open('GET', '/my/url', true);
+
+request.onload = function() {
+  if (this.status &gt;= 200 &amp;&amp; this.status &lt; 400) {
+    // Success!
+    var resp = this.response;
+  } else {
+    // We reached our target server, but it returned an error
+
+  }
+};
+
+request.onerror = function() {
+  // There was a connection error of some sort
+};
+
+request.send();
+</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="effects">
+        <div class="inner">
+          <h2>Effects</h2>
+          <div class="alternatives-block">
+            <h4>Alternatives:</h4>
+            <ul class="alternatives">
+              <li><a href=" http://daneden.github.io/animate.css/" target="_blank">animate.css</a></li>
+              <li><a href=" https://github.com/visionmedia/move.js" target="_blank">move.js</a></li>
+            </ul>
+          </div>
+          <div id="fade_in" class="comparison">
+            <h3><a href="#fade_in">Fade In</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).fadeIn();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>function fadeIn(el) {
+  var opacity = 0;
+
+  el.style.opacity = 0;
+  el.style.filter = '';
+
+  var last = +new Date();
+  var tick = function() {
+    opacity += (new Date() - last) / 400;
+    el.style.opacity = opacity;
+    el.style.filter = 'alpha(opacity=' + (100 * opacity)|0 + ')';
+
+    last = +new Date();
+
+    if (opacity &lt; 1) {
+      (window.requestAnimationFrame &amp;&amp; requestAnimationFrame(tick)) || setTimeout(tick, 16);
+    }
+  };
+
+  tick();
+}
+
+fadeIn(el);
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>function fadeIn(el) {
+  el.style.opacity = 0;
+
+  var last = +new Date();
+  var tick = function() {
+    el.style.opacity = +el.style.opacity + (new Date() - last) / 400;
+    last = +new Date();
+
+    if (+el.style.opacity &lt; 1) {
+      (window.requestAnimationFrame &amp;&amp; requestAnimationFrame(tick)) || setTimeout(tick, 16);
+    }
+  };
+
+  tick();
+}
+
+fadeIn(el);
+</code></pre>
+            </div>
+            <div data-browser="ie10" class="browser ie10" style="display: none;">
+              <h4>IE10+</h4>
+              <pre><code>el.classList.add('show');
+el.classList.remove('hide');
+</code></pre>
+              <pre><code>.show {
+  transition: opacity 400ms;
+}
+.hide {
+  opacity: 0;
+}
+</code></pre>
+            </div>
+          </div>
+          <div id="hide" class="comparison">
+            <h3><a href="#hide">Hide</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).hide();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.style.display = 'none';
+</code></pre>
+            </div>
+          </div>
+          <div id="show" class="comparison">
+            <h3><a href="#show">Show</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).show();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.style.display = '';
+</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="elements" class="odd">
+        <div class="inner">
+          <h2>Elements</h2>
+          <div class="alternatives-block">
+            <h4>Alternatives:</h4>
+            <ul class="alternatives">
+              <li><a href=" https://github.com/ded/bonzo" target="_blank">bonzo</a></li>
+              <li><a href=" https://github.com/julienw/dollardom" target="_blank">$dom</a></li>
+            </ul>
+          </div>
+          <div id="add_class" class="comparison">
+            <h3><a href="#add_class">Add Class</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).addClass(className);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>if (el.classList)
+  el.classList.add(className);
+else
+  el.className += ' ' + className;
+</code></pre>
+            </div>
+            <div data-browser="ie10" class="browser ie10" style="display: none;">
+              <h4>IE10+</h4>
+              <pre><code>el.classList.add(className);
+</code></pre>
+            </div>
+          </div>
+          <div id="after" class="comparison">
+            <h3><a href="#after">After</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).after(htmlString);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.insertAdjacentHTML('afterend', htmlString);
+</code></pre>
+            </div>
+          </div>
+          <div id="append" class="comparison">
+            <h3><a href="#append">Append</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(parent).append(el);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>parent.appendChild(el);
+</code></pre>
+            </div>
+          </div>
+          <div id="before" class="comparison">
+            <h3><a href="#before">Before</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).before(htmlString);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.insertAdjacentHTML('beforebegin', htmlString);
+</code></pre>
+            </div>
+          </div>
+          <div id="children" class="comparison">
+            <h3><a href="#children">Children</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).children();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>var children = [];
+for (var i = el.children.length; i--;) {
+  // Skip comment nodes on IE8
+  if (el.children[i].nodeType != 8)
+    children.unshift(el.children[i]);
+}
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>el.children
+</code></pre>
+            </div>
+          </div>
+          <div id="clone" class="comparison">
+            <h3><a href="#clone">Clone</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).clone();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.cloneNode(true);
+</code></pre>
+            </div>
+          </div>
+          <div id="contains" class="comparison">
+            <h3><a href="#contains">Contains</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.contains(el, child);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el !== child &amp;&amp; el.contains(child);
+</code></pre>
+            </div>
+          </div>
+          <div id="contains_selector" class="comparison">
+            <h3><a href="#contains_selector">Contains Selector</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).find(selector).length;
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.querySelector(selector) !== null
+</code></pre>
+            </div>
+          </div>
+          <div id="each" class="comparison">
+            <h3><a href="#each">Each</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(selector).each(function(i, el){
+
+});
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>function forEachElement(selector, fn) {
+  var elements = document.querySelectorAll(selector);
+  for (var i = 0; i &lt; elements.length; i++)
+    fn(elements[i], i);
+}
+
+forEachElement(selector, function(el, i){
+
+});
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>var elements = document.querySelectorAll(selector);
+Array.prototype.forEach.call(elements, function(el, i){
+
+});
+</code></pre>
+            </div>
+          </div>
+          <div id="empty" class="comparison">
+            <h3><a href="#empty">Empty</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).empty();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>while(el.firstChild)
+  el.removeChild(el.firstChild);
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>el.innerHTML = '';
+</code></pre>
+            </div>
+          </div>
+          <div id="filter" class="comparison">
+            <h3><a href="#filter">Filter</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(selector).filter(filterFn);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>function filter(selector, filterFn) {
+  var elements = document.querySelectorAll(selector);
+  var out = [];
+  for (var i = elements.length; i--;) {
+    if (filterFn(elements[i]))
+      out.unshift(elements[i]);
+  }
+  return out;
+}
+
+filter(selector, filterFn);
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>Array.prototype.filter.call(document.querySelectorAll(selector), filterFn);
+</code></pre>
+            </div>
+          </div>
+          <div id="find_children" class="comparison">
+            <h3><a href="#find_children">Find Children</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).find(selector);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.querySelectorAll(selector);
+</code></pre>
+            </div>
+          </div>
+          <div id="find_elements" class="comparison">
+            <h3><a href="#find_elements">Find Elements</a></h3>
+            <div class="alternatives-block">
+              <h4>Alternatives:</h4>
+              <ul class="alternatives">
+                <li><a href=" https://github.com/ded/qwery" target="_blank">qwery</a></li>
+                <li><a href=" http://sizzlejs.com/" target="_blank">sizzle</a></li>
+              </ul>
+            </div>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$('.my #awesome selector');
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>document.querySelectorAll('.my #awesome selector');
+</code></pre>
+            </div>
+          </div>
+          <div id="get_attributes" class="comparison">
+            <h3><a href="#get_attributes">Get Attributes</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).attr('tabindex');
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.getAttribute('tabindex');
+</code></pre>
+            </div>
+          </div>
+          <div id="get_html" class="comparison">
+            <h3><a href="#get_html">Get Html</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).html();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.innerHTML
+</code></pre>
+            </div>
+          </div>
+          <div id="get_outer_html" class="comparison">
+            <h3><a href="#get_outer_html">Get Outer Html</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$('<div>').append($(el).clone()).html();
+</div></code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.outerHTML
+</code></pre>
+            </div>
+          </div>
+          <div id="get_style" class="comparison">
+            <h3><a href="#get_style">Get Style</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).css(ruleName);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>// Varies based on the properties being retrieved, some can be retrieved from el.currentStyle
+// https://github.com/jonathantneal/Polyfills-for-IE8/blob/master/getComputedStyle.js
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>getComputedStyle(el)[ruleName];
+</code></pre>
+            </div>
+          </div>
+          <div id="get_text" class="comparison">
+            <h3><a href="#get_text">Get Text</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).text();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>el.textContent || el.innerText
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>el.textContent
+</code></pre>
+            </div>
+          </div>
+          <div id="has_class" class="comparison">
+            <h3><a href="#has_class">Has Class</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).hasClass(className);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>if (el.classList)
+  el.classList.contains(className);
+else
+  new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
+</code></pre>
+            </div>
+            <div data-browser="ie10" class="browser ie10" style="display: none;">
+              <h4>IE10+</h4>
+              <pre><code>el.classList.contains(className);
+</code></pre>
+            </div>
+          </div>
+          <div id="matches" class="comparison">
+            <h3><a href="#matches">Matches</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).is($(otherEl));
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el === otherEl
+</code></pre>
+            </div>
+          </div>
+          <div id="matches_selector" class="comparison">
+            <h3><a href="#matches_selector">Matches Selector</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).is('.my-class');
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>var matches = function(el, selector) {
+  var _matches = (el.matches || el.matchesSelector || el.msMatchesSelector || el.mozMatchesSelector || el.webkitMatchesSelector || el.oMatchesSelector);
+
+  if (_matches) {
+    return _matches.call(el, selector);
+  } else {
+    var nodes = el.parentNode.querySelectorAll(selector);
+    for (var i = nodes.length; i--;) {
+      if (nodes[i] === el)
+        return true;
+    }
+    return false;
+  }
+};
+
+matches(el, '.my-class');
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>var matches = function(el, selector) {
+  return (el.matches || el.matchesSelector || el.msMatchesSelector || el.mozMatchesSelector || el.webkitMatchesSelector || el.oMatchesSelector).call(el, selector);
+};
+
+matches(el, '.my-class');
+</code></pre>
+            </div>
+          </div>
+          <div id="next" class="comparison">
+            <h3><a href="#next">Next</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).next();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>// nextSibling can include text nodes
+function nextElementSibling(el) {
+  do { el = el.nextSibling; } while ( el &amp;&amp; el.nodeType !== 1 );
+  return el;
+}
+
+el.nextElementSibling || nextElementSibling(el);
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>el.nextElementSibling
+</code></pre>
+            </div>
+          </div>
+          <div id="offset" class="comparison">
+            <h3><a href="#offset">Offset</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).offset();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>var rect = el.getBoundingClientRect();
+
+{
+  top: rect.top + document.body.scrollTop,
+  left: rect.left + document.body.scrollLeft
+}
+</code></pre>
+            </div>
+          </div>
+          <div id="offset_parent" class="comparison">
+            <h3><a href="#offset_parent">Offset Parent</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).offsetParent();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.offsetParent || el
+</code></pre>
+            </div>
+          </div>
+          <div id="outer_height" class="comparison">
+            <h3><a href="#outer_height">Outer Height</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).outerHeight();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.offsetHeight
+</code></pre>
+            </div>
+          </div>
+          <div id="outer_height_with_margin" class="comparison">
+            <h3><a href="#outer_height_with_margin">Outer Height With Margin</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).outerHeight(true);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>function outerHeight(el) {
+  var height = el.offsetHeight;
+  var style = el.currentStyle || getComputedStyle(el);
+
+  height += parseInt(style.marginTop) + parseInt(style.marginBottom);
+  return height;
+}
+
+outerHeight(el);
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>function outerHeight(el) {
+  var height = el.offsetHeight;
+  var style = getComputedStyle(el);
+
+  height += parseInt(style.marginTop) + parseInt(style.marginBottom);
+  return height;
+}
+
+outerHeight(el);
+</code></pre>
+            </div>
+          </div>
+          <div id="outer_width" class="comparison">
+            <h3><a href="#outer_width">Outer Width</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).outerWidth();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.offsetWidth
+</code></pre>
+            </div>
+          </div>
+          <div id="outer_width_with_margin" class="comparison">
+            <h3><a href="#outer_width_with_margin">Outer Width With Margin</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).outerWidth(true);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>function outerWidth(el) {
+  var width = el.offsetWidth;
+  var style = el.currentStyle || getComputedStyle(el);
+
+  width += parseInt(style.marginLeft) + parseInt(style.marginRight);
+  return width;
+}
+
+outerWidth(el);
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>function outerWidth(el) {
+  var width = el.offsetWidth;
+  var style = getComputedStyle(el);
+
+  width += parseInt(style.marginLeft) + parseInt(style.marginRight);
+  return width;
+}
+
+outerWidth(el);
+</code></pre>
+            </div>
+          </div>
+          <div id="parent" class="comparison">
+            <h3><a href="#parent">Parent</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).parent();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.parentNode
+</code></pre>
+            </div>
+          </div>
+          <div id="position" class="comparison">
+            <h3><a href="#position">Position</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).position();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>{left: el.offsetLeft, top: el.offsetTop}
+</code></pre>
+            </div>
+          </div>
+          <div id="position_relative_to_viewport" class="comparison">
+            <h3><a href="#position_relative_to_viewport">Position Relative To Viewport</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>var offset = el.offset();
+
+{
+  top: offset.top - document.body.scrollTop,
+  left: offset.left - document.body.scrollLeft
+}
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.getBoundingClientRect()
+</code></pre>
+            </div>
+          </div>
+          <div id="prepend" class="comparison">
+            <h3><a href="#prepend">Prepend</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(parent).prepend(el);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>parent.insertBefore(el, parent.firstChild);
+</code></pre>
+            </div>
+          </div>
+          <div id="prev" class="comparison">
+            <h3><a href="#prev">Prev</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).prev();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>// prevSibling can include text nodes
+function previousElementSibling(el) {
+  do { el = el.previousSibling; } while ( el &amp;&amp; el.nodeType !== 1 );
+  return el;
+}
+
+el.previousElementSibling || previousElementSibling(el);
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>el.previousElementSibling
+</code></pre>
+            </div>
+          </div>
+          <div id="remove" class="comparison">
+            <h3><a href="#remove">Remove</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).remove();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.parentNode.removeChild(el);
+</code></pre>
+            </div>
+          </div>
+          <div id="remove_class" class="comparison">
+            <h3><a href="#remove_class">Remove Class</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).removeClass(className);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>if (el.classList)
+  el.classList.remove(className);
+else
+  el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+</code></pre>
+            </div>
+            <div data-browser="ie10" class="browser ie10" style="display: none;">
+              <h4>IE10+</h4>
+              <pre><code>el.classList.remove(className);
+</code></pre>
+            </div>
+          </div>
+          <div id="replace_from_html" class="comparison">
+            <h3><a href="#replace_from_html">Replace From Html</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).replaceWith(string);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.outerHTML = string;
+</code></pre>
+            </div>
+          </div>
+          <div id="set_attributes" class="comparison">
+            <h3><a href="#set_attributes">Set Attributes</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).attr('tabindex', 3);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.setAttribute('tabindex', 3);
+</code></pre>
+            </div>
+          </div>
+          <div id="set_html" class="comparison">
+            <h3><a href="#set_html">Set Html</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).html(string);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>el.innerHTML = string;
+</code></pre>
+            </div>
+          </div>
+          <div id="set_style" class="comparison">
+            <h3><a href="#set_style">Set Style</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).css('border-width', '20px');
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>// Use a class if possible
+el.style.borderWidth = '20px';
+</code></pre>
+            </div>
+          </div>
+          <div id="set_text" class="comparison">
+            <h3><a href="#set_text">Set Text</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).text(string);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>if (el.textContent !== undefined)
+  el.textContent = string;
+else
+  el.innerText = string;
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>el.textContent = string;
+</code></pre>
+            </div>
+          </div>
+          <div id="siblings" class="comparison">
+            <h3><a href="#siblings">Siblings</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).siblings();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>var siblings = Array.prototype.slice.call(el.parentNode.children);
+
+for (var i = siblings.length; i--;) {
+  if (siblings[i] === el) {
+    siblings.splice(i, 1);
+    break;
+  }
+}
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>Array.prototype.filter.call(el.parentNode.children, function(child){
+  return child !== el;
+});
+</code></pre>
+            </div>
+          </div>
+          <div id="toggle_class" class="comparison">
+            <h3><a href="#toggle_class">Toggle Class</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).toggleClass(className);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>if (el.classList) {
+  el.classList.toggle(className);
+} else {
+    var classes = el.className.split(' ');
+    var existingIndex = -1;
+    for (var i = classes.length; i--;) {
+      if (classes[i] === className)
+        existingIndex = i;
+    }
+
+    if (existingIndex &gt;= 0)
+      classes.splice(existingIndex, 1);
+    else
+      classes.push(className);
+
+  el.className = classes.join(' ');
+}
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>if (el.classList) {
+  el.classList.toggle(className);
+} else {
+  var classes = el.className.split(' ');
+  var existingIndex = classes.indexOf(className);
+
+  if (existingIndex &gt;= 0)
+    classes.splice(existingIndex, 1);
+  else
+    classes.push(className);
+
+  el.className = classes.join(' ');
+}
+</code></pre>
+            </div>
+            <div data-browser="ie10" class="browser ie10" style="display: none;">
+              <h4>IE10+</h4>
+              <pre><code>el.classList.toggle(className);
+</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="events">
+        <div class="inner">
+          <h2>Events</h2>
+          <div id="off" class="comparison">
+            <h3><a href="#off">Off</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).off(eventName, eventHandler);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>function removeEventListener(el, eventName, handler) {
+  if (el.removeEventListener)
+    el.removeEventListener(eventName, handler);
+  else
+    el.detachEvent('on' + eventName, handler);
+}
+
+removeEventListener(el, eventName, handler);
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>el.removeEventListener(eventName, eventHandler);
+</code></pre>
+            </div>
+          </div>
+          <div id="on" class="comparison">
+            <h3><a href="#on">On</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).on(eventName, eventHandler);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>function addEventListener(el, eventName, handler) {
+  if (el.addEventListener) {
+    el.addEventListener(eventName, handler);
+  } else {
+    el.attachEvent('on' + eventName, function(){
+      handler.call(el);
+    });
+  }
+}
+
+addEventListener(el, eventName, handler);
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>el.addEventListener(eventName, eventHandler);
+</code></pre>
+            </div>
+          </div>
+          <div id="ready" class="comparison">
+            <h3><a href="#ready">Ready</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(document).ready(function(){
+
+});
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>function ready(fn) {
+  if (document.readyState != 'loading'){
+    fn();
+  } else if (document.addEventListener) {
+    document.addEventListener('DOMContentLoaded', fn);
+  } else {
+    document.attachEvent('onreadystatechange', function() {
+      if (document.readyState != 'loading')
+        fn();
+    });
+  }
+}
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>function ready(fn) {
+  if (document.readyState != 'loading'){
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
+</code></pre>
+            </div>
+          </div>
+          <div id="trigger_custom" class="comparison">
+            <h3><a href="#trigger_custom">Trigger Custom</a></h3>
+            <div class="alternatives-block">
+              <h4>Alternatives:</h4>
+              <ul class="alternatives">
+                <li><a href=" https://github.com/Wolfy87/EventEmitter" target="_blank">EventEmitter</a></li>
+                <li><a href=" https://github.com/arextar/Vine" target="_blank">Vine</a></li>
+                <li><a href=" https://github.com/jeromeetienne/microevent.js" target="_blank">microevent</a></li>
+              </ul>
+            </div>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).trigger('my-event', {some: 'data'});
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>// Custom events are not natively supported, so you have to hijack a random
+// event.
+//
+// Just use jQuery.
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>if (window.CustomEvent) {
+  var event = new CustomEvent('my-event', {detail: {some: 'data'}});
+} else {
+  var event = document.createEvent('CustomEvent');
+  event.initCustomEvent('my-event', true, true, {some: 'data'});
+}
+
+el.dispatchEvent(event);
+</code></pre>
+            </div>
+          </div>
+          <div id="trigger_native" class="comparison">
+            <h3><a href="#trigger_native">Trigger Native</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$(el).trigger('change');
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>if (document.createEvent) {
+  var event = document.createEvent('HTMLEvents');
+  event.initEvent('change', true, false);
+  el.dispatchEvent(event);
+} else {
+  el.fireEvent('onchange');
+}
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>// For a full list of event types: https://developer.mozilla.org/en-US/docs/Web/API/document.createEvent
+var event = document.createEvent('HTMLEvents');
+event.initEvent('change', true, false);
+el.dispatchEvent(event);
+</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="utils" class="odd">
+        <div class="inner">
+          <h2>Utils</h2>
+          <div id="bind" class="comparison">
+            <h3><a href="#bind">Bind</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.proxy(fn, context);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>fn.apply(context, arguments);
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>fn.bind(context);
+</code></pre>
+            </div>
+          </div>
+          <div id="array_each" class="comparison">
+            <h3><a href="#array_each">Array Each</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.each(array, function(i, item){
+
+});
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>function forEach(array, fn) {
+  for (var i = 0; i &lt; array.length; i++)
+    fn(array[i], i);
+}
+
+forEach(array, function(item, i){
+
+});
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>array.forEach(function(item, i){
+
+});
+</code></pre>
+            </div>
+          </div>
+          <div id="deep_extend" class="comparison">
+            <h3><a href="#deep_extend">Deep Extend</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.extend(true, {}, objA, objB);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>var deepExtend = function(out) {
+  out = out || {};
+
+  for (var i = 1; i &lt; arguments.length; i++) {
+    var obj = arguments[i];
+
+    if (!obj)
+      continue;
+
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        if (typeof obj[key] === 'object')
+          out[key] = deepExtend(out[key], obj[key]);
+        else
+          out[key] = obj[key];
+      }
+    }
+  }
+
+  return out;
+};
+
+deepExtend({}, objA, objB);
+</code></pre>
+            </div>
+          </div>
+          <div id="extend" class="comparison">
+            <h3><a href="#extend">Extend</a></h3>
+            <div class="alternatives-block">
+              <h4>Alternatives:</h4>
+              <ul class="alternatives">
+                <li><a href=" http://lodash.com/docs#assign" target="_blank">lo-dash</a></li>
+                <li><a href=" http://underscorejs.org/#extend" target="_blank">underscore</a></li>
+                <li><a href=" http://www.2ality.com/2014/01/object-assign.html" target="_blank">ECMA6</a></li>
+              </ul>
+            </div>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.extend({}, objA, objB);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>var extend = function(out) {
+  out = out || {};
+
+  for (var i = 1; i &lt; arguments.length; i++) {
+    if (!arguments[i])
+      continue;
+
+    for (var key in arguments[i]) {
+      if (arguments[i].hasOwnProperty(key))
+        out[key] = arguments[i][key];
+    }
+  }
+
+  return out;
+};
+
+extend({}, objA, objB);
+</code></pre>
+            </div>
+          </div>
+          <div id="index_of" class="comparison">
+            <h3><a href="#index_of">Index Of</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.inArray(item, array);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>function indexOf(array, item) {
+  for (var i = 0; i &lt; array.length; i++) {
+    if (array[i] === item)
+      return i;
+  }
+  return -1;
+}
+
+indexOf(array, item);
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>array.indexOf(item);
+</code></pre>
+            </div>
+          </div>
+          <div id="is_array" class="comparison">
+            <h3><a href="#is_array">Is Array</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.isArray(arr);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>isArray = Array.isArray || function(arr) {
+  return Object.prototype.toString.call(arr) == '[object Array]';
+};
+
+isArray(arr);
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>Array.isArray(arr);
+</code></pre>
+            </div>
+          </div>
+          <div id="map" class="comparison">
+            <h3><a href="#map">Map</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.map(array, function(value, index){
+
+});
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>function map(arr, fn) {
+  var results = [];
+  for (var i = 0; i &lt; arr.length; i++)
+    results.push(fn(arr[i], i));
+  return results;
+}
+
+map(array, function(value, index){
+
+});
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>array.map(function(value, index){
+
+});
+</code></pre>
+            </div>
+          </div>
+          <div id="now" class="comparison">
+            <h3><a href="#now">Now</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.now();
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>new Date().getTime();
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>Date.now();
+</code></pre>
+            </div>
+          </div>
+          <div id="parse_html" class="comparison">
+            <h3><a href="#parse_html">Parse Html</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.parseHTML(htmlString);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>var parseHTML = function(str) {
+  var el = document.createElement('div');
+  el.innerHTML = str;
+  return el.children;
+};
+
+parseHTML(htmlString);
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>var parseHTML = function(str) {
+  var tmp = document.implementation.createHTMLDocument();
+  tmp.body.innerHTML = str;
+  return tmp.body.children;
+};
+
+parseHTML(htmlString);
+</code></pre>
+            </div>
+          </div>
+          <div id="parse_json" class="comparison">
+            <h3><a href="#parse_json">Parse Json</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.parseJSON(string);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>JSON.parse(string);
+</code></pre>
+            </div>
+          </div>
+          <div id="trim" class="comparison">
+            <h3><a href="#trim">Trim</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.trim(string);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: none;">
+              <h4>IE8+</h4>
+              <pre><code>string.replace(/^\s+|\s+$/g, '');
+</code></pre>
+            </div>
+            <div data-browser="ie9" class="browser ie9" style="display: block;">
+              <h4>IE9+</h4>
+              <pre><code>string.trim();
+</code></pre>
+            </div>
+          </div>
+          <div id="type" class="comparison">
+            <h3><a href="#type">Type</a></h3>
+            <div data-browser="jquery" class="browser jquery">
+              <h4>jQuery</h4>
+              <pre><code>$.type(obj);
+</code></pre>
+            </div>
+            <div data-browser="ie8" class="browser ie8" style="display: block;">
+              <h4>IE8+</h4>
+              <pre><code>Object.prototype.toString.call(obj).replace(/^\[object (.+)\]$/, '$1').toLowerCase();
+</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article style="display:none;">
 					<h1>Index</h1>
+					<span class="ref-site"></span>
+					<div class="tutorial__content">
+						
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article style="display:none;">
+					<h1>Index</h1>
+					<span class="ref-site"></span>
 					<div class="tutorial__content">
 						
 					</div>
