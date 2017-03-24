@@ -11,7 +11,7 @@
 		<style>
 			* { box-sizing: border-box; }
 			body { 
-			font-family: 'Open Sans', sans-serif;
+			font-family: 'Open Sans', Arial, sans-serif;
 			font-size: 14px;
 			line-height: 1.8;
 			padding: 0.5em;
@@ -44,10 +44,10 @@
 }
 			code { background-color: #EEE; padding: 3px; font-family: Consolas,monospace; }
 			pre code { background-color: transparent; padding: 0; display: block; }
-			h1 { font-size: 1.8em; border-bottom: 2px solid #000; font-family: 'PT Serif', serif; padding: 10px 0; margin: 0; }
+			h1 { font-size: 1.8em; border-bottom: 2px solid #000; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
 			h2, h3, h6 { 
 			font-size: 1.2em;
-			font-family: 'PT Serif', serif;
+			font-family: 'PT Serif', Arial, serif;
 			padding-left: 1em;
 			border-left: 2px solid #868686; 
 			}
@@ -24852,6 +24852,1165 @@ parseHTML(htmlString);
 					</div>
 				</article>
 				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>The JavaScript Bind Function</h1>
+					<span class="ref-site">http://blakeembrey.com/articles/2013/12/javascript-bind-function/</span>
+					<div class="tutorial__content">
+<article class="content article"><p>The JavaScript <code>bind</code> function is a common-place utility when working with many different frameworks and libraries. It's purpose is to bind the <code>this</code> value to a static object and is useful when passing functions around as callbacks, where maintaining the correct <code>this</code> value is required. A common convention to circumvent this utility is the <code>var that = this</code>, but this isn't very feasible everywhere.</p>
+<p>In <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">modern JavaScript implementations</a> the function is built directly onto <code>Function.prototype</code>, giving us <code>bind</code> functionality on every function. For our implementation we'll be implementing a standalone functionality that works similar to the built-in <code>bind</code> function.</p>
+<p>However, it's important to note that <code>bind</code> also comes with another handy feature. It accepts an unlimited number of arguments after the context to pass in as the function parameters, from left to right.</p>
+<pre><code>var __slice = Array.prototype.slice;
+
+/**
+ * Bind a function to a certain context.
+ *
+ * @param  {Function} fn
+ * @param  {Object}   context
+ * @param  {*}        ...
+ * @return {Function}
+ */
+var bind = function (fn, context /*, ...args */) {
+  var args = __slice.call(arguments, 2);
+  
+  return function () {
+    return fn.apply(context, args.concat(__slice.call(arguments)));
+  };
+};
+</code></pre>
+<p>Bind allows us to keep the <code>this</code> context when passing the callback to another function. Imagine passing a function that uses <code>this</code> into <code>setTimeout</code> or someone elses library utility, where <code>this</code> could be unpredictable.</p>
+<pre><code>var greet = function (greeting) {
+  return greeting + ' ' + this.user;
+};
+
+greet('Hello'); //=&gt; "Hello undefined"
+
+var boundGreet = bind(greet, { user: 'Bob' });
+
+boundGreet('Hello'); //=&gt; "Hello Bob"
+</code></pre>
+<p>We also have another useful feature built into <code>bind</code> - partial application. Partial application is essentially the act of pre-filling function arguments. Any future arguments are then appended to the arguments we have already defined.</p>
+<pre><code>var greet = function (user, greeting) {
+  return greeting + ' ' + user;
+};
+
+var greetBlake = bind(greet, null, 'Blake');
+
+greetBlake('Hi'); //=&gt; "Hi Blake"
+greetBlake('Hello'); //=&gt; "Hello Blake"
+</code></pre>
+<h2 id="bonus-implementation-using-variadic">Bonus Implementation using Variadic</h2>
+<p>In my last post, I introduced the concept of a <a href="http://blakeembrey.com/articles/javascript-variadic-function/">variadic function</a>. As this article demonstrates, <code>bind</code> is a perfect example of a variadic function, so let's reimplement <code>bind</code> with the variadic function.</p>
+<pre><code>var bind = variadic(function (fn, context, args) {
+  return variadic(function (called) {
+    return fn.apply(context, args.concat(called));
+  });
+});
+</code></pre>
+</article>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Forcing Function Arity in JavaScript</h1>
+					<span class="ref-site">http://blakeembrey.com/articles/2014/01/forcing-function-arity-in-javascript/</span>
+					<div class="tutorial__content">
+<article class="content article"><p>Function arity in something in JavaScript that is usually overlooked. For the most part, that's perfectly understandable, it's just a number. Unfortunately, this number can be integral to many other functions working correctly. But first, what number am I talking about?</p>
+<pre><code>var fn = function (a, b) {};
+
+fn.length; //=&gt; 2
+</code></pre>
+<p>As you can see, the length gives up the exact number of arguments the function is expecting to be passed in. This can be useful for other functions that might want to alter its behaviour based on this digit. For example, I found outlining this issue <a href="http://raganwald.com/2013/03/21/arity-and-partial-function-application.html">with currying</a>. Basically, the <code>curry</code> function implementation relies on using the arity information to know how many times the function needs to be curried.</p>
+<p>To force the number of arity in our returned anonymous functions, we need to dynamically generate a function with the specified number of arguments. Why? Because the previous implementations of <a href="http://blakeembrey.com/articles/wrapping-javascript-functions/">wrapping functions</a>, <a href="http://blakeembrey.com/articles/javascript-bind-function/">bind</a>, <a href="http://blakeembrey.com/articles/javascript-variadic-function/">variadic</a> and every other functional utility I have demonstrated don't proxy the number of arguments through the returned function.</p>
+<p>This can be a problem in the case where we want to use this function somewhere that expects a function length to work correctly, like when currying. We could fix this at the source, a half a dozen times and any number of times more. Or we could write a little utility that will enfore a number of arguments for us.</p>
+<pre><code>var names   = 'abcdefghijklmnopqrstuvwxyz';
+var __slice = Array.prototype.slice;
+
+/**
+ * Make a function appear as though it accepts a certain number of arguments.
+ *
+ * @param  {Number}   length
+ * @param  {Function} fn
+ * @return {Function}
+ */
+var arity = function (length, fn) {
+  return eval(
+    '(function (' + __slice.call(names, 0, length).join(',') + ') {\n' +
+    'return fn.apply(this, arguments);\n' +
+    '})'
+  );
+};
+</code></pre>
+<p>The above function allows us to pass in an argument length and a function to proxy. It then returns to us an anonymous function with the correct number of arguments defined (<code>.length</code> works!) and allows us to call the function and return the usual result. It doesn't do anything to the arguments in the interim, it just tells the world how many arguments we are accepting.</p>
+<h2 id="the-other-arity-problem">The Other Arity Problem</h2>
+<p>So we've touched one of the arity problems, which is a expecting to read the correct arity from a function. The reverse arity problem is when a function is called with incorrect or overloaded arguments. Consider <code>parseInt</code>, which accepts two arguments - a string and the radix.</p>
+<pre><code>[1, 2, 3, 4, 5].map(parseInt); //=&gt; [1, NaN, NaN, NaN, NaN]
+</code></pre>
+<p>Now we're having problems. To fix this we can make a utility function that limits the number of arguments passed through.</p>
+<pre><code>var __slice = Array.prototype.slice;
+
+/**
+ * Force a function to accept a specific number of arguments.
+ *
+ * @param  {Number}   length
+ * @param  {Function} fn
+ * @return {Function}
+ */
+var nary = function (length, fn) {
+  return function () {
+    return fn.apply(this, __slice.call(arguments, 0, length));
+  };
+};
+</code></pre>
+<p>If you've been reading, you would have just noticed that we introduced the original bug we've been trying to avoid. That is, we're returning a new anonymous function without proxying the number of arguments through. Let's quickly correct that with the function we just wrote.</p>
+<pre><code>var __slice = Array.prototype.slice;
+
+/**
+ * Force a function to accept a specific number of arguments.
+ *
+ * @param  {Number}   length
+ * @param  {Function} fn
+ * @return {Function}
+ */
+var nary = function (length, fn) {
+  // Uses the previous function to proxy the number of arguments.
+  return arity(length, function () {
+    return fn.apply(this, __slice.call(arguments, 0, length));
+  });
+};
+</code></pre>
+<p>Now we can use this to fix our map error from earlier. We also have the added bonus of a correct argument representation.</p>
+<pre><code>nary(1, parseInt).length; //=&gt; 1
+
+[1, 2, 3, 4, 5].map(nary(1, parseInt)); //=&gt; [1, 2, 3, 4, 5]
+</code></pre>
+</article>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Wrapping JavaScript Functions</h1>
+					<span class="ref-site">http://blakeembrey.com/articles/2014/01/wrapping-javascript-functions/</span>
+					<div class="tutorial__content">
+<article class="content article"><p>In the modern age of web applications and development, it seems we are constantly adding side effects to every part of our applications - everything from analytics to event triggering. Unfortunately in a lot of cases, we tend to cram this functionality into function with the useful stuff. As programmers, this causes numerous issues down the line - especially when it comes to refactoring and code comprehensibility.</p>
+<p>A simple way to keep this functionality apart from the core code is create a helpful utility function to manage it for you. And to keep our code readability, we shouldn't allow anything advanced that can break our understanding of the original function. That means we don't want to be able to alter the original function, but we can still trigger any side effects we need to inline with the original function.</p>
+<pre><code>var before = function (before, fn) {
+  return function () {
+    before.apply(this, arguments);
+    return fn.apply(this, arguments);
+  };
+};
+</code></pre>
+<p>To use the function, we can pass any function in as the first argument and the original function we want to wrap as the second argument. For example, we could do <code>before(logger, add)</code>. Even without seeing the <code>logger</code> or <code>add</code> functions, we can imagine what each do. And because we are passing all the arguments to the side effect function, we can do stuff with the information.</p>
+<p>One thing I find myself doing is checking what arguments were passed to a certain function. To do this now, we can <code>before(console.log.bind(console), fn)</code>. Now, let's implement the reverse functionality.</p>
+<pre><code>var after = function (fn, after) {
+  return function () {
+    var result = fn.apply(this, arguments);
+    after.call(this, result);
+    return result;
+  };
+};
+</code></pre>
+<p>This is extremely similar to the first example. The main difference is that the first function passed in is the side effect, but now we have the side effect running after our wrapped function. Adapting the previous example, we can now do <code>after(add, logger)</code> and the logger will execute after the result is computed with the same arguments.</p>
+<p>One cool thing we could actually do, is to run argument validation in the <code>before</code> function. Consider this.</p>
+<pre><code>var validAdd = before(function () {
+  for (var i = 0; i &lt; arguments.length; i++) {
+    if (typeof arguments[i] !== 'number') {
+      throw new TypeError('Expected a number');
+    }
+  }
+}, add);
+</code></pre>
+<p>We can also put these two functions together and create a new utility. This one allows us to pass both a function before and after our core functionality. E.g. <code>around(logger, add, logger)</code>.</p>
+<pre><code>var around = function (over, fn, under) {
+  return before(over, after(fn, under));
+};
+</code></pre>
+<h2 id="allow-unlimited-before-and-after-functions">Allow unlimited before and after functions</h2>
+<p>We can also adapt the functions to accept a variable number of arguments as the <code>before</code> and <code>after</code> functions. However, we can't do this to the <code>around</code> utility since we wouldn't know which argument is the core function.</p>
+<pre><code>var __slice = Array.prototype.slice;
+
+var before = function (/* ...before, fn */) {
+  var fn     = arguments[arguments.length - 1];
+  var before = __slice.call(arguments, 0, -1);
+
+  return function () {
+    for (var i = 0; i &lt; before.length; i++) {
+      before[i].apply(this, arguments);
+    }
+
+    return fn.apply(this, arguments);
+  };
+};
+
+var after = function (fn /*, ...after */) {
+  var after = __slice.call(arguments, 1);
+
+  return function () {
+    var result = fn.apply(this, arguments);
+
+    for (var i = 0; i &lt; after.length; i++) {
+      after[i].call(this, result);
+    }
+
+    return result;
+  };
+};
+</code></pre>
+<h2 id="advanced-wrapping-utility">Advanced wrapping utility</h2>
+<p>So far we've seen some function wrapping utilities that are purely for side effects. They have no capability to alter the main function arguments or change the function result. For something more advanced than trigger side-effects, we might to want to use something a little different.</p>
+<pre><code>var __slice = Array.prototype.slice;
+
+var wrap = function (fn, wrap) {
+  return function () {
+    return wrap.apply(this, [fn].concat(__slice.call(arguments)));
+  };
+};
+</code></pre>
+<p>This is actually pretty similar the <code>wrap</code> function used in Prototype.js. It allows us to call a custom wrapper function with the original function and all the arguments. But, how do we even use this?</p>
+<pre><code>var addAndMultiplyBy2 = wrap(add, function (originalFn, a, b) {
+  return 2 * originalFn(a, b);
+});
+</code></pre>
+</article>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Javascript : Basic Scope</h1>
+					<span class="ref-site">http://www.datchley.name/basic-scope/</span>
+					<div class="tutorial__content">
+<section class="post-content">
+    <p><em>Part 1 of a <a href="/tag/fundamentals">fundamentals series</a> covering Javascript basics that I routinely come across in mentoring junior developers.</em></p>
+
+<p>It's common for Javascript developers at all levels to deal with scope and its associated implications.  In this post we'll cover the basics of Javascript scope and some of the issues commonly encountered.</p>
+
+<h2 id="lexicalscope">Lexical Scope</h2>
+
+<p>Scope, in general, refers to how the browser's javascript engine looks up identifier names at run time to in order to set how they will be looked up during execution.  That definition implies that there is a <em>lexing</em> phase of the engine which is done prior to executing.</p>
+
+<p>Javascript has two lexical scopes: <em>global</em> and <em>function</em> level. With ES6 there is also <em>block</em> level scoping; but more on that later. These lexical scopes are also nested. For instance:</p>
+
+<p><a href="http://www.datchley.name/content/images/2015/08/js-es5-scope-2.png" class="lightbox" data-featherlight="image"><img src="http://www.datchley.name/content/images/2015/08/js-es5-scope-2.png" alt="" draggable="true" data-bukket-ext-bukket-draggable="true"></a></p>
+
+<p>Here we have three separate lexical scopes. The default global scope which contains declarations for <code>a</code> and <code>foo</code>, the lexical scope declared within the <code>foo()</code> function which contains <code>x</code>, <code>b</code> and <code>bar</code>, and the lexical scope declared within <code>bar()</code> which contains <code>y</code> and <code>c</code>.  </p>
+
+<p>Notice that outside of a function, the default scope of declared variables is the global scope (<em><code>window</code> in the browser</em>). Also, that scopes can be nested.  Nested scopes have access to the scope's they are declared in, which has two important implications:</p>
+
+<ul>
+<li>nested scopes can access variables declared in their parent scopes (<em>there is a scope lookup chain</em>)</li>
+<li>nested scopes can <em>shadow</em> variables declared in their parent scope.</li>
+</ul>
+
+<h3 id="closures">Closures</h3>
+
+<p>The first point allows <em>closures</em>, meaning we can define a function which will retain access to it's enclosing scope, even outside of that enclosing scope.  </p>
+
+<pre><code>var times = function(n) {  
+    return function(x) {
+        return x * n;
+    };
+}
+var times2 = times(2);  
+console.log(times2(4));  
+// =&gt; 8
+</code></pre>
+
+<p>Here, the function returned by times allows us to create functions that multiply their argument by a given value, <code>n</code>. The function returned retains a reference to <code>n</code>, even though the lexical scope of that function is not accessible outside of the actual function. <code>n</code>, in effect, becomes a <em>free</em> variable that is only accessible to the function defined and returned within the scope in which <code>n</code> was declared.</p>
+
+<h3 id="shadowing">Shadowing</h3>
+
+<p>Scope lookup during the lexical phase also stops once it finds the first match. This means you can <em>shadow</em> a variable further up the scope chain.</p>
+
+<pre><code>var a = 4;  
+function foo(x) {  
+   var a = x;  // shadows parent 'a' declaration
+   console.log(a);
+}
+console.log(foo(6));   // =&gt; 6  
+console.log(a);        // =&gt; 4  
+</code></pre>
+
+<p>Here, the locally declared <code>a</code> <em>shadows</em> the <code>a</code> declared in the parent, global scope.  Without the <code>var</code> keyword, we would have been reassigning to the variable <code>a</code> in the parent scope.</p>
+
+<pre><code>var a = 4;  
+function foo(x) {  
+   a = x;    // woops!
+   console.log(a);
+}
+console.log(foo(6));   // =&gt; 6  
+console.log(a);        // =&gt; 6  
+</code></pre>
+
+<h3 id="hoisting">Hoisting</h3>
+
+<p>Hoisting also plays a factor with Javascript's scoping. In Javascript, <code>var</code> and <code>function(){}</code> declarations are hoisted to the top of the current scope; and hence, those identifiers are available to any code in that scope.</p>
+
+<pre><code>(function(){
+   console.log(inc(4));  // 5
+   console.log("a =",a); // a = undefined?
+
+   var a = 1;
+   function inc(n){ return ++n; }
+})();
+</code></pre>
+
+<p>Uh, oh. So we can clearly access <code>inc()</code> which was hoisted and it looks like we can use <code>a</code> without a Reference Error; but, <code>a</code> is undefined? </p>
+
+<p>Javascript only hoists the declaration and not the initialized value.  The value will still end up being assigned at the same spot you have the original declaration. The above code actually gets modified and works as follows:</p>
+
+<pre><code>(function(){
+    var a;
+    function inc(n){ return ++n; }
+
+    console.log(inc(4));   // 5
+    console.log("a = ", a); // a = undefined
+
+    a = 4; // Ah-ha!
+})();
+</code></pre>
+
+<p>This is the same for variables assigned function expressions as well. Because function expressions are just values in an assignment statement.</p>
+
+<pre><code>(function(){
+   console.log(inc(4)); // 5
+   console.log(dec(4)); // ReferenceError: dec undefined
+
+   var dec = function(n) { return --n; }
+   function inc(n){ return ++n; }
+})();
+</code></pre>
+
+<h3 id="es6scopingadditions">ES6 Scoping Additions</h3>
+
+<p>With the new ES6 specification, lexical scope has been altered in a handful of ways, primarily with the new <code>let</code> and <code>const</code> declarations and with the shorter <code>=&gt;</code> function syntax.</p>
+
+<p>In ES5, as discussed above, if you wanted to declare a lexically scoped block of code, you could do so by creating a closure, typically with an <em>immediately invoked function expression</em> or <em>IIFE</em>.  ES5 was essentially lexically scoped to <em>functions</em>.</p>
+
+<pre><code>var greet = (function() {  
+   var greeting = "Hello!";
+   return function(name) { 
+      console.log(greeting + ", " + name + "!");
+   };
+})();
+greet("Cap'n Tight Pants");  
+// =&gt; "Hello, Cap'n Tight Pants!"
+</code></pre>
+
+<h4 id="let"><code>let</code></h4>
+
+<p>With ES6's <code>let</code> declaration we can now have lexically scope <em>blocks</em> of code, without using functions or IIFEs.</p>
+
+<pre><code>var a = 1, b = 2, c = 3;  
+{
+  let a = 4, b = 5, c = 6;
+  console.log("a,b,c = ", a, b, c);
+}
+console.log("a,b,c = ", a, b , c);  
+// =&gt; a,b,c = 4 5 6
+// =&gt; a,b,c = 1 2 3
+</code></pre>
+
+<p>Something you might encounter with <code>let</code> declarations also, is that according to the ES6 spec, <code>let</code> declarations don't <em>hoist</em> like <code>var</code> and <code>function</code> declarations.</p>
+
+<p>With <code>let</code> declarations, you'll get a reference error if you try to access a <code>let</code> declared variable <em>before</em> its declaration in the code (<em>according to the ES6 spec</em>).  </p>
+
+<pre><code>console.log("a = ", a);  
+console.log("b = ", b);  
+var a = 4;  
+let b = 6;  
+// =&gt; a = undefined
+// =&gt; b = ReferenceError!
+</code></pre>
+
+<p>However, if you are using Traceur or Babel(6to5), this will not be the case, as transpiling this dead zone behavior would require much more work and nearly reimplementing the Javascript run-time to handle those cases.</p>
+
+<h4 id="const"><code>const</code></h4>
+
+<p><code>const</code> is the other new, block scope declaration type, which, as you would suspect creates <em>constant</em> variables.</p>
+
+<pre><code>const a = 4;  
+console.log("a = ", a);  
+a = 3;    // TypeError! a is readonly  
+</code></pre>
+
+<p>A <code>const</code> declared variable must be initialized with a value when it is declared.  Declaring <code>const a;</code> and trying to assign a value to it later on will throw an error.  Also, <code>const</code> works by limiting the assignment to a variable, not by freezing a variable's value. So, if you assign a reference type to it, you can still modify the underlying properties of that reference type:  </p>
+
+<pre><code>const a = { name: 'Mal', ship: 'Serenity' };  
+a = 4;   // TypeError  
+a.name = 'Wash'  // no problem!
+
+const b = [1,2,3];  
+b.unshift(0);  // b = [0,1,2,3]  
+</code></pre>
+
+<p><code>const</code> declared reference variables hold a constant reference to that variable, not a constant value - so the underlying reference assigned to a const can change.</p>
+
+<h3 id="lexicalthis">Lexical <code>this</code></h3>
+
+<p>We've already encountered the idea that Javascript <code>var</code> and <code>function</code> declarations are lexically scoped to the enclosing function or scope they are contained in.  But, what about the <code>this</code> keyword inside of functions? What does it reference?</p>
+
+<p>Most familiar is the use of <code>this</code> in functions used as constructors with the <code>new</code> keyword.  When using <code>new</code>, <code>this</code> refers to the eventual object that will be returned from the function.</p>
+
+<pre><code>function Tribble(color) {  
+  this.color = color;
+}
+var my_tribble = new Tribble("brown");  
+my_tribble.color;  // "brown"  
+</code></pre>
+
+<p>When calling an method on an object, <code>this</code> refers to the object that is the <em>context</em> that that function is being called with; in most cases, this is the object prototype or instance the function is assigned to.</p>
+
+<pre><code>var tardis = {  
+  where: "Gallifrey",
+  go: function() { 
+    console.log("Off to " + this.where + ", Allons-y!"); 
+  }
+};
+tardis.go();  // "Off to Gallifrey, Allons-y!"  
+</code></pre>
+
+<p>When calling <code>tardis.go()</code>, the <code>this</code> references the current context of that function, which is the <code>tardis</code> object.  But, even without a context object, <code>this</code> still refers to the functions context, which turns out to be <code>window</code> for browsers.</p>
+
+<pre><code>var where = "Gallifrey";  
+function go() {  
+  console.log("Off to " + this.where + ", Allons-y!"); 
+}
+go();  // "Off to Gallifrey, Allons-y!"  
+</code></pre>
+
+<p><code>this</code>, it seems, is fairly flexible and potentially dubious in Javascript depending on what you're trying to do.</p>
+
+<h4 id="es6functions">ES6 <code>=&gt;</code> functions</h4>
+
+<p>ES6 specifies a short-hand syntax for declarations for functions using the <em>fat arrow</em> (<code>=&gt;</code>) syntax.  However, <code>=&gt;</code> functions bind <code>this</code> to their enclosing scope, unlike regular functions which create a new scope entirely.</p>
+
+<pre><code>var even = (x) =&gt; x % 2 == 0;  
+console.log(even(2));  // true  
+console.log(even(3));  // false
+
+var a = 4,  
+    list = [1,2,3].map((n) =&gt; n + a);
+// list = [5,6,7]
+</code></pre>
+
+<p>The left side of the <code>=&gt;</code> declares the function's arguments and the right side declares the return value, or a block of code as the function body.</p>
+
+<pre><code>let evens = [1,2,3,4,5,6].filter((n) =&gt; {  
+  if (even(n)) {
+    return n;
+  }
+});
+console.log(evens);  // [2,4,6]  
+</code></pre>
+
+<p>There is much more to Javascript scoping than this (<em>ha, get it?</em>); and I would suggest you take a look at Kyle Simpson's <a href="http://www.amazon.com/You-Dont-Know-JS-Closures/dp/1449335586">You Don't Know JS: Scope &amp; Closures</a> and the <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-declarations-and-the-variable-statement">ES6 spec</a> related to scoping of <code>let</code> and <code>const</code> as well for a more detailed coverage and understanding.</p>
+
+<p>If you are using <a href="https://babeljs.io/">Babel</a> or <a href="https://github.com/google/traceur-compiler">Traceur</a>, be sure and reference their documentation for any missing parts or inconsistencies from the ES6 specification as well, which will make it easier when you transition for transpilers to native ES6 in the browser.</p>
+
+<hr>
+
+<p><em>In <a href="http://www.datchley.name/functions/">Part 2</a> in the 'fundamentals' series I'll cover some of the basics of Javascript functions, notably <code>call</code>, <code>apply</code>, <code>bind</code> and more on the ES6 <code>=&gt;</code> functions.</em></p>
+        <ul class="tags">
+            <li class="tag" id="tag-id-2"><a href="/tag/fundamentals/">fundamentals</a></li> 
+            <li class="tag" id="tag-id-3"><a href="/tag/scope/">scope</a></li> 
+        </ul>
+  </section>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Part 2 : Functions</h1>
+					<span class="ref-site">http://www.datchley.name/functions/</span>
+					<div class="tutorial__content">
+<section class="post-content">
+    <p><em>Part 2 of a series on Javascript Fundamentals. See <a href="http://www.datchley.name/basic-scope/">Part 1</a> on Scope in Javascript.</em></p>
+
+<h3 id="declarationexpressioninvoking">Declaration, Expression, Invoking</h3>
+
+<p>I don't want to belabor the basics of function declaration and definition in Javascript; but there are primarily two different ways you'll see functions in Javascript:</p>
+
+<ul>
+<li>function declarations</li>
+<li>function expressions (named &amp; anonymous)</li>
+</ul>
+
+<p>Functions can be declared using the <code>function</code> keyword and a name, as in  </p>
+
+<pre><code>function compare(a,b) {  
+  return a == b ? 0 : (a &lt; b) ? -1 : 1;
+}
+</code></pre>
+
+<p>This declares a function called <code>compare</code>, which is <em>hoisted</em> to the top of its enclosing scope and available to any code in that scope or its child scopes.</p>
+
+<p>Functions can also be treated as values, meaning you can assign them to variables and pass and return them to and from functions as well. These are referred to as <em>first-class functions</em> and lead to <em>higher-order functions</em> when working in a more declarative, functional style of programming.</p>
+
+<pre><code>// function expression
+var even = function(n){ return n % 2 == 0; };  
+
+// returning a function
+var log = function(base) {  // returning a function  
+  return function(n) {
+    return Math.log(n) / Math.log(base);
+  }
+};
+var log10 = log(10);  
+log10(100);   // 2  
+</code></pre>
+
+<p>For a discussion of function <code>scope</code> in relation to <em>IIFE</em>s and lexical <code>this</code>, refer to <a href="http://www.datchley.name/basic-scope/">Part 1</a> of this series on Scope.</p>
+
+<h3 id="functionargumentsarity">Function Arguments &amp; Arity</h3>
+
+<p>The arity of a function refers to the number of arguments a function expects. This is determined by the number of declared arguments in the function declaration and is available in the function's <code>.length</code> property.</p>
+
+<pre><code>function foo(a,b) { console.log(a, b); }  
+foo.length;   // 2  
+</code></pre>
+
+<p>A functions arity is, and can be, necessarily different than the arguments it actually receives when called.  If we invoke a function with fewer arguments than it expects, the argument identifiers in the function for arguments not passed will be set to undefined.</p>
+
+<pre><code>foo(4, 5);  // =&gt; 4, 5  
+foo(3);     // =&gt; 3, undefined  
+foo();      // =&gt; undefined, undefined  
+</code></pre>
+
+<p>Within a function we can access all the arguments passed, both those declared in the function declaration and any extras (<em>you can pass more than the declared arguments to a function</em>) using the available <code>arguments</code> variable.</p>
+
+<pre><code>function args(a,b) {  
+   console.log("a,b: ", a, b);
+   console.log("all: ", arguments);
+}
+foo(1,2);        // a,b: 1 2  
+                 // all: [1,2]
+foo(1,2,3,4);    // a,b: 1 2  
+                 // all: [1,2,3,4]
+</code></pre>
+
+<p>The <code>arguments</code> object is a local variable available within all functions and it is <em>array-like</em>.  This means it is not an instanceof the <code>Array</code> type and does not have many of it's methods.  <code>arguments</code> can be accessed by index, ie <code>arguments[0]</code>, <code>arguments[1]</code> and it has a <code>.length</code> property.</p>
+
+<p>This feature allows Javascript functions to have variable arguments. To work with the arguments as a real array, you can simply convert the arguments object to an array.</p>
+
+<pre><code>function has() {  
+  let args = [].slice.call(arguments);
+  args.forEach((arg) =&gt; console.log(arg));
+}
+has(1,2,3,4);  
+// 1
+// 2 
+// 3
+// 4
+</code></pre>
+
+<h3 id="invokingfunctions">Invoking functions</h3>
+
+<p>Invoking a function is done using the <code>()</code> operator on the function name or variable holding the function expression.</p>
+
+<pre><code>var foo(){ /* do foo */ }   // declaration  
+foo();   // invoke
+
+(function baz() {           // IIFE
+   console.log("baz!");
+})();
+// "baz!"
+
+var bar = function(){ /* do bar */ };  // expression  
+bar();   // invoke  
+</code></pre>
+
+<p>We can also assign a function to a property on an object and invoke it through the standard object property access method as well.</p>
+
+<pre><code>let princess = {  
+   name: 'Leia Organa',
+   say: function(msg) { console.log(this.name + ": " + msg); }
+};
+princess.say("I love you!");  
+// =&gt; Leia Organa: I love you!
+</code></pre>
+
+<p>In this case, when invoking a function via an object's property it's assigned to, the context of <code>this</code> in that function is the object itself.</p>
+
+<p>However, using Javascript's <code>.call()</code> and <code>.apply()</code>, we can change that context when invoking the function.</p>
+
+<pre><code>let name = 'Han Solo';  
+princess.say.call(this, "I know.");  
+// =&gt; Han Solo: I know.
+</code></pre>
+
+<p>What just happened there?  Why would Han totally underplay that kind of declaration <em>and</em> how'd he steal her line?  The <code>.call()</code> method's first argument is an object to use as the invoking context of the function being called.  This allows us to override <code>princess.name</code> and use the global <code>name</code> variable by passing in <code>this</code>, which refers to the <code>window</code> object.</p>
+
+<p><code>.call()</code> also lets us pass in as many arguments for that function using the remaining parameters, which is how Han came across as so smug.</p>
+
+<p>The only difference between <code>.call()</code> and <code>.apply()</code> is that <code>.apply()</code> only takes 2 parameters: a context object just like call, and an array of arguments (<em>instead of passing them as individual parameters</em>). Even though <code>.apply()</code> takes the arguments as an array, they are still passed normally to the function being invoked.</p>
+
+<pre><code>function add(a,b) { console.log(a + b); }  
+add.apply(null, [2,3]);  
+// 5
+</code></pre>
+
+<p>Why did we just pass <code>null</code> as the context object and what exactly did that do? According the the ECMAScript standard, passing in <code>null</code> or <code>undefined</code> will make the function's lexically scoped <code>this</code> point to the global scope.</p>
+
+<p>In most cases with single functions, the lexical context of <code>this</code> is probably not a concern, as you probably aren't referencing <code>this</code> within the function.  However, when dealing with functions assigned to object properties and invoked through them, understanding how the first argument of <code>.call()</code> and <code>.apply()</code> affect the function's <code>this</code> is important.</p>
+
+<p>Why would we use <code>.apply()</code> and not just use <code>.call()</code> everywhere?  Let's say you had a function called <code>after()</code> that would wrap an existing function and ensure some code was executed every time after that function was called. Using <code>.call()</code> would be nearly impossible given that you don't know the number of parameters that function might be called with - without resorting to something potentially dangerous like using <code>eval()</code>.</p>
+
+<pre><code>function lots(a,b,c,d) {  
+   console.log([a,b,c,d].join(','));
+}
+function after(fn) {  
+  var orig = fn;
+  return function() {
+    orig.call(null, /* how do you pass them? */);
+  };
+}
+var lots = after(lots);  
+lots(1,2,3,4);  
+</code></pre>
+
+<p>This is where <code>.apply()</code> and the <code>arguments</code> local variable come to the rescue:</p>
+
+<pre><code>function after(fn) {  
+  var orig = fn;
+  return function() {
+    var args = [].slice.call(arguments);
+    return orig.apply(null, args);
+  };
+}
+var lots = after(lots);  
+lots(1,2,3,4);  
+/// 1,2,3,4
+</code></pre>
+
+<h3 id="usingbind">Using <code>.bind()</code></h3>
+
+<p>So we know now that <code>.call()</code> and <code>.apply()</code> can be used to not only invoke the given function; but to also change it's calling context and pass parameters as well.  But, those methods directly invoke the function when used. </p>
+
+<p>Javascript also gives us the <code>.bind()</code> method on functions to allow us to <em>bind</em> both a context and one or more parameters and <em>not</em> invoke the function; but instead return this newly bound function to be called later.</p>
+
+<p>We can use the same example from above, but allow our <code>after</code> function to take a second parameter to specify the calling context the function should be executed with.</p>
+
+<pre><code>var doctor = {  
+  name: 'Matt Smith',
+  who: function named() {
+   console.log(this.name);
+  }
+};
+
+function after(fn, context) {  
+  var orig = context ? fn.bind(context) : fn;
+  return function() {
+    var args = [].slice.call(arguments);
+    return orig.apply(null, args);
+  };
+}
+
+var tenth = { name: 'David Tennant' };  
+var thedoctor = after(doctor.who, tenth);  
+doctor.who();  // Matt Smith  
+thedoctor();   // David Tennant  
+</code></pre>
+
+<p><code>.bind()</code> also allows us to pre-bind one or more argument parameters to the function as well.  For instance:</p>
+
+<pre><code>function add(a,b) { return a + b; }  
+var add2 = add.bind(null, 2);  
+add2(4);   // 6  
+add2(3,6); // 5  
+</code></pre>
+
+<p>Here, we create a new function by <em>partially applying</em> the first argument to <code>add()</code>.  Passing any subsequent parameters makes no difference.</p>
+
+<p>Keep in mind that <code>.call()</code>, <code>.apply()</code> and <code>.bind()</code> can not be used with ES6's <code>=&gt;</code> functions to change the context of <code>this</code>, as <code>this</code> is explicitly bound to the enclosing scope where the function is declared.  You can use <code>.apply</code> and <code>.call</code> to pass in argument parameters, but the first argument is ignored for changing context.</p>
+
+<p>For more detailed information, the Mozilla Developer Network (MDN), a good reference for anything Javascript, has excellent coverage on <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call"><code>.call</code></a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply"><code>.apply</code></a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind"><code>.bind</code></a>.</p>
+
+<hr>
+
+<p><em>In Part 3 in the 'fundamentals' series I'll cover a number of the ES5/6 array methods and idioms, like <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>from</code>, <code>of</code> and iterating arrays using <code>for..of</code></em></p>
+        <ul class="tags">
+            <li class="tag" id="tag-id-2"><a href="/tag/fundamentals/">fundamentals</a></li> 
+            <li class="tag" id="tag-id-4"><a href="/tag/functions/">functions</a></li> 
+        </ul>
+  </section>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Part 3 : .map, .reduce & .filter, Oh My!</h1>
+					<span class="ref-site">http://www.datchley.name/working-with-collections/</span>
+					<div class="tutorial__content">
+<section class="post-content">
+    <p><em>Part 3 of a series on Javascript Fundamentals. See the <a href="/tag/fundamentals">full list of posts</a></em></p>
+
+<p>Making use of Javascript's <code>map()</code>, <code>reduce()</code> and <code>filter()</code> Array methods can help you write more declarative, fluent style code. Rather than building up <code>for</code> loops and nesting to process data in lists and collections, you can take advantage of these methods to better organize your logic into building blocks of functions, and then chain them to create more readable and understandable implementations. And ES6 gives us a few more nice array methods as well, like <code>.from</code>, <code>.find</code>, <code>.findIndex</code>, <code>.of</code> and <code>for..of</code> loops!</p>
+
+<h2 id="arraymap"><code>Array.map</code></h2>
+
+<p>There are very common things we want to do to lists. The first one that comes to mind is cycling through the list and performing an operation on each item. You can do this with <code>Array.forEach</code>. </p>
+
+<pre><code>var numbers = [1,2,3,4,5,6,7,8,9,10];  
+numbers.forEach((n, index) =&gt; {  
+   numbers[index] = n + 1;
+});
+// =&gt; [2,3,4,5,6,7,8,9,10,11]
+</code></pre>
+
+<p>Here, we're looping through the array and adding one to each item. This approach also has the side effect that it mutates the original list of data. As good developers, we want to reduce side effects and be <em>transparent</em> and <em>idempotent</em> with our functions and processing. </p>
+
+<p>So, let's use <code>map()</code> to perform the same operation and leave the original list in tact.  </p>
+
+<pre><code>var plusone = numbers.map((n) =&gt; n+1);  
+// =&gt; numbers: [1,2,3,4,5,6,7,8,9,10]
+// =&gt; plusone: [2,3,4,5,6,7,8,9,10,11]
+</code></pre>
+
+<p>Easy enough. No side-effects and we have a new list with exactly what we wanted.</p>
+
+<p>Now, what if we then want to take just the <em>even</em> numbers from this result in a list?</p>
+
+<h2 id="arrayfilter"><code>Array.filter</code></h2>
+
+<p>We can use <code>Array.filter()</code> to visit each item in a list, much like <code>map()</code>; however, the predicate function you pass to <code>filter()</code> should return either <code>true</code>, to allow that item in the list, or <code>false</code> to skip it. Also like <code>map()</code>, <code>filter()</code> returns a new array with copies of the items that match the filter and does not modify the original.</p>
+
+<pre><code>var evens = plusone.filter((n) =&gt; n % 2 === 0);  
+// =&gt; evens: [2,4,6,8,10]
+</code></pre>
+
+<p>Even easier! Now that we've got the list we want to work with, lets get a count of the number of how many are evenly divisible by 4.  </p>
+
+<h2 id="arrayreduce"><code>Array.reduce</code></h2>
+
+<p>When we want to aggregate data in a list, or data related to a list, we can use <code>Array.reduce()</code>.  <code>reduce()</code> applies a function to an accumulated value on each element in a list from left to right.</p>
+
+<pre><code>var byfour = evens.reduce((groups, n) =&gt; {  
+  let key = n % 4 == 0 ? 'yes' : 'no';
+  (groups[key] = groups[key] || []).push(n);
+  return groups;
+}, {});
+// =&gt; byfour: { 'yes': [4,8], 'no': [2,6,10] }
+</code></pre>
+
+<p>Unlike <code>map()</code> and <code>filter()</code>, however, <code>reduce()</code> doesn't return a new list, it returns the aggregate value directly.  In the case of our number list, our accumulated value was the initial empty object passed as the last parameter to the <code>reduce()</code> call.  We then used that to create a property based on the divisible-by-four-ness of each number that served as a bucket to put the numbers in.</p>
+
+<h2 id="beingfluentish">Being fluent-ish</h2>
+
+<p>A fluent API or interface is one that provides better readability through:</p>
+
+<ul>
+<li>chaining of method calls over some base context</li>
+<li>defining operations via the return value of each called method</li>
+<li>is self-referential, where the new context is equivalent to the last</li>
+<li>terminates via return of a void context</li>
+</ul>
+
+<p>JQuery works likes this, as well as lodash and underscore using the <code>_.chain()</code> method wrapper, allowing chaining of method calls on a base context that represents a DOM element tree.</p>
+
+<p>Because <code>map()</code> and <code>filter()</code> return new arrays, we can take advantage of this and chain multiple array operations together.</p>
+
+<pre><code>[1,2,3,4,5,6,7,8,9,10]
+  .map((n) =&gt; n*2)
+  .filter((n) =&gt; 10 % n == 0)
+  .reduce((sum, n) =&gt; (sum += n), 0);
+// =&gt; 12
+</code></pre>
+
+<p>Now, this isn't a "real" fluent interface; but it does resemble one from a chaining perspective and gives us a more declarative approach to implementing operations on lists.</p>
+
+<h2 id="someneweres6arraymethods">(Some) Newer ES6 Array methods</h2>
+
+<p>ES6 gives us some new Array methods that make some things easier compared to what we previously had to do in ES5, as well as adding some extra functionality.</p>
+
+<h3 id="arrayfrom"><code>Array.from()</code></h3>
+
+<p>The new <code>.from()</code> method is a static method of Array and allows us to create real arrays from "array-like" objects (<em>such as <code>arguments</code> or dom collections</em>); and it also allows us to pass a function to to apply to items in those arrays, giving us some <code>.map()</code>-like behavior as well.</p>
+
+<p>For instance, we can create a real array from a DOM collection, which isn't really an instance of Array but is array like in that it allows indexing and has a length.</p>
+
+<pre><code>var divs = document.querySelectorAll('div.pane');  
+var text = Array.from(divs, (d) =&gt; d.textContent);  
+console.log("div text:", text);  
+</code></pre>
+
+<p>The above snippet takes the DOM collection returned from <code>querySelectorAll()</code> and uses <code>Array.from</code> to map across each item and return us a "real" array of the text content from those DOM elements.  To use it with the <code>arguments</code> variable in functions is just as easy.</p>
+
+<pre><code>// Old, ES5 way to get array from arguments
+function() {  
+  var args = [].slice.call(arguments);
+  //...
+}
+
+// Using ES6 Array.from
+function() {  
+  var args = Array.from(arguments);
+  //..
+}
+</code></pre>
+
+<p>You can also use <code>Array.from</code> for other cool things, like filling in holes in arrays, since <code>Array.from</code>'s map function is passed <code>undefined</code> for any empty indexes in the array-like value being operated on.  </p>
+
+<pre><code>var filled = Array.from([1,,2,,3], (n) =&gt; n || 0);  
+console.log("filled:", filled);  
+// =&gt; [1,0,2,0,3]
+</code></pre>
+
+<h3 id="arrayfindandarrayfindindex"><code>Array.find()</code> and <code>Array.findIndex()</code></h3>
+
+<p>ES5 gave us <code>Array.filter()</code> which we've seen and is fantastic for filtering out the elements in an array. But, to find an element by value in an array in ES5, we'd have had to resort to something like the following.  To loop over an array and use more complex logic to find a value, we'd have to use a <code>for</code> loop.</p>
+
+<pre><code>function find(list, value) {  
+    var index = list.indexOf(value);
+    return index == -1 ? undefined : list[index];
+}
+var arr = ['cat','dog','bat','badger','cow'];  
+console.log("dog? ", find(arr, 'dog'));  
+// dog? dog
+console.log("weasle? ", find(arr, 'weasle'));  
+// weasle? undefined
+
+var found;  
+// Find the first item longer than 3 characters
+for (var i=0; i &lt; arr.length; i++) {  
+  if (arr[i].length &gt; 3) {
+    found = arr[i];
+    break;
+  }
+}
+// found: 'badger'
+</code></pre>
+
+<p>But, ES6 allows us to do the same thing using <code>Array.find()</code> to get a value, if it exists in an array; and <code>Array.findIndex()</code> to get the index of something by value.  However, instead of taking a value directly as a parameter, <code>find()</code> and <code>findIndex</code> take a predicate function that is applied to each element in the array, and once the predicate returns true, stops the search and returns the value at that position (<em>for <code>.find</code></em>) or the index at that position (<em>for <code>findIndex</code></em>).</p>
+
+<pre><code>// Array.find and Array.findIndex(fn)
+var found = [1,4,-5,10].find((n) =&gt; n &lt; 0);  
+console.log("found:", found);
+
+var index = [1,4,-5,10].findIndex((n) =&gt; n &lt; 0);  
+console.log("index:", index);
+
+// found: -5
+// index: 2
+</code></pre>
+
+<h3 id="arrayof"><code>Array.of()</code></h3>
+
+<p><code>Array.of()</code> lets us create a new Array instance from a variable number of arguments, regardless of the type of those arguments.</p>
+
+<pre><code>var arr = Array.of(0,true, undefined, null);  
+console.log("arr:", arr);  
+// arr: [0, true, undefined, null]
+</code></pre>
+
+<p>This is essentially the same as the following ES5 function:</p>
+
+<pre><code>function ArrayOf(){  
+  return [].slice.call(arguments);
+}
+</code></pre>
+
+<p><code>Array.of()</code> works more consistently at creating instances of Arrays than using the <code>Array()</code> constructor.  The <code>Array()</code> constructor can run into issues if a single argument is passed and it's a number.</p>
+
+<pre><code>console.log(new Array(3, -5, 10));  
+// [3, -5, 10] - an array with the arguments as entries
+console.log(new Array(3));  
+// [,,]  - an array with three empty holes
+console.log(new Array(5.7));  
+// RangeError: invalid array length - woops!
+</code></pre>
+
+<h3 id="theforofloop">The <code>for..of</code> loop</h3>
+
+<p>The <code>for..of</code> loop creates a loop over any <em>iterable</em> object, including <code>Array</code>, <code>arguments</code>, <code>Set</code>, <code>Map</code> and custom iterable objects like <code>generators</code>. This is different than the <code>for..in</code> operator, as <code>for..in</code> iterates over an Array, you get indexes, not values.  <code>for..in</code> can be used on Objects, but returns the property names, not values. <code>for..of</code> can not be used on <code>Objects</code>, as there is no default iterator defined for <code>Objects</code> in javascript.</p>
+
+<pre><code>var arr = [3,5,7,9],  
+    obj = { a: 1, b: 2, c: 3 };
+
+// ES5 for..in over objects
+for (var p in obj) {  
+  console.log(p);
+}
+// a  b   c
+
+// ES5 for..in over arrays
+for (var n in arr) {  
+  console.log(n);
+}
+// 0 1 2 3
+
+// ES6 for..of over arrays
+for (let n of arr) {  
+  console.log(n);
+}
+// 3 5 7 9 
+</code></pre>
+
+<p>Using <code>for..of</code>, we can now actually iterate values on Arrays. Though we still can't use it on <code>Object</code>s, we can use a generator and <code>for..of</code> to loop over the keys and values in an object.</p>
+
+<pre><code>// using a generator function
+function* entries(obj) {  
+   for (let key of Object.keys(obj)) {
+     yield [key, obj[key]];
+   }
+}
+
+
+for (let [key, value] of entries(obj)) {  
+   console.log(key, "-&gt;", value);
+}
+// a -&gt; 1
+// b -&gt; 2
+// c -&gt; 3
+</code></pre>
+
+<p>Iterable objects and generators are, however, a topic for a different blog post!</p>
+
+<p>If you're looking for more information on some of the ES6 Array methods, be sure and check out <a href="http://www.2ality.com/2014/05/es6-array-methods.html">Axel Rauschmayer's Post</a> and <a href="http://h3manth.com/new/blog/2014/es6-array-methods/">Hemanth HM's post</a>, and be sure and look at <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of">MDN's entry</a> on <code>for..of</code>.</p>
+
+<hr>
+
+<p><em>In Part 4 in the 'fundamentals' series I'll cover some of the basics of <del>iterables and generators</del> (a bit early for this) Objects, prototypes, delegation and composition, including <code>Object.create()</code>.</em></p>
+        <ul class="tags">
+            <li class="tag" id="tag-id-2"><a href="/tag/fundamentals/">fundamentals</a></li> 
+            <li class="tag" id="tag-id-5"><a href="/tag/javascript/">javascript</a></li> 
+            <li class="tag" id="tag-id-6"><a href="/tag/collections/">collections</a></li> 
+        </ul>
+  </section>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Part 4 : Object-ively Javascript</h1>
+					<span class="ref-site">http://www.datchley.name/delegate-object-to-classical-inheritance/</span>
+					<div class="tutorial__content">
+<section class="post-content">
+    <p><em>Part 4 of a series on Javascript Fundamentals. See the <a href="/tag/fundamentals">full list of posts</a></em></p>
+
+<p>The goal of this post is to, at a high level, cover some of the basics of creating, using and implementing objects in Javascript.  In a second part, we'll follow up with understanding Javascript object prototype, the prototype chain and making better use of composition and delegation over inheritance.</p>
+
+<p><em>I'll mention objects being "prototype linked" to other objects in this article quite often. If you're still confused by Javascript's prototype based object delegation scheme, just hold tight for the second part coming soon</em></p>
+
+<h2 id="makingobjects">Making Objects</h2>
+
+<p>The easiest way to create objects in Javascript, and the most efficient, is using object literals.  </p>
+
+<pre><code>var actor = {  
+  name: "David Tennant",
+  age: 44
+};
+</code></pre>
+
+<p>Here,<code>actor</code> is an object with two properties, <code>name</code>, which contains a string, and <code>age</code> which contains a number.  This is the same as using <code>var obj = new Object()</code> and then assigning properties. Both objects are prototype linked the standard <code>Object</code> prototype. </p>
+
+<p>We can also create a function to make objects by calling it as a <em>constructor</em> function using the <code>new</code> operator.  </p>
+
+<pre><code>function Person(name, age) {  
+   this.name = name;
+   this.age = age;
+}
+var actor = new Person("David Tennant", 44);  
+</code></pre>
+
+<p>Using the <code>new</code> operator introduces some implicit operations, which we'll discuss shortly.</p>
+
+<p>We also have <code>Object.create()</code> as well, though it works a bit differently.</p>
+
+<p><code>Object.create()</code> takes two parameters and returns a new object. This object is prototype linked to the first object passed as a parameter.  The second parameter is an optional object containing property descriptors to assign directly on the newly returned object.  </p>
+
+<p>A property descriptor object is an object containing definitions for properties. The property names in this descriptor object are themselves objects which contain various attributes attributed to that property, such as: <code>value</code>, <code>writable</code>, <code>configurable</code>, and <code>enumerable</code>. </p>
+
+<ul>
+<li><code>value</code> (<em>any</em>) - is the value assigned to that property</li>
+<li><code>writeable</code> (<em>boolean</em>) - if false, means the value of that property can not be changed</li>
+<li><code>enumerable</code> (<em>boolean</em>) - if true, means that property will be iterated over when a user does a <code>for..in</code> or similar operation.</li>
+<li><code>configurable</code> (<em>boolean</em>) - if false, any attempts to delete the property or change its value will fail. </li>
+</ul>
+
+<p>Try the following in Chrome DevTools to see how basic object properties are setup:</p>
+
+<pre><code>var obj = { a: 42 };  
+console.log("%o", Object.getOwnPropertyDescriptor(obj, 'a'));  
+// Object
+//    configurable: true
+//    enumerable: true
+//    value: 42
+//    writable: true
+//    ...
+</code></pre>
+
+<p>Using <code>Object.create()</code> we can create objects using another object as a prototype (<em>an exemplar</em>); and an optional property descriptor object. Any properties on the exemplar are accessed via the object's prototype chain; and any properties in the descriptor object are <em>own properties</em> assigned directly to the new object returned.</p>
+
+<pre><code>// creates a new, empty object linked to Object.prototype
+var obj = Object.create({});  
+
+// create a new, empty object not linked to Object.prototype
+obj = Object.create(null);
+
+var person_proto = {  
+      name: "", age: null
+    },
+    descriptor = {
+      tardis: { value: "blue box" }
+    };
+
+// creates a new object based on person_proto
+var actor = Object.create(person_proto, descriptor)  
+actor.name = "David Tennant";  
+actor.age = 44;  
+// actor:
+//   name: "David Tennant"
+//   age: 44
+//   tardis: "blue box"
+</code></pre>
+
+<p>In ES6, we could use the following pattern in creating our <code>actor</code> instance instead:</p>
+
+<pre><code>var actor = Object.assign(Object.create(person_proto), {  
+  tardis: "blue box"
+});
+</code></pre>
+
+<p>ES6's <code>Object.assign()</code> is similar to the many <code>extend()</code> style functions that libraries like jQuery and Underscore use to create/extend objects using one or more objects.</p>
+
+<h3 id="understandingwhatnewdoes">Understanding what <code>new</code> does</h3>
+
+<p>There is much magic happening in a function invoked with the <code>new</code> operator.  At its most basic, when using <code>new</code>, the function invocation is hijacked and given a new, empty object as context, which is assigned to the local variable <code>this</code> inside the function.  </p>
+
+<p>The expectation of functions called as constructors is that they do something with that context: assigning properties or otherwise manipulating it; and magically, that same context object is returned from the function.</p>
+
+<p>Using <code>new</code> works similarly to the following function:  </p>
+
+<pre><code>function _new(/* constructor, param, ... */) {  
+  var  args = [].slice.call(arguments),
+       constructor = args.shift(), 
+       context = Object.create(constructor.prototype),
+       res;
+
+  res = constructor.apply(context, args);
+  return (typeof res === 'object' &amp;&amp; res != null) ? res : context;
+}
+var actor = _new(Person, "David Tennant", 44);  
+</code></pre>
+
+<p>This is very simplified, but it gives you an idea of what's going on. </p>
+
+<p>But as <a href="https://medium.com/javascript-scene/common-misconceptions-about-inheritance-in-javascript-d5d9bab29b0a">Eric Elliot</a>, <a href="http://raganwald.com/2014/07/09/javascript-constructor-problem.html">Reginald Braithwaite</a> and <a href="http://davidwalsh.name/javascript-objects">Kyle Simpson</a> point out using <code>new</code> and constructor functions can be problematic for a number of reasons.</p>
+
+<blockquote>
+  <p>“If a feature is sometimes dangerous, and there is a better option, then always use the better option.” -- Douglas Crockford</p>
+</blockquote>
+
+<h2 id="objectaccess">Object Access</h2>
+
+<p>Objects have properties.  Properties are named keys on the object that can hold values. Those values can be basic types like strings, numbers, booleans or even object types like arrays, functions or other objects stored as references.  The easiest way to access properties on an object is using the <code>.</code> operator.  </p>
+
+<pre><code>var obj = {  
+  foo: "bar", 
+  baz: 42,
+  print: function(s){ console.log(s); }
+};
+
+obj.foo;  
+obj.print("hi");  
+</code></pre>
+
+<p>You can also access object properties using the <code>[]</code> operator. The <code>[]</code> operator expects a string argument that identifies the property key you're trying to access.  Any non-string value will be coerced to a string and then used.</p>
+
+<pre><code>var obj = {};  
+obj["name"] = "David Tennant";  
+obj["age"] = 44;  
+obj["33"] = "what?";  // can only access using [] operator  
+obj[true] = "true";   // coercion to property named "true"
+
+obj.33;      // syntax error!  
+obj["33"];   // "what?"  
+obj["true"]; // "true"  
+obj.true;    // "true"  
+</code></pre>
+
+<p>This makes it easy to dynamically access properties at runtime by storing or building the property names.</p>
+
+<p>ES6 gives us a way to specify properties as shorthand, as well as computed property names.  For example,</p>
+
+<pre><code>let age = 44;  
+let obj = {  
+  name: "David Tennant",
+  // short for, who: function(){...}
+  who() { console.log("the doctor"); },
+  // short for age: age
+  age,
+  // computed property names!
+  ["hello_" + (() =&gt; "sweetie")()]: "the wife"
+};
+
+obj.who();                       // "the doctor"  
+console.log(obj.hello_sweetie);  // "the wife"  
+</code></pre>
+
+<p>I'll point out some more resources on the new ES6 object features at the end of this post.  Outside of computed property names, most of the object literal shorthand notation is just syntactic sugar to make declaring and working with objects in Javascript easier.</p>
+
+<h2 id="iteratingobjects">Iterating Objects</h2>
+
+<p>Now that our objects have all these properties, maybe we want to iterate through them.  Objects themselves are not <em>iterable objects</em> like arrays - they don't have an iterator defined for them, as access isn't as straight forward as one might think - you might iterate over the property names or property values; and what about prototype linked objects?</p>
+
+<p>You can iterate over objects using the special <code>for..in</code> loop, which does iterate over the object's property keys, not it's values.  But, <code>for..in</code> will iterate over prototype linked, enumerable properties as well, so be sure and use a <code>.hasOwnProperty()</code> to help limit the scope and recursion into the prototype chain of the object you're iterating.</p>
+
+<pre><code>var obj = { a: 1, b: 2 },  
+    obj2 = Object.create(obj, {
+      c: { value: 3, enumerable: true },
+      d: { value: 4, enumerable: true } 
+    });
+
+for (var prop in obj2) {  
+    console.log(prop);
+}
+// a b c d
+for (var prop in obj2) {  
+    if (obj2.hasOwnProperty(prop)) {
+        console.log(prop);
+    }
+}
+// c d
+</code></pre>
+
+<p>You can get access to an object's property keys using <code>Object.keys()</code>. The benefit of which, is that it only returns enumerable properties directly on the object in question - not prototype linked, enumerable properties.</p>
+
+<pre><code>Object.keys(obj2).forEach(function(p) {  
+  console.log(p + " = " + obj2[p]);
+});
+// c = 3
+// d = 4
+</code></pre>
+
+<p>For information on ES6's new object shorthand properties and computed properties, check out <a href="https://strongloop.com/strongblog/javascript-es6-object-notation/">Strongloop's article</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer">MDN</a>.</p>
+
+<p>Also take a look at Kyle Simpson's <a href="https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes">You Don't Know JS: this &amp; Object properties</a> for more details about Javascript objects, <code>new</code> and more.</p>
+
+<p><em>In the next article I'll cover specifically Javascript objects and prototypes and talk about why you should be using composition and delegation instead of trying to mimic "class" style inheritance with <code>new</code> and constructor functions.</em></p>
+        <ul class="tags">
+            <li class="tag" id="tag-id-2"><a href="/tag/fundamentals/">fundamentals</a></li> 
+            <li class="tag" id="tag-id-5"><a href="/tag/javascript/">javascript</a></li> 
+        </ul>
+  </section>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				
+				
 				
 				<!--================= START :: Tutorial =================-->
 				<article style="display:none;">
