@@ -26009,15 +26009,1841 @@ for (var prop in obj2) {
 				</article>
 				<!--================= END :: Tutorial =================-->
 				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Chapter 4: Currying</h1>
+					<span class="ref-site">https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html</span>
+					<div class="tutorial__content">
+<section class="normal markdown-section">
+                                
+                                
+<h2 id="cant-live-if-livin-is-without-you">Can't live if livin' is without you</h2>
+<p class="comments-section">My Dad once explained how there are certain things one can live without until one acquires them. A microwave is one such thing. Smart phones, another. The older folks among us will remember a fulfilling life sans internet. For me, currying is on this list.</p>
+<p class="comments-section">The concept is simple: You can call a function with fewer arguments than it expects. It returns a function that takes the remaining arguments.<div class="comments-area"><div class="comment"><img class="comment-avatar" src="https://avatars0.githubusercontent.com/deepakanand" draggable="true" data-bukket-ext-bukket-draggable="true"><div class="comment-body "><a class="comment-user" target="_blank" href="https://www.gitbook.com/@deepakanand">Deepak Anand</a><div class="comment-content">"call a function with fewer arguments than it expects"<br><p>Isnt that partial application?</p>
+</div></div></div><div class="comments-list" data-thcomments="39"><div class="comment"><img class="comment-avatar" src="https://s.gravatar.com/avatar/bef6db0106f4bf92fdebf539a531ef84?s=220&amp;d=https%3A%2F%2Fwww.gitbook.com%2Fassets%2Fimages%2Favatars%2Fuser.png" draggable="true" data-bukket-ext-bukket-draggable="true"><div class="comment-body "><a class="comment-user" target="_blank" href="https://www.gitbook.com/@derekhannah">Derek Hannah</a><div class="comment-content"><p>nope. Currying always produces nested unary (1-ary) functions. The transformed function is still largely the same as the original. Partial application produces functions of arbitrary arity. The transformed function is different from the original – it needs less arguments.</p>
+</div></div></div><div class="comment"><img class="comment-avatar" src="https://s.gravatar.com/avatar/bef6db0106f4bf92fdebf539a531ef84?s=220&amp;d=https%3A%2F%2Fwww.gitbook.com%2Fassets%2Fimages%2Favatars%2Fuser.png" draggable="true" data-bukket-ext-bukket-draggable="true"><div class="comment-body "><a class="comment-user" target="_blank" href="https://www.gitbook.com/@derekhannah">Derek Hannah</a><div class="comment-content"><p><a href="http://www.2ality.com/2011/09/currying-vs-part-eval.html">http://www.2ality.com/2011/09/currying-vs-part-eval.html</a></p>
+</div></div></div></div><div class="comments-post"><div class="comments-toolbar"><a href="#">Sign in to comment</a></div></div></div></p>
+<p class="comments-section">You can choose to call it all at once or simply feed in each argument piecemeal.</p>
+<pre><code>var add = function(x) {
+  return function(y) {
+    return x + y;
+  };
+};
+
+var increment = add(1);
+var addTen = add(10);
+
+increment(2);
+// 3
+
+addTen(2);
+// 12
+</code></pre>
+<p class="comments-section">Here we've made a function <code>add</code> that takes one argument and returns a function. By calling it, the returned function remembers the first argument from then on via the closure. Calling it with both arguments all at once is a bit of a pain, however, so we can use a special helper function called <code>curry</code> to make defining and calling functions like this easier.<div class="comments-area"><div class="comment"><img class="comment-avatar" src="https://avatars0.githubusercontent.com/boazblake" draggable="true" data-bukket-ext-bukket-draggable="true"><div class="comment-body "><a class="comment-user" target="_blank" href="https://www.gitbook.com/@boazblake">Boaz Blake</a><div class="comment-content"> By calling it, the returned function remembers the first argument from then on via the closure</div></div></div><div class="comments-list" data-thcomments="126"></div><div class="comments-post"><div class="comments-toolbar"><a href="#">Sign in to comment</a></div></div></div></p>
+<p class="comments-section">Let's set up a few curried functions for our enjoyment.</p>
+<pre><code>var curry = require('lodash/curry');
+
+var match = curry(function(what, str) {
+  return str.match(what);
+});
+
+var replace = curry(function(what, replacement, str) {
+  return str.replace(what, replacement);
+});
+
+var filter = curry(function(f, ary) {
+  return ary.filter(f);
+});
+
+var map = curry(function(f, ary) {
+  return ary.map(f);
+});
+</code></pre>
+<p class="comments-section">The pattern I've followed is a simple, but important one. I've strategically positioned the data we're operating on (String, Array) as the last argument. It will become clear as to why upon use.</p>
+<pre><code>match(/\s+/g, 'hello world');
+// [ ' ' ]
+
+match(/\s+/g)('hello world');
+// [ ' ' ]
+
+var hasSpaces = match(/\s+/g);
+// function(x) { return x.match(/\s+/g) }
+
+hasSpaces('hello world');
+// [ ' ' ]
+
+hasSpaces('spaceless');
+// null
+
+filter(hasSpaces, ['tori_spelling', 'tori amos']);
+// ['tori amos']
+
+var findSpaces = filter(hasSpaces);
+// function(xs) { return xs.filter(function(x) { return x.match(/\s+/g) }) }
+
+findSpaces(['tori_spelling', 'tori amos']);
+// ['tori amos']
+
+var noVowels = replace(/[aeiouy]/ig);
+// function(replacement, x) { return x.replace(/[aeiouy]/ig, replacement) }
+
+var censored = noVowels("*");
+// function(x) { return x.replace(/[aeiouy]/ig, '*') }
+
+censored('Chocolate Rain');
+// 'Ch*c*l*t* R**n'
+</code></pre>
+<p class="comments-section">What's demonstrated here is the ability to "pre-load" a function with an argument or two in order to receive a new function that remembers those arguments.</p>
+<p class="comments-section">I encourage you to <code>npm install lodash</code>, copy the code above and have a go at it in the REPL. You can also do this in a browser where lodash or ramda is available.</p>
+<h2 id="more-than-a-pun--special-sauce">More than a pun / special sauce</h2>
+<p class="comments-section">Currying is useful for many things. We can make new functions just by giving our base functions some arguments as seen in <code>hasSpaces</code>, <code>findSpaces</code>, and <code>censored</code>.</p>
+<p class="comments-section">We also have the ability to transform any function that works on single elements into a function that works on arrays simply by wrapping it with <code>map</code>:</p>
+<pre><code>var getChildren = function(x) {
+  return x.childNodes;
+};
+
+var allTheChildren = map(getChildren);
+</code></pre>
+<p class="comments-section">Giving a function fewer arguments than it expects is typically called <em>partial application</em>. Partially applying a function can remove a lot of boiler plate code. Consider what the above <code>allTheChildren</code> function would be with the uncurried <code>map</code> from lodash (note the arguments are in a different order):</p>
+<pre><code>var allTheChildren = function(elements) {
+  return _.map(elements, getChildren);
+};
+</code></pre>
+<p class="comments-section">We typically don't define functions that work on arrays, because we can just call <code>map(getChildren)</code> inline. Same with <code>sort</code>, <code>filter</code>, and other higher order functions(Higher order function: A function that takes or returns a function).</p>
+<p class="comments-section">When we spoke about <em>pure functions</em>, we said they take 1 input to 1 output. Currying does exactly this: each single argument returns a new function expecting the remaining arguments. That, old sport, is 1 input to 1 output.</p>
+<p class="comments-section">No matter if the output is another function - it qualifies as pure. We do allow more than one argument at a time, but this is seen as merely removing the extra <code>()</code>'s for convenience.</p>
+<h2 id="in-summary">In summary</h2>
+<p class="comments-section">Currying is handy and I very much enjoy working with curried functions on a daily basis. It is a tool for the belt that makes functional programming less verbose and tedious.</p>
+<p class="comments-section">We can make new, useful functions on the fly simply by passing in a few arguments and as a bonus, we've retained the mathematical function definition despite multiple arguments.</p>
+<p class="comments-section">Let's acquire another essential tool called <code>compose</code>.</p>
+<p class="comments-section"><a href="ch5.html">Chapter 5: Coding by Composing</a></p>
+<h2 id="exercises">Exercises</h2>
+<p class="comments-section">A quick word before we start. We'll use a library called <a href="http://ramdajs.com" target="_blank">Ramda</a> which curries every function by default. Alternatively you may choose to use <a href="https://github.com/lodash/lodash/wiki/FP-Guide" target="_blank">lodash/fp</a> which does the same and is written/maintained by the creator of lodash. Both will work just fine and it is a matter of preference.</p>
+<p class="comments-section">There are <a href="https://github.com/DrBoolean/mostly-adequate-guide/tree/master/code/part1_exercises" target="_blank">unit tests</a> to run against your exercises as you code them, or you can just copy-paste into a JavaScript REPL for the early exercises if you wish.</p>
+<p class="comments-section">Answers are provided with the code in the <a href="https://github.com/DrBoolean/mostly-adequate-guide/tree/master/code/part1_exercises/answers" target="_blank">repository for this book</a>. Best way to do the exercises is with an <a href="feedback_loop.md">immediate feedback loop</a>.</p>
+<pre><code>var _ = require('ramda');
+
+
+// Exercise 1
+//==============
+// Refactor to remove all arguments by partially applying the function.
+
+var words = function(str) {
+  return _.split(' ', str);
+};
+
+// Exercise 1a
+//==============
+// Use map to make a new words fn that works on an array of strings.
+
+var sentences = undefined;
+
+
+// Exercise 2
+//==============
+// Refactor to remove all arguments by partially applying the functions.
+
+var filterQs = function(xs) {
+  return _.filter(function(x) {
+    return match(/q/i, x);
+  }, xs);
+};
+
+
+// Exercise 3
+//==============
+// Use the helper function _keepHighest to refactor max to not reference any
+// arguments.
+
+// LEAVE BE:
+var _keepHighest = function(x, y) {
+  return x &gt;= y ? x : y;
+};
+
+// REFACTOR THIS ONE:
+var max = function(xs) {
+  return _.reduce(function(acc, x) {
+    return _keepHighest(acc, x);
+  }, -Infinity, xs);
+};
+
+
+// Bonus 1:
+// ============
+// Wrap array's slice to be functional and curried.
+// //[1, 2, 3].slice(0, 2)
+var slice = undefined;
+
+
+// Bonus 2:
+// ============
+// Use slice to define a function "take" that takes n elements from the beginning of the string. Make it curried.
+// // Result for "Something" with n=4 should be "Some"
+var take = undefined;
+</code></pre>
+
+                                
+                                </section>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
 				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Chapter 5: Coding by Composing</h1>
+					<span class="ref-site">https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html</span>
+					<div class="tutorial__content">
+<section class="normal markdown-section">
+                                
+                                
+<h2 id="functional-husbandry">Functional husbandry</h2>
+<p class="comments-section">Here's <code>compose</code>:</p>
+<pre><code>var compose = function(f, g) {
+  return function(x) {
+    return f(g(x));
+  };
+};
+</code></pre>
+<p class="comments-section"><code>f</code> and <code>g</code> are functions and <code>x</code> is the value being "piped" through them.</p>
+<p class="comments-section">Composition feels like function husbandry. You, breeder of functions, select two with traits you'd like to combine and mash them together to spawn a brand new one. Usage is as follows:</p>
+<pre><code>var toUpperCase = function(x) {
+  return x.toUpperCase();
+};
+var exclaim = function(x) {
+  return x + '!';
+};
+var shout = compose(exclaim, toUpperCase);
+
+shout("send in the clowns");
+//=&gt; "SEND IN THE CLOWNS!"
+</code></pre>
+<p class="comments-section">The composition of two functions returns a new function. This makes perfect sense: composing two units of some type (in this case function) should yield a new unit of that very type. You don't plug two legos together and get a lincoln log. There is a theory here, some underlying law that we will discover in due time.</p>
+<p class="comments-section">In our definition of <code>compose</code>, the <code>g</code> will run before the <code>f</code>, creating a right to left flow of data. This is much more readable than nesting a bunch of function calls. Without compose, the above would read:</p>
+<pre><code>var shout = function(x) {
+  return exclaim(toUpperCase(x));
+};
+</code></pre>
+<p class="comments-section">Instead of inside to outside, we run right to left, which I suppose is a step in the left direction(boo). Let's look at an example where sequence matters:</p>
+<pre><code>var head = function(x) {
+  return x[0];
+};
+var reverse = reduce(function(acc, x) {
+  return [x].concat(acc);
+}, []);
+var last = compose(head, reverse);
+
+last(['jumpkick', 'roundhouse', 'uppercut']);
+//=&gt; 'uppercut'
+</code></pre>
+<p class="comments-section"><code>reverse</code> will turn the list around while <code>head</code> grabs the initial item. This results in an effective, albeit inefficient, <code>last</code> function. The sequence of functions in the composition should be apparent here. We could define a left to right version, however, we mirror the mathematical version much more closely as it stands. That's right, composition is straight from the math books. In fact, perhaps it's time to look at a property that holds for any composition.</p>
+<pre><code>// associativity
+var associative = compose(f, compose(g, h)) == compose(compose(f, g), h);
+// true
+</code></pre>
+<p class="comments-section">Composition is associative, meaning it doesn't matter how you group two of them. So, should we choose to uppercase the string, we can write:</p>
+<pre><code>compose(toUpperCase, compose(head, reverse));
+
+// or
+compose(compose(toUpperCase, head), reverse);
+</code></pre>
+<p class="comments-section">Since it doesn't matter how we group our calls to <code>compose</code>, the result will be the same. That allows us to write a variadic compose and use it as follows:</p>
+<pre><code>// previously we'd have to write two composes, but since it's associative, we can give compose as many fn's as we like and let it decide how to group them.
+var lastUpper = compose(toUpperCase, head, reverse);
+
+lastUpper(['jumpkick', 'roundhouse', 'uppercut']);
+//=&gt; 'UPPERCUT'
+
+
+var loudLastUpper = compose(exclaim, toUpperCase, head, reverse);
+
+loudLastUpper(['jumpkick', 'roundhouse', 'uppercut']);
+//=&gt; 'UPPERCUT!'
+</code></pre>
+<p class="comments-section">Applying the associative property gives us this flexibility and peace of mind that the result will be equivalent. The slightly more complicated variadic definition is included with the support libraries for this book and is the normal definition you'll find in libraries like <a href="https://lodash.com/" target="_blank">lodash</a>, <a href="http://underscorejs.org/" target="_blank">underscore</a>, and <a href="http://ramdajs.com/" target="_blank">ramda</a>.</p>
+<p class="comments-section">One pleasant benefit of associativity is that any group of functions can be extracted and bundled together in their very own composition. Let's play with refactoring our previous example:</p>
+<pre><code>var loudLastUpper = compose(exclaim, toUpperCase, head, reverse);
+
+// or
+var last = compose(head, reverse);
+var loudLastUpper = compose(exclaim, toUpperCase, last);
+
+// or
+var last = compose(head, reverse);
+var angry = compose(exclaim, toUpperCase);
+var loudLastUpper = compose(angry, last);
+
+// more variations...
+</code></pre>
+<p class="comments-section">There's no right or wrong answers - we're just plugging our legos together in whatever way we please. Usually it's best to group things in a reusable way like <code>last</code> and <code>angry</code>. If familiar with Fowler's "<a href="http://martinfowler.com/books/refactoring.html" target="_blank">Refactoring</a>", one might recognize this process as "<a href="http://refactoring.com/catalog/extractMethod.html" target="_blank">extract method</a>"...except without all the object state to worry about.</p>
+<h2 id="pointfree">Pointfree</h2>
+<p class="comments-section">Pointfree style means never having to say your data. Excuse me. It means functions that never mention the data upon which they operate. First class functions, currying, and composition all play well together to create this style.</p>
+<pre><code>//not pointfree because we mention the data: word
+var snakeCase = function(word) {
+  return word.toLowerCase().replace(/\s+/ig, '_');
+};
+
+//pointfree
+var snakeCase = compose(replace(/\s+/ig, '_'), toLowerCase);
+</code></pre>
+<p class="comments-section">See how we partially applied <code>replace</code>? What we're doing is piping our data through each function of 1 argument. Currying allows us to prepare each function to just take its data, operate on it, and pass it along. Something else to notice is how we don't need the data to construct our function in the pointfree version, whereas in the pointful one, we must have our <code>word</code> available before anything else.</p>
+<p class="comments-section">Let's look at another example.</p>
+<pre><code>//not pointfree because we mention the data: name
+var initials = function(name) {
+  return name.split(' ').map(compose(toUpperCase, head)).join('. ');
+};
+
+//pointfree
+var initials = compose(join('. '), map(compose(toUpperCase, head)), split(' '));
+
+initials("hunter stockton thompson");
+// 'H. S. T'
+</code></pre>
+<p class="comments-section">Pointfree code can again, help us remove needless names and keep us concise and generic. Pointfree is a good litmus test for functional code as it lets us know we've got small functions that take input to output. One can't compose a while loop, for instance. Be warned, however, pointfree is a double-edged sword and can sometimes obfuscate intention. Not all functional code is pointfree and that is O.K. We'll shoot for it where we can and stick with normal functions otherwise.</p>
+<h2 id="debugging">Debugging</h2>
+<p class="comments-section">A common mistake is to compose something like <code>map</code>, a function of two arguments, without first partially applying it.</p>
+<pre><code>//wrong - we end up giving angry an array and we partially applied map with god knows what.
+var latin = compose(map, angry, reverse);
+
+latin(['frog', 'eyes']);
+// error
+
+
+// right - each function expects 1 argument.
+var latin = compose(map(angry), reverse);
+
+latin(['frog', 'eyes']);
+// ['EYES!', 'FROG!'])
+</code></pre>
+<p class="comments-section">If you are having trouble debugging a composition, we can use this helpful, but impure trace function to see what's going on.</p>
+<pre><code>var trace = curry(function(tag, x) {
+  console.log(tag, x);
+  return x;
+});
+
+var dasherize = compose(join('-'), toLower, split(' '), replace(/\s{2,}/ig, ' '));
+
+dasherize('The world is a vampire');
+// TypeError: Cannot read property 'apply' of undefined
+</code></pre>
+<p class="comments-section">Something is wrong here, let's <code>trace</code></p>
+<pre><code>var dasherize = compose(join('-'), toLower, trace('after split'), split(' '), replace(/\s{2,}/ig, ' '));
+// after split [ 'The', 'world', 'is', 'a', 'vampire' ]
+</code></pre>
+<p class="comments-section">Ah! We need to <code>map</code> this <code>toLower</code> since it's working on an array.</p>
+<pre><code>var dasherize = compose(join('-'), map(toLower), split(' '), replace(/\s{2,}/ig, ' '));
+
+dasherize('The world is a vampire');
+
+// 'the-world-is-a-vampire'
+</code></pre>
+<p class="comments-section">The <code>trace</code> function allows us to view the data at a certain point for debugging purposes. Languages like haskell and purescript have similar functions for ease of development.</p>
+<p class="comments-section">Composition will be our tool for constructing programs and, as luck would have it, is backed by a powerful theory that ensures things will work out for us. Let's examine this theory.</p>
+<h2 id="category-theory">Category theory</h2>
+<p class="comments-section">Category theory is an abstract branch of mathematics that can formalize concepts from several different branches such as set theory, type theory, group theory, logic, and more. It primarily deals with objects, morphisms, and transformations, which mirrors programming quite closely. Here is a chart of the same concepts as viewed from each separate theory.</p>
+<p><img src="images/cat_theory.png" alt="category theory" draggable="true" data-bukket-ext-bukket-draggable="true"></p>
+<p class="comments-section">Sorry, I didn't mean to frighten you. I don't expect you to be intimately familiar with all these concepts. My point is to show you how much duplication we have so you can see why category theory aims to unify these things.</p>
+<p class="comments-section">In category theory, we have something called... a category. It is defined as a collection with the following components:</p>
+<ul>
+<li>A collection of objects</li>
+<li>A collection of morphisms</li>
+<li>A notion of composition on the morphisms</li>
+<li>A distinguished morphism called identity</li>
+</ul>
+<p class="comments-section">Category theory is abstract enough to model many things, but let's apply this to types and functions, which is what we care about at the moment.</p>
+<p class="comments-section"><strong>A collection of objects</strong>
+The objects will be data types. For instance, <code>String</code>, <code>Boolean</code>, <code>Number</code>, <code>Object</code>, etc. We often view data types as sets of all the possible values. One could look at <code>Boolean</code> as the set of <code>[true, false]</code> and <code>Number</code> as the set of all possible numeric values. Treating types as sets is useful because we can use set theory to work with them.</p>
+<p class="comments-section"><strong>A collection of morphisms</strong>
+The morphisms will be our standard every day pure functions.</p>
+<p class="comments-section"><strong>A notion of composition on the morphisms</strong>
+This, as you may have guessed, is our brand new toy - <code>compose</code>. We've discussed that our <code>compose</code> function is associative which is no coincidence as it is a property that must hold for any composition in category theory.</p>
+<p class="comments-section">Here is an image demonstrating composition:</p>
+<p><img src="images/cat_comp1.png" alt="category composition 1" draggable="true" data-bukket-ext-bukket-draggable="true">
+<img src="images/cat_comp2.png" alt="category composition 2" draggable="true" data-bukket-ext-bukket-draggable="true"></p>
+<p class="comments-section">Here is a concrete example in code:</p>
+<pre><code>var g = function(x) {
+  return x.length;
+};
+var f = function(x) {
+  return x === 4;
+};
+var isFourLetterWord = compose(f, g);
+</code></pre>
+<p class="comments-section"><strong>A distinguished morphism called identity</strong>
+Let's introduce a useful function called <code>id</code>. This function simply takes some input and spits it back at you. Take a look:</p>
+<pre><code>var id = function(x) {
+  return x;
+};
+</code></pre>
+<p class="comments-section">You might ask yourself "What in the bloody hell is that useful for?". We'll make extensive use of this function in the following chapters, but for now think of it as a function that can stand in for our value - a function masquerading as every day data.</p>
+<p class="comments-section"><code>id</code> must play nicely with compose. Here is a property that always holds for every unary (unary: a one-argument function) function f:</p>
+<pre><code>// identity
+compose(id, f) == compose(f, id) == f;
+// true
+</code></pre>
+<p class="comments-section">Hey, it's just like the identity property on numbers! If that's not immediately clear, take some time with it. Understand the futility. We'll be seeing <code>id</code> used all over the place soon, but for now we see it's a function that acts as a stand in for a given value. This is quite useful when writing pointfree code.</p>
+<p class="comments-section">So there you have it, a category of types and functions. If this is your first introduction, I imagine you're still a little fuzzy on what a category is and why it's useful. We will build upon this knowledge throughout the book. As of right now, in this chapter, on this line, you can at least see it as providing us with some wisdom regarding composition - namely, the associativity and identity properties.</p>
+<p class="comments-section">What are some other categories, you ask? Well, we can define one for directed graphs with nodes being objects, edges being morphisms, and composition just being path concatenation. We can define with Numbers as objects and <code>&gt;=</code> as morphisms (actually any partial or total order can be a category). There are heaps of categories, but for the purposes of this book, we'll only concern ourselves with the one defined above. We have sufficiently skimmed the surface and must move on.</p>
+<h2 id="in-summary">In Summary</h2>
+<p class="comments-section">Composition connects our functions together like a series of pipes. Data will flow through our application as it must - pure functions are input to output after all, so breaking this chain would disregard output, rendering our software useless.</p>
+<p class="comments-section">We hold composition as a design principle above all others. This is because it keeps our app simple and reasonable. Category theory will play a big part in app architecture, modelling side effects, and ensuring correctness.</p>
+<p class="comments-section">We are now at a point where it would serve us well to see some of this in practice. Let's make an example application.</p>
+<p class="comments-section"><a href="ch6.html">Chapter 6: Example Application</a></p>
+<h2 id="exercises">Exercises</h2>
+<pre><code>var _ = require('ramda');
+var accounting = require('accounting');
+
+// Example Data
+var CARS = [{
+  name: 'Ferrari FF',
+  horsepower: 660,
+  dollar_value: 700000,
+  in_stock: true,
+}, {
+  name: 'Spyker C12 Zagato',
+  horsepower: 650,
+  dollar_value: 648000,
+  in_stock: false,
+}, {
+  name: 'Jaguar XKR-S',
+  horsepower: 550,
+  dollar_value: 132000,
+  in_stock: false,
+}, {
+  name: 'Audi R8',
+  horsepower: 525,
+  dollar_value: 114200,
+  in_stock: false,
+}, {
+  name: 'Aston Martin One-77',
+  horsepower: 750,
+  dollar_value: 1850000,
+  in_stock: true,
+}, {
+  name: 'Pagani Huayra',
+  horsepower: 700,
+  dollar_value: 1300000,
+  in_stock: false,
+}];
+
+// Exercise 1:
+// ============
+// Use _.compose() to rewrite the function below. Hint: _.prop() is curried.
+var isLastInStock = function(cars) {
+  var last_car = _.last(cars);
+  return _.prop('in_stock', last_car);
+};
+
+// Exercise 2:
+// ============
+// Use _.compose(), _.prop() and _.head() to retrieve the name of the first car.
+var nameOfFirstCar = undefined;
+
+
+// Exercise 3:
+// ============
+// Use the helper function _average to refactor averageDollarValue as a composition.
+var _average = function(xs) {
+  return _.reduce(_.add, 0, xs) / xs.length;
+}; // &lt;- leave be
+
+var averageDollarValue = function(cars) {
+  var dollar_values = _.map(function(c) {
+    return c.dollar_value;
+  }, cars);
+  return _average(dollar_values);
+};
+
+
+// Exercise 4:
+// ============
+// Write a function: sanitizeNames() using compose that returns a list of lowercase and underscored car's names: e.g: sanitizeNames([{name: 'Ferrari FF', horsepower: 660, dollar_value: 700000, in_stock: true}]) //=&gt; ['ferrari_ff'].
+
+var _underscore = _.replace(/\W+/g, '_'); //&lt;-- leave this alone and use to sanitize
+
+var sanitizeNames = undefined;
+
+
+// Bonus 1:
+// ============
+// Refactor availablePrices with compose.
+
+var availablePrices = function(cars) {
+  var available_cars = _.filter(_.prop('in_stock'), cars);
+  return available_cars.map(function(x) {
+    return accounting.formatMoney(x.dollar_value);
+  }).join(', ');
+};
+
+
+// Bonus 2:
+// ============
+// Refactor to pointfree. Hint: you can use _.flip().
+
+var fastestCar = function(cars) {
+  var sorted = _.sortBy(function(car) {
+    return car.horsepower;
+  }, cars);
+  var fastest = _.last(sorted);
+  return fastest.name + ' is the fastest';
+};
+</code></pre>
+
+                                
+                                </section>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
 				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Functional Mixins in ECMAScript 2015</h1>
+					<span class="ref-site">http://raganwald.com/2015/06/17/functional-mixins.html</span>
+					<div class="tutorial__content">
+<section id="main_content">
+
+          
+
+
+
+  
+  
+
+  
+
+  
+    
+    
+  
+
+
+
+
+          <p>In <a href="http://raganwald.com/2015/06/10/mixins.html">Prototypes are Objects</a>, we saw that you can emulate “mixins” using <code class="highlighter-rouge">Object.assign</code> on the prototypes that underly JavaScript “classes.” We’ll revisit this subject now and spend more time looking at mixing functionality into classes.</p>
+
+<p>First, a quick recap: In JavaScript, a “class” is implemented as a constructor function and its prototype, whether you write it directly, or use the <code class="highlighter-rouge">class</code> keyword. Instances of the class are created by calling the constructor with <code class="highlighter-rouge">new</code>. They “inherit” shared behaviour from the constructor’s <code class="highlighter-rouge">prototype</code> property.<sup id="fnref:delegate"><a href="#fn:delegate" class="footnote">1</a></sup></p>
+
+<h3 id="the-object-mixin-pattern">the object mixin pattern</h3>
+
+<p>One way to share behaviour scattered across multiple classes, or to untangle behaviour by factoring it out of an overweight prototype, is to extend a prototype with a <em>mixin</em>.</p>
+
+<p>Here’s a class of todo items:</p>
+
+<pre><code>class Todo {
+  constructor (name) {
+    this.name = name || 'Untitled';
+    this.done = false;
+  }
+  do () {
+    this.done = true;
+    return this;
+  }
+  undo () {
+    this.done = false;
+    return this;
+  }
+}
+</code></pre>
+
+<p>And a “mixin” that is responsible for colour-coding:</p>
+
+<pre><code>const Coloured = {
+  setColourRGB ({r, g, b}) {
+    this.colourCode = {r, g, b};
+    return this;
+  },
+  getColourRGB () {
+    return this.colourCode;
+  }
+};
+</code></pre>
+
+<p>Mixing colour coding into our Todo prototype is straightforward:</p>
+
+<pre><code>Object.assign(Todo.prototype, Coloured);
+
+new Todo('test')
+  .setColourRGB({r: 1, g: 2, b: 3})
+  //=&gt; {"name":"test","done":false,"colourCode":{"r":1,"g":2,"b":3}}
+</code></pre>
+
+<p>We can “upgrade” it to have a <a href="http://raganwald.com/2015/06/04/classes-are-expressions.html">private property</a> if we wish:</p>
+
+<pre><code>const colourCode = Symbol("colourCode");
+
+const Coloured = {
+  setColourRGB ({r, g, b}) {
+    this[colourCode]= {r, g, b};
+    return this;
+  },
+  getColourRGB () {
+    return this[colourCode];
+  }
+};
+</code></pre>
+
+<p>So far, very easy and very simple. This is a <em>pattern</em>, a recipe for solving a certain problem using a particular organization of code.</p>
+
+<p><a href="https://www.flickr.com/photos/chrisjrn/3771031871"><img src="/assets/images/macchiato.jpg" alt="Macchiato" draggable="true" data-bukket-ext-bukket-draggable="true"></a></p>
+
+<h3 id="functional-mixins">functional mixins</h3>
+
+<p>The object mixin we have above works properly, but our little recipe had two distinct steps: Define the mixin and then extend the class prototype. Angus Croll pointed out that it’s more elegant to define a mixin as a function rather than an object. He calls this a <a href="https://javascriptweblog.wordpress.com/2011/05/31/a-fresh-look-at-javascript-mixins/" title="A fresh look at JavaScript Mixins">functional mixin</a>. Here’s <code class="highlighter-rouge">Coloured</code> again, recast in functional form:</p>
+
+<pre><code>const Coloured = (target) =&gt;
+  Object.assign(target, {
+    setColourRGB ({r, g, b}) {
+      this.colourCode = {r, g, b};
+      return this;
+    },
+    getColourRGB () {
+      return this.colourCode;
+    }
+  });
+
+Coloured(Todo.prototype);
+</code></pre>
+
+<p>We can make ourselves a <em>factory function</em> that also names the pattern:</p>
+
+<pre><code>const FunctionalMixin = (behaviour) =&gt;
+  target =&gt; Object.assign(target, behaviour);
+</code></pre>
+
+<p>This allows us to define functional mixins neatly:</p>
+
+<pre><code>const Coloured = FunctionalMixin({
+  setColourRGB ({r, g, b}) {
+    this.colourCode = {r, g, b};
+    return this;
+  },
+  getColourRGB () {
+    return this.colourCode;
+  }
+});
+</code></pre>
+
+<h3 id="enumerability">enumerability</h3>
+
+<p>If we look at the way <code class="highlighter-rouge">class</code> defines prototypes, we find that the methods defined are not enumerable by default. This works around a common error where programmers iterate over the keys of an instance and fail to test for <code class="highlighter-rouge">.hasOwnProperty</code>.</p>
+
+<p>Our object mixin pattern does not work this way, the methods defined in a mixin <em>are</em> enumerable by default, and if we carefully defined them to be non-enumerable, <code class="highlighter-rouge">Object.assign</code> wouldn’t mix them into the target prototype, because <code class="highlighter-rouge">Object.assign</code> only assigns enumerable properties.</p>
+
+<p>And thus:</p>
+
+<pre><code>Coloured(Todo.prototype)
+
+const urgent = new Todo("finish blog post");
+urgent.setColourRGB({r: 256, g: 0, b: 0});
+
+for (let property in urgent) console.log(property);
+  // =&gt;
+    name
+    done
+    colourCode
+    setColourRGB
+    getColourRGB
+</code></pre>
+
+<p>As we can see, the <code class="highlighter-rouge">setColourRGB</code> and <code class="highlighter-rouge">getColourRGB</code> methods are enumerated, although the <code class="highlighter-rouge">do</code> and <code class="highlighter-rouge">undo</code> methods are not. This can be a problem with naïve code: we can’t always rewrite all the <em>other</em> code to carefully use <code class="highlighter-rouge">.hasOwnProperty</code>.</p>
+
+<p>One benefit of functional mixins is that we can solve this problem and transparently make mixins behave like <code class="highlighter-rouge">class</code>:</p>
+
+<pre><code>const FunctionalMixin = (behaviour) =&gt;
+  function (target) {
+    for (let property of Reflect.ownKeys(behaviour))
+      Object.defineProperty(target, property, { value: behaviour[property] })
+    return target;
+  }
+</code></pre>
+
+<p>Writing this out as a pattern would be tedious and error-prone. Encapsulating the behaviour into a function is a small win.</p>
+
+<p><a href="https://www.flickr.com/photos/yellowskyphotography/7449919584"><img src="/assets/images/jbts.jpg" alt="Just Below the Surface" draggable="true" data-bukket-ext-bukket-draggable="true"></a></p>
+
+<h3 id="mixin-responsibilities">mixin responsibilities</h3>
+
+<p>Like classes, mixins are metaobjects: They define behaviour for instances. In addition to defining behaviour in the form of methods, classes are also responsible for initializing instances. But sometimes, classes and metaobjects handle additional responsibilities.</p>
+
+<p>For example, sometimes a particular concept is associated with some well-known constants. When using a class, can be handy to namespace such values in the class itself:</p>
+
+<pre><code>class Todo {
+  constructor (name) {
+    this.name = name || Todo.DEFAULT_NAME;
+    this.done = false;
+  }
+  do () {
+    this.done = true;
+    return this;
+  }
+  undo () {
+    this.done = false;
+    return this;
+  }
+}
+
+Todo.DEFAULT_NAME = 'Untitled';
+
+// If we are sticklers for read-only constants, we could write:
+// Object.defineProperty(Todo, 'DEFAULT_NAME', {value: 'Untitled'});
+</code></pre>
+
+<p>We can’t really do the same thing with simple mixins, because all of the properties in a simple mixin end up being mixed into the prototype of instances we create by default. For example, let’s say we want to define <code class="highlighter-rouge">Coloured.RED</code>, <code class="highlighter-rouge">Coloured.GREEN</code>, and <code class="highlighter-rouge">Coloured.BLUE</code>. But we don’t want any specific coloured instance to define <code class="highlighter-rouge">RED</code>, <code class="highlighter-rouge">GREEN</code>, or <code class="highlighter-rouge">BLUE</code>.</p>
+
+<p>Again, we can solve this problem by building a functional mixin. Our <code class="highlighter-rouge">FunctionalMixin</code> factory function will accept an optional dictionary of read-only mixin properties, provided they are associated with a special key:</p>
+
+<pre><code>const shared = Symbol("shared");
+
+function FunctionalMixin (behaviour) {
+  const instanceKeys = Reflect.ownKeys(behaviour)
+    .filter(key =&gt; key !== shared);
+  const sharedBehaviour = behaviour[shared] || {};
+  const sharedKeys = Reflect.ownKeys(sharedBehaviour);
+
+  function mixin (target) {
+    for (let property of instanceKeys)
+      Object.defineProperty(target, property, { value: behaviour[property] });
+    return target;
+  }
+  for (let property of sharedKeys)
+    Object.defineProperty(mixin, property, {
+      value: sharedBehaviour[property],
+      enumerable: sharedBehaviour.propertyIsEnumerable(property)
+    });
+  return mixin;
+}
+
+FunctionalMixin.shared = shared;
+</code></pre>
+
+<p>And now we can write:</p>
+
+<pre><code>const Coloured = FunctionalMixin({
+  setColourRGB ({r, g, b}) {
+    this.colourCode = {r, g, b};
+    return this;
+  },
+  getColourRGB () {
+    return this.colourCode;
+  },
+  [FunctionalMixin.shared]: {
+    RED:   { r: 255, g: 0,   b: 0   },
+    GREEN: { r: 0,   g: 255, b: 0   },
+    BLUE:  { r: 0,   g: 0,   b: 255 },
+  }
+});
+
+Coloured(Todo.prototype)
+
+const urgent = new Todo("finish blog post");
+urgent.setColourRGB(Coloured.RED);
+
+urgent.getColourRGB()
+  //=&gt; {"r":255,"g":0,"b":0}
+</code></pre>
+
+<h3 id="mixin-methods">mixin methods</h3>
+
+<p>Such properties need not be values. Sometimes, classes have methods. And likewise, sometimes it makes sense for a mixin to have its own methods. One example concerns <code class="highlighter-rouge">instanceof</code>.</p>
+
+<p>In earlier versions of ECMAScript, <code class="highlighter-rouge">instanceof</code> is an operator that checks to see whether the prototype of an instance matches the prototype of a constructor function. It works just fine with “classes,” but it does not work “out of the box” with mixins:</p>
+
+<pre><code>urgent instanceof Todo
+  //=&gt; true
+
+urgent instanceof Coloured
+  //=&gt; false
+</code></pre>
+
+<p>To handle this and some other issues where programmers are creating their own notion of dynamic types, or managing prototypes directly with <code class="highlighter-rouge">Object.create</code> and <code class="highlighter-rouge">Object.setPrototypeOf</code>, ECMAScript 2015 provides a way to override the built-in <code class="highlighter-rouge">instanceof</code> behaviour: An object can define a method associated with a well-known symbol, <code class="highlighter-rouge">Symbol.hasInstance</code>.</p>
+
+<p>We can test this quickly:<sup id="fnref:but"><a href="#fn:but" class="footnote">2</a></sup></p>
+
+<pre><code>Object.defineProperty(Coloured, Symbol.hasInstance, {value: (instance) =&gt; true});
+urgent instanceof Coloured
+  //=&gt; true
+{} instanceof Coloured
+  //=&gt; true
+</code></pre>
+
+<p>Of course, that is not semantically correct. But using this technique, we can write:</p>
+
+<pre><code>const shared = Symbol("shared");
+
+function FunctionalMixin (behaviour) {
+  const instanceKeys = Reflect.ownKeys(behaviour)
+    .filter(key =&gt; key !== shared);
+  const sharedBehaviour = behaviour[shared] || {};
+  const sharedKeys = Reflect.ownKeys(sharedBehaviour);
+  const typeTag = Symbol("isA");
+
+  function mixin (target) {
+    for (let property of instanceKeys)
+      Object.defineProperty(target, property, { value: behaviour[property] });
+    target[typeTag] = true;
+    return target;
+  }
+  for (let property of sharedKeys)
+    Object.defineProperty(mixin, property, {
+      value: sharedBehaviour[property],
+      enumerable: sharedBehaviour.propertyIsEnumerable(property)
+    });
+  Object.defineProperty(mixin, Symbol.hasInstance, {value: (instance) =&gt; !!instance[typeTag]});
+  return mixin;
+}
+
+FunctionalMixin.shared = shared;
+
+urgent instanceof Coloured
+  //=&gt; true
+{} instanceof Coloured
+  //=&gt; false
+</code></pre>
+
+<p>Do you need to implement <code class="highlighter-rouge">instanceof</code>? Quite possibly not. “Rolling your own polymorphism” is usually a last resort. But it can be handy for writing test cases, and a few daring framework developers might be working on multiple dispatch and pattern-matching for functions.</p>
+
+<h3 id="summary">summary</h3>
+
+<p>The charm of the object mixin pattern is its simplicity: It really does not need an abstraction wrapped around an object literal and <code class="highlighter-rouge">Object.assign</code>.</p>
+
+<p>However, behaviour defined with the mixin pattern is <em>slightly</em> different than behaviour defined with the <code class="highlighter-rouge">class</code> keyword. Two examples of these differences are enumerability and mixin properties (such as constants and mixin methods like <code class="highlighter-rouge">[Symbol.hasInstance]</code>).</p>
+
+<p>Functional mixins provide an opportunity to implement such functionality, at the cost of some complexity in the <code class="highlighter-rouge">FunctionalMixin</code> function that creates functional mixins.</p>
+
+<p>As a general rule, it’s best to have things behave as similarly as possible in the domain code, and this sometimes does involve some extra complexity in the infrastructure code. But that is more of a guideline than a hard-and-fast rule, and for this reason there is a place for both the object mixin pattern <em>and</em> functional mixins in JavaScript.</p>
+
+<p>(discuss on <a href="https://news.ycombinator.com/item?id=9734774">hacker news</a> and <a href="http://www.reddit.com/r/javascript/comments/3a7hxz/functional_mixins_in_ecmascript_2015/">/r/javascript</a>)</p>
+
+<p><em>follow-up</em>: <a href="http://raganwald.com/2015/06/20/purely-functional-composition.html">Purely Functional Composition</a></p>
+
+<hr>
+
+<p>more reading:</p>
+
+<ul>
+  <li><a href="http://raganwald.com/2015/06/10/mixins.html">Prototypes are Objects (and why that matters)</a></li>
+  <li><a href="http://raganwald.com/2015/06/04/classes-are-expressions.html">Classes are Expressions (and why that matters)</a></li>
+  <li><a href="http://raganwald.com/2015/06/17/functional-mixins.html">Functional Mixins in ECMAScript 2015</a></li>
+  <li><a href="http://raganwald.com/2015/06/26/decorators-in-es7.html">Using ES.later Decorators as Mixins</a></li>
+  <li><a href="http://raganwald.com/2015/08/05/method-advice.html">Method Advice in Modern JavaScript</a></li>
+  <li><a href="http://raganwald.com/2015/12/23/super-considered-hmmmful.html"><code class="highlighter-rouge">super()</code> considered hmmm-ful</a></li>
+  <li><a href="http://raganwald.com/2015/12/28/mixins-subclass-factories-and-method-advice.html">JavaScript Mixins, Subclass Factories, and Method Advice</a></li>
+  <li><a href="http://raganwald.com/2015/12/31/this-is-not-an-essay-about-traits-in-javascript.html">This is not an essay about ‘Traits in Javascript’</a></li>
+</ul>
+
+<p>notes:</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:delegate">
+      <p>A much better way to put it is that objects with a prototype <em>delegate</em> behaviour to their prototype (and that may in turn delegate behaviour to its prototype if it has one, and so on).&nbsp;<a href="#fnref:delegate" class="reversefootnote">↩</a></p>
+    </li>
+    <li id="fn:but">
+      <p>This may <strong>not</strong> work with various transpilers and other incomplete ECMAScript 2015 implementations. Check the documentation. For example, you must enable the “high compliancy” mode in <a href="http://babeljs.io">BabelJS</a>. This is off by default to provide the highest possible performance for code bases that do not need to use features like this.&nbsp;<a href="#fnref:but" class="reversefootnote">↩</a></p>
+    </li>
+  </ol>
+</div>
+
+        </section>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
 				
 				<!--================= START :: Tutorial =================-->
 				<article style="display:none;">
-					<h1>Index</h1>
-					<span class="ref-site"></span>
+					<h1>JavaScript Mixins, Subclass Factories, and Method Advice</h1>
+					<span class="ref-site">http://raganwald.com/2015/12/28/mixins-subclass-factories-and-method-advice.html</span>
 					<div class="tutorial__content">
-						
+<section id="main_content">
+
+          <p><em>Mixins</em> solve a very common problem in class-centric OOP: For non-trivial applications, there is a messy many-to-many relationship between behaviour and classes, and it does not neatly decompose into a tree. In this essay, we only touch lightly over the benefits of using mixins with classes, and in their stead we will focus on some of the limitations of mixins and ways to not just overcome them, but create designs that are superior to those created with classes alone.</p>
+
+<p>(For more on why mixins matter in the first place, you may want to review <a href="http://raganwald.com/2015/06/10/mixins.html">Prototypes are Objects (and why that matters)</a>, <a href="http://raganwald.com/2015/06/17/functional-mixins.html">Functional Mixins in ECMAScript 2015</a>, and <a href="http://raganwald.com/2015/06/26/decorators-in-es7.html">Using ES.later Decorators as Mixins</a>.)</p>
+
+
+
+<h3 id="simple-mixins">simple mixins</h3>
+
+<p>As noted above, for non-trivial applications, there is a messy many-to-many relationship between behaviour and classes. However, JavaScript’s single-inheritance model forces us to organize behaviour in trees, which can only represent one-to-many relationships.</p>
+
+<p>The mixin solution to this problem is to leave classes in a single inheritance hierarchy, and to mix additional behaviour into individual classes as needed. Here’s a vastly simplified functional mixin for classes:<sup id="fnref:simplified"><a href="#fn:simplified" class="footnote">1</a></sup></p>
+
+<pre><code>function mixin (behaviour) {
+  let instanceKeys = Reflect.ownKeys(behaviour);
+  let typeTag = Symbol('isa');
+
+  function _mixin (clazz) {
+    for (let property of instanceKeys)
+      Object.defineProperty(clazz.prototype, property, {
+        value: behaviour[property],
+        writable: true
+      });
+    Object.defineProperty(clazz.prototype, typeTag, { value: true });
+    return clazz;
+  }
+  Object.defineProperty(_mixin, Symbol.hasInstance, {
+    value: (i) =&gt; !!i[typeTag]
+  });
+  return _mixin;
+}
+</code></pre>
+
+<p>This is more than enough to do a lot of very good work in JavaScript, but it’s just the starting point. Here’s how we put it to work:</p>
+
+<pre><code>let BookCollector = mixin({
+  addToCollection (name) {
+    this.collection().push(name);
+    return this;
+  },
+  collection () {
+    return this._collected_books || (this._collected_books = []);
+  }
+});
+
+class Person {
+  constructor (first, last) {
+    this.rename(first, last);
+  }
+  fullName () {
+    return this.firstName + " " + this.lastName;
+  }
+  rename (first, last) {
+    this.firstName = first;
+    this.lastName = last;
+    return this;
+  }
+}
+
+let Executive = BookCollector(
+  class extends Person {
+    constructor (title, first, last) {
+      super(first, last);
+      this.title = title;
+    }
+
+    fullName () {
+      return `${this.title} ${super.fullName()}`;
+    }
+  }
+);
+
+let president = new Executive('President', 'Barak', 'Obama');
+
+president
+  .addToCollection("JavaScript Allongé")
+  .addToCollection("Kestrels, Quirky Birds, and Hopeless Egocentricity");
+
+president.collection()
+  //=&gt; ["JavaScript Allongé","Kestrels, Quirky Birds, and Hopeless Egocentricity"]
+</code></pre>
+
+<h3 id="multiple-inheritance">multiple inheritance</h3>
+
+<p>If you want to mix behaviour into a class, mixins do the job very nicely. But sometimes, people want more. They want <strong>multiple inheritance</strong>. Meaning, what they really want is for class <code class="highlighter-rouge">Executive</code> to inherit from <code class="highlighter-rouge">Person</code> <em>and</em> from <code class="highlighter-rouge">BookCollector</code>.</p>
+
+<p>What’s the difference between <code class="highlighter-rouge">Executive</code> mixing <code class="highlighter-rouge">BookCollector</code> in and <code class="highlighter-rouge">Executive</code> inheriting from <code class="highlighter-rouge">BookCollector</code>?</p>
+
+<ol>
+  <li>If <code class="highlighter-rouge">Executive</code> mixes <code class="highlighter-rouge">BookCollector</code> in, the properties <code class="highlighter-rouge">addToCollection</code> and <code class="highlighter-rouge">collection</code> become own properties of <code class="highlighter-rouge">Executive</code>’s prototype. If <code class="highlighter-rouge">Executive</code> inherits from <code class="highlighter-rouge">BookCollector</code>, they don’t.<br><br></li>
+  <li>If <code class="highlighter-rouge">Executive</code> mixes <code class="highlighter-rouge">BookCollector</code> in, <code class="highlighter-rouge">Executive</code> can’t override methods of <code class="highlighter-rouge">BookCollector</code>. If <code class="highlighter-rouge">Executive</code> inherits from <code class="highlighter-rouge">BookCollector</code>, it can.<br><br></li>
+  <li>If <code class="highlighter-rouge">Executive</code> mixes <code class="highlighter-rouge">BookCollector</code> in, <code class="highlighter-rouge">Executive</code> can’t override methods of <code class="highlighter-rouge">BookCollector</code>, and therefore it can’t make a method that overrides a method of <code class="highlighter-rouge">BookCollector</code> and then uses <code class="highlighter-rouge">super</code> to call the original. If <code class="highlighter-rouge">Executive</code> inherits from <code class="highlighter-rouge">BookCollector</code>, it can.</li>
+</ol>
+
+<p>If JavaScript had multiple inheritance, we could extend a class with more than one superclass:</p>
+
+<pre><code>class Todo {
+  constructor (name) {
+    this.name = name || 'Untitled';
+    this.done = false;
+  }
+
+  do () {
+    this.done = true;
+    return this;
+  }
+
+  undo () {
+    this.done = false;
+    return this;
+  }
+
+  toHTML () {
+    return this.name; // highly insecure
+  }
+}
+
+class Coloured {
+  setColourRGB ({r, g, b}) {
+    this.colourCode = {r, g, b};
+    return this;
+  }
+
+  getColourRGB () {
+    return this.colourCode;
+  }
+}
+
+let yellow = {r: 'FF', g: 'FF', b: '00'},
+    red    = {r: 'FF', g: '00', b: '00'},
+    green  = {r: '00', g: 'FF', b: '00'},
+    grey   = {r: '80', g: '80', b: '80'};
+
+let oneDayInMilliseconds = 1000 * 60 * 60 * 24;
+
+class TimeSensitiveTodo extends Todo, Coloured {
+  constructor (name, deadline) {
+    super(name);
+    this.deadline = deadline;
+  }
+
+  getColourRGB () {
+    let slack = this.deadline - Date.now();
+
+    if (this.done) {
+      return grey;
+    }
+    else if (slack &lt;= 0) {
+      return red;
+    }
+    else if (slack &lt;= oneDayInMilliseconds){
+      return yellow;
+    }
+    else return green;
+  }
+
+  toHTML () {
+    let rgb = this.getColourRGB();
+
+    return `<span style="color: #${rgb.r}${rgb.g}${rgb.b};">${super.toHTML()}</span>`;
+  }
+}
+</code></pre>
+
+<p>This hypothetical <code class="highlighter-rouge">TimeSensitiveTodo</code> extends both <code class="highlighter-rouge">Todo</code> and <code class="highlighter-rouge">Coloured</code>, and it overrides <code class="highlighter-rouge">toHTML</code> from <code class="highlighter-rouge">Todo</code> as well as overriding <code class="highlighter-rouge">getColourRGB</code> from <code class="highlighter-rouge">Coloured</code>.</p>
+
+<p><a href="https://www.flickr.com/photos/jetstarairways/9130160595"><img src="/assets/images/boeing-factory.jpg" alt="Boeing Factory" draggable="true" data-bukket-ext-bukket-draggable="true"></a></p>
+
+<h3 id="subclass-factories">subclass factories</h3>
+
+<p>However, JavaScript does not have “true” multiple inheritance, and therefore this code does not work. But we can simulate multiple inheritance for cases like this. The way it works is to step back and ask ourselves, “What would we do if we didn’t have mixins or multiple inheritance?”</p>
+
+<p>The answer is, we’d force a square multiple inheritance peg into a round single inheritance hole, like this:</p>
+
+<pre><code>class Todo {
+  // ...
+}
+
+class ColouredTodo extends Todo {
+  // ...
+}
+
+class TimeSensitiveTodo extends ColouredTodo {
+  // ...
+}
+</code></pre>
+
+<p>By making <code class="highlighter-rouge">ColouredTodo</code> extend <code class="highlighter-rouge">Todo</code>, <code class="highlighter-rouge">TimeSensitiveTodo</code> can extend <code class="highlighter-rouge">ColouredTodo</code> and override methods from both. This is exactly what most programmers do, and we know that it is an anti-pattern, as it leads to duplicated class behaviour and deep class hierarchies.</p>
+
+<p>But.</p>
+
+<p>What if, instead of manually creating this hierarchy, we use our simple mixins to do the work for us? We can take advantage of the fact that <a href="http://raganwald.com/2015/06/04/classes-are-expressions.html">classes are expressions</a>, like this:</p>
+
+<pre><code>let Coloured = mixin({
+  setColourRGB ({r, g, b}) {
+    this.colourCode = {r, g, b};
+    return this;
+  },
+
+  getColourRGB () {
+    return this.colourCode;
+  }
+});
+
+let ColouredTodo = Coloured(class extends Todo {});
+</code></pre>
+
+<p>Thus, we have a <code class="highlighter-rouge">ColouredTodo</code> that we can extend and override, but we also have our <code class="highlighter-rouge">Coloured</code> behaviour in a mixin we can use anywhere we like without duplicating its functionality in our code. The full solution looks like this:</p>
+
+<pre><code>class Todo {
+  constructor (name) {
+    this.name = name || 'Untitled';
+    this.done = false;
+  }
+
+  do () {
+    this.done = true;
+    return this;
+  }
+
+  undo () {
+    this.done = false;
+    return this;
+  }
+
+  toHTML () {
+    return this.name; // highly insecure
+  }
+}
+
+let Coloured = mixin({
+  setColourRGB ({r, g, b}) {
+    this.colourCode = {r, g, b};
+    return this;
+  },
+
+  getColourRGB () {
+    return this.colourCode;
+  }
+});
+
+let ColouredTodo = Coloured(class extends Todo {});
+
+let yellow = {r: 'FF', g: 'FF', b: '00'},
+    red    = {r: 'FF', g: '00', b: '00'},
+    green  = {r: '00', g: 'FF', b: '00'},
+    grey   = {r: '80', g: '80', b: '80'};
+
+let oneDayInMilliseconds = 1000 * 60 * 60 * 24;
+
+class TimeSensitiveTodo extends ColouredTodo {
+  constructor (name, deadline) {
+    super(name);
+    this.deadline = deadline;
+  }
+
+  getColourRGB () {
+    let slack = this.deadline - Date.now();
+
+    if (this.done) {
+      return grey;
+    }
+    else if (slack &lt;= 0) {
+      return red;
+    }
+    else if (slack &lt;= oneDayInMilliseconds){
+      return yellow;
+    }
+    else return green;
+  }
+
+  toHTML () {
+    let rgb = this.getColourRGB();
+
+    return `<span style="color: #${rgb.r}${rgb.g}${rgb.b};">${super.toHTML()}</span>`;
+  }
+}
+
+let task = new TimeSensitiveTodo('Finish blog post', Date.now() + oneDayInMilliseconds);
+
+task.toHTML()
+  //=&gt; <span style="color: #FFFF00;">Finish blog post</span>
+</code></pre>
+
+<p>The key snippet is <code class="highlighter-rouge">let ColouredTodo = Coloured(class extends Todo {});</code>, it turns behaviour into a subclass that can be extended and overridden. We can turn this pattern into a function:</p>
+
+<pre><code>let subclassFactory = (behaviour) =&gt; {
+  let mixBehaviourInto = mixin(behaviour);
+
+  return (superclazz) =&gt; mixBehaviourInto(class extends superclazz {});
+}
+</code></pre>
+
+<p>Using <code class="highlighter-rouge">subclassFactory</code>, we wrap the class we want to extend, instead of the class we are declaring. Like this:</p>
+
+<pre><code>let subclassFactory = (behaviour) =&gt; {
+  let mixBehaviourInto = mixin(behaviour);
+
+  return (superclazz) =&gt; mixBehaviourInto(class extends superclazz {});
+}
+
+let ColouredAsWellAs = subclassFactory({
+  setColourRGB ({r, g, b}) {
+    this.colourCode = {r, g, b};
+    return this;
+  },
+
+  getColourRGB () {
+    return this.colourCode;
+  }
+});
+
+class TimeSensitiveTodo extends ColouredAsWellAs(ToDo) {
+  constructor (name, deadline) {
+    super(name);
+    this.deadline = deadline;
+  }
+
+  getColourRGB () {
+    let slack = this.deadline - Date.now();
+
+    if (this.done) {
+      return grey;
+    }
+    else if (slack &lt;= 0) {
+      return red;
+    }
+    else if (slack &lt;= oneDayInMilliseconds){
+      return yellow;
+    }
+    else return green;
+  }
+
+  toHTML () {
+    let rgb = this.getColourRGB();
+
+    return `<span style="color: #${rgb.r}${rgb.g}${rgb.b};">${super.toHTML()}</span>`;
+  }
+}
+</code></pre>
+
+<p>The syntax of <code class="highlighter-rouge">class TimeSensitiveTodo extends ColouredAsWellAs(ToDo)</code> says exactly what we mean: We are extending our <code class="highlighter-rouge">Coloured</code> behaviour as well as extending <code class="highlighter-rouge">ToDo</code>.<sup id="fnref:fagnani"><a href="#fn:fagnani" class="footnote">2</a></sup></p>
+
+<h3 id="another-way-forward">another way forward</h3>
+
+<p>The solution subclass factories offer is emulating inheritance from more than one superclass. That, in turn, makes it possible to override methods from our superclass as well as the behaviour we want to mix in. Which is fine, but we don’t actually want multiple inheritance!</p>
+
+<p>It’s just that we’re looking at an overriding/extending methods problem, but we’re holding an inheritance-shaped hammer. So it looks like a multiple-inheritance nail. But what if we address the problem of overriding and extending methods directly, rather than indirectly via multiple inheritance?</p>
+
+<p><a href="https://www.flickr.com/photos/25182350@N03/2981062354"><img src="/assets/images/nail.jpg" alt="Nail" draggable="true" data-bukket-ext-bukket-draggable="true"></a></p>
+
+<h3 id="simple-overwriting-with-simple-mixins">simple overwriting with simple mixins</h3>
+
+<p>We start by noting that in the first pass of our <code class="highlighter-rouge">mixin</code> function, we blindly copied properties from the mixin into the class’s prototype, whether the class defined those properties or not. So if we write:</p>
+
+<pre><code>let RED        = { r: 'FF', g: '00', b: '00' },
+    WHITE      = { r: 'FF', g: 'FF', b: 'FF' },
+    ROYAL_BLUE = { r: '41', g: '69', b: 'E1' },
+    LIGHT_BLUE = { r: 'AD', g: 'D8', b: 'E6' };
+
+let BritishRoundel = mixin({
+  shape () {
+    return 'round';
+  },
+
+  roundels () {
+    return [RED, WHITE, ROYAL_BLUE];
+  }
+})
+
+let CanadianAirForceRoundel = BritishRoundel(class {
+  roundels () {
+    return [RED, WHITE, LIGHT_BLUE];
+  }
+});
+
+new CanadianAirForceRoundel().roundels()
+  //=&gt; [
+    {"r":"FF","g":"00","b":"00"},
+    {"r":"FF","g":"FF","b":"FF"},
+    {"r":"41","g":"69","b":"E1"}
+  ]
+</code></pre>
+
+<p>Our <code class="highlighter-rouge">CanadianAirForceRoundel</code>’s third stripe winds up being regular blue instead of light blue, because the <code class="highlighter-rouge">roundels</code> method from the mixin <code class="highlighter-rouge">BritishRoundel</code> overwrites its own. (Yes, this is a ridiculous example, but it gets the point across.)</p>
+
+<p>We can fix this by not overwriting a property if the class already defines it. That’s not so hard:</p>
+
+<pre><code>function mixin (behaviour) {
+  let instanceKeys = Reflect.ownKeys(behaviour);
+  let typeTag = Symbol('isa');
+
+  function _mixin (clazz) {
+    for (let property of instanceKeys)
+      if (!clazz.prototype.hasOwnProperty(property)) {
+        Object.defineProperty(clazz.prototype, property, {
+          value: behaviour[property],
+          writable: true
+        });
+      }
+    Object.defineProperty(clazz.prototype, typeTag, { value: true });
+    return clazz;
+  }
+  Object.defineProperty(_mixin, Symbol.hasInstance, {
+    value: (i) =&gt; !!i[typeTag]
+  });
+  return _mixin;
+}
+</code></pre>
+
+<p>Now we can override <code class="highlighter-rouge">roundels</code> in <code class="highlighter-rouge">CanadianAirForceRoundel</code> while mixing <code class="highlighter-rouge">shape</code> in just fine:</p>
+
+<pre><code>new CanadianAirForceRoundel().roundels()
+  //=&gt; [
+    {"r":"FF","g":"00","b":"00"},
+    {"r":"FF","g":"FF","b":"FF"},
+    {"r":"AD","g":"D8","b":"E6"}
+  ]
+</code></pre>
+
+<p>The method defined in the class is now the “definition of record,” just as we might expect. But it’s not enough in and of itself.</p>
+
+<h3 id="combining-advice-with-simple-mixins">combining advice with simple mixins</h3>
+
+<p>The above adjustment to ‘mixin’ is fine for simple overwriting, but what about when we wish to modify or extend a method’s behaviour while still invoking the original? Recall that our <code class="highlighter-rouge">TimeSensitiveTodo</code> example performed a simple override of <code class="highlighter-rouge">getColourRGB</code>, but its implementation of <code class="highlighter-rouge">toHTML</code> used <code class="highlighter-rouge">super</code> to invoke the method it was overriding.</p>
+
+<p>Our adjustment will not allow a method in the class to invoke the body of a method in a mixin. So we can’t use it to implement <code class="highlighter-rouge">TimeSensitiveTodo</code>. For that, we need a different tool, <a href="http://raganwald.com/2015/08/05/method-advice.html">method advice</a>.</p>
+
+<p>Method advice is a powerful tool in its own right: It allows us to compose method functionality in a declarative way. Here’s a simple “override” function that decorates a class:</p>
+
+<pre><code>let override = (behaviour, ...overriddenMethodNames) =&gt;
+  (clazz) =&gt; {
+    if (typeof behaviour === 'string') {
+      behaviour = clazz.prototype[behaviour];
+    }
+    for (let overriddenMethodName of overriddenMethodNames) {
+      let overriddenMethodFunction = clazz.prototype[overriddenMethodName];
+
+      Object.defineProperty(clazz.prototype, overriddenMethodName, {
+        value: function (...args) {
+          return behaviour.call(this, overriddenMethodFunction.bind(this), ...args);
+        },
+        writable: true
+      });
+    }
+    return clazz;
+  };
+</code></pre>
+
+<p>It takes behaviour in the form of a name of a method or a function, and one or more names of methods to override. It overrides each of the methods with the behaviour, which is invoked with the overridden method’s function as the first argument.</p>
+
+<p>This allows us to invoke the original without needing to use <code class="highlighter-rouge">super</code>. And although we don’t show all the other use cases here, it is handy for far more than overriding mixin methods, it can be used to decompose methods into separate responsibilities.</p>
+
+<p>Using <code class="highlighter-rouge">override</code>, we can decorate methods with any arbitrary functionality. We’d use it like this:</p>
+
+<pre><code>class Todo {
+  constructor (name) {
+    this.name = name || 'Untitled';
+    this.done = false;
+  }
+
+  do () {
+    this.done = true;
+    return this;
+  }
+
+  undo () {
+    this.done = false;
+    return this;
+  }
+
+  toHTML () {
+    return this.name; // highly insecure
+  }
+}
+
+let Coloured = mixin({
+  setColourRGB ({r, g, b}) {
+    this.colourCode = {r, g, b};
+    return this;
+  },
+
+  getColourRGB () {
+    return this.colourCode;
+  }
+});
+
+let yellow = {r: 'FF', g: 'FF', b: '00'},
+    red    = {r: 'FF', g: '00', b: '00'},
+    green  = {r: '00', g: 'FF', b: '00'},
+    grey   = {r: '80', g: '80', b: '80'};
+
+let oneDayInMilliseconds = 1000 * 60 * 60 * 24;
+
+let TimeSensitiveTodo = override('wrapWithColour', 'toHTML')(
+  Coloured(
+    class extends Todo {
+      constructor (name, deadline) {
+        super(name);
+        this.deadline = deadline;
+      }
+
+      getColourRGB () {
+        let slack = this.deadline - Date.now();
+
+        if (this.done) {
+          return grey;
+        }
+        else if (slack &lt;= 0) {
+          return red;
+        }
+        else if (slack &lt;= oneDayInMilliseconds){
+          return yellow;
+        }
+        else return green;
+      }
+
+      wrapWithColour (original) {
+        let rgb = this.getColourRGB();
+
+        return `<span style="color: #${rgb.r}${rgb.g}${rgb.b};">${original()}</span>`;
+      }
+    }
+  )
+);
+let task = new TimeSensitiveTodo('Finish blog post', Date.now() + oneDayInMilliseconds);
+
+task.toHTML()
+  //=&gt; <span style="color: #FFFF00;">Finish blog post</span>
+</code></pre>
+
+<p>With this solution, we’ve used our revamped mixin function to support <code class="highlighter-rouge">getColourRGB</code> overriding the mixin’s definition, and we’ve used <code class="highlighter-rouge">override</code> to support wrapping functionality around the original <code class="highlighter-rouge">toHTML</code> method.</p>
+
+<p>As a final bonus, if we are using a transpiler that supports ES.who-knows-when, we can use the proposed class decorator syntax:</p>
+
+<pre><code>@override('wrapWithColour', 'toHTML')
+@Coloured
+class TimeSensitiveTodo extends Todo {
+  constructor (name, deadline) {
+    super(name);
+    this.deadline = deadline;
+  }
+
+  getColourRGB () {
+    let slack = this.deadline - Date.now();
+
+    if (this.done) {
+      return grey;
+    }
+    else if (slack &lt;= 0) {
+      return red;
+    }
+    else if (slack &lt;= oneDayInMilliseconds){
+      return yellow;
+    }
+    else return green;
+  }
+
+  wrapWithColour (original) {
+    let rgb = this.getColourRGB();
+
+    return `<span style="color: #${rgb.r}${rgb.g}${rgb.b};">${original()}</span>`;
+  }
+}
+</code></pre>
+
+<p>This is extremely readable.</p>
+
+<p><a href="https://www.flickr.com/photos/kjmniemi/978113662"><img src="/assets/images/a-touch-of-light.jpg" alt="A Touch of Light" draggable="true" data-bukket-ext-bukket-draggable="true"></a></p>
+
+<h3 id="method-advice-beyond-extending-mixin-methods">method advice beyond extending mixin methods</h3>
+
+<p><code class="highlighter-rouge">override</code> in and of itself is not spectacular. But most functionality that extends the behaviour of a method doesn’t process the result of the original. Most extensions do some work <em>before</em> the method is invoked, or do some work <em>after</em> the method is invoked.</p>
+
+<p>So in addition to <code class="highlighter-rouge">override</code>, or toolbox should include <code class="highlighter-rouge">before</code> and <code class="highlighter-rouge">after</code> method advice. <code class="highlighter-rouge">before</code> invokes the behaviour first, and if its return value is <code class="highlighter-rouge">undefined</code> or <code class="highlighter-rouge">truthy</code>, it invokes the decorated method:</p>
+
+<pre><code>let before = (behaviour, ...decoratedMethodNames) =&gt;
+  (clazz) =&gt; {
+    if (typeof behaviour === 'string') {
+      behaviour = clazz.prototype[behaviour];
+    }
+    for (let decoratedMethodName of decoratedMethodNames) {
+      let decoratedMethodFunction = clazz.prototype[decoratedMethodName];
+
+      Object.defineProperty(clazz.prototype, decoratedMethodName, {
+        value: function (...args) {
+          let behaviourValue = behaviour.apply(this, ...args);
+
+          if (behaviourValue === undefined || !!behaviourValue)
+             return decoratedMethodFunction.apply(this, args);
+        },
+        writable: true
+      });
+    }
+    return clazz;
+  };
+</code></pre>
+
+<p><code class="highlighter-rouge">before</code> should be used to decorate methods with setup or validation behaviour. Its “partner” is <code class="highlighter-rouge">after</code>, a decorator that runs behaviour after the decorated method is invoked:</p>
+
+<pre><code>let after = (behaviour, ...decoratedMethodNames) =&gt;
+  (clazz) =&gt; {
+    if (typeof behaviour === 'string') {
+      behaviour = clazz.prototype[behaviour];
+    }
+    for (let decoratedMethodName of decoratedMethodNames) {
+      let decoratedMethodFunction = clazz.prototype[decoratedMethodName];
+
+      Object.defineProperty(clazz.prototype, decoratedMethodName, {
+        value: function (...args) {
+          let decoratedMethodValue = ecoratedMethodFunction.apply(this, args);
+
+          behaviour.apply(this, ...args);
+          return decoratedMethodValue;
+        },
+        writable: true
+      });
+    }
+    return clazz;
+  };
+</code></pre>
+
+<p>With <code class="highlighter-rouge">before</code>, <code class="highlighter-rouge">after</code>, and <code class="highlighter-rouge">override</code> in hand, we have several advantages over traditional method overriding. First, <code class="highlighter-rouge">before</code> and <code class="highlighter-rouge">after</code> do a better job of declaring our intent when decomposing behaviour. And second, method advice allows us to add behaviour to multiple methods at once, focusing responsibility for cross-cutting concerns, like this:</p>
+
+<pre><code>const mustBeLoggedIn = () =&gt; {
+    if (currentUser() == null)
+      throw new PermissionsException("Must be logged in!");
+  }
+
+const mustBeMe = () =&gt; {
+    if (currentUser() == null || !currentUser().person().equals(this))
+      throw new PermissionsException("Must be me!");
+  }
+
+@HasAge
+@before(mustBeMe, 'setName', 'setAge', 'age')
+@before(mustBeLoggedIn, 'fullName')
+class Person {
+
+  setName (first, last) {
+    this.firstName = first;
+    this.lastName = last;
+  }
+
+  fullName () {
+    return this.firstName + " " + this.lastName;
+  }
+
+};
+</code></pre>
+
+<p>Mixins allow us to have a many-to-many relationship between behaviour and classes. Method advice is similar: It makes a many-to-many relationship between behaviour and methods particularly easy to declare.</p>
+
+<p>After using mixins and method advice on a regular basis, instead of using superclasses for shared behaviour, we use mixins and method advice instead. Superclasses are then relegated to those cases where we need to build behaviour into the constructor.</p>
+
+<h3 id="wrapping-up">wrapping up</h3>
+
+<p>A simple mixin can cover many cases, but when we wish to override or extend method behaviour, we need to either use the subclass factory pattern or incorporate method advice. Method advice offers benefits above and beyond overriding mixin methods, especially if we use <code class="highlighter-rouge">before</code> and <code class="highlighter-rouge">after</code> in addition to <code class="highlighter-rouge">override</code>.</p>
+
+<p>That being said, subclass factories are most convenient of we are comfortable with hierarchies of superclasses and with using <code class="highlighter-rouge">super</code> to extend method behaviour. Subclass factories work best when we don’t have a lot of behaviour that needs to be shared between different methods.</p>
+
+<p>Method advice permits us to use a simpler approach to mixins, and makes it easy to have a many-to-many relationship between methods and behaviour, and it makes it easy to factor the responsibility for cross-cutting concerns out of each method.</p>
+
+<p>No matter which approach we use, we find ourselves needing shallower and shallower class hierarchies when we use mixins to their fullest. Which demonstrates the power of working with simple constructs (like mixins and decorators) in JavaScript: We do not need nearly as much of the heavyweight OOP apparatus borrowed from 30 year-old languages, we just need to use the language we already have, in ways that cut with its grain.</p>
+
+<p>(discuss on <a href="https://news.ycombinator.com/item?id=10801425">hacker news</a>)</p>
+
+<hr>
+
+<p>more reading:</p>
+
+<ul>
+  <li><a href="http://raganwald.com/2015/06/10/mixins.html">Prototypes are Objects (and why that matters)</a></li>
+  <li><a href="http://raganwald.com/2015/06/04/classes-are-expressions.html">Classes are Expressions (and why that matters)</a></li>
+  <li><a href="http://raganwald.com/2015/06/17/functional-mixins.html">Functional Mixins in ECMAScript 2015</a></li>
+  <li><a href="http://raganwald.com/2015/06/26/decorators-in-es7.html">Using ES.later Decorators as Mixins</a></li>
+  <li><a href="http://raganwald.com/2015/08/05/method-advice.html">Method Advice in Modern JavaScript</a></li>
+  <li><a href="http://raganwald.com/2015/12/23/super-considered-hmmmful.html"><code class="highlighter-rouge">super()</code> considered hmmm-ful</a></li>
+  <li><a href="http://raganwald.com/2015/12/28/mixins-subclass-factories-and-method-advice.html">JavaScript Mixins, Subclass Factories, and Method Advice</a></li>
+  <li><a href="http://raganwald.com/2015/12/31/this-is-not-an-essay-about-traits-in-javascript.html">This is not an essay about ‘Traits in Javascript’</a></li>
+</ul>
+
+<p>notes:</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:simplified">
+      <p>A production-ready implementation would handle more than just methods. For example, it would allow you to mix getters and setters into a class, and it would allow us to attach properties or methods to the target class itself, and not just instances. But this simplified version handles methods, simple properties, “mixin properties,” and <code class="highlighter-rouge">instanceof</code>, and that is enough for the purposes of investigating OO design questions.&nbsp;<a href="#fnref:simplified" class="reversefootnote">↩</a></p>
+    </li>
+    <li id="fn:fagnani">
+      <p>Justin Fagnani named this pattern “subclass factory” in his essay <a href="http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/">“Real” Mixins with JavaScript Classes</a>. It’s well worth a read, and his implementation touches on other matters such as optimizing performance on modern JavaScript engines.&nbsp;<a href="#fnref:fagnani" class="reversefootnote">↩</a></p>
+    </li>
+  </ol>
+</div>
+
+        </section>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Compose me That: Function Composition in JavaScript</h1>
+					<span class="ref-site">https://www.linkedin.com/pulse/compose-me-function-composition-javascript-kevin-greene</span>
+					<div class="tutorial__content">
+<div class="prose" itemprop="articleBody"><p>Source on Github:&nbsp;<a href="https://github.com/kevinbgreene/composition-tutorial" target="_blank" rel="nofollow noopener">Composition Tutorial</a></p> 
+<p>Note: This article is the spiritual sibling of my previous post:&nbsp;<a href="https://www.linkedin.com/pulse/curry-me-partial-application-javascript-kevin-greene" target="_blank">Curry me This: Partial Application in JavaScript</a>. Both articles cover fundamental&nbsp;concepts for any functional programmer. If you're not familiar with currying I'd suggest reading that article first as we will be using curried functions here.</p> 
+<h2>Are We Painting a Picture Here?</h2> 
+<p>Yes, we are painting a picture and functions are the lines we draw. Function composition is a formalized way of thinking about something that is largely considered a good practice is software development, keep your functions short, single purpose and referentially transparent. Doing this&nbsp;makes your functions easy to test, easy to reason about and easy to document for others who will be using your code.</p> 
+<p>Function composition is also directly a mathematical concept. In mathematics there is a composition operator, typically an empty circle (°). It should be an empty mid dot, but probably shows up here as a degree symbol. The circle between two functions means take the result of the function on the right and pass it as the argument to the function on the left. The composition of two functions is a new function. If we have some function A such that A(3) = 15&nbsp;and some function B such that B(15) = 22&nbsp;then some function C that is equal to B compose A (C = B ° A)&nbsp;would be a function that given 3 as argument would return 22 (C(3) = 22).</p> 
+<p>Short, single purpose functions don't really do much, that's their beauty. So the not so surprising secret as to how we make them do interesting things is that we compose them. Complex functions are compositions of simpler functions.</p> 
+<p>This function strips extra white space from a string. This function computes the distance between two points. This function finds the standard deviation of a&nbsp;list&nbsp;of numbers. It should be easy to describe what a function does. If you write a function and can't clearly describe what it is doing in a simple, declarative sentence you probably need to refactor that function into multiple functions, or step back and ask what it is you are actually trying to do. What you are trying to do can be described in a series of logical and declarative steps. We are dealing with computers here. At some point what you are trying to do needs to be translated into binary. Very often these steps will be your functions. Your application is the ultimate composition of these functions.</p> 
+<h3>Wouldn't This be Easier to Describe with Examples?</h3> 
+<p>Let's start simple. Say we want to create a function that takes a string and capitalizes every word in that string, what do we need to do?</p> 
+<ol> 
+ <li>Find the words in the string.</li> 
+ <li>Capitalize the first character of each word.</li> 
+ <li>Return the new string.</li> 
+</ol> 
+<p>Ignoring that we could do this fairly concisely with a regex (some of us, namely your humble narrator, suck at regexes), let's follow the steps and build this function.&nbsp;Something like this would do:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAcoAAAAJDdkZGYzNGY2LWZmOGYtNDMyZi05MjMyLTRkYTQ2NWVkZThkNw.png" width="640" height="333" draggable="true" data-bukket-ext-bukket-draggable="true">Nothing complicated. Each step follows logically from the previous. There is obviously some room for abstraction there though. There's a lot of implementation details in there that have nothing to do with the basic steps of what we want to do. The first thing we do is break the input string into an array of words. We have room here for a words function.</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAiUAAAAJDY1YmI2YWVmLWYxMDItNGQ2OC05NzhjLTdlNGMzOTI5YWIyNg.png" width="640" height="216" draggable="true" data-bukket-ext-bukket-draggable="true">Which turns our titleCase function into this:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAfdAAAAJDc4NGVkZWIxLTkyMTQtNDhiOC05YzYwLTY0MzdjYWE2NzZiMw.png" width="640" height="288" draggable="true" data-bukket-ext-bukket-draggable="true">Does our titleCase function really care what it takes to capitalize a word? No. It only needs to know the words are capitalized. We could then break the capitalization of each word out into its own function.</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAiAAAAAJGY5NWY1MzBiLTEzODYtNDBkZS05MjlmLTRjYWRmMzRlNjYyZA.png" width="640" height="382" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Then it would follow to create a function that capitalized each of a list of words.&nbsp;The ultimate idea is to strip the titleCase function down into only the steps described in our high-level overview, stripping away the implementation details of those steps and abstracting the implementation into other functions that can be logically described&nbsp;in terms of those implementation details.</p> 
+<h3>Hold on There Pokey, We're in Abstraction Hell</h3> 
+<p>True, we haven't actually composed anything get. I would argue though that our titleCase function&nbsp;should really be a one-liner, a composition of even simpler functions.</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAfRAAAAJGQ0NTJkNDJjLTI3OTMtNDEwOS04ZGNmLWEzMDA1MGJjY2MzNg.png" width="640" height="162" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Ok, so what's going on here? To start, let's look at this without the call to compose:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAd6AAAAJDRkYWJkZmM4LTk5YzItNDBiYy1hMzM0LTFkZjhjMDVjNGE5Nw.png" width="640" height="201" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>You've probably done something like this before, using a function invocation as the argument for another function. That is all function composition really is. We're just dealing with abstractions to make this idea more explicit.</p> 
+<p>We can't make our own operators or infix functions in JavaScript, so compose is a function that takes some n number of functions and returns a new function that is the right to left composition of those functions. We'll look at an implementation shortly. In this case, the argument received by titleCase is some string that is given to the words function. Capitalize gets the result of the words function and join gets the result of capitalize. The return value of join is used as the return value of the composition.</p> 
+<p>Back when we originally described what this function should do we had three steps. Here we have three functions that correspond to each of those steps. Find the words, capitalize them, return the new string (by joining the capitalized words). The three functions compose together to create our titleCase function.</p> 
+<p>Alright, but what exactly do each of these three steps consist of? Our words function did a little more than just split on spaces:</p> 
+<ol> 
+ <li>Trim leading/trailing white space</li> 
+ <li>Split string on spaces</li> 
+ <li>Remove empty strings (extra spaces) from words list</li> 
+</ol> 
+<p>Three more steps. Another composition:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAeOAAAAJGIyN2FhZTY0LTE4MDYtNDZlYS04MGUwLTUxZGMyZjQxYjdmZg.png" width="640" height="165" draggable="true" data-bukket-ext-bukket-draggable="true">The trim and split functions here are simple helpers that allow us to call String.prototype.trim and String.prototype.split as normal functions.</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAfBAAAAJDUwYTM4MjJlLWM2NTQtNGVhYS05ZjRmLWQ3ODY0ZTA2NWE4NA.png" width="640" height="165" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Split&nbsp;is a little more interesting in that it is curried. So split(' ') is a new function that splits on spaces:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAe4AAAAJGM5ZjlmZjU3LTE4YTgtNDU4Yi1hNzY2LTAyNDY3YWY4YTY0Yw.png" width="640" height="183" draggable="true" data-bukket-ext-bukket-draggable="true">It follows then that we could make a breakOnSpace function:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAdGAAAAJGNkODJhZGU1LTVkYTktNDA4Yy1iOWM3LWI0NDIwY2UyMjEzMw.png" width="640" height="167" draggable="true" data-bukket-ext-bukket-draggable="true">The removeEmpty function handles the case when we split on a single space if there are extra spaces in our string we end up with empty strings in our words array. We remove these empty strings from our words array. Maybe this isn't desirable in all situations, but it's a wrinkle we'll add to our implementation.</p> 
+<p>For completeness, here is removeEmpty:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAhSAAAAJDFkNDQxY2IyLTE1NDctNGZlOC05N2ExLThiMjM1MmU1OWE2Yw.png" width="640" height="165" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p><em>Note: We'll skip the remaining two steps of titleCase (capitalize and join). Their implementations can be found in the linked source code.</em></p> 
+<h3>TDD: It's Not All Puppy Dogs and Ice Cream</h3> 
+<p>I write most of my JavaScript with heavy use of curry and compose. This allows and pushes me towards a few things. One is micro code reuse. The more of these small function I have, the more ways I can compose them to make more complex functions for use in whatever project I am working on. Two is that it changes the way I look at my code. I look at my code more and more with an eye of how I can abstract, simplify and reuse the code I write. Three is I am a big believer in TDD (Test Driven Development). Even if you don't strictly follow TDD at some point you need to unit test your JavaScript. These tiny functions are impossibly easy to unit test. Then, if my logic is sound, these tiny functions that are thoroughly unit tested are almost certain to work when I compose them together. If they don't work when I compose them together there is a higher level flaw in my reasoning about what a function should be doing, the steps it should be taking. Then once the composition is in place and unit tested I can then use that function in another composition that is more likely to work because its component parts have been correctly reasoned and unit tested.</p> 
+<p>Writing unit tests can be a real pain. The easier it is to do the more likely we are to do it. When the logic you are testing is simple and well-reasoned it will be much easier for you to write test. Building functions up through composition forces your functions to be well reasoned because they are simply compositions of the steps they need to perform. Even when I'm code sketching with a larger problem I'm not immediately sure how to tackle I always go back to building it up from smaller functions that are easy for me to test.</p> 
+<h2>So, How do we Make This Magic?</h2> 
+<p>As I pointed out, function composition is probably something you've already done. You've probably used it a lot. Any time you've written something like this g(f(arg)) you've used function composition. However, if we want the composition of g and f to be a reusable function we need to wrap it in some function that accepts the argument for us.</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAleAAAAJDIyNWE0ZjNkLWZiMjctNGJmYi1iMTkzLTAxZTZiNjQ2NjdmYg.png" width="640" height="72" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>There are certainly libraries that offer compose functions. Essentially the same libraries that offer curry functions. I'll list them again at the end. I at least like knowing how the magic works even if I'm going to use a library.</p> 
+<p>The examples we looked at above both had 3 steps. We can make a function that takes three functions and composes them.</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAlVAAAAJGQyOWNjNGFlLWUxOWEtNGM1Yi1iY2VhLWZiZjlhM2ZmM2FhYQ.png" width="640" height="270" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Obviously not ideal, but gets the job done.&nbsp;We would need compose functions for all the different numbers of functions we would like to compose together (compose2, compose4...).</p> 
+<p>How do we make a generic compose function?</p> 
+<p>What exactly does a generic compose function need to do?</p> 
+<ol> 
+ <li>Take some n number of functions</li> 
+ <li>Return a new function that takes an argument and returns the result of calling the composition of those functions on that argument</li> 
+</ol> 
+<p>Well, we start like this:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAlgAAAAJDcwNmNkNGNmLWZkY2MtNGM1Zi04MDBmLWY2YTk4YjA5OGQ3Mw.png" width="640" height="240" draggable="true" data-bukket-ext-bukket-draggable="true">Using rest parameters it's easy to get the functions we need to call as an array. We return a function that accepts the argument. How do we apply that to our list of functions?&nbsp;If we step back and don't think about function application, just what do we have? We have a list and need to return a result. Don't we have an array method that does something like that? Yep, sounds like a reduce:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAk7AAAAJGE1NzQzNDRmLThkNjMtNDQ3OS1iZGFiLWE1ZTdkMWYzMjI5YQ.png" width="640" height="271" draggable="true" data-bukket-ext-bukket-draggable="true">The argument of the composition is the initial accumulator of reduce. The new accumulator is then the result of applying the next function to the accumulator.</p> 
+<p>Why do we use reduceRight? Why not apply the functions left to right? We could make it work either way. Keeping right to left composition keeps us closer to the mathematical roots of function composition. It also makes things read a little more clearly if we immediately invoke a composition:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAe2AAAAJGI0ZDk0YmFjLTU2NWItNGY4Yi1iYjg0LWVkMzE0NjE4MmUwMQ.png" width="640" height="74" draggable="true" data-bukket-ext-bukket-draggable="true">It's a little more clear that 'this is a test' is being passed first as an argument to words. Right to left implies the flow of data through the composition.</p> 
+<h3>Library Implementations</h3> 
+<ol> 
+ <li><a href="http://ramdajs.com/0.21.0/index.html" target="_blank" rel="nofollow noopener">ramda.js</a></li> 
+ <li><a href="https://lodash.com/" target="_blank" rel="nofollow noopener">lodash.js</a>&nbsp;(calls their implementation flow/flowRight)</li> 
+ <li><a href="http://underscorejs.org/" target="_blank" rel="nofollow noopener">underscore.js</a></li> 
+</ol></div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Curry me This: Partial Application in JavaScript</h1>
+					<span class="ref-site">https://www.linkedin.com/pulse/curry-me-partial-application-javascript-kevin-greene</span>
+					<div class="tutorial__content">
+<div class="prose" itemprop="articleBody"><p>Source on Github: <a href="https://github.com/kevinbgreene/curry-tutorial" target="_blank" rel="nofollow noopener">Curry Tutorial</a></p> 
+<h2>Currying vs Partial Application</h2> 
+<p>Currying and partial application are related concepts and the terms are often used interchangeably. It boils down to this, we have some function F(a,b,c) that has&nbsp;three parameters, but we don't want to apply all three arguments at the same time. Why on earth would we want to do that? Settle down, we'll get to that.</p> 
+<p>The prototypical example of this is an add (+) function:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAfMAAAAJGY2ODljNjEzLTk3YTYtNGEyMC04N2VmLTQ2ODhiMTNiNzZkYQ.png" width="640" height="220" draggable="true" data-bukket-ext-bukket-draggable="true">If we were to partially apply add, we could do something like this:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAiPAAAAJGQ0MzEzMWZlLTkyYjEtNGNiYS04Njk0LWE4ZjE1ZjEzNDI1Mw.png" width="640" height="150" draggable="true" data-bukket-ext-bukket-draggable="true">By partially applying the function we get back a new function with the 'a' parameter bound to the number 1. So we have a function that is just waiting for a 'b', a function that will add 1 to any number given to it. This gives us a great little semantic helper function we can use over and over again.</p> 
+<p>Partially applying? What about currying? As I said, these are similar concepts. To illustrate the difference lets look at a slightly different function:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAlxAAAAJDM2OTcyODEyLTg5ZjktNGZiOC1hOWU5LWIwODA3ZDhhNzk5NQ.png" width="640" height="213" draggable="true" data-bukket-ext-bukket-draggable="true">Partial application generally refers to the ability to (surprise) partially apply a function. Just give it less arguments than it requires, as a result you are given back a new function that waits for the remaining arguments.</p> 
+<p>Curry can be thought of as a more specific case of this. If a function takes three arguments and is curried it is really three functions. Each function takes one argument&nbsp;and returns a new function that takes the next&nbsp;argument until all arguments are received then it returns the final result. Curried functions only ever take one argument.</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAeBAAAAJGQxNjg5ZmMwLWM0MjctNDA0NC1iYzNkLWY3OWQxZGJiNzNmNA.png" width="640" height="208" draggable="true" data-bukket-ext-bukket-draggable="true">Applying two arguments to a curried threeSum returns a result dependent on implementation. It may throw an error, or it may ignore the second argument. If it ignores the second argument in our example we are left with essentially this: threeSum(2)(4), a function waiting on a third argument to bind to 'c'.</p> 
+<p>The difference between partial application and currying may not be practically too important, but I make the distinction as a note that there is technically a distinction. In practice you will often see curry used to refer to partial application. Later, in these very typed words, I will slip into that myself.</p> 
+<p>Hey, but I know a little JavaScript. I know the functions we've written so far really only do something like this:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAfSAAAAJGI1NjBlOWE2LWQ3MGYtNDJlNy05MDk2LWExZGY4ZGFlNTBkNQ.png" width="640" height="149" draggable="true" data-bukket-ext-bukket-draggable="true">True. NaN is not a function, information for life.</p> 
+<h3>Using Function.prototype.bind</h3> 
+<p>Native JavaScript already gives us a tool to perform partial application. Function.prototype.bind is a very useful bit of business. It allows us to bind a context and&nbsp;arguments to a function. The context bit can be cool, but we're going to concern ourselves only with binding arguments. Because of this, I will always use null as the first argument to bind.</p> 
+<p><em>Note: If you are unfamiliar with Function.prototype.bind I suggest checking out the MDN documentation before continuing:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind" target="_blank" rel="nofollow noopener">Function.prototype.bind</a>.</em></p> 
+<p>If we use bind to perform partial application, we end up with something like this:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAi4AAAAJGIyZWZiMjI2LWY0N2YtNDQyYi1iNDI2LWI2MDY5MDYwMDNlNw.png" width="640" height="203" draggable="true" data-bukket-ext-bukket-draggable="true">The first argument (null) is bound to the context of the function. The following arguments are bound to the parameters of the function. If you've used React, you may have used bind to pass arguments to event handlers. Here we are using bind for partial application, to create new functions that are in essence more specific versions of the original function. This is the value of partial application, a subject we'll return to shortly.</p> 
+<p>Function.prototype.bind always returns a new function and always takes&nbsp;as many arguments as we care to pass to it. This would be perfectly fine:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAd4AAAAJGU1YjRiNGY0LWRkY2MtNGFhMS1hZmQ0LTRmM2IyZDhjZTY2Yg.png" width="640" height="91" draggable="true" data-bukket-ext-bukket-draggable="true">In this case only the 0 and 'henry' were bound to parameters. The add function only took two parameters so the first two arguments bound to add were bound to those parameters. Then on function invocation (someJunk('haha')) we were returned '0henry'. All the other arguments&nbsp;we gave to add were&nbsp;just thrown away.</p> 
+<p>This API is pretty clunky if our main want is to take advantage of partial application. Things were nicer in our theoretical API earlier where add just knew what to do based on the arguments it had so far.</p> 
+<h3>Going Our Own Way</h3> 
+<p>How would we implement this ourselves? I want functions that allow me to partially apply them, always giving me back new functions until I have provided all the arguments, then I want a result.</p> 
+<p>Starting simply, if we were to just write our add function as a curriedAdd function:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAf6AAAAJDk1ZTkzZDI3LTU0ODYtNDdlNy1iOWM3LTNhYWE1ODM5NTMyNA.png" width="640" height="218" draggable="true" data-bukket-ext-bukket-draggable="true">This is a true curried function. It is a composition of two functions that each take one argument.</p> 
+<p>Binary functions are incredibly common.&nbsp;Say I want to take advantage of currying, but I don't want to go back and rewrite all the binary functions I've written before. I want something like bind that will allow me to transform those binary functions into curried functions. Write a function that takes as its argument a binary function and returns a curried version of that function.</p> 
+<p>It would look something like this:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAiyAAAAJDk5YzQ2NjNmLTFhMTAtNDA3NC1hMDE5LTFiZTQwYzhmOTA1Ng.png" width="640" height="238" draggable="true" data-bukket-ext-bukket-draggable="true">Yes, very similar to our curriedAdd function. It takes a function and returns a function that takes the first argument. When applied that function returns a function to take a second argument. When that function is applied we finally get a result. Now we can rewrite our curriedAdd function like this:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAf9AAAAJDA3N2I1YzBiLTQ0ZGQtNDU0NC05NGIwLThiMDYyZjc3NTI5Ng.png" width="640" height="99" draggable="true" data-bukket-ext-bukket-draggable="true">Okay, so what do I do if I have a function that takes three arguments, or four? Do I really want to pass all the parameters separately every time? If we're going to take advantage of these patterns in our daily code we are probably more interested in partial application than true currying. We also want a generic version of our binaryCurry function that can turn any function into a function that can be partially applied.</p> 
+<p>So, let's write this function. An obvious requirement of this is we need to know how many arguments the function we are transforming expects to receive. I don't see this used often, but functions have a length property which is the number of declared parameters. Like this:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAesAAAAJGI0OTcwM2UzLTBkMDQtNDFjYy1iMzIwLWJiYWE5ZmM1YzdiZg.png" width="640" height="120" draggable="true" data-bukket-ext-bukket-draggable="true">Note:&nbsp;This doesn't take into account arguments a function may use by accessing the arguments array-like thing we shouldn't really be using anyway.</p> 
+<p>Using ES6 rest parameters and the spread operator, writing a generic curry function is rather concise.</p> 
+<p><em>Note: Rest parameters allow us to receive a variable number of arguments in our functions. Instead of using the arguments object we get an actual array of arguments that weren't otherwise bound to parameters. For a more detailed description of rest parameters MDN is again the spot:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters" target="_blank" rel="nofollow noopener">Rest Parameters</a>.</em></p> 
+<p><em>Note: The spread operator allows us to take an array and very literally spread it out, as in the case where we have an array and want to pass it to a function that takes multiple arguments. Hey, that's what we used to use apply for. Yes, that's what we used to use apply for. Again, here's MDN:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator" target="_blank" rel="nofollow noopener">Spread Operator</a>.</em></p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAkDAAAAJGIyYWNkNjZjLWVkODAtNGFmZi1hMzhhLTNhZDkyOTFlZTNjNw.png" width="640" height="588" draggable="true" data-bukket-ext-bukket-draggable="true">What happens here? The first time this function is called it only expects one argument, a function to curry (to create a new function that can be partially applied). The args parameter will probably be an empty array on first invocation, unless you want to bind any arguments to this function from the beginning. We save the arity (number of arguments it expects) to a local variable. We then return a function we define inside the curry function. We call this function 'curried' to indicate this is the curried function. Yes, yes, the author is an idiot. Moving on. When this function is invoked we concat the new args2 array with the old args array and check if we have received all the arguments yet. If we have, we apply the original function and return the result. If we have not we recursively call the curry function, passing along all the new arguments which puts us back in the original position, returning the curried function to await more arguments. On this second call (and all future calls) to curry the args parameter will be all the arguments we have received so far. New arguments from the client will be bound to args2 and concatenated with args to form locals.</p> 
+<p>Play around, test it. Try to solve the problem for yourself. We now have a generic function we can use to transform any function into one that can be partially applied.</p> 
+<h2>Subclassing a Function?</h2> 
+<p>Currying and partial application are tools like anything else. Their value comes in the form of being able to reuse more code. You can write functions in their&nbsp;most generic form and partially apply them to create functions suited for a specific situation. I've had the most success in explaining the concept to people new to it by describing it as subclassing a function. Most programmers are familiar with the idea of a generic base class that is subclassed for a given situation. Thinking about the abstraction in those terms will probably give you the best idea of what the value is.</p> 
+<h3>Can We Have Some Examples?</h3> 
+<p>Sure, let's look at a couple situations where using partial application can help us write a little cleaner code. These examples will be simple, but should get you started.</p> 
+<p>First, let's write a function to help us test the length of given objects. Not a terribly complex task, but something that's fairly common.</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAczAAAAJGEzNWM4YjY3LTk2ZWQtNDBiNS05YWYxLTI3YmQwZTY4NjExMg.png" width="640" height="223" draggable="true" data-bukket-ext-bukket-draggable="true">Simple enough. It returns a boolean letting us know if a given object has a given length. Because this function is curried we can do something like this:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAl1AAAAJDZlNzdmOGIxLTVkYjQtNGNiOS05M2Q5LTEwZGUzYmVkMDk5Mg.png" width="640" height="200" draggable="true" data-bukket-ext-bukket-draggable="true">Because of partial application hasLength(15) returns a new function that waits on the object to test. The array filter method uses this new function as it iterates over the array, on each iteration passing the second argument&nbsp;to hasLength, which upon getting its second argument runs the test and returns a boolean. It makes filter a little more concise. It makes our code more semantic, thus making it a little easier to read. No giant gains, but we're just getting started. We could make this even a little more self-documenting by doing something like this:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAeEAAAAJDNhZDg3Y2FmLTVkOGMtNDA3My04NGQ3LTE1NWY5OWM2NjUxZg.png" width="640" height="212" draggable="true" data-bukket-ext-bukket-draggable="true">This is even more code, but illustrates the kind of things you can start doing with utility or helper functions to make them a little easier to read and to make many functions that all use the same code by writing the original (hasLength in this case) in the most generic form, allowing us to create new functions for more specific situations.</p> 
+<p>Something else you may want to do is test if a given DOM element matches a given selector.</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAg3AAAAJGE2NDA2OWE0LWY0NTctNDE3MS1iMTIwLTI5ODQzNzBjMjdmZg.png" width="640" height="514" draggable="true" data-bukket-ext-bukket-draggable="true">You'll start to notice. If you are going to take advantage of partial application with your functions, the order in which the parameters are defined restricts how the function can be used. Here, I want the selector to be argument I partially apply to make my more specific function. I want to write these tester functions I can use on any element. If the element was first I could only use this function on one element, probably less useful, but it depends on your use case.</p> 
+<p>And to use this:</p> 
+<p><img class="center" src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAj2AAAAJDhmZGM2ZjkxLTk3MjAtNDE1Ni1hYzAwLWE4NzcwMzc0OGQ2MQ.png" width="640" height="192" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<h3>Implementations?</h3> 
+<p>We've seen how to use bind to perform partial applications. We've seen how to build our own function for creating functions that can be partially applied. However, you really want someone else to deal with the implementation for you. As mentioned in the comments there are libraries that provide curry implementations.</p> 
+<p>Some notable libraries:</p> 
+<ol> 
+ <li><a href="http://ramdajs.com/0.21.0/index.html" target="_blank" rel="nofollow noopener">ramda.js</a></li> 
+ <li><a href="https://lodash.com/" target="_blank" rel="nofollow noopener">lodash.js</a></li> 
+ <li><a href="http://underscorejs.org/" target="_blank" rel="nofollow noopener">underscore.js</a>&nbsp;(which calls its implementation 'partial')</li> 
+</ol> 
+<h2>Conclusion</h2> 
+<p>Using partial application to reuse code probably won't drastically change things for you in your daily work. However, one of the things we are constantly doing as developers in finding ways to reuse our code and not write the same thing more than once. Something else we all do at times is write functions that are way too large and do way too much. We just get something working. Then, having a clearer picture of what we should do, we refactor that function into several functions, each performing one task. Often while doing this we find pieces of code that are generic, that are performing micro computations that aren't really tied to this specific use case. These smaller computations can often be handled by libraries, or can be moved into utility packages within our application, keeping our main application logic cleaner. All of these situations bring opportunities to take advantage of tools like partial application to build abstractions we might not have seen or considered without this tool in our chest. Like any tool, as you use it more you will become better at wielding it and will change the way you write code as you learn to see abstractions you didn't see previously.</p> 
+<h3>Further Reading:</h3> 
+<ol> 
+ <li><a href="https://en.wikipedia.org/wiki/Currying" target="_blank" rel="nofollow noopener">Currying on Wikipedia</a></li> 
+ <li><a href="https://en.wikipedia.org/wiki/Partial_application" target="_blank" rel="nofollow noopener">Partial application on Wikipedia</a></li> 
+</ol></div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<h1>Functional Data Structures in JavaScript: The Basics</h1>
+					<span class="ref-site">https://www.linkedin.com/pulse/function-data-structures-javascript-basics-kevin-greene</span>
+					<div class="tutorial__content">
+<div class="prose" itemprop="articleBody"><p>Source on Github: <a href="http://github.com/kevinbgreene/functional-data-js" target="_blank" rel="nofollow noopener">Functional Data Structures</a></p> 
+<p><br></p> 
+<h2>Once Upon a Time</h2> 
+<p>When I was in college I had no interest in thinking about the future, so I was an art major. I did however have an interest in computers and technology so for an elective I took an intro to computer science course. I honestly don't remember much about the course. It was years later that I returned to programming. You know, gave up on my hopes and dreams and got a real job. The thing that stuck with me from the course was recursion. It was early in the semester and the instructor was demonstrating loops by finding the nth Fibonacci number (cringe). He then showed the recursive solution.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAdIAAAAJDEyNjliY2VlLWJjZDktNGM3Mi04ODAxLTAzODBjYTIxMTM1OA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Nothing special, but nice. To my young art-student brain the elegance of recursion was very pleasing and this idea stuck with me. So, years later, when I returned to programming I was very interested in this idea that had stuck with me. That recursion thing was nice. I want to know more about what can be done with that. How do I break large problems down into small problems so I can solve them with recursion?</p> 
+<p>A lot of the beauty of recursion comes from how each function call maintains its own state, eliminating the need for temporary variables. If we look at an iterative solution to the same problem we find the need for multiple variable assignments.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAknAAAAJDcwMmZhM2VmLTAzMmYtNGVjOC1iZDIxLThmMzRmZWNiMzdkZA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>This could be reduced, but this illustrates my point. In order to maintain the state of our computation we have to create additional variables. The recursive solution just used the arguments passed into the function. This is the beginning of how we can persist data using only functions.</p> 
+<p>When we think about functional programming languages immutable data is one of the things we associate with them. What makes functional data structures immutable? Does the data have to be immutable? How are they different than the data structures we are used to using? A lot of these questions really don't matter practically when you're writing programs. It matters if data is mutable or not. It doesn't matter how it gets that way. In JavaScript we have Object.freeze. We can make immutable data if we want. All data in our programs is really just the location of some bits in memory. Those bits can always be changed. The lower level the programming language you're using, the more you have to be concerned with the specifics of managing those bits and their location. What we will be exploring here is storing data in functions.</p> 
+<p>This is a good subject for a book. Actually, the inspiration for this post was translating the Standard ML examples from Chris Okasaki's book <a href="http://www.amazon.com/Purely-Functional-Structures-Chris-Okasaki/dp/0521663504" target="_blank" rel="nofollow noopener">Purely Function Data Structures</a> to JavaScript. We'll see how far I want to take this post. I'll probably cover some basic structures, then next week or next month write another post about more complex structures. For now we'll cover numbers, booleans, tuples, lists and binary search trees.</p> 
+<p><br></p> 
+<h2>Church Numerals</h2> 
+<p>A lot of the ideas that form the basis of functional programming languages are derived from lambda calculus. The lambda calculus is a model for computation. If you are interested in functional programming but unfamiliar with lambda calculus I suggest to check it out. I'll include some links to articles and books later. The key idea (specifically in untyped lambda calculus) is that the only data structure we have is a function. Actually, the only piece of syntax we have is a function and the argument bindings to that function. No numbers, strings, lists, conditionals, loops... etc. If you need these things you have to build them yourself with functions. We're going to loosen these restrictions a bit as we go, specifically we are going to use conditionals, but for now let's look at how we might do useful things with only functions.</p> 
+<p>How can we do things in an environment that doesn't even have numbers? When we talk about the existence of numbers what we are really talking about is the ability to count some occurrences of a thing. With our given limitations the thing we have to count are functions. Specifically what we are going to count is the number of applications of a function. If a given function isn't applied at all that is 0. If it is applied once that is one. For any number n the equivalent number to us is the nth composition of some function fn with itself.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAfyAAAAJGJlYzY2YTMxLWQwN2EtNGE5Yi1hZmZiLTQ4MTcwNmI3ZTVjMw.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>This function takes a function "fn" and some argument "x". The function is applied to x once, thus One. Numbers expressed in this fashion are called Church numerals after Alonzo Church, who introduced the lambda calculus. If this is one what then is Zero?</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAd2AAAAJDBhYjFiOTgyLTUxMWMtNGZmNC05YWZhLTEyZDllNzRkM2EzMA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>The same signature, but the function isn't applied. Moving along we come to Two.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAevAAAAJGY1YWRmMTM5LTdhMWYtNDk4OS1iYzc3LTIzYjllYTdkYTZmNw.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Or we call the function fn one extra time on One:</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAiRAAAAJDgxOGQwNGE2LTZjOTQtNDJkYi1hYmEzLWMwNWU1Mjk2ODQzZA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>This leads us to a function to increment any Church numeral:</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAgJAAAAJDg0MTZhOTBkLThkMjktNGVmZi1iZDRiLWU1MGY0ZGIxYWQ1ZA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Now we can write numbers in terms of the number that came before them.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAj8AAAAJGI3YmRiMmFmLWNhYzktNDdkOS05ZmRiLWU5NDdiZTdkZjU0OA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>We're placing artificial limitations on ourselves by using only functions to express data. It would be nice to at least have a way to check our work, maintain our sanity and see these things as the Arabic numerals we are used to.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAgvAAAAJDY5MDQ2M2FiLTUzYmMtNGVjZC04NTVmLTE5NWJkMzM5OTczNA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>One of our numbers is just a function that takes two arguments. If we apply these functions correctly we can retrieve the corresponding Arabic numeral. By using 0 as the initial argument for the function we can keep track of how many times one of our numbers call its function. The function we then pass in as the first argument is an accumulator that just needs to increment the number it receives and pass it to the next function invocation.</p> 
+<p>If some number n is just a function representing the nth composition of some function fn, how do we express addition?</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAjwAAAAJGJhNDk2MjFjLWYwZWUtNDIwYi1hNGJlLWJkMjY5YTIwN2Y2Ng.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>When this function is applied n calls fn n times and m an additional m times resulting in the addition of m and n.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAmJAAAAJDY2MGU2NGEzLWFhN2YtNGEwNi04ZWJiLTVhMmRjN2UwMzZkYQ.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>We will return to numbers shortly and learn how to perform more operations on Church numerals. It will help to introduce a few more concepts first.</p> 
+<p><br></p> 
+<h2>Booleans</h2> 
+<p>Booleans are where things start to get a little interesting to me. The patterns we start exploring with booleans are going to be the patterns we use to express the rest of the data structures we're going to look at. They also start representing patterns that could actually be used to build useful data structures.</p> 
+<p>We have two potential values for booleans. That's it. We know what they are ahead of time. We know logically what they represent. A boolean is really just a fork in the road. Either one thing or another.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAg8AAAAJGNjMGEyMDg2LWIyZDgtNDQ4ZC04NTg5LTEyZjQzZjAzMjc0OQ.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>An operation that was consuming one of these booleans would call the function with two values and would know wether the boolean was True or False based on the value returned.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAixAAAAJGE5ODE5ODc0LTQ1Y2YtNDNjNi1iZWE4LWFmMDAzZGU2ZWQ0OA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>In essence our boolean is its own if/else. If it's true the first argument is used, else the second argument.</p> 
+<p>We could perform a logical NOT, reverse the value, simply enough.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAhjAAAAJDkzODY4Y2JjLTJmNDUtNGQ0NS04NjMwLTRhNGZlYWE2OWUxNA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>If this function is given a True it will return the left value of False and if given a False will return the right value of True. We can follow this up with logical AND.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAc8AAAAJGVlYjM5YjY4LTJjZGMtNDc4MC1iZjNjLWVjZWU1YTM5Yzc4Nw.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>If the leftBool is a True the value of rightBool will be returned as the value of this function. It will evaluate to true only if both are true. If leftBool is False the value of leftBool will be returned as the value of this function.</p> 
+<p>Logical OR follows very quickly from this.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAktAAAAJGI2MDlhMjQyLTg4YTctNDk4Zi1iODczLTdjNTU1ZDRjNTMwNA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>If leftBool is True leftBool is returned, otherwise we return rightBool. This function returns True if either value is True.</p> 
+<p><br></p> 
+<h2>Pairs</h2> 
+<p>Let's start persisting arbitrary data into functions. If I wanted to persist two values in a pair I would expect that to look something like this:</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAfkAAAAJGRhYTM3ZWJlLWM5YTgtNGNmMy1iMjE5LTc4YzhmYzdhMWY1Nw.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>We know we are only persisting data as functions. If we pass two values to a function 'Pair' those values will be available to the scope of that function.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAhiAAAAJGJmMDA3OTQ5LTE1NDMtNDQzZS1hNjZiLTM2MmEzZGU0NmUxYg.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>The two values 'left' and 'right' are now bound to the scope of this function invocation. How do we retrieve those values later? We return a function that gives us access to this scope.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAg-AAAAJGRiZjk5MjlkLTViMTItNGM0MS1iNGU3LTRkYzZkNWVlZWEwYQ.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Now the value we receive from calling Pair is a function that gives us access to that inner scope. We invoke this returned function with a function that takes two arguments, the two values we gave to the Pair function.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAlGAAAAJDg4MzY0ZGI0LTljZDAtNGExMC05Njc1LTViYmEyYTk4OWRhZg.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>We say that the function destructures the Pair because it pulls it apart into its component values. This is somewhat similar to how destructuring assignment works in JavaScript.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAiRAAAAJDI0MmI4ZmFhLWY0YjItNDQwYy1hMzBlLTI1Y2FkMTE3OWFkMQ.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>We can use destructuring to create functions to retrieve the first and second values of the Pair.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAePAAAAJGRiNmViYzI0LTFlZjgtNGEzMy1hMzY1LTI2OTEyM2ExNWQ0NQ.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p><br></p> 
+<h2>Lists</h2> 
+<p>Lists follow naturally from Pairs. In our implementation of Pairs we knew exactly how many values our data structure would handle. It would hold two, no more, no less. With Lists we need to handle an arbitrary number of values. The data structure we are actually going to implement is a linked list where a node in our list holds two things the value at that position and some representation of the remainder of the list.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAh0AAAAJGU4MGY2NTc0LWNkYzYtNDMxOS1hYjkzLTJmZmFhNDFmZTUzMA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Hmm, this is identical to our implementation of Pair. This isn't quite going to be good enough. What do we do when we do when we get to the end of a list? How do we represent there is no more list, or that we have an empty list? Do we just let the destructureNode function fail? No. We add a special value to represent the empty list. This is typically called Nil.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAdlAAAAJGQ2N2ZjOTM5LWYwM2QtNDdlOC1iMGIzLWY1ZmEwOTJlOTE2Yw.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Now we can also represent the end of a List as Nil. If we're looping through a List we can make a recursive call in the destructureNode function and short-circuit the recursion when we hit the end of the List in our destructureNil function.</p> 
+<p>The key thing to remember here is head is a value our list is holding and tail is another List, specifically the remaining List after this node.</p> 
+<p>It's easy enough to build on this and write functions to retrieve the head and tail of our Lists. This is almost identical to the first and second functions for Pairs. The only difference is we need to handle the special case of Nil.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAglAAAAJDVlMDI3MGY2LTc4YzUtNDNhOS1iOTgwLTFhZTllOWU3ZjQwNw.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Before moving on, let's write a function to transform one of these Lists into a JavaScript array to make it easier to check our work.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAg-AAAAJDY1M2QwYjcwLWJmYjAtNDEzZS04ODEwLTY0Y2RkMDA0NTgzMQ.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Let's do something more interesting. Let's concatenate two lists. Our data structures are immutable, so we won't be modifying either List in order to perform the concatenation. What we will do is copy the first List and use the second List as the tail of our copy. This will leave our second List in tact, but we will save ourselves from unnecessary copying if the two Lists just share those nodes.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAfuAAAAJDJlYzQ0ZjhlLWQ4N2ItNGE4Yy1hNDc4LWY0Y2YxOGI4NTZhMg.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>When our recursion reaches the end of the first List the destructureNil function is used which just returns the second List which is then used as the tail of the last node in our copy.</p> 
+<p>I'll take a moment to point out something obvious here. The List constructor is a prepend function.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAeIAAAAJDBlZDZjZmEzLWZkYjEtNGQ0NS1iMjc4LTQ0YjBlYWMzZTlkYg.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>The prepend operation is performed in constant O(1) time. Our concat operation however must recurse through every node in the first List, meaning concatenation takes time proportional to the size of the first List O(n). In many functional languages this operation is referred to as 'cons'. There really is no List constructor. Every List is just created by prepending to the Nil value.</p> 
+<p>How about appending to a List? Appending to a List is going to be another O(n) operation. We are going to copy the List and just add one extra node to the end.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAdIAAAAJGE3YjhhZWNlLTYzYmItNDMwNS1iYWIyLTJmNzViYWNjZmJmMg.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>To make a copy of a List we were using a prepend operation. Could we then use our new append operation to make a reverse copy?</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAh0AAAAJDRlOTk0ZTQzLWY5ZWQtNDFkNC1iOGM1LWQ4NmNlZWM3YTc1ZA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>What other operations do we commonly want to perform on lists? Getting the nth value of a List is pretty common.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAfQAAAAJDVhMTkwY2Q4LTliNzgtNDVkMC05NDU0LWJjYWNjZjUzODM0NA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>I told you, we would eventually get around to using conditionals. We've been able to do a lot with only functions. We could certainly do more, but I'm not that masochistic. Simple enough, we just keep decrementing n until it reaches 0 then we know we're at the correct node. If we get to an Empty node before n reaches 0 we know the requested index is out-of-bounds.</p> 
+<p>What follows quickly from this is updating the node at the nth index. Because we are again non-destructively updating our Lists, we are creating a new List with the given node updated. We accomplish this by copying every node until we reach the given index and then use any remaining nodes as the tail of our new List, similar to how we performed concatenation.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAl9AAAAJDE2YjFiNzAzLTI5NmEtNGMyZC05NDAwLTY5YjkxYTc1YmJlYQ.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>We could obviously fill out all of the common functions for Lists. However, I think we get the idea. All the operations follow the same patterns. In the included source code I have implementations for map, filter, foldl and foldr if you want to take a look.</p> 
+<p><br></p> 
+<h2>Binary Search Trees</h2> 
+<p>Binary Search Trees are going to be the last data structure we look at in this post. Following on from Pairs and Lists we are just going to be adding a little bit of complexity to what we have already seen. A node in a List is singly-linked to the rest of the List. A node in a binary tree is doubly-linked. All nodes in the left sub-tree have values less than the current node and all values in the right sub-tree have values greater than the current node. For this implementation we are going to say all values in the left sub-tree are less than or equal to the value of the current node. As with Lists we are going to have a special type to represent an empty tree.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAgwAAAAJDFlMTc5ZTBhLTAxZTctNDkyMS1iNDJiLWRmMGQ2ZTE1MTVkMg.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>As usual, we are going to make a function to turn our Tree into a more easily inspectable JavaScript object.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAf7AAAAJDU2ODQ0NzQzLTIxYjgtNDA4Ni05OTg5LTlkMTM5YmFiZDdkNg.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>The first thing we are going to want to do with our Tree is to insert values into it. Like Lists, Trees are built by inserting elements into the empty Tree. With binary search trees new elements are inserted as a new leaf. We just need to find the correct place to insert the new leaf. We compare the value of the new value to the value of the current node and move left or right depending on if it is smaller or larger. Once we find an Empty node we have a place to insert the new node.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAhYAAAAJGMyYzI2ZjdkLWZkYjYtNDk0ZC1iMGM2LTkwMzA5Y2ZiYmU1Ng.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>You will notice this code copies nodes on the path to the new node. Nodes that are not on the insertion path are shared with the new Tree, returned as a result of this insertion, and the old Tree. Just look at the first conditional in the destructureTree branch. The value to insert is less than or equal to the current. The right sub-tree is going to go unaltered. It can be shared. The inverse is true if the value is greater.</p> 
+<p>The next thing we want to do with a binary search tree is to search. We will start with the simplest search. Just find the minimum (or maximum) value in our Tree. In the case of finding the minimum value we just keep moving left until we reach the end. We do so by recursively calling the min function on the left child node until we reach a left child node that has an empty left child. If you were to write this code in an object oriented language you would check for an empty left child node by checking a property on the node object. Something like node.left === null. Here we need to destructure the left node to see if it has an empty left child. If it does have an empty left node we return the current node we're on, else we recurse into the left node.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAgrAAAAJDNlYzdhMTdhLWNlZmQtNDU1My1iZjlmLWM5ZDQ5M2MyOWE2Mg.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>This code is easily adapted to finding the max by replacing the recursive call with the left node to a recursive call with the right node. I'll leave that out.</p> 
+<p>How about more generic searching? I want to know if a given value is already in the tree. This follows fairly directly from finding the min or max. Our code just needs a conditional to know to move left or right based on the search value relative to the current value. If we come to an Empty node we return false, otherwise we return true when we land on a node with a value equal to our search value.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAinAAAAJGIyYjZiMzVlLTIwMTEtNGZiMC05MjIxLTMwNjVhNmJmOWEyNA.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Deleting values is always where binary search trees get a little hairy to implement. However, in a functional data structure deleting values is much more straight forward. Deleting is much more straight forward because we don't have to worry about maintaining the mutated state of our data structure. We are copying all the pieces we are altering. We can be more declarative about saying, 'This is what this structure should look like now'. We will start with removing the minimum value in a Tree. We just need to move left until we reach a node with an empty left child. We then replace that node with its right child.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAe9AAAAJDg1MDVkYTQ4LTUzNjgtNGIxYS1hZjVjLWZkNDA5YWNhN2MyMw.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>If you look back at our code for finding the minimum value you'll see that this is almost identical. We are just constructing our new data structure as we recurse down to the minimum node. Once a node has no left child, which we know when the inner destructureEmpty is called, we just return the right node. If the initial Tree we pass in is an Empty tree we just return Empty.</p> 
+<p>Following on from this we can write a function to delete an arbitrary value from a Tree. This again looks very much like our generic search function, we just build up a new Tree as we recurse down, moving left or right depending on if the value to remove is less than or greater than the value of the current node. However, what happens when we find the node to remove? We need to fill in the hole left by removing a node.</p> 
+<p>To keep our remove function clean, we write a helper function to replace the removed node. We replace the removed node with the minimum node in the right sub-tree of the node we are removing. The minimum node in the right sub-tree is guaranteed to not break the correctness of our tree. It will be greater than all of the nodes in the left sub-tree of the node we are removing and it will be less than all of the nodes in what remains of the right sub-tree of the node we are removing. We take the value of the minimum node in the right sub-tree and create a new node to replace the node we are removing. This new node will use the left sub-tree of the node we are removing. Again, sharing this sub-tree with the tree we are deleting from as we are leaving it unaltered. Our new node will also use the right sub-tree of the node we are removing. However, for the right sub-tree we will be using a copy. We need to remove the minimum so we are not including the same node twice. Luckily enough we just made a removeMin function.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAlIAAAAJGM1MDhmZTMxLTIxODQtNGUzZS04YzRhLTE5ODZjY2IwOGUwZg.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>If you have written this in an object-oriented language, you will notice this is much less code. At each step we are able to be very declarative about what we want our tree to look like at that point.</p> 
+<p>In our functional implementation of Lists we noted we were actually implementing a linked list and many of our operations took time proportional to the size of the list. For random input functional binary search trees will still offer logarithmic inserts, deletes and searches. I'm going to follow this post up fairly soon with a look at functional balanced binary search trees, specifically red/black trees. But this was our last data structure for today.</p> 
+<p><br></p> 
+<h2>A Return to Arithmetic</h2> 
+<p>The first thing we covered were Church numerals. Almost certainly the least practical thing we looked at, but we're going to close for today and look at how we can do subtraction on Church numerals. This is an example of how far you can take computation with nothing more than functions. Once we can represent numbers and the operations on numbers we can support anything.</p> 
+<p>We are going to solve the problem of subtraction by creating a decrement function and then applying it some n number of times. If we define a number in Church numerals as the number of times a function is applied, how do we get the previous application? The function we are applying must maintain its previous state.</p> 
+<p>In our toNumber function we used the function application of our Church numerals to translate them into Arabic numerals. We could use this function application to perform operations between Church numerals.</p> 
+<p>We wrote our add function like this:</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAf-AAAAJDRjZjYwNWM2LWJjNTYtNGQ2Yi1hNDM1LTUyMGJlNzg4ZjliNQ.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>The n numeral applies fn n times and then m applies it m more times. However, we also wrote an increment function we called succ.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAkNAAAAJGVmNWUwNDM3LTBmOTUtNDg2Yi1hNmM5LTcxNGJlNThlZGFkNw.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>This just applies fn once extra time to num. We could write an addition function in terms of the succ function. Increment the m numeral some n number of times.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAemAAAAJGE2NGE4MTU5LTJhMGMtNDI5ZC1iZDkwLTM1ODI1ZDc1NDM3Mg.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Instead of using another Church numeral as the argument for our function, what if we used a Pair? As we incremented the numeral the first value in the pair would be the previous value and the second value would be the current value. The succ function won't handle this for us, but we can write another function that could operate on Pairs.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAflAAAAJDY4ZGU4ZjllLTA2YjAtNDZiNi04MjhkLTdiM2IxYWM1MWI5Yw.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>If slide starts with a pair of zeros, Pair(Zero, Zero), successive calls to slide, slide(slide(Pair(Zero, Zero))), will work like the succ function, except the first value will always be one less. Therefore to implement a decrement function we apply slide some n number of times, starting with Pair(Zero, Zero), and take the first value from the returned Pair.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAemAAAAJGU2YWU4OWVmLTI3YjQtNDVhOC1iNGExLWZiYjBjOWRlNGI2Yw.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Subtraction can now be written in terms of pred the same way we wrote our second attempt at add in terms of succ.</p> 
+<p><img src="https://media.licdn.com/mpr/mpr/AAEAAQAAAAAAAAdtAAAAJDBlODBmMTU5LWFlZjgtNDFhOS04OTA1LWQwZjI0MWMxZjhiYw.png" class="center" draggable="true" data-bukket-ext-bukket-draggable="true"></p> 
+<p>Cool, that's it for this post. As I said I'll follow up sometime soon with an implementation of red/black trees and maybe some other stuff. We'll see.</p> 
+</div>
 					</div>
 				</article>
 				<!--================= END :: Tutorial =================-->
