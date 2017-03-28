@@ -4,8 +4,8 @@
 		<meta name="title" content="">
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<!--<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
-		<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i|PT+Serif:400,700" rel="stylesheet">-->
+		<!--<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>-->
+		<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i|PT+Serif:400,700" rel="stylesheet">
 		<style>
 			* { box-sizing: border-box; }
 			body { 
@@ -48,18 +48,19 @@
 			}
 			.tutorial-index h1:before {
     counter-increment: section;
-    content: counter(section) " : ";
+    content: "(" counter(section) ") ";
 }
-.tutorial-index h1 {font-size: 1.2em; padding: 5px 0;}
+.tutorial-index h1 {font-size: 1.2em; padding: 5px 0; margin: 0;}
 			.tutorial-index a { text-decoration: none; }
+			.tutorial-index a { display: block; float: left; width: 50%; }
 			h1 { font-size: 1.6em; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
 			
 			.main { counter-reset: mainsection; }
 			.main h1 { font-size: 1.6em; border-bottom: 2px solid #000; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
-			.main h1:before {
+			/*.main h1:before {
     counter-increment: mainsection;
     content: counter(mainsection) " : ";
-}
+}*/
 			
 			
 			
@@ -84,54 +85,61 @@ table td { border: 1px solid #999; padding: 5px;}
     .main h1 {page-break-before: always;}
 }
 .tc { text-align: center}
-		</style>	
+.home-screen { border: 1px solid #777; padding: 4em 0; }
+.home-screen * {    font-family: 'PT Sans', Arial, sans-serif;
+    font-size: 3em;
+    font-weight: normal;}
+		</style>
 	</head>
 	<body>
-		<h1 class="tc">JavaScript : Part 4</h1>
+		<div class="home-screen tc">
+			<h1>JavaScript Tutorials</h1>
+			<h4>- Part 4 -</h4>
+		</div>
 		<!--================= START :: Tutorial Index =================-->
-<div class="tutorial-index">
-	<a href="#t1"><h1>Functional Concepts For JavaScript Developers: Currying</h1></a>
-	<a href="#t1"><h1>Currying vs partial application</h1></a>
-	<a href="#t1"><h1>Binding objects to functions</h1></a>
-	<a href="#t1"><h1>Currying vs Partial Application</h1></a>
-	<a href="#t1"><h1>What's the difference between Currying and Partial Application?</h1></a>
-	<a href="#t1"><h1>Approaches to currying in JavaScript</h1></a>
-	<a href="#t1"><h1>7 Essential JavaScript Functions</h1></a>
-	<a href="#t1"><h1>Collection of useful JavaScript functions and patterns</h1></a>
-	<a href="#t1"><h1>My todays top 10 most useful Javascript Functions</h1></a>
-	<a href="#t1"><h1>12 Extremely Useful Hacks for JavaScript</h1></a>
-	<a href="#t1"><h1>45 Useful JavaScript Tips, Tricks and Best Practices</h1></a>
-	<a href="#t1"><h1>JavaScript Architecture for the 23rd Century</h1></a>
-	<a href="#t1"><h1>9 New Array Functions in ES6</h1></a>
-	<a href="#t1"><h1>Implementing EventEmitter in ES6</h1></a>
-	<a href="#t1"><h1>Getting Functional with Javascript (Part 1)</h1></a>
-	<a href="#t1"><h1>Getting Functional with Javascript (Part 2)</h1></a>
-	<a href="#t1"><h1>Understanding Prototypes, Delegation &amp; Composition</h1></a>
-	<a href="#t1"><h1>Some jQuery Functions And Their JavaScript Equivalents</h1></a>
-	<a href="#t1"><h1>Is everything in JavaScript an Object?</h1></a>
-	<a href="#t1"><h1>Partial Application with Function#bind</h1></a>
-	<a href="#t1"><h1>Partial Application in JavaScript</h1></a>
-	<a href="#t1"><h1>Composing Functions in JavaScript</h1></a>
-	<a href="#t1"><h1>A JavaScript Invoke Function</h1></a>
-	<a href="#t1"><h1>YOU MIGHT NOT NEED JQUERY</h1></a>
-	<a href="#t1"><h1>The JavaScript Bind Function</h1></a>
-	<a href="#t1"><h1>Forcing Function Arity in JavaScript</h1></a>
-	<a href="#t1"><h1>Wrapping JavaScript Functions</h1></a>
-	<a href="#t1"><h1>Javascript : Basic Scope</h1></a>
-	<a href="#t1"><h1>Part 2 : Functions</h1></a>
-	<a href="#t1"><h1>Part 3 : .map, .reduce &amp; .filter, Oh My!</h1></a>
-	<a href="#t1"><h1>Part 4 : Object-ively Javascript</h1></a>
-	<a href="#t1"><h1>Chapter 4: Currying</h1></a>
-	<a href="#t1"><h1>Chapter 5: Coding by Composing</h1></a>
-	<a href="#t1"><h1>Functional Mixins in ECMAScript 2015</h1></a>
-	<a href="#t1"><h1>JavaScript Mixins, Subclass Factories, and Method Advice</h1></a>
-	<a href="#t1"><h1>Compose me That: Function Composition in JavaScript</h1></a>
-	<a href="#t1"><h1>Curry me This: Partial Application in JavaScript</h1></a>
-	<a href="#t1"><h1>Functional Data Structures in JavaScript: The Basics</h1></a>
-	<a href="#t1"><h1>Model-View-Controller (MVC) with JavaScript</h1></a>
-	<a href="#t1"><h1>JavaScript Function Memoization</h1></a>
-	<a href="#t1"><h1>Javascript Memoization</h1></a>
-	<a href="#t1"><h1>Hello World : A "Hello World"-like example of Javascript using the MVC pattern.</h1></a>
+<div class="tutorial-index cf">
+	<a href="#t01"><h1>Functional Concepts For JavaScript Developers: Currying</h1></a>
+	<a href="#t02"><h1>Currying vs partial application</h1></a>
+	<a href="#t03"><h1>Binding objects to functions</h1></a>
+	<a href="#t04"><h1>Currying vs Partial Application</h1></a>
+	<a href="#t05"><h1>What's the difference between Currying and Partial Application?</h1></a>
+	<a href="#t06"><h1>Approaches to currying in JavaScript</h1></a>
+	<a href="#t07"><h1>7 Essential JavaScript Functions</h1></a>
+	<a href="#t08"><h1>Collection of useful JavaScript functions and patterns</h1></a>
+	<a href="#t09"><h1>My todays top 10 most useful Javascript Functions</h1></a>
+	<a href="#t10"><h1>12 Extremely Useful Hacks for JavaScript</h1></a>
+	<a href="#t11"><h1>45 Useful JavaScript Tips, Tricks and Best Practices</h1></a>
+	<a href="#t12"><h1>JavaScript Architecture for the 23rd Century</h1></a>
+	<a href="#t13"><h1>9 New Array Functions in ES6</h1></a>
+	<a href="#t14"><h1>Implementing EventEmitter in ES6</h1></a>
+	<a href="#t15"><h1>Getting Functional with Javascript (Part 1)</h1></a>
+	<a href="#t16"><h1>Getting Functional with Javascript (Part 2)</h1></a>
+	<a href="#t17"><h1>Understanding Prototypes, Delegation &amp; Composition</h1></a>
+	<a href="#t18"><h1>Some jQuery Functions And Their JavaScript Equivalents</h1></a>
+	<a href="#t19"><h1>Is everything in JavaScript an Object?</h1></a>
+	<a href="#t20"><h1>Partial Application with Function#bind</h1></a>
+	<a href="#t21"><h1>Partial Application in JavaScript</h1></a>
+	<a href="#t22"><h1>Composing Functions in JavaScript</h1></a>
+	<a href="#t23"><h1>A JavaScript Invoke Function</h1></a>
+	<a href="#t24"><h1>YOU MIGHT NOT NEED JQUERY</h1></a>
+	<a href="#t25"><h1>The JavaScript Bind Function</h1></a>
+	<a href="#t26"><h1>Forcing Function Arity in JavaScript</h1></a>
+	<a href="#t27"><h1>Wrapping JavaScript Functions</h1></a>
+	<a href="#t28"><h1>Javascript : Basic Scope</h1></a>
+	<a href="#t29"><h1>Part 2 : Functions</h1></a>
+	<a href="#t30"><h1>Part 3 : .map, .reduce &amp; .filter, Oh My!</h1></a>
+	<a href="#t31"><h1>Part 4 : Object-ively Javascript</h1></a>
+	<a href="#t32"><h1>Chapter 4: Currying</h1></a>
+	<a href="#t33"><h1>Chapter 5: Coding by Composing</h1></a>
+	<a href="#t34"><h1>Functional Mixins in ECMAScript 2015</h1></a>
+	<a href="#t35"><h1>JavaScript Mixins, Subclass Factories, and Method Advice</h1></a>
+	<a href="#t36"><h1>Compose me That: Function Composition in JavaScript</h1></a>
+	<a href="#t37"><h1>Curry me This: Partial Application in JavaScript</h1></a>
+	<a href="#t38"><h1>Functional Data Structures in JavaScript: The Basics</h1></a>
+	<a href="#t39"><h1>Model-View-Controller (MVC) with JavaScript</h1></a>
+	<a href="#t40"><h1>JavaScript Function Memoization</h1></a>
+	<a href="#t41"><h1>Javascript Memoization</h1></a>
+	<a href="#t42"><h1>Hello World : A "Hello World"-like example of Javascript using the MVC pattern.</h1></a>
 </div>
 		<!--================= END :: Tutorial Index =================-->
 		
@@ -141,7 +149,7 @@ table td { border: 1px solid #999; padding: 5px;}
 			
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Functional Concepts For JavaScript Developers: Currying</h1>
+					<a id="t01" name="t01"></a><h1>01 : Functional Concepts For JavaScript Developers: Currying</h1>
 					<div class="tutorial__content">
 <span>https://blog.simpleblend.net/functional-javascript-concepts-currying/</span>
  <p class="aligncenter narrow-img"><img class="is-lazy size-full wp-image-422 aligncenter" src="https://blog.simpleblend.net/wp-content/uploads/2016/06/spices.png" alt="Curry spices" width="466" height="595" data-original="" srcset="https://blog.simpleblend.net/wp-content/uploads/2016/06/spices.png 466w, https://blog.simpleblend.net/wp-content/uploads/2016/06/spices-235x300.png 235w" sizes="(max-width: 466px) 100vw, 466px"></p>
@@ -261,7 +269,7 @@ animals.filter(isAnimal("Cat"));
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Currying vs partial application</h1>
+					<a id="t02" name="t02"></a><h1>02 : Currying vs partial application</h1>
 					<div class="tutorial__content">
 <span>http://www.jstips.co/en/javascript/curry-vs-partial-application/</span>
 
@@ -374,7 +382,7 @@ plus5(3);  // returns 8
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Binding objects to functions</h1>
+					<a id="t03" name="t03"></a><h1>03 : Binding objects to functions</h1>
 					<div class="tutorial__content">
 <span>http://www.jstips.co/en/javascript/binding-objects-to-functions/</span>
 
@@ -439,7 +447,7 @@ getColor.bind(myCar); // Red
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Currying vs Partial Application</h1>
+					<a id="t04" name="t04"></a><h1>04 : Currying vs Partial Application</h1>
 					<div class="tutorial__content">
 <span>http://www.datchley.name/currying-vs-partial-application/</span>
 
@@ -749,7 +757,7 @@ function apply(fn, ...args) {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>What's the difference between Currying and Partial Application?</h1>
+					<a id="t05" name="t05"></a><h1>05 : What's the difference between Currying and Partial Application?</h1>
 					<div class="tutorial__content">
 <span>http://raganwald.com/2013/03/07/currying-and-partial-application.html</span>
 <section id="main_content">
@@ -1001,7 +1009,7 @@ oneToThreeEach(double);
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Approaches to currying in JavaScript</h1>
+					<a id="t06" name="t06"></a><h1>06 : Approaches to currying in JavaScript</h1>
 					<span>http://extralogical.net/articles/currying-javascript.html</span>
 					<div class="tutorial__content">
 
@@ -1140,7 +1148,7 @@ var fc7 = ncurry(7)(f7);</code></pre>
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>7 Essential JavaScript Functions</h1>
+					<a id="t07" name="t07"></a><h1>07 : 7 Essential JavaScript Functions</h1>
 					<div class="tutorial__content">
 <span>https://davidwalsh.name/essential-javascript-functions</span>
 <p>I remember the early days of JavaScript where you needed a simple function for just about everything because the browser vendors implemented features differently, and not just edge features, basic features, like <code>addEventListener</code> and <code>attachEvent</code>.  Times have changed but there are still a few functions each developer should have in their arsenal, for performance for functional ease purposes.</p>
@@ -1366,7 +1374,7 @@ matchesSelector(document.getElementById('myDiv'), 'div.someSelector[some-attribu
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Collection of useful JavaScript functions and patterns</h1>
+					<a id="t08" name="t08"></a><h1>08 : Collection of useful JavaScript functions and patterns</h1>
 					<div class="tutorial__content">
 <span>http://codebits.glennjones.net/cheatsheet/javascript.htm</span>
 
@@ -1908,7 +1916,7 @@ Everyone sits on the shoulders of others. The RegExp are copied from public sour
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>My todays top 10 most useful Javascript Functions</h1>
+					<a id="t09" name="t09"></a><h1>09 : My todays top 10 most useful Javascript Functions</h1>
 					<div class="tutorial__content">
 <div class="art_content"><p>These are my todays top 10 Javascript functions which I gathered in more than 6 months of casually Javascript Development. Almost each of them helped out of more than one problem, so they deserve to be perpetuated here and help again. Most of these are not written by me, but by some other great programmer on the web, and I really would like to mention all of them here if I would know where I have got all of these great scripts.</p><p>&nbsp;</p><p>Have fun an use wisely.</p><h2>1. Get Elements By Class Name (getElementsByClassName)</h2><p>This is maybe one of the most used and most needed custom Javascript functions of all time. It provides a way to get all elements in a page with a certain class attribute.<br><br></p><pre><code>function getElementsByClassName(classname, node){
 &nbsp; &nbsp; if (!node) {
@@ -2082,7 +2090,7 @@ function xml2array(xmlDoc,parent_count) {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>12 Extremely Useful Hacks for JavaScript</h1>
+					<a id="t10" name="t10"></a><h1>10 : 12 Extremely Useful Hacks for JavaScript</h1>
 					<span>https://blog.jscrambler.com/12-extremely-useful-hacks-for-javascript/</span>
 					<div class="tutorial__content">
 
@@ -2272,7 +2280,7 @@ console.log(list.sort(function() {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>45 Useful JavaScript Tips, Tricks and Best Practices</h1>
+					<a id="t11" name="t11"></a><h1>11 : 45 Useful JavaScript Tips, Tricks and Best Practices</h1>
 					<div class="tutorial__content">
 <span>https://modernweb.com/45-useful-javascript-tips-tricks-and-best-practices/</span>
 <p>As you know, JavaScript is the number one programming language in the world, the language of the web, of mobile hybrid apps (like <a href="http://phonegap.com/">PhoneGap</a> or <a href="http://www.appcelerator.com/">Appcelerator</a>), of the server side (like <a href="http://nodejs.org">NodeJS</a> or <a href="http://wakanda.org">Wakanda</a>) and has many other implementations. It’s also the starting point for many new developers to the world of programming, as it can be used to display a simple alert in the web browser but also to control a robot (using <a href="http://nodebots.io/">nodebot</a>, or <a href="http://semu.github.io/noduino/">nodruino</a>). The developers who master JavaScript and write organized and performant code have become the most sought after in the job market.</p>
@@ -2610,9 +2618,10 @@ A[A.length] = v;</code></pre>
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>JavaScript Architecture for the 23rd Century</h1>
+					<a id="t12" name="t12"></a><h1>12 : JavaScript Architecture for the 23rd Century</h1>
+					<span>https://modernweb.com/javascript-architecture-23rd-century/</span>
 					<div class="tutorial__content">
-<span>https://modernweb.com/javascript-architecture-23rd-century/</span>
+
 <blockquote><p>Jonathan discusses JavaScript architecture patterns of the 23rd century and what the future of JavaScript holds for the 24th century.”</p></blockquote>
 <p>JavaScript applications have grown in size and complexity for the last several years. More and more single page applications have hit the market, and demands for that type of experience have increased to the point where even Google finally decided to <a href="http://googlewebmastercentral.blogspot.com/2014/05/understanding-web-pages-better.html">render JavaScript</a> when it crawls pages.</p>
 <p>This demand for SPA type applications has made JavaScript architecture increasingly important. JavaScript, being a dynamic language, you have to go the extra mile to ensure that the code is written in a maintainable fashion and to avoid spaghetti code.</p>
@@ -3035,9 +3044,10 @@ module.exports = {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>9 New Array Functions in ES6</h1>
+					<a id="t13" name="t13"></a><h1>13 : 9 New Array Functions in ES6</h1>
+					<span>http://vegibit.com/new-array-functions-in-es6/</span>
 					<div class="tutorial__content">
-<span>http://vegibit.com/new-array-functions-in-es6/</span>
+
 
 <div class="entry-content">
             <p><a href="http://vegibit.com/new-array-functions-in-es6/"><img src="http://vegibit.com/wp-content/uploads/2017/03/new-array-functions-in-es6.png" alt="new array functions in es6" width="400" height="300" class="alignleft size-full wp-image-22991" srcset="http://vegibit.com/wp-content/uploads/2017/03/new-array-functions-in-es6.png 400w, http://vegibit.com/wp-content/uploads/2017/03/new-array-functions-in-es6-300x225.png 300w" sizes="(max-width: 400px) 100vw, 400px" draggable="true" data-bukket-ext-bukket-draggable="true"></a></p>
@@ -3266,9 +3276,10 @@ console.log(...words.values());
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Implementing EventEmitter in ES6</h1>
+					<a id="t14" name="t14"></a><h1>14 : Implementing EventEmitter in ES6</h1>
+					<span>http://www.datchley.name/es6-eventemitter/</span>
 					<div class="tutorial__content">
-<span>http://www.datchley.name/es6-eventemitter/</span>
+
  <p>So, since I've been swamped with work recently and haven't posted much, I'd like to get back into the swing of things and throw up a simple EventEmitter implementation I put together for my current <a href="https://github.com/datchley/ng-reflux">ngReflux</a> project I'm working on.  </p>
 
 <p>ngReflux is a Flux implementation for use with AngularJS applications and based on Mikael Brassman's <a href="https://gist.github.com/spoike/ba561727a3f133b942dc">original gist</a> idea for RefluxJS.  You can read more about the Flux architecture <a href="https://facebook.github.io/flux/docs/overview.html">elsewhere</a>.</p>
@@ -3428,9 +3439,10 @@ observable.emit("change", { a: 1 });
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Getting Functional with Javascript (Part 1)</h1>
+					<a id="t15" name="t15"></a><h1>15 : Getting Functional with Javascript (Part 1)</h1>
+					<span>http://www.datchley.name/getting-functional-with-javascript-part-1/</span>
 					<div class="tutorial__content">
-<span>http://www.datchley.name/getting-functional-with-javascript-part-1/</span>
+
 
 <section class="post-content">
     <p>After reading about <em>currying</em>, <em>partial application</em> and other functional programming techniques, some developers are left wondering when, exactly, they would ever use those methods; and why would they want to?</p>
@@ -3748,9 +3760,10 @@ filterWith(within30Days)(dates);
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Getting Functional with Javascript (Part 2)</h1>
+					<a id="t16" name="t16"></a><h1>16 : Getting Functional with Javascript (Part 2)</h1>
+					<span>http://www.datchley.name/getting-functional-with-javascript-part-2/</span>
 					<div class="tutorial__content">
-<span>http://www.datchley.name/getting-functional-with-javascript-part-2/</span>
+
 						
 <section class="post-content">
     <p>In our <a href="http://www.datchley.name/getting-functional-with-javascript-part-1/">previous post</a> on functional programming we began introducing some functional themes by working through requirements for processing a typical <a href="https://gist.github.com/datchley/26bce4a05fde0226b405#file-json-data-js">JSON response</a>. </p>
@@ -4095,10 +4108,11 @@ var finalgroups = mapObjectWith(getPostRecords)(groupedtags);
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Understanding Prototypes, Delegation &amp; Composition</h1>
+					<a id="t17" name="t17"></a><h1>17 : Understanding Prototypes, Delegation &amp; Composition</h1>
+					<span>http://www.datchley.name/understanding-prototypes-delegation-composition/</span>
 					<div class="tutorial__content">
 
-<span>http://www.datchley.name/understanding-prototypes-delegation-composition/</span>
+
 					
 <p>In the <a href="http://www.datchley.name/delegate-object-to-classical-inheritance/">last post</a> we covered the basics of creating and using Javascript objects, which included using <code>new</code> to invoke functions as constructors. In this post, we're going to focus on the following:</p>
 
@@ -4457,10 +4471,11 @@ bob.build("web site");
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Some jQuery Functions And Their JavaScript Equivalents</h1>
+					<a id="t18" name="t18"></a><h1>18 : Some jQuery Functions And Their JavaScript Equivalents</h1>
+					<span>http://callmenick.com/post/jquery-functions-javascript-equivalents</span>
 					<div class="tutorial__content">
 					
-<span>http://callmenick.com/post/jquery-functions-javascript-equivalents</span>
+
 <p>In light of my recent forays into the JavaScript DOM world, I'd decided to do a little research and write a snippet collection based on jQuery functions and their JavaScript equivalents. I think jQuery is a great tool, and it has done great things for me and many others as developers. But I'm a firm believer that nowadays, JavaScript is an indispensable tool to keep in your arsenal. Manipulating the DOM with JavaScript DOM methods is fun and easy, and the majority of times, plain old vanilla JS is all we need. It seems scary at first, but let's take a look at some core functions/methods that we're accustomed to, how they work, and how to execute them with just plain old JavaScript.</p>
 <h2>Accessing Elements</h2>
 <p>There are many ways to access elements with JavaScript and jQuery. Let's look at a few important ones here.</p>
@@ -4625,7 +4640,7 @@ for (var i = 0, len = els.length; i &lt; len; i++) {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Is everything in JavaScript an Object?</h1>
+					<a id="t19" name="t19"></a><h1>19 : Is everything in JavaScript an Object?</h1>
 					<span>https://blog.simpleblend.net/is-everything-in-javascript-an-object/</span>
 					<div class="tutorial__content">
 
@@ -4772,7 +4787,7 @@ hello; // "hello"
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Partial Application with Function#bind</h1>
+					<a id="t20" name="t20"></a><h1>20 : Partial Application with Function#bind</h1>
 					<span>http://adripofjavascript.com/blog/drips/partial-application-with-function-bind.html</span>
 					<div class="tutorial__content">
 <div class="post">
@@ -4865,7 +4880,7 @@ function processUserInput(command) {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Partial Application in JavaScript</h1>
+					<a id="t21" name="t21"></a><h1>21 : Partial Application in JavaScript</h1>
 					<span>http://blakeembrey.com/articles/2014/01/partial-application-in-javascript/</span>
 					<div class="tutorial__content">
 						<article class="content article"><p>Partial application is the act of pre-filling arguments of a function and returning a new function of smaller arity. The returned function can be called with additional parameters and in JavaScript, the <code>this</code> context can also be changed when called. Using a partially applied function is extremely common in functional programming with JavaScript as it allows us to compose some really nifty utilities and avoid repeating ourselves in code.</p>
@@ -4913,7 +4928,7 @@ return function () {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Composing Functions in JavaScript</h1>
+					<a id="t22" name="t22"></a><h1>22 ; Composing Functions in JavaScript</h1>
 					<span>http://blakeembrey.com/articles/2014/01/compose-functions-javascript/</span>
 					<div class="tutorial__content">
 <article class="content article"><p>Composing multiple functions to create more complex ones is a common utility in any programming language. And the ability to construct functions in a way that is easily composable is a true talent, but it really shines with code maintenance and reuse. It's not uncommon to find huge applications composed of many, much smaller functions. Inspired by this pattern of extremely modular functions, I've been slowly migrating my programming style to allow for more composable and reusable functions.</p>
@@ -4963,7 +4978,7 @@ var sequence = function () {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>A JavaScript Invoke Function</h1>
+					<a id="t23" name="t23"></a><h1>23 : A JavaScript Invoke Function</h1>
 					<span>http://blakeembrey.com/articles/2014/01/javascript-invoke-function/</span>
 					<div class="tutorial__content">
 <article class="content article"><p><strong>Update:</strong> Now available on <a href="https://github.com/blakeembrey/invoke">github</a> and <a href="https://www.npmjs.org/package/util-invoke">npm</a>.</p>
@@ -4990,7 +5005,7 @@ children.forEach(invoke('remove'));
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>YOU MIGHT NOT NEED JQUERY</h1>
+					<a id="t24" name="t24"></a><h1>24 : YOU MIGHT NOT NEED JQUERY</h1>
 					<span class="ref-site">http://youmightnotneedjquery.com/</span>
 					<div class="tutorial__content">
 <div class="comparisons">
@@ -6558,7 +6573,7 @@ parseHTML(htmlString);
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>The JavaScript Bind Function</h1>
+					<a id="t25" name="t25"></a><h1>25 : The JavaScript Bind Function</h1>
 					<span class="ref-site">http://blakeembrey.com/articles/2013/12/javascript-bind-function/</span>
 					<div class="tutorial__content">
 <article class="content article"><p>The JavaScript <code>bind</code> function is a common-place utility when working with many different frameworks and libraries. It's purpose is to bind the <code>this</code> value to a static object and is useful when passing functions around as callbacks, where maintaining the correct <code>this</code> value is required. A common convention to circumvent this utility is the <code>var that = this</code>, but this isn't very feasible everywhere.</p>
@@ -6618,7 +6633,7 @@ greetBlake('Hello'); //=&gt; "Hello Blake"
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Forcing Function Arity in JavaScript</h1>
+					<a id="t26" name="t26"></a><h1>26 : Forcing Function Arity in JavaScript</h1>
 					<span class="ref-site">http://blakeembrey.com/articles/2014/01/forcing-function-arity-in-javascript/</span>
 					<div class="tutorial__content">
 <article class="content article"><p>Function arity in something in JavaScript that is usually overlooked. For the most part, that's perfectly understandable, it's just a number. Unfortunately, this number can be integral to many other functions working correctly. But first, what number am I talking about?</p>
@@ -6697,7 +6712,7 @@ var nary = function (length, fn) {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Wrapping JavaScript Functions</h1>
+					<a id="t27" name="t27"></a><h1>27 : Wrapping JavaScript Functions</h1>
 					<span class="ref-site">http://blakeembrey.com/articles/2014/01/wrapping-javascript-functions/</span>
 					<div class="tutorial__content">
 <article class="content article"><p>In the modern age of web applications and development, it seems we are constantly adding side effects to every part of our applications - everything from analytics to event triggering. Unfortunately in a lot of cases, we tend to cram this functionality into function with the useful stuff. As programmers, this causes numerous issues down the line - especially when it comes to refactoring and code comprehensibility.</p>
@@ -6787,7 +6802,7 @@ var wrap = function (fn, wrap) {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Javascript : Basic Scope</h1>
+					<a id="t28" name="t28"></a><h1>28 : Part 1 - Javascript : Basic Scope</h1>
 					<span class="ref-site">http://www.datchley.name/basic-scope/</span>
 					<div class="tutorial__content">
 <section class="post-content">
@@ -7033,7 +7048,7 @@ console.log(evens);  // [2,4,6]
 
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Part 2 : Functions</h1>
+					<a id="t29" name="t29"></a><h1>29 : Part 2 - Functions</h1>
 					<span class="ref-site">http://www.datchley.name/functions/</span>
 					<div class="tutorial__content">
 <section class="post-content">
@@ -7252,7 +7267,7 @@ add2(3,6); // 5
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Part 3 : .map, .reduce &amp; .filter, Oh My!</h1>
+					<a id="t30" name="t30"></a><h1>30 : Part 3 - .map, .reduce &amp; .filter, Oh My!</h1>
 					<span class="ref-site">http://www.datchley.name/working-with-collections/</span>
 					<div class="tutorial__content">
 <section class="post-content">
@@ -7496,7 +7511,7 @@ for (let [key, value] of entries(obj)) {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Part 4 : Object-ively Javascript</h1>
+					<a id="t31" name="t31"></a><h1>31 : Part 4 - Object-ively Javascript</h1>
 					<span class="ref-site">http://www.datchley.name/delegate-object-to-classical-inheritance/</span>
 					<div class="tutorial__content">
 <section class="post-content">
@@ -7714,7 +7729,7 @@ for (var prop in obj2) {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Chapter 4: Currying</h1>
+					<a id="t32" name="t32"></a><h1>32 : Chapter 4: Currying</h1>
 					<span class="ref-site">https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch4.html</span>
 					<div class="tutorial__content">
 <section class="normal markdown-section">
@@ -7893,7 +7908,7 @@ var take = undefined;
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Chapter 5: Coding by Composing</h1>
+					<a id="t33" name="t33"></a><h1>33 : Chapter 5: Coding by Composing</h1>
 					<span class="ref-site">https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html</span>
 					<div class="tutorial__content">
 <section class="normal markdown-section">
@@ -8199,7 +8214,7 @@ var fastestCar = function(cars) {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Functional Mixins in ECMAScript 2015</h1>
+					<a id="t34" name="t34"></a><h1>34 : Functional Mixins in ECMAScript 2015</h1>
 					<span class="ref-site">http://raganwald.com/2015/06/17/functional-mixins.html</span>
 					<div class="tutorial__content">
 <section id="main_content">
@@ -8553,7 +8568,7 @@ urgent instanceof Coloured
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>JavaScript Mixins, Subclass Factories, and Method Advice</h1>
+					<a id="t35" name="t35"></a><h1>35 : JavaScript Mixins, Subclass Factories, and Method Advice</h1>
 					<span class="ref-site">http://raganwald.com/2015/12/28/mixins-subclass-factories-and-method-advice.html</span>
 					<div class="tutorial__content">
 <section id="main_content">
@@ -9259,7 +9274,7 @@ class Person {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Compose me That: Function Composition in JavaScript</h1>
+					<a id="t36" name="t36"></a><h1>36 : Compose me That: Function Composition in JavaScript</h1>
 					<span class="ref-site">https://www.linkedin.com/pulse/compose-me-function-composition-javascript-kevin-greene</span>
 					<div class="tutorial__content">
 <div class="prose" itemprop="articleBody"><p>Source on Github:&nbsp;<a href="https://github.com/kevinbgreene/composition-tutorial" target="_blank" rel="nofollow noopener">Composition Tutorial</a></p> 
@@ -9339,7 +9354,7 @@ class Person {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Curry me This: Partial Application in JavaScript</h1>
+					<a id="t37" name="t37"></a><h1>37 : Curry me This: Partial Application in JavaScript</h1>
 					<span class="ref-site">https://www.linkedin.com/pulse/curry-me-partial-application-javascript-kevin-greene</span>
 					<div class="tutorial__content">
 <div class="prose" itemprop="articleBody"><p>Source on Github: <a href="https://github.com/kevinbgreene/curry-tutorial" target="_blank" rel="nofollow noopener">Curry Tutorial</a></p> 
@@ -9411,7 +9426,7 @@ class Person {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Functional Data Structures in JavaScript: The Basics</h1>
+					<a id="t38" name="t38"></a><h1>38 : Functional Data Structures in JavaScript: The Basics</h1>
 					<span class="ref-site">https://www.linkedin.com/pulse/function-data-structures-javascript-basics-kevin-greene</span>
 					<div class="tutorial__content">
 <div class="prose" itemprop="articleBody"><p>Source on Github: <a href="http://github.com/kevinbgreene/functional-data-js" target="_blank" rel="nofollow noopener">Functional Data Structures</a></p> 
@@ -9553,7 +9568,7 @@ class Person {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Model-View-Controller (MVC) with JavaScript</h1>
+					<a id="t39" name="t39"></a><h1>39 : Model-View-Controller (MVC) with JavaScript</h1>
 					<span class="ref-site">https://alexatnet.com/articles/model-view-controller-mvc-javascript</span>
 					<div class="tutorial__content">
 
@@ -9992,7 +10007,7 @@ configure the classes:</p>
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>JavaScript Function Memoization</h1>
+					<a id="t40" name="t40"></a><h1>40 : JavaScript Function Memoization</h1>
 					<span class="ref-site">http://inlehmansterms.net/2015/03/01/javascript-memoization/</span>
 					<div class="tutorial__content">
 <section class="Post-content">
@@ -10142,7 +10157,7 @@ console.log(person.fullName('Mr.'));
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Javascript Memoization</h1>
+					<a id="t41" name="t41"></a><h1>41 : Javascript Memoization</h1>
 					<span class="ref-site">https://www.safaribooksonline.com/library/view/javascript-the-good/9780596517748/ch04s15.html</span>
 					<div class="tutorial__content">
 <div class="sect1" title="Memoization"><p>Functions can use objects to remember the results of previous operations, making
@@ -10216,7 +10231,7 @@ for (var i = 0; i &lt;= 10; i += 1) {
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t1" name="t1"></a><h1>Hello World</h1>
+					<a id="t42" name="t42"></a><h1>42 : Hello World</h1>
 					<h3>A "Hello World"-like example of Javascript using the MVC pattern.</h3>
 					<span class="ref-site">http://sandbox.thewikies.com/javascript-mvc-hello-world/</span>
 					<div class="tutorial__content">
