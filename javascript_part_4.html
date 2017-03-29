@@ -140,6 +140,8 @@ table td { border: 1px solid #999; padding: 5px;}
 	<a href="#t40"><h1>JavaScript Function Memoization</h1></a>
 	<a href="#t41"><h1>Javascript Memoization</h1></a>
 	<a href="#t42"><h1>Hello World : A "Hello World"-like example of Javascript using the MVC pattern.</h1></a>
+	<a href="#t43"><h1>JavaScript's Magical Tips Every Developer Should Remember</h1></a>
+	<a href="#t44"><h1>5 Features You Can Use in ES6 Today</h1></a>
 </div>
 		<!--================= END :: Tutorial Index =================-->
 		
@@ -153,18 +155,18 @@ table td { border: 1px solid #999; padding: 5px;}
 					<div class="tutorial__content">
 <span>https://blog.simpleblend.net/functional-javascript-concepts-currying/</span>
  <p class="aligncenter narrow-img"><img class="is-lazy size-full wp-image-422 aligncenter" src="https://blog.simpleblend.net/wp-content/uploads/2016/06/spices.png" alt="Curry spices" width="466" height="595" data-original="" srcset="https://blog.simpleblend.net/wp-content/uploads/2016/06/spices.png 466w, https://blog.simpleblend.net/wp-content/uploads/2016/06/spices-235x300.png 235w" sizes="(max-width: 466px) 100vw, 466px"></p>
-<p>Before I understood the concept of currying, I was always filled with anxiety when hearing other developers describe it. They always made it seem so complicated and difficult to understand; as if an ominous thundercloud arrived every time the topic was mentioned. Well I assure you that the concept of currying, at least applied to programming, is not hard to understand at all. It’s actually quite easy to grasp and once you do, opens the door to a powerful functional programming technique.</p>
+<p>Before I understood the concept of currying, I was always filled with anxiety when hearing other developers describe it. They always made it seem so complicated and difficult to understand; as if an ominous thundercloud arrived every time the topic was mentioned. Well I assure you that the concept of currying, at least applied to programming, is not hard to understand at all. It's actually quite easy to grasp and once you do, opens the door to a powerful functional programming technique.</p>
 <h2>The Core Idea</h2>
-<p>Let’s first start with a definition from the great book by <a href="https://twitter.com/drboolean">Brian Lonsdorf</a></p>
-<blockquote><p>“The concept is simple: You can call a function with fewer arguments than it expects. It returns a function that takes the remaining arguments.”</p></blockquote>
-<p>In other words, a curry function takes and provides additional arguments over time. It does this by returning additional functions to do the work for us.<span class="citation-num" data-citation-num="1">1</span> In order to see how this works, let’s take a normal function and curry it.</p>
+<p>Let's first start with a definition from the great book by <a href="https://twitter.com/drboolean">Brian Lonsdorf</a></p>
+<blockquote><p>"The concept is simple: You can call a function with fewer arguments than it expects. It returns a function that takes the remaining arguments."</p></blockquote>
+<p>In other words, a curry function takes and provides additional arguments over time. It does this by returning additional functions to do the work for us.<span class="citation-num" data-citation-num="1">1</span> In order to see how this works, let's take a normal function and curry it.</p>
 <pre><code class="language-javascript">var add = function(x, y) {
   return x + y;
 }
 
 add(10, 20); // 30
 </code></pre>
-<p>Here we have a function that takes two numbers and returns the sum. Simple. Let’s curry it.</p>
+<p>Here we have a function that takes two numbers and returns the sum. Simple. Let's curry it.</p>
 <pre><code class="language-javascript">var add = function(x) {
   return function(y) {
     return x + y;
@@ -175,11 +177,11 @@ var addFifty = add(50);
 
 addFifty(10); // 60
 </code></pre>
-<p>Instead of returning the immediate result, we’re returning a function that acts as a closure over variable x. This allows us to keep a reference to that value when we execute the returned function <b>addFifty</b> at a later time. Finally, our returned function provides us with the summation of both numbers. In this example we would say the add function is “curried”.</p>
+<p>Instead of returning the immediate result, we're returning a function that acts as a closure over variable x. This allows us to keep a reference to that value when we execute the returned function <b>addFifty</b> at a later time. Finally, our returned function provides us with the summation of both numbers. In this example we would say the add function is "curried".</p>
 <h2>Why is Currying useful?</h2>
-<p>Curry functions are useful for many reasons. From a functional programming perspective, they allow your program to become “pure”. I’ll be writing more about pure functions at a later time but suffice it to say for now, pure functions allow your application to be better understood by yourself and other team members.</p>
-<p>A more applicable reason can be shown by demonstrating a less contrived example. While adding two numbers together is great for explaining a new concept, it doesn’t immediately highlight the enormous benefits of using it within the context of a larger application. Let’s do that now.</p>
-<p>Let’s assume we’re working with a list of animals like the below:</p>
+<p>Curry functions are useful for many reasons. From a functional programming perspective, they allow your program to become "pure". I'll be writing more about pure functions at a later time but suffice it to say for now, pure functions allow your application to be better understood by yourself and other team members.</p>
+<p>A more applicable reason can be shown by demonstrating a less contrived example. While adding two numbers together is great for explaining a new concept, it doesn't immediately highlight the enormous benefits of using it within the context of a larger application. Let's do that now.</p>
+<p>Let's assume we're working with a list of animals like the below:</p>
 <pre><code class="language-javascript">const animals = [
   {
     id: 1,
@@ -227,9 +229,9 @@ addFifty(10); // 60
  }];
 */
 </code></pre>
-<p>Looks pretty good. This grabs all of the cats in the list. However there’s a better way to write the same thing.</p>
+<p>Looks pretty good. This grabs all of the cats in the list. However there's a better way to write the same thing.</p>
 <p>One major drawback to the above code is that the <em>type</em> of animal is tightly coupled to <em>the act filtering itself</em>. This prevents reusability and encourages the cultivation of our worst enemy: state.</p>
-<p>Let’s see if we can do better.</p>
+<p>Let's see if we can do better.</p>
 <pre><code class="language-javascript">const isAnimal = 
    type =&gt; 
      animal =&gt;
@@ -252,17 +254,17 @@ animals.filter(isAnimal("Cat"));
  }];
  */
 </code></pre>
-<p>Much cleaner. Let’s break this down into steps.</p>
+<p>Much cleaner. Let's break this down into steps.</p>
 <ul>
 <li>isAnimal expects one argument, the type</li>
 <li>isAnimal then returns a whole new function</li>
 <li>The returned function is used as the callback to .filter()</li>
 <li>Closure then allows our returned function to access the <strong>type</strong> variable which finally allows us to perform our equality comparison</li>
 </ul>
-<p>Again, why is this better than the previous example? As an application grows in size, it becomes harder to understand what functions are doing what and where they’re coming from within the codebase. Striving to write pure functions like in our solution eliminates the state chase, and makes our entire app more testable by breaking things into single responsibilities.</p>
+<p>Again, why is this better than the previous example? As an application grows in size, it becomes harder to understand what functions are doing what and where they're coming from within the codebase. Striving to write pure functions like in our solution eliminates the state chase, and makes our entire app more testable by breaking things into single responsibilities.</p>
 <h2>Conclusion &amp; Resources</h2>
-<p>I hope this inspired you to see the powerful nature behind curry functions. I’ve personally found them very useful and really inspired me to learn more about functional programming concepts.</p>
-<p>If you’re interested in further learning, I encourage you to checkout functional libraries like <a href="http://ramdajs.com/0.21.0/docs/#curry">Ramda.js</a> or <a href="https://lodash.com/docs#curry">lodash</a> which contain general curry functions that can help build some really exciting functionality.</p>
+<p>I hope this inspired you to see the powerful nature behind curry functions. I've personally found them very useful and really inspired me to learn more about functional programming concepts.</p>
+<p>If you're interested in further learning, I encourage you to checkout functional libraries like <a href="http://ramdajs.com/0.21.0/docs/#curry">Ramda.js</a> or <a href="https://lodash.com/docs#curry">lodash</a> which contain general curry functions that can help build some really exciting functionality.</p>
 					</div>
 				</article>
 				<!--================= END :: Tutorial =================-->
@@ -2283,8 +2285,8 @@ console.log(list.sort(function() {
 					<a id="t11" name="t11"></a><h1>11 : 45 Useful JavaScript Tips, Tricks and Best Practices</h1>
 					<div class="tutorial__content">
 <span>https://modernweb.com/45-useful-javascript-tips-tricks-and-best-practices/</span>
-<p>As you know, JavaScript is the number one programming language in the world, the language of the web, of mobile hybrid apps (like <a href="http://phonegap.com/">PhoneGap</a> or <a href="http://www.appcelerator.com/">Appcelerator</a>), of the server side (like <a href="http://nodejs.org">NodeJS</a> or <a href="http://wakanda.org">Wakanda</a>) and has many other implementations. It’s also the starting point for many new developers to the world of programming, as it can be used to display a simple alert in the web browser but also to control a robot (using <a href="http://nodebots.io/">nodebot</a>, or <a href="http://semu.github.io/noduino/">nodruino</a>). The developers who master JavaScript and write organized and performant code have become the most sought after in the job market.</p>
-<p>In this article, I’ll share a set of JavaScript tips, tricks and best practices that should be known by all JavaScript developers regardless of their browser/engine or the SSJS (Server Side JavaScript) interpreter.</p>
+<p>As you know, JavaScript is the number one programming language in the world, the language of the web, of mobile hybrid apps (like <a href="http://phonegap.com/">PhoneGap</a> or <a href="http://www.appcelerator.com/">Appcelerator</a>), of the server side (like <a href="http://nodejs.org">NodeJS</a> or <a href="http://wakanda.org">Wakanda</a>) and has many other implementations. It's also the starting point for many new developers to the world of programming, as it can be used to display a simple alert in the web browser but also to control a robot (using <a href="http://nodebots.io/">nodebot</a>, or <a href="http://semu.github.io/noduino/">nodruino</a>). The developers who master JavaScript and write organized and performant code have become the most sought after in the job market.</p>
+<p>In this article, I'll share a set of JavaScript tips, tricks and best practices that should be known by all JavaScript developers regardless of their browser/engine or the SSJS (Server Side JavaScript) interpreter.</p>
 <p>Note that the code snippets in this article have been tested in the latest Google Chrome version 30, which uses the V8 JavaScript Engine (V8 3.20.17.15).</p>
 <p><strong>1 – Don't forget <code>var</code> keyword when assigning a variable's value for the first time.</strong></p>
 <p>Assignment to an undeclared variable automatically results in a global variable being created. Avoid global variables.</p>
@@ -2300,7 +2302,7 @@ console.log(list.sort(function() {
  '' ===   false // is false </code></pre>
 <p><strong>3 – <code>undefined</code>, <code>null</code>, 0, <code>false</code>, <code>NaN</code>, <code>''</code> (empty string) are all falsy.</strong><br>
 <strong>4 – Use Semicolons for line termination</strong></p>
-<p>The use of semi-colons for line termination is a good practice. You won’t be warned if you forget it, because in most cases it will be inserted by the JavaScript parser. For more details about why you should use semi-colons, take a look to this artice: <a href="http://davidwalsh.name/javascript-semicolons">http://davidwalsh.name/javascript-semicolons</a>.</p>
+<p>The use of semi-colons for line termination is a good practice. You won't be warned if you forget it, because in most cases it will be inserted by the JavaScript parser. For more details about why you should use semi-colons, take a look to this artice: <a href="http://davidwalsh.name/javascript-semicolons">http://davidwalsh.name/javascript-semicolons</a>.</p>
 <p><strong>5 – Create an object constructor</strong></p>
 <pre><code class="language-javascript">function Person(firstName, lastName){
     this.firstName =  firstName;
@@ -2310,9 +2312,9 @@ console.log(list.sort(function() {
 var Saad = new Person("Saad", "Mousliki");</code></pre>
 <p><strong>6 – Be careful when using <code>typeof</code>, <code>instanceof</code> and <code>constructor</code>.</strong></p>
 <ul>
-<li><em>typeof</em> : a JavaScript unary operator used to  return a string that represents the primitive type of a variable,  don’t forget that <code>typeof null</code> will return “object”, and for the majority of object types (Array, Date, and others) will return also “object”.</li>
+<li><em>typeof</em> : a JavaScript unary operator used to  return a string that represents the primitive type of a variable,  don't forget that <code>typeof null</code> will return "object", and for the majority of object types (Array, Date, and others) will return also "object".</li>
 <li><em>constructor</em> : is a property of the internal prototype property, which could be overridden by code.</li>
-<li><em>instanceof</em> : is another JavaScript operator that check in all the prototypes chain the constructor it returns true if it’s found and false if not.</li>
+<li><em>instanceof</em> : is another JavaScript operator that check in all the prototypes chain the constructor it returns true if it's found and false if not.</li>
 </ul>
 <pre><code class="language-javascript">var arr = ["a", "b", "c"];
 typeof arr;   // return "object" 
@@ -2422,7 +2424,7 @@ foo == 5 || doSomething(); // is the same thing as if (foo != 5) doSomething();<
 <pre><code class="language-javascript">function doSomething(arg1){ 
     arg1 = arg1 || 10; // arg1 will have 10 as a default value if it's not already set
 }</code></pre>
-<p><strong>23 – Use the map() function method to loop through an array’s items</strong></p>
+<p><strong>23 – Use the map() function method to loop through an array's items</strong></p>
 <pre><code class="language-javascript">var squares = [1,2,3,4].map(function (val) {  
     return val * val;  
 }); 
@@ -2622,14 +2624,14 @@ A[A.length] = v;</code></pre>
 					<span>https://modernweb.com/javascript-architecture-23rd-century/</span>
 					<div class="tutorial__content">
 
-<blockquote><p>Jonathan discusses JavaScript architecture patterns of the 23rd century and what the future of JavaScript holds for the 24th century.”</p></blockquote>
+<blockquote><p>Jonathan discusses JavaScript architecture patterns of the 23rd century and what the future of JavaScript holds for the 24th century."</p></blockquote>
 <p>JavaScript applications have grown in size and complexity for the last several years. More and more single page applications have hit the market, and demands for that type of experience have increased to the point where even Google finally decided to <a href="http://googlewebmastercentral.blogspot.com/2014/05/understanding-web-pages-better.html">render JavaScript</a> when it crawls pages.</p>
 <p>This demand for SPA type applications has made JavaScript architecture increasingly important. JavaScript, being a dynamic language, you have to go the extra mile to ensure that the code is written in a maintainable fashion and to avoid spaghetti code.</p>
 <p>For a long time it seemed like it was ok to just use a single file full of jQuery selectors and event handlers. This is just not a sustainable pattern. The Modern Web that we are entering here in the 23rd century demands a more thought out, and architected approach.</p>
 <h2>Architecture Patterns</h2>
 <p>An architectural pattern is not something that you sit down and write. No one sits at their desk and thinks about how to write a new shiny pattern. A pattern is something that comes about as a discovery. Some problem is solved potentially multiple times and a pattern is extracted from the solution(s).</p>
 <h3>Constructor</h3>
-<p>First of all let’s take a step back into some native JavaScript functionality that has been there for years, the constructor pattern.</p>
+<p>First of all let's take a step back into some native JavaScript functionality that has been there for years, the constructor pattern.</p>
 <pre><code class="language-javascript">function Starship() {}
 </code></pre>
 <p>Every function you declare in JavaScript can be used as a <strong>constructor</strong> to create an instance. This allows you to create reusable functions.</p>
@@ -2675,7 +2677,7 @@ var enterprise = new Starship(
 );
 enterprise.fire('torpedos') // launching torpedos;
 </code></pre>
-<p>What’s great about the <code>prototype</code> system in JavaScript is it enables you to create a system of inheritance. Inheritance in JavaScript is a little bit different than in other languages, but it’s not too difficult with a bit of practice.</p>
+<p>What's great about the <code>prototype</code> system in JavaScript is it enables you to create a system of inheritance. Inheritance in JavaScript is a little bit different than in other languages, but it's not too difficult with a bit of practice.</p>
 <pre><code class="language-javascript">function ConstitutionClass(captain, firstOfficer, missionDuration) {
   this.captain = captain;
   this.firstOfficer = firstOfficer;
@@ -2695,15 +2697,15 @@ var enterprise = new ConstitutionClass('Kirk', 'Spock', 5);
 enterprise.fire('torpedos'); // Launching Torpedos
 enterprise.warp(14.1); // warping at: 14.1
 </code></pre>
-<p>Here we’ve created the <code>ConstitutionClass</code> constructor. This constructor takes a <code>captain</code>, <code>firstOfficer</code>, and <code>missionDuration</code> as arguments. It then goes on to call <code>Starship.apply</code> and passes in an array of arguments. This ensures that the parent constructor gets called.</p>
+<p>Here we've created the <code>ConstitutionClass</code> constructor. This constructor takes a <code>captain</code>, <code>firstOfficer</code>, and <code>missionDuration</code> as arguments. It then goes on to call <code>Starship.apply</code> and passes in an array of arguments. This ensures that the parent constructor gets called.</p>
 <p>Every function in JavaScript has a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call"><code>call</code></a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply"><code>apply</code></a> method that allows you to invoke a function by passing in a <code>context</code> and, in the case of <code>apply</code>, an array of arguments to use when invoking the function.</p>
 <p>Next, to properly tell the <code>ConstitutionClass</code> to inherit from <code>Starship</code> we simply use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create"><code>Object.create</code></a> to assign the prototype of <code>ConstitutionClass</code>.</p>
-<p>What this does is tell <code>ConstitutionClass</code> that it’s a type of <code>Starship</code> by adding all of the <code>Starship</code> prototype properties and methods to the <code>ConstitutionClass</code> prototype.</p>
+<p>What this does is tell <code>ConstitutionClass</code> that it's a type of <code>Starship</code> by adding all of the <code>Starship</code> prototype properties and methods to the <code>ConstitutionClass</code> prototype.</p>
 <p>Check out how this looks when you run it and open up the console…</p>
 <p><img src="http://d.pr/i/12tb7+" alt=""></p>
 <p>You can easily see how the <code>enterprise</code> instance of <code>ConstitutionClass</code> has correctly been assigned its properties, as well as the properties of a <code>Starship</code>.</p>
 <p>Notice also how the <code>ConstitutionClass</code> has a warp method as well as a <code>fire</code> method that it inherits from the <code>Starship</code>.</p>
-<p>That’s <strong>prototypical inheritance</strong>.</p>
+<p>That's <strong>prototypical inheritance</strong>.</p>
 <h3>IIFEs to prevent global leaks</h3>
 <p>An important thing to note about the code above is there are several global leaks occurring. When you simply declare a function or variable in a JavaScript file, it will automatically be added to the global namespace (the <code>window</code> in the case of a browser);</p>
 <p>This code here will create several globals…</p>
@@ -2756,9 +2758,9 @@ PhotonTorpedoSystem.prototype.launch = function() {
 NS.Weapons.PhotonTorpedoSystem = PhotonTorpedoSystem; // Export just this to the NS.Weapons namespace
 }(window, window.NS = NS || {});
 </code></pre>
-<p>Notice how we’ve changed the bottom of the IIFE to <code>}(window, window.NS = NS || {});</code>. This will pass the <code>window</code>, as well as an <code>NS</code> object. This slightly odd notation here says, “pass NS if it exists, or create a new object for it”.</p>
+<p>Notice how we've changed the bottom of the IIFE to <code>}(window, window.NS = NS || {});</code>. This will pass the <code>window</code>, as well as an <code>NS</code> object. This slightly odd notation here says, "pass NS if it exists, or create a new object for it".</p>
 <p>You can also see this syntax used again here <code>NS.Weapons = NS.Weapons || {};</code>.</p>
-<p>It’s effectively the same thing as using an if statement, but is more terse.</p>
+<p>It's effectively the same thing as using an if statement, but is more terse.</p>
 <pre><code class="language-javascript">if (!NS.Weapons) {
 NS.Weapons = {};
 }
@@ -2778,7 +2780,7 @@ NS.Ships.ConstitutionClass = ConstitutionClass;
 }(window, window.NS = NS || {});
 </code></pre>
 <h3>IIFE for the Revealing Module Pattern</h3>
-<p>Another pattern for creating functions is the “revealing module pattern”.</p>
+<p>Another pattern for creating functions is the "revealing module pattern".</p>
 <pre><code class="language-javascript">NS.Owners.starFleet = (function() {
   var ships = [];
 
@@ -2805,7 +2807,7 @@ NS.Ships.ConstitutionClass = ConstitutionClass;
   };
 }());
 </code></pre>
-<p>This pattern allows you to define the public API for an object as well as have a few private members because of the IIFE. In this case, <code>ships</code> stays private because it’s defined within the IIFE, whereas <code>addShip</code> and <code>removeShip</code> are exported via the object in the <code>return</code> statement.</p>
+<p>This pattern allows you to define the public API for an object as well as have a few private members because of the IIFE. In this case, <code>ships</code> stays private because it's defined within the IIFE, whereas <code>addShip</code> and <code>removeShip</code> are exported via the object in the <code>return</code> statement.</p>
 <pre><code class="language-javascript">(function() {
 var enterprise = new NS.Ships.ConstitutionClass('Kirk', 'Spock', 5);
 
@@ -2816,10 +2818,10 @@ NS.Owners.starFleet.getTotal(); // 1
 </code></pre>
 <p>Now you can use <code>NS.Owers.starFleet</code> to add ships to Star Fleet.</p>
 <h3>Organizing Files</h3>
-<p>Architectural patterns are very helpful for creating maintainable web applications. One further problem exists though in large scale applications, and that’s file organization.</p>
-<p>In the early days, having all of your code in a single Javascript file was still not a great idea, but it could work because there wasn’t that much code. Today in the 23rd century, that’s just not the case. There are hundreds, if not thousands, of lines of code necessary for a web application. Having a single JavaScript file is just not feasible.</p>
-<p>When you start adopting architectural patterns like constructor or module patterns, your code will have been broken down into smaller units. This is great for multiple reasons. For one, you’ll now be able to move these small units in to their own files. And it makes unit testing much easier.</p>
-<p>As a goal, try to keep each JavaScript file containing one logical “class” or module.</p>
+<p>Architectural patterns are very helpful for creating maintainable web applications. One further problem exists though in large scale applications, and that's file organization.</p>
+<p>In the early days, having all of your code in a single Javascript file was still not a great idea, but it could work because there wasn't that much code. Today in the 23rd century, that's just not the case. There are hundreds, if not thousands, of lines of code necessary for a web application. Having a single JavaScript file is just not feasible.</p>
+<p>When you start adopting architectural patterns like constructor or module patterns, your code will have been broken down into smaller units. This is great for multiple reasons. For one, you'll now be able to move these small units in to their own files. And it makes unit testing much easier.</p>
+<p>As a goal, try to keep each JavaScript file containing one logical "class" or module.</p>
 <p>You may have something like this.</p>
 <pre><code>/js/
 /js/app.js
@@ -2827,7 +2829,7 @@ NS.Owners.starFleet.getTotal(); // 1
 /js/constitutionClass.js
 /js/starFleet.js
 </code></pre>
-<p>This is much nicer. You’re able to logically divide up each piece of functionality. After a while though, you may have too many JS files in the <code>/js</code> folder and may want to consider some subfolders.</p>
+<p>This is much nicer. You're able to logically divide up each piece of functionality. After a while though, you may have too many JS files in the <code>/js</code> folder and may want to consider some subfolders.</p>
 <blockquote><p>There are only two hard things in Computer Science: cache invalidation and naming things.<br>
 — Phil Karlton</p></blockquote>
 <p>Naming things is hard, so when getting ready to divide your application up into subfolder, just pick some standards for you and your team and follow them. Consistency always wins!</p>
@@ -2848,21 +2850,21 @@ NS.Owners.starFleet.getTotal(); // 1
 /js/captainsLog/..js
 /js/weaponSystems/..js
 </code></pre>
-<p>No matter what you choose, the idea is to maintain consistency within your structure for your team. There’s no wrong answer here, just pick something and go with it.</p>
-<p>One hiccup you’ll find breaking up your logic into many files though is dealing with loading them into your HTML pages.</p>
-<p>With a structure like this you’ll end up having to have many <code>script</code> includes that have to be in a very specific order to avoid errors.</p>
+<p>No matter what you choose, the idea is to maintain consistency within your structure for your team. There's no wrong answer here, just pick something and go with it.</p>
+<p>One hiccup you'll find breaking up your logic into many files though is dealing with loading them into your HTML pages.</p>
+<p>With a structure like this you'll end up having to have many <code>script</code> includes that have to be in a very specific order to avoid errors.</p>
 <pre><code class="language-markup">&lt;script src="https://x6ar5ez4ac-flywheel.netdna-ssl.com/js/app.js"&gt;&lt;/script&gt;
 &lt;script src="https://x6ar5ez4ac-flywheel.netdna-ssl.com/js/core/starFleet.js"&gt;&lt;/script&gt;
 &lt;script src="https://x6ar5ez4ac-flywheel.netdna-ssl.com/js/weaponSystems/photonTorpedos.js"&gt;&lt;/script&gt;
 &lt;script src="https://x6ar5ez4ac-flywheel.netdna-ssl.com/js/starship.js"&gt;&lt;/script&gt;
 &lt;script src="https://x6ar5ez4ac-flywheel.netdna-ssl.com/js/constitutionClass.js"&gt;&lt;/script&gt;
 </code></pre>
-<p>If any one of those files gets included in the wrong order, you’ll run into problems. You also will have many synchronous script includes that slow your page render.</p>
+<p>If any one of those files gets included in the wrong order, you'll run into problems. You also will have many synchronous script includes that slow your page render.</p>
 <p>Enter AMD.</p>
 <h3>AMD</h3>
 <p>Asynchronous Module Definition is a specification created by the CommonJS group to handle these types of issues. It defines a specification for creating and requiring modules into an application.</p>
 <p>One of the best implementations of AMD is <a href="http://requirejs.org">require.js</a>.</p>
-<p>With require.js, you create many modules just like we have been working with so far, but there’s a wrapper for each module. This wrapper not only hides globals from the window, but also helps define a dependency chain which allows you to have a single <code>script</code> tag on your page. There is also a great build tool called <code>r.js</code> that can compile all your modules to a single minified file.</p>
+<p>With require.js, you create many modules just like we have been working with so far, but there's a wrapper for each module. This wrapper not only hides globals from the window, but also helps define a dependency chain which allows you to have a single <code>script</code> tag on your page. There is also a great build tool called <code>r.js</code> that can compile all your modules to a single minified file.</p>
 <p>To start, download require.js and include it in your page.</p>
 <pre><code class="language-markup">&lt;script src="https://x6ar5ez4ac-flywheel.netdna-ssl.com/vendor/require.js" data-main="/js/main"&gt;&lt;/script&gt;
 </code></pre>
@@ -2895,7 +2897,7 @@ extension. Here we kick off the application by loading <code>/js/app.js</code>.<
   };
 });
 </code></pre>
-<p>This module is defined with the commonjs syntax. There are 2 ways you can export an API with requre.js’s commonjs syntax as well. Either via the return statement as above, or via the actual <code>commonjs</code> way of using <code>module.exports</code>.</p>
+<p>This module is defined with the commonjs syntax. There are 2 ways you can export an API with requre.js's commonjs syntax as well. Either via the return statement as above, or via the actual <code>commonjs</code> way of using <code>module.exports</code>.</p>
 <pre><code class="language-javascript">module.exports = {
   init: function() {
     var enterprise = new ConstitutionClass('Kirk', 'Spock', 5);
@@ -2923,7 +2925,7 @@ extension. Here we kick off the application by loading <code>/js/app.js</code>.<
 });
 </code></pre>
 <p>Rather than a function that asks for the require function <code>function(require)</code>, you can pass in an array of dependencies. The modules are loaded in and are passed in as the arguments to the function. <code>function(ConstitutionClass, starFleet, captainsLog) {</code>. This is important to know because what require.js actually does is convert the commonjs syntax into this syntax for you.</p>
-<p>Either syntax is perfectly valid, so choose which you prefer. The commonjs syntax is nice though because in theory you could share your modules with node, and/or browserify which we’ll talk about later.</p>
+<p>Either syntax is perfectly valid, so choose which you prefer. The commonjs syntax is nice though because in theory you could share your modules with node, and/or browserify which we'll talk about later.</p>
 <p>Then the <code>ships/constitutionClass.js</code> would look like…</p>
 <pre><code class="language-javascript">define(function(require) {
   var Starship = require('ships/starship');
@@ -2933,7 +2935,7 @@ extension. Here we kick off the application by loading <code>/js/app.js</code>.<
   return ConstitutionClass;
 });
 </code></pre>
-<p>This module returns a constructor function just like we created above, except now there’s no need for any namespacing because you’re working with a module that keeps everything private except what you return from the module.</p>
+<p>This module returns a constructor function just like we created above, except now there's no need for any namespacing because you're working with a module that keeps everything private except what you return from the module.</p>
 <p>You can also see how the dependency chain is beginning to form. <code>app.js</code> requires <code>ships/constitutionClass.js</code> which then requires <code>ships/starship.js</code>. This will continue on and on down the chain of dependencies.</p>
 <p>A module like <code>core/starFleet.js</code> might look like this…</p>
 <pre><code class="language-javascript">define(function() {
@@ -3022,10 +3024,10 @@ module.exports = {
   }
 }
 </code></pre>
-<p>You’ll also notice <code>super</code> here which is how you call the parent method and takes the place of <code>Starship.apply(this, [/* ... */])</code>.</p>
+<p>You'll also notice <code>super</code> here which is how you call the parent method and takes the place of <code>Starship.apply(this, [/* ... */])</code>.</p>
 <p>This new <code>class</code> syntax is incredibly exciting for the future of JavaScript. Having built in classes is something JavaScript has needed for a while, and this new syntax is looking great.</p>
 <h3>Traceur</h3>
-<p>There is no telling when this <code>class</code> syntax will make it into browsers, but fortunately there’s a tool called <a href="https://github.com/google/traceur-compiler">Traceur</a> that allows us to work with new features of JavaScript before they release.</p>
+<p>There is no telling when this <code>class</code> syntax will make it into browsers, but fortunately there's a tool called <a href="https://github.com/google/traceur-compiler">Traceur</a> that allows us to work with new features of JavaScript before they release.</p>
 <p>You can install traceur with npm…</p>
 <pre><code class="language-shell">npm install -g traceur
 </code></pre>
@@ -3035,7 +3037,7 @@ module.exports = {
 <p>Just note that if you plan on using it in the browser you must also include the runtime file above your includes…</p>
 <pre><code class="language-markup">&lt;script src="bin/traceur-runtime.js"&gt;&lt;/script&gt;
 </code></pre>
-<p>Hopefully ES6 classes is the future of how we’ll be writing maintainable JavaScript in the future.</p>
+<p>Hopefully ES6 classes is the future of how we'll be writing maintainable JavaScript in the future.</p>
 <h2>Conclusion</h2>
 <p>JavaScript is an ever-changing language. As it grows there will be more and more ways to use it, and architect it. The architectural patterns above are a great way you can create JavaScript applications today, while the <code>class</code> syntax will be the way of things in the 24th century. Keep JavaScripting, and live long and prosper.</p>
 					</div>
@@ -4647,7 +4649,7 @@ for (var i = 0, len = els.length; i &lt; len; i++) {
 
 
           
-      <p>I have always found this statement confusing: “Everything in JavaScript is an Object”. What did they mean by this? How can a Function or an Array at the same time be an Object? Before we tackle this question, we need to understand how the different Data Types are categorized.</p>
+      <p>I have always found this statement confusing: "Everything in JavaScript is an Object". What did they mean by this? How can a Function or an Array at the same time be an Object? Before we tackle this question, we need to understand how the different Data Types are categorized.</p>
 <p>In JavaScript, there are two Data Types: <strong>Primitives</strong> and <strong>Objects</strong>. (Object Types are also sometimes referred to as Reference Types). <span class="citation-num" data-citation-num="1">1</span></p>
 <table>
 <thead>
@@ -4683,9 +4685,9 @@ for (var i = 0, len = els.length; i &lt; len; i++) {
 </tr>
 </tbody>
 </table>
-<p>Based on this categorizing, the simple anwser is no, not everything in JavaScript is an Object. Only values that belong to that Type are Objects. Another way of looking at it is, any Type that isn’t a Primitive Type is an Object Type. But what is it that <em>differentiates</em> Primitives from Objects? And more importantly, what do people <em>really mean</em> when they say “everything” or “almost everything” is an Object”? There are two main distinctions: mutability, and comparison.</p>
+<p>Based on this categorizing, the simple anwser is no, not everything in JavaScript is an Object. Only values that belong to that Type are Objects. Another way of looking at it is, any Type that isn't a Primitive Type is an Object Type. But what is it that <em>differentiates</em> Primitives from Objects? And more importantly, what do people <em>really mean</em> when they say "everything" or "almost everything" is an Object"? There are two main distinctions: mutability, and comparison.</p>
 <h2>Mutability</h2>
-<p>From my experience, what people <em>really mean</em> when they talk about values being “object like” is their mutability. More specifically, they’re talking about the ability to add and remove properties. For example, because Functions and Arrays belong to the Object Type you can add properties to them just like you would an object literal.</p>
+<p>From my experience, what people <em>really mean</em> when they talk about values being "object like" is their mutability. More specifically, they're talking about the ability to add and remove properties. For example, because Functions and Arrays belong to the Object Type you can add properties to them just like you would an object literal.</p>
 <pre><code class="language-javascript">var func = function() {};
 func.firstName = "Andrew";
 func.firstName; // "Andrew"
@@ -4695,7 +4697,7 @@ arry.age = 26;
 arry.age; // 26
 </code></pre>
 <p>This opens the door to all sorts of fascinating use cases, and is really the key to understanding how Prototypes and Constructors work.</p>
-<p>However because Primitive Types are immutable, we’re unable to assign properties to them. <span class="citation-num" data-citation-num="2">2</span> The parser will immediately discard them when attemping to read their value.</p>
+<p>However because Primitive Types are immutable, we're unable to assign properties to them. <span class="citation-num" data-citation-num="2">2</span> The parser will immediately discard them when attemping to read their value.</p>
 <pre><code class="language-javascript">var me = "Andrew";
 me.lastname = "Robbins";
 me.lastname; // undefined
@@ -4707,25 +4709,25 @@ num.prop; // undefined
 <p>At this point, I think it would be useful to examine things at a more fundamental level. With regards to primitives, what does it really mean to say that their values cannot be changed? Consider the following code:</p>
 <pre><code class="language-javascript">1 = 2; // ReferenceError
 </code></pre>
-<p>This might seem like a silly example, but I think it shines a much needed light on exactly what we’re talking about when we talk about mutability. When you type the number 1 into the JavaScript console, the compiler assigns that piece of data to the Primitive data type. Therefore when you attempt to change the number 1 to the number 2, it fails and probably has a heartattack.</p>
+<p>This might seem like a silly example, but I think it shines a much needed light on exactly what we're talking about when we talk about mutability. When you type the number 1 into the JavaScript console, the compiler assigns that piece of data to the Primitive data type. Therefore when you attempt to change the number 1 to the number 2, it fails and probably has a heartattack.</p>
 <h2>Comparison and passing around</h2>
-<p>Besides mutability, another important distinction between Primitive Types and Object Types is the way they’re compared and passed around within the program. Primitive Types are compared by value, while Object Types are compared by reference. What does this mean? Let’s look at Primitives first. Consider the following code:</p>
+<p>Besides mutability, another important distinction between Primitive Types and Object Types is the way they're compared and passed around within the program. Primitive Types are compared by value, while Object Types are compared by reference. What does this mean? Let's look at Primitives first. Consider the following code:</p>
 <pre><code class="language-javascript">"a" === "a"; // true
 </code></pre>
-<p>This is true because the value “a” is equal to “a”. Simple. However what happens when we introduce variables into the picture? Nothing has changed except that we’re now storing our Primitive Types into variables.</p>
+<p>This is true because the value "a" is equal to "a". Simple. However what happens when we introduce variables into the picture? Nothing has changed except that we're now storing our Primitive Types into variables.</p>
 <pre><code class="language-javascript">var a = "a",
     b = "a";
 
 a === b; // true
 </code></pre>
-<p>Since Primitive Types are compared by value, the result will true. The value of the variable a is exactly equal to the value of the variable b. In other words, “a” equals “a”. Aristotle would be proud. However look at this. If we apply the same example to an Object Type, we get the opposite result.</p>
+<p>Since Primitive Types are compared by value, the result will true. The value of the variable a is exactly equal to the value of the variable b. In other words, "a" equals "a". Aristotle would be proud. However look at this. If we apply the same example to an Object Type, we get the opposite result.</p>
 <pre><code class="language-javascript">var a = {name: "andrew"},
     b = {name: "andrew"};
 
 a === b; // false
 </code></pre>
-<p>Why is this? Object Types must reference the same object in order for its comparison to be true. In the example above, we’re creating a <em>new</em> object for the variable b. As David Flanagan puts it:</p>
-<blockquote><p>“…we say that objects are compared by reference: two object values are the same if and only if they refer to the same underlying object.” <span class="citation-num" data-citation-num="3">3</span></p></blockquote>
+<p>Why is this? Object Types must reference the same object in order for its comparison to be true. In the example above, we're creating a <em>new</em> object for the variable b. As David Flanagan puts it:</p>
+<blockquote><p>"…we say that objects are compared by reference: two object values are the same if and only if they refer to the same underlying object." <span class="citation-num" data-citation-num="3">3</span></p></blockquote>
 <p>Now, what happens when we pass these values around?</p>
 <pre><code class="language-javascript">var a = {name: "andrew"},
     b = a;
@@ -4734,7 +4736,7 @@ b.name = "robbins";
 
 a === b; // true
 </code></pre>
-<p>This might seem strange at first, but look closer at what’s happening. Because objects are part of the Object type, it’s values are compared and passed by reference. Reference to what? Reference to the same underlying object. In the above example, we’re setting b equal to a. We didn’t create a <em>new</em> object. We’re simply creating a <em>reference</em> to another object. A different way of looking at it is that we’re pointing the variable b to a. Therefore when we mutate the “name” property on b, we’re at the same time mutating the “name” property on a.</p>
+<p>This might seem strange at first, but look closer at what's happening. Because objects are part of the Object type, it's values are compared and passed by reference. Reference to what? Reference to the same underlying object. In the above example, we're setting b equal to a. We didn't create a <em>new</em> object. We're simply creating a <em>reference</em> to another object. A different way of looking at it is that we're pointing the variable b to a. Therefore when we mutate the "name" property on b, we're at the same time mutating the "name" property on a.</p>
 <p>Back to Primitives, how would the same example apply to them?</p>
 <pre><code class="language-javascript">var a = "Andrew",
     b = a;
@@ -4743,34 +4745,34 @@ b = "Robbins";
 
 a === b; // false
 </code></pre>
-<p>Remembering that Primitives are compared and passed by value, when we set b equal to a, we’re actually creating a new copy of a. Therefore when we change the value of b and then compare it to a, the value is not the same anymore.</p>
+<p>Remembering that Primitives are compared and passed by value, when we set b equal to a, we're actually creating a new copy of a. Therefore when we change the value of b and then compare it to a, the value is not the same anymore.</p>
 <h2>Wrapper Objects</h2>
-<p>Some of you may be wondering, “Ok, if Primitives aren’t Objects then why can I call methods on them?” The answer is Wrapper Objects.</p>
-<p>When you attempt to call methods on a Primitive, JavaScript does a magic trick behind the scenes. It takes your Primitive value and converts it to a <em>temporary</em> Object using a constructor function. <span class="citation-num" data-citation-num="4">4</span> The decision of which constructor function to use will depend on the Primitive value you’re attempting to change. For example, calling .length on a string will use the built in String() constructor to <em>temporarily</em> change the Primitive to an Object—allowing you to use the length method to mutate it. This temporary Object is called a Wrapper Object. <span class="citation-num" data-citation-num="5">5</span></p>
+<p>Some of you may be wondering, "Ok, if Primitives aren't Objects then why can I call methods on them?" The answer is Wrapper Objects.</p>
+<p>When you attempt to call methods on a Primitive, JavaScript does a magic trick behind the scenes. It takes your Primitive value and converts it to a <em>temporary</em> Object using a constructor function. <span class="citation-num" data-citation-num="4">4</span> The decision of which constructor function to use will depend on the Primitive value you're attempting to change. For example, calling .length on a string will use the built in String() constructor to <em>temporarily</em> change the Primitive to an Object—allowing you to use the length method to mutate it. This temporary Object is called a Wrapper Object. <span class="citation-num" data-citation-num="5">5</span></p>
 <p>Interestingly enough, the two Primitive values null and undefined do not behave this way. Trying to call methods on these values will result in a TypeError.</p>
 <p>We can use the typeof keyword to show the difference.</p>
 <pre><code class="language-javascript">typeof "s"; // "string"
 typeof new String(s); // "object"
 </code></pre>
-<p>As a sidenote, it’s useful to know that there’s a well-documented bug <span class="citation-num" data-citation-num="6">6</span> in JS compilers which returns “object” when executing typeof null.</p>
+<p>As a sidenote, it's useful to know that there's a well-documented bug <span class="citation-num" data-citation-num="6">6</span> in JS compilers which returns "object" when executing typeof null.</p>
 <pre><code class="language-javascript">typeof null // "object"
 </code></pre>
-<p>Considering that JavaScript was written in 10 days <span class="citation-num" data-citation-num="7">7</span>, I’m not going to lose any sleep over it =)</p>
-<p>It’s also useful to know that properties on Primitives are read-only, and temporary.</p>
+<p>Considering that JavaScript was written in 10 days <span class="citation-num" data-citation-num="7">7</span>, I'm not going to lose any sleep over it =)</p>
+<p>It's also useful to know that properties on Primitives are read-only, and temporary.</p>
 <pre><code class="language-javascript">var hello = "hello";
 hello.slice(1); // "ello" (Here we're actually calling slice not on hello, but of a copy of hello)
 hello; // "hello"
 </code></pre>
 <h2>Summary</h2>
 <p>JavaScript values can be categorized into two Types: Primitives and Objects. The Primitive Types are String, Number, Boolean, Symbol, undefined and null. The Object Types are Function, Object and Array.</p>
-<p>The two distinctions between Primitives and Objects are their mutability and the way they’re compared and “passed around” within the program.</p>
-<p>Primitives are immutable. Another way of saying this is that their values can’t be changed. On the other hand, Objects are mutable. Their values can be updated and changed.</p>
+<p>The two distinctions between Primitives and Objects are their mutability and the way they're compared and "passed around" within the program.</p>
+<p>Primitives are immutable. Another way of saying this is that their values can't be changed. On the other hand, Objects are mutable. Their values can be updated and changed.</p>
 <p>Primitives are compared by value. When assigning one primitive to another using variables, a copy is made. Objects on the other hand are compared by reference. Reference to what? Reference to the underlying Object. When assigning one Object to another, a reference / pointer is created. At this stage, mutating a value on one Object will update the value on the other Object.</p>
 <p>When attempting to call methods on Primitive values, JavaScript uses a Wrapper Object to temporarily coerce the Primitive. The resulting Object is read-only and garbage collected after execution.</p>
-<p>In the next section, we’ll go over how these Types fit into the bigger picture by analyzing Prototypes, Constructors, and Inheritance.</p>
+<p>In the next section, we'll go over how these Types fit into the bigger picture by analyzing Prototypes, Constructors, and Inheritance.</p>
 <h2>Update: 11/8/14</h2>
 <p>Recently there was a discussion over at <a href="https://javascriptkicks.com/stories/1669">https://javascriptkicks.com/stories/1669</a> regarding the performance of both Objects and Primitives. <a href="https://twitter.com/drewpcodes">@drewpcodes</a> wanted to know which approach would be faster: storing floating point numbers in Primitive form or Objects form? I was curious to know as-well so I wrote a small program to test it out. You can find the code I used here: <a href="http://jsfiddle.net/pmqortov">http://jsfiddle.net/pmqortov</a></p>
-<p>I created two arrays: one array stored the data as Objects, and another stored the data as Primitives. Based on <a href="https://twitter.com/drewpcodes">@drewpcodes</a> use-case, the data I used was 150 floating point numbers. I also decided to limit both arrays to 150 entries so it wouldn’t freeze my computer.</p>
+<p>I created two arrays: one array stored the data as Objects, and another stored the data as Primitives. Based on <a href="https://twitter.com/drewpcodes">@drewpcodes</a> use-case, the data I used was 150 floating point numbers. I also decided to limit both arrays to 150 entries so it wouldn't freeze my computer.</p>
 <p>I then iterated over the arrays and saved a timestamp before and after every iteration. Then I did a little math on each timestamp and found the average in ms. For the sake of accuracy, I looped 5000 times for each instance. I noticed increasing this number would freeze Chrome. =)</p>
 <p>Surprisingly enough, the list containing the data stored as Objects was actually 2ms faster then stored as Primitives! Here were the actual numbers:</p>
 <pre><code class="language-javascript">// List with Objects 
@@ -4779,7 +4781,7 @@ hello; // "hello"
 // List with Primitives 
 // Average execution across 5000 repetitions: 18.2898 ms 
 </code></pre>
-<p>At this point I don’t have an opinion either way of which method is best for storing your data. It could be that at higher volumes the Object method would be advantagous, but I’d like to see more evidence first.</p>
+<p>At this point I don't have an opinion either way of which method is best for storing your data. It could be that at higher volumes the Object method would be advantagous, but I'd like to see more evidence first.</p>
 <p>Cheers!</p>
 					</div>
 				</article>
@@ -7628,7 +7630,7 @@ var actor = _new(Person, "David Tennant", 44);
 <p>But as <a href="https://medium.com/javascript-scene/common-misconceptions-about-inheritance-in-javascript-d5d9bab29b0a">Eric Elliot</a>, <a href="http://raganwald.com/2014/07/09/javascript-constructor-problem.html">Reginald Braithwaite</a> and <a href="http://davidwalsh.name/javascript-objects">Kyle Simpson</a> point out using <code>new</code> and constructor functions can be problematic for a number of reasons.</p>
 
 <blockquote>
-  <p>“If a feature is sometimes dangerous, and there is a better option, then always use the better option.” -- Douglas Crockford</p>
+  <p>"If a feature is sometimes dangerous, and there is a better option, then always use the better option." -- Douglas Crockford</p>
 </blockquote>
 
 <h2 id="objectaccess">Object Access</h2>
@@ -8236,9 +8238,9 @@ var fastestCar = function(cars) {
 
 
 
-          <p>In <a href="http://raganwald.com/2015/06/10/mixins.html">Prototypes are Objects</a>, we saw that you can emulate “mixins” using <code class="highlighter-rouge">Object.assign</code> on the prototypes that underly JavaScript “classes.” We'll revisit this subject now and spend more time looking at mixing functionality into classes.</p>
+          <p>In <a href="http://raganwald.com/2015/06/10/mixins.html">Prototypes are Objects</a>, we saw that you can emulate "mixins" using <code class="highlighter-rouge">Object.assign</code> on the prototypes that underly JavaScript "classes." We'll revisit this subject now and spend more time looking at mixing functionality into classes.</p>
 
-<p>First, a quick recap: In JavaScript, a “class” is implemented as a constructor function and its prototype, whether you write it directly, or use the <code class="highlighter-rouge">class</code> keyword. Instances of the class are created by calling the constructor with <code class="highlighter-rouge">new</code>. They “inherit” shared behaviour from the constructor's <code class="highlighter-rouge">prototype</code> property.<sup id="fnref:delegate"><a href="#fn:delegate" class="footnote">1</a></sup></p>
+<p>First, a quick recap: In JavaScript, a "class" is implemented as a constructor function and its prototype, whether you write it directly, or use the <code class="highlighter-rouge">class</code> keyword. Instances of the class are created by calling the constructor with <code class="highlighter-rouge">new</code>. They "inherit" shared behaviour from the constructor's <code class="highlighter-rouge">prototype</code> property.<sup id="fnref:delegate"><a href="#fn:delegate" class="footnote">1</a></sup></p>
 
 <h3 id="the-object-mixin-pattern">the object mixin pattern</h3>
 
@@ -8262,7 +8264,7 @@ var fastestCar = function(cars) {
 }
 </code></pre>
 
-<p>And a “mixin” that is responsible for colour-coding:</p>
+<p>And a "mixin" that is responsible for colour-coding:</p>
 
 <pre><code>const Coloured = {
   setColourRGB ({r, g, b}) {
@@ -8284,7 +8286,7 @@ new Todo('test')
   //=&gt; {"name":"test","done":false,"colourCode":{"r":1,"g":2,"b":3}}
 </code></pre>
 
-<p>We can “upgrade” it to have a <a href="http://raganwald.com/2015/06/04/classes-are-expressions.html">private property</a> if we wish:</p>
+<p>We can "upgrade" it to have a <a href="http://raganwald.com/2015/06/04/classes-are-expressions.html">private property</a> if we wish:</p>
 
 <pre><code>const colourCode = Symbol("colourCode");
 
@@ -8463,7 +8465,7 @@ urgent.getColourRGB()
 
 <p>Such properties need not be values. Sometimes, classes have methods. And likewise, sometimes it makes sense for a mixin to have its own methods. One example concerns <code class="highlighter-rouge">instanceof</code>.</p>
 
-<p>In earlier versions of ECMAScript, <code class="highlighter-rouge">instanceof</code> is an operator that checks to see whether the prototype of an instance matches the prototype of a constructor function. It works just fine with “classes,” but it does not work “out of the box” with mixins:</p>
+<p>In earlier versions of ECMAScript, <code class="highlighter-rouge">instanceof</code> is an operator that checks to see whether the prototype of an instance matches the prototype of a constructor function. It works just fine with "classes," but it does not work "out of the box" with mixins:</p>
 
 <pre><code>urgent instanceof Todo
   //=&gt; true
@@ -8517,7 +8519,7 @@ urgent instanceof Coloured
   //=&gt; false
 </code></pre>
 
-<p>Do you need to implement <code class="highlighter-rouge">instanceof</code>? Quite possibly not. “Rolling your own polymorphism” is usually a last resort. But it can be handy for writing test cases, and a few daring framework developers might be working on multiple dispatch and pattern-matching for functions.</p>
+<p>Do you need to implement <code class="highlighter-rouge">instanceof</code>? Quite possibly not. "Rolling your own polymorphism" is usually a last resort. But it can be handy for writing test cases, and a few daring framework developers might be working on multiple dispatch and pattern-matching for functions.</p>
 
 <h3 id="summary">summary</h3>
 
@@ -8556,7 +8558,7 @@ urgent instanceof Coloured
       <p>A much better way to put it is that objects with a prototype <em>delegate</em> behaviour to their prototype (and that may in turn delegate behaviour to its prototype if it has one, and so on).&nbsp;<a href="#fnref:delegate" class="reversefootnote">↩</a></p>
     </li>
     <li id="fn:but">
-      <p>This may <strong>not</strong> work with various transpilers and other incomplete ECMAScript 2015 implementations. Check the documentation. For example, you must enable the “high compliancy” mode in <a href="http://babeljs.io">BabelJS</a>. This is off by default to provide the highest possible performance for code bases that do not need to use features like this.&nbsp;<a href="#fnref:but" class="reversefootnote">↩</a></p>
+      <p>This may <strong>not</strong> work with various transpilers and other incomplete ECMAScript 2015 implementations. Check the documentation. For example, you must enable the "high compliancy" mode in <a href="http://babeljs.io">BabelJS</a>. This is off by default to provide the highest possible performance for code bases that do not need to use features like this.&nbsp;<a href="#fnref:but" class="reversefootnote">↩</a></p>
     </li>
   </ol>
 </div>
@@ -8742,7 +8744,7 @@ class TimeSensitiveTodo extends Todo, Coloured {
 
 <h3 id="subclass-factories">subclass factories</h3>
 
-<p>However, JavaScript does not have “true” multiple inheritance, and therefore this code does not work. But we can simulate multiple inheritance for cases like this. The way it works is to step back and ask ourselves, “What would we do if we didn't have mixins or multiple inheritance?”</p>
+<p>However, JavaScript does not have "true" multiple inheritance, and therefore this code does not work. But we can simulate multiple inheritance for cases like this. The way it works is to step back and ask ourselves, "What would we do if we didn't have mixins or multiple inheritance?"</p>
 
 <p>The answer is, we'd force a square multiple inheritance peg into a round single inheritance hole, like this:</p>
 
@@ -8992,7 +8994,7 @@ new CanadianAirForceRoundel().roundels()
   ]
 </code></pre>
 
-<p>The method defined in the class is now the “definition of record,” just as we might expect. But it's not enough in and of itself.</p>
+<p>The method defined in the class is now the "definition of record," just as we might expect. But it's not enough in and of itself.</p>
 
 <h3 id="combining-advice-with-simple-mixins">combining advice with simple mixins</h3>
 
@@ -9000,7 +9002,7 @@ new CanadianAirForceRoundel().roundels()
 
 <p>Our adjustment will not allow a method in the class to invoke the body of a method in a mixin. So we can't use it to implement <code class="highlighter-rouge">TimeSensitiveTodo</code>. For that, we need a different tool, <a href="http://raganwald.com/2015/08/05/method-advice.html">method advice</a>.</p>
 
-<p>Method advice is a powerful tool in its own right: It allows us to compose method functionality in a declarative way. Here's a simple “override” function that decorates a class:</p>
+<p>Method advice is a powerful tool in its own right: It allows us to compose method functionality in a declarative way. Here's a simple "override" function that decorates a class:</p>
 
 <pre><code>let override = (behaviour, ...overriddenMethodNames) =&gt;
   (clazz) =&gt; {
@@ -9170,7 +9172,7 @@ class TimeSensitiveTodo extends Todo {
   };
 </code></pre>
 
-<p><code class="highlighter-rouge">before</code> should be used to decorate methods with setup or validation behaviour. Its “partner” is <code class="highlighter-rouge">after</code>, a decorator that runs behaviour after the decorated method is invoked:</p>
+<p><code class="highlighter-rouge">before</code> should be used to decorate methods with setup or validation behaviour. Its "partner" is <code class="highlighter-rouge">after</code>, a decorator that runs behaviour after the decorated method is invoked:</p>
 
 <pre><code>let after = (behaviour, ...decoratedMethodNames) =&gt;
   (clazz) =&gt; {
@@ -9259,10 +9261,10 @@ class Person {
 <div class="footnotes">
   <ol>
     <li id="fn:simplified">
-      <p>A production-ready implementation would handle more than just methods. For example, it would allow you to mix getters and setters into a class, and it would allow us to attach properties or methods to the target class itself, and not just instances. But this simplified version handles methods, simple properties, “mixin properties,” and <code class="highlighter-rouge">instanceof</code>, and that is enough for the purposes of investigating OO design questions.&nbsp;<a href="#fnref:simplified" class="reversefootnote">↩</a></p>
+      <p>A production-ready implementation would handle more than just methods. For example, it would allow you to mix getters and setters into a class, and it would allow us to attach properties or methods to the target class itself, and not just instances. But this simplified version handles methods, simple properties, "mixin properties," and <code class="highlighter-rouge">instanceof</code>, and that is enough for the purposes of investigating OO design questions.&nbsp;<a href="#fnref:simplified" class="reversefootnote">↩</a></p>
     </li>
     <li id="fn:fagnani">
-      <p>Justin Fagnani named this pattern “subclass factory” in his essay <a href="http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/">“Real” Mixins with JavaScript Classes</a>. It's well worth a read, and his implementation touches on other matters such as optimizing performance on modern JavaScript engines.&nbsp;<a href="#fnref:fagnani" class="reversefootnote">↩</a></p>
+      <p>Justin Fagnani named this pattern "subclass factory" in his essay <a href="http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/">"Real" Mixins with JavaScript Classes</a>. It's well worth a read, and his implementation touches on other matters such as optimizing performance on modern JavaScript engines.&nbsp;<a href="#fnref:fagnani" class="reversefootnote">↩</a></p>
     </li>
   </ol>
 </div>
@@ -9580,7 +9582,7 @@ way or inconsistently.</p>
 
 <p>My goal for this article is to demonstrate how to apply the Model-View-
 Controller pattern while developing a simple JavaScript component. The component
-is a kind of the HTML ListBox (“select” HTML tag) control with an editable list
+is a kind of the HTML ListBox ("select" HTML tag) control with an editable list
 of items: the user should be able to select and remove items and add new items
 into the list. The component will consist of three classes that corresponds to
 the parts of the <a href="http://en.wikipedia.org/wiki/Model-view-controller">Model-View-Controller</a> design pattern.</p>
@@ -9599,7 +9601,7 @@ defines typical components of the Model-View-Controller architecture as follows:
 <ul>
 <li><strong>Model</strong> - The domain-specific representation of the information on which the
 application operates. The model is another name for the domain layer. Domain
-logic adds meaning to raw data (e.g., calculating if today is the user’s
+logic adds meaning to raw data (e.g., calculating if today is the user's
 birthday, or the totals, taxes and shipping charges for shopping cart items).</li>
 <li><strong>View</strong> - Renders the model into a form suitable for interaction, typically a
 user interface element. MVC is often seen in web applications, where the view is
@@ -9683,11 +9685,11 @@ Event.prototype = {
 
 <p>The View class requires defining controls for interacting with. There are
 numerous alternatives of interface for the task, but I prefer a most simple one.
-I want my items to be in a Listbox control and two buttons below it: “plus”
-button for adding items and “minus” for removing selected item. The support for
-selecting an item is provided by Listbox’s native functionality. A View class is
-tightly bound with a Controller class, which “… handles the input event from
-the user interface, often via a registered handler or callback” (from
+I want my items to be in a Listbox control and two buttons below it: "plus"
+button for adding items and "minus" for removing selected item. The support for
+selecting an item is provided by Listbox's native functionality. A View class is
+tightly bound with a Controller class, which "… handles the input event from
+the user interface, often via a registered handler or callback" (from
 <a href="http://en.wikipedia.org/wiki/Model-view-controller">wikipedia.org</a>).</p>
 
 <p>Here are the View and Controller classes:</p>
@@ -10485,6 +10487,579 @@ function bootstrapper() {
 
 bootstrapper();
 </pre>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article style="display:none;">
+					<a id="t43" name="t43"></a><h1>43 : JavaScript's Magical Tips Every Developer Should Remember</h1>
+					<span class="ref-site">https://blog.zipboard.co/javascripts-magical-tips-every-developer-should-remember-631b699fc251</span>
+					<div class="tutorial__content">
+<div class="section-inner sectionLayout--insetColumn"><p name="f692" id="f692" class="graf graf--p graf-after--figure">Over the course of developing our product at <a href="http://zipboard.co" data-href="http://zipboard.co" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">zipBoard</a>, JavaScript has been our bedrock for all intents and purposes. As per <a href="http://stackoverflow.com/research/developer-survey-2016#developer-profile" data-href="http://stackoverflow.com/research/developer-survey-2016#developer-profile" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">this developer survey</a> at Stack Overflow, we’re in good company on this front. JavaScript is <em class="markup--em markup--p-em">the</em> most popular technology for full stack development. While I have been focusing mainly on NodeJS, and somewhat AngularJS, I have realized that there are always some tricks and tips involved in every programming language irrespective of its nature of existence.</p><p name="c962" id="c962" class="graf graf--p graf-after--p">I have seen (<em class="markup--em markup--p-em">so many times</em>) that we programmers can tend to make things over complicated, which in-turn leads to problems and chaos in the developing environment. It is beautifully explained by <a href="https://medium.com/@_ericelliott" data-href="https://medium.com/@_ericelliott" data-anchor-type="2" data-user-id="c359511de780" data-action-value="c359511de780" data-action="show-user-card" data-action-type="hover" class="markup--user markup--p-user" target="_blank">Eric Elliott</a> in his post.</p><p name="2a87" id="2a87" class="graf graf--p graf-after--mixtapeEmbed">Without further ado let’s get started with the cool tips for JavaScript:</p><p name="c940" id="c940" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">1. Use "var" when creating a new variable.</strong><br>Whenever you are creating a new variable always keep in mind to use "var" in front of the variable name unless you want to create a global variable. This is so because if you create a variable without using "var" its scope will automatically be global which sometime creates issues, unless required.</p><p name="4776" id="4776" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">2. Always use "===" as comparator instead of "==" (Strict equal)</strong><br>Use "===" instead of "==" because when you use "==" there is automatic type conversion involved which can lead to undesirable results.</p><pre name="127a" id="127a" class="graf graf--pre graf-after--p">3 == ‘3’ // true<br>3 === ‘3’ //false</pre><p name="d794" id="d794" class="graf graf--p graf-after--pre">This happens because in "===" the comparison takes place among the value and type.</p><pre name="6b6d" id="6b6d" class="graf graf--pre graf-after--p">[10] == 10   // is true<br>[10] === 10  // is false<br>'10' == 10   // is true<br>'10' === 10  // is false<br>[] == 0      // is true<br>[] === 0     // is false<br>'' == false  // is true<br>'' === false // is false</pre><p name="e2b8" id="e2b8" class="graf graf--p graf-after--pre"><strong class="markup--strong markup--p-strong">3. ‘undefined, null, 0, false, NaN, ‘’ (empty string)’ are all false conditions.</strong></p><p name="a3c4" id="a3c4" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">4. Empty an array</strong></p><pre name="a93c" id="a93c" class="graf graf--pre graf-after--p">var sampleArray = [2, 223, 54, 31];<br>sampleArray.length = 0; // sampleArray becomes []</pre><p name="a4ab" id="a4ab" class="graf graf--p graf-after--pre"><strong class="markup--strong markup--p-strong">5. Rounding number to N decimal places</strong></p><pre name="c301" id="c301" class="graf graf--pre graf-after--p">var n = 2.4134213123;<br>n = n.toFixed(4); // computes n = "2.4134"</pre><p name="5c55" id="5c55" class="graf graf--p graf-after--pre"><strong class="markup--strong markup--p-strong">6. Verify that your computation will produce finite result or not.</strong></p><pre name="0e19" id="0e19" class="graf graf--pre graf-after--p">isFinite(0/0);       // false<br>isFinite('foo');     // true<br>isFinite('10');      // true<br>isFinite(10);        // true<br>isFinite(undefined); // false<br>isFinite();          // false  <br>isFinite(null);      // true</pre><p name="d1db" id="d1db" class="graf graf--p graf-after--pre">Lets take an example to understand the use case of this function, suppose you have written a database query over a table which contains large amount of data and after the execution of query you are not certain about all the possible result values of that query. The data of query changes on something that you put dynamically in the query. In such a case you are not sure about finite property of the result and if you use that result directly it can give you infinite condition, which can break your code.</p><p name="ebba" id="ebba" class="graf graf--p graf-after--p">Hence, it is recommended to use <code class="markup--code markup--p-code">isFinite()</code> before any such operations so that infinite values can be handled properly.</p><p name="de4e" id="de4e" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">7. Use a switch/case statement instead of a series of if/else</strong></p><p name="6efb" id="6efb" class="graf graf--p graf-after--p">Using switch/case is faster when there are more than 2 cases, and it is more elegant (better organized code). Avoid using it when you have more than 10 cases.</p><p name="7ccc" id="7ccc" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">8. Use of "use strict" inside your file</strong><br>The string "use strict" will keep you from worrying about declaration of a variable which I mentioned in 1st point.</p><pre name="623b" id="623b" class="graf graf--pre graf-after--p"><em class="markup--em markup--pre-em">// This is bad, since you do create a global without having anyone to tell you<br></em>(function () {<br>   a = 42;<br>   console.log(a);<br>   <em class="markup--em markup--pre-em">// → 42</em><br>})();<br>console.log(a);<em class="markup--em markup--pre-em"><br>// → 42</em></pre><p name="c128" id="c128" class="graf graf--p graf--startsWithDoubleQuote graf-after--pre">"use strict" will keep you away from making above mistake. Using "use strict", you can get quite a few more errors:</p><pre name="8c59" id="8c59" class="graf graf--pre graf-after--p">(function () {<br>   "use strict";<br>   a = 42;<em class="markup--em markup--pre-em"><br>   // Error: Uncaught ReferenceError: a is not defined<br></em>})();</pre><p name="0d08" id="0d08" class="graf graf--p graf-after--pre">You could be wondering why you can’t put "use strict" outside the wrapping function. Well, you can, but it will be applied globally. That’s still not bad; but it will affect if you have code which comes from other libraries, or if you bundle everything in one file.</p><p name="3301" id="3301" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">9. Use &amp;&amp; and || to create magic</strong></p><pre name="cf60" id="cf60" class="graf graf--pre graf--startsWithDoubleQuote graf-after--p">"" || "foo"<em class="markup--em markup--pre-em"><br>// → "foo"</em></pre><pre name="477f" id="477f" class="graf graf--pre graf-after--pre">undefined || 42<em class="markup--em markup--pre-em"><br>// → 42</em></pre><pre name="cbff" id="cbff" class="graf graf--pre graf-after--pre">function doSomething () {<br>   return { foo: "bar" };<br>}<br>var expr = true;<br>var res = expr &amp;&amp; doSomething();<br>res &amp;&amp; console.log(res);<br><em class="markup--em markup--pre-em">// → { foo: "bar" }</em></pre><p name="cced" id="cced" class="graf graf--p graf-after--pre"><strong class="markup--strong markup--p-strong">Additionally, don’t forget to use a code beautifier when coding. Use </strong><a href="http://www.jslint.com/" data-href="http://www.jslint.com/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"><strong class="markup--strong markup--p-strong">JSLint</strong></a><strong class="markup--strong markup--p-strong"> and </strong><a href="https://en.wikipedia.org/wiki/Minification_%28programming%29" data-href="https://en.wikipedia.org/wiki/Minification_(programming)" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"><strong class="markup--strong markup--p-strong">minification</strong></a><strong class="markup--strong markup--p-strong"> (</strong><a href="https://pypi.python.org/pypi/jsmin" data-href="https://pypi.python.org/pypi/jsmin" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"><strong class="markup--strong markup--p-strong">JSMin</strong></a><strong class="markup--strong markup--p-strong">, for example) before going live. This will help you maintain a coding standard in your project and make it as standard as possible.</strong></p><p name="b73c" id="b73c" class="graf graf--p graf-after--p">The above is a mere reflection of the power of JavaScript.</p><p name="9db0" id="9db0" class="graf graf--p graf-after--p graf--trailing">Thanks for reading!</p></div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t44" name="t44"></a><h1>44 : 5 Features You Can Use in ES6 Today</h1>
+					<span class="ref-site">https://scotch.io/bar-talk/five-things-you-can-use-in-es6-today</span>
+					<div class="tutorial__content">
+<div class="content">
+                                <p>In my day job I'm the head of developer evangelism at <a href="https://www.pubnub.com?utm_source=Inbound&amp;utm_medium=scotchio&amp;utm_campaign=IN-CY17-Q1-XXX-XXX-March-14&amp;utm_term=utm-generator&amp;utm_content=utm-example/">PubNub</a>. We use
+Javascript heavily in our new product <a href="https://www.pubnub.com/products/blocks/?utm_source=Inbound&amp;utm_medium=scotchio&amp;utm_campaign=IN-CY17-Q1-XXX-XXX-March-14&amp;utm_term=utm-generator&amp;utm_content=utm-example/">BLOCKS</a>, which enables developers
+to run massively distributed Javascript code on the edge with very
+low latency. </p>
+<blockquote>
+<p>Needless to say, we care a lot about Javascript performance and features, which is why ES6 is so exciting to us.</p>
+</blockquote>
+<p><strong>The changes in ES6 have been massive, exciting, and confusing.</strong> In this essay I'll introduce five features of the new JavaScript that you can use right away to supercharge your code, and what features to hold off on. </p>
+<h2 id="ecmawhat"><a href="#ecmawhat"><span class="icon">#</span> Ecma-what?</a></h2>
+<p>JavaScript has had many versions over the years, but overall
+the evolution was slow until recently. I think More changes have
+happened in the past two years than in the previous twenty.
+ES 6 stands for EcmaScript 6. It's also called EcmaScript 2015,
+or ES 2015. These are all different names for the 'new Javascript'.</p>
+<p>I'm not entirely sure <em>why</em> JS has changed so much recently,
+but it seems to be because the owners of the major JavaScript engines
+have finally become interested in pushing the language forward.</p>
+<p>Also, the advent of <a href="https://scotch.io/tutorials/javascript-transpilers-what-they-are-why-we-need-them">transpilers</a> like <a href="https://scotch.io/tutorials/from-javascript-to-typescript-pt-i-types-variables">TypeScript</a> have made it possible to use new
+language features <em>before</em> they are built into the browsers. These
+two have combined to push JavaScript forward massively.</p>
+<p>JS matters because it's the fabric of the web, and increasingly used
+in server side apps with Node, and in mobile and desktop apps with Cordova,
+React Native, and Electron. </p>
+<blockquote>
+<p>In short: JS is everywhere </p>
+</blockquote>
+<p>So it matters that we push it forward. Languages which don't evolve start to die.
+Improving the language means we can improve our code. Our apps can
+have fewer bugs. And some of these features enable the runtimes
+to actually run code faster. So let's dive in, starting with
+variables.</p>
+<h2 id="the-problem-with-variables"><a href="#the-problem-with-variables"><span class="icon">#</span> The Problem with Variables</a></h2>
+<p>In Javascript when you want to create a variable you use
+the <code>var</code> keyword. <code>var</code> is great, but it has a couple of problems.
+First, variables always <em>vary</em>. There is no way to make a true
+constant in Javascript. You can sorta fake it by creating an object
+with an immutable property. You can override the setter of the
+property so that it can't be set by outside code, but it's a lot
+of extra typing and requires an entire object instead of
+a simple variable.</p>
+<pre><code>var VARS = {
+    foo
+        set = function() { }
+        get = function() { return 42 }
+}
+VARS.foo = 42; // now I have a constant</code></pre>
+<p>Regular Javascript variables also have a scoping problem. Take a look
+at this code.</p>
+<pre><code>function badCode() {
+    if(foo) {
+        var x = 5;
+    }
+    if(bar) {
+        console.log(x);
+    }
+}</code></pre>
+<p>Variables declared with <code>var</code> are global to the function they are
+defined in, <em>not the block</em>. You'd think that the log
+statement above wouldn't work because
+<code>bar</code> is defined in a different block.
+and in a language like java or C# you'd be right, but in
+Javascript <code>var</code> is global to a function, not a block.</p>
+<p>It gets worse when we add in <em>variable hoisting</em>. Consider
+this code</p>
+<pre><code>function badCode() {
+    console.log("foo is",foo);
+    var foo = 'bar';
+}</code></pre>
+<p>I'm using <code>foo</code> before I've defined it. What does this code <em>even mean</em>?
+Under the hood the javascript engine will hoist the variable
+declaration to the top of the function block. I can sort of see
+why you might want to hoist functions, but variable hoisting
+makes it very easy to introduce subtle bugs that are a pain
+to diagnose.</p>
+<p>Look at this <code>for</code> loop:</p>
+<pre><code>for(var i=0; i&lt;5; i++) {
+    console.log(i);
+}
+console.log(i);</code></pre>
+<p>The variable is only used inside the loop, but I can still
+reference it outside. This is just tons of bugs waiting to happen.</p>
+<p>The good news is we don't have to use var anymore. Instead we can use const and let.</p>
+<h2 id="introducing-const-and-let"><a href="#introducing-const-and-let"><span class="icon">#</span> Introducing const and let</a></h2>
+<p>The new keyword <code>const</code> does exactly what the name suggests.
+It makes a <em>real</em> constant. If you try to set the constant you'll
+get a runtime error. Even better, code linting systems can detect
+this kind of bug at compile time now, so you can find bugs earlier
+at development time rather than in production.</p>
+<p>The other new kind of variable is created with the <code>let</code> keyword.
+<code>let</code> is just like <code>var</code> but it is scoped by block
+instead of function. Now it does what we expect.</p>
+<pre><code>function goodCode() {
+    if(foo) {
+        let x = 5;
+    }
+    if(bar) {
+        console.log(x); //error
+    }
+}</code></pre>
+<p>Let's revisit the <code>for</code> loop example:</p>
+<pre><code>function goodCode() {
+    for(let i=0; i&lt;5; i++) {
+        console.log(i);
+    }
+    console.log(i); //error
+}
+</code></pre>
+<p>Now the <code>i</code> variable is restricted to the body of the <code>for</code> loop.
+There is no way it can be used outside accidentally.
+Also, <code>let</code> isn't hoisted, so all of those magic moving variables
+go away.</p>
+<p>The new keywords <code>const</code> and <code>let</code> are a complete replacement for
+<code>var</code>. With modern browsers and the newest versions of Node,
+there is no reason to use <code>var</code> anymore. Good riddance.</p>
+<h2 id="super-strings"><a href="#super-strings"><span class="icon">#</span> Super Strings</a></h2>
+<p>ES6 introduces a new type of string called <em>Template Literals</em>. I
+prefer to call them <em>Super Strings</em>.
+You use a super string just like a regular string, but instead of
+using single or double quotes, you use the back quote.</p>
+<pre><code>var q  = 'foo';
+var qq = "foo";
+
+var bq = `foo`;
+
+var qq = "Sally sells \"sea shells\"";
+var bq = `Sally sells "sea shells"`;</code></pre>
+<p>So far so good, but nothing is very different.  It does have one
+immediate advantage. If you need to use double or single quotes
+inside of a string you don't have to escape them anymore. However,
+super strings have a few other tricks up their sleeves.</p>
+<h3>Multiline Strings</h3>
+<p>Finally we can have real multi-line strings. Need to quote several
+lines of something? You don't have to escape newlines or do join
+tricks anymore. Just put in the newlines directly and it works.</p>
+<pre><code>var qq = "this is a very long"
+  + " piece of text that goes over several lines"
+  + " and would require silly hacks";
+
+var bq = `this is a very long
+    piece of text that goes over several lines
+    and would require silly hacks`;</code></pre>
+<h3>Expression escaping</h3>
+<p>Another new feature is <em>expression escaping</em>.
+Within a super string you can put <code>${}</code> with any valid
+Javascript expression inside the brackets. This is much cleaner than
+double escaping your quotes, and recent IDEs will
+syntax highlight these expressions nicely.</p>
+<pre><code>var name = "Alice";
+var greeting = `Good morning ${name}`;
+var amount = 5;
+var price = 3;
+var sales = `That costs ${amount*price} dollars`;&lt;/pre&gt;</code></pre>
+<p>Combining expression escaping with multiline support gives
+us great HTML templates. </p>
+<pre><code>var template = `
+  &lt;div&gt;
+    &lt;h3&gt;Good Morning ${name}&lt;/h3&gt;
+    &lt;p&gt;
+      That item will cost you
+      &lt;b&gt;${amount*price}&lt;/b&gt;
+      dollars.
+    &lt;/p&gt;
+  &lt;/div&gt;`</code></pre>
+<h2 id="arrow-functions"><a href="#arrow-functions"><span class="icon">#</span> Arrow Functions</a></h2>
+<p>So that was strings and variables, but now let's take a look
+at functions. If you've heard anything about ES6 before, it was
+probably about <em>arrow functions</em>. These are a different syntax
+to write regular functions but with a more compact
+syntax. They also have one very important difference:
+the <code>this</code> variable means something different. Let's look at some
+code.</p>
+<p>Suppose you want to loop over an array to double the values
+within it, producing a new array. You could do it with the
+following <code>for</code> loop,  but that creates extra variables
+and it can be easy to accidentially break early or get the
+index wrong. plus it's a lot of extra typing.</p>
+<pre><code>var output = [];
+for(var i=0; i&lt;;input.length; i++) {
+    output[i] = input[i] * 2;
+}</code></pre>
+<p>Javascript arrays have a method called <code>map</code> which calls a
+function on every element to generate a new element,
+which are then placed into a new array. It works like this:</p>
+<pre><code>var output = input.map(function(x) {
+    return x * 2;
+});</code></pre>
+<p>This looks better but it would be nice to make it smaller.
+The <code>x*2</code> part is the only thing which actually does any work.
+The rest is syntactic overhead. With an arrow function
+we can do it like this:</p>
+<pre><code>var output = input.map((x)=&gt;x*2);</code></pre>
+<p>Woah! That's a lot smaller. Let me explain what happened. An
+arrow function lets you rewrite a function without the actual
+<code>function</code> word. Instead you put the <code>=&gt;</code> after the parenthesis
+containing the function parameters. </p>
+<pre><code>//regular
+function (x) {
+    return x * 2;
+}
+//arrow style
+(x) =&gt; {
+    return x * 2;
+}</code></pre>
+<p>Arrow functions let us write the same thing smaller. But we can
+make it event shorter. Let's remove the whitespace. Same code just shorter.</p>
+<pre><code>(x) =&gt; { return x * 2; }</code></pre>
+<p>But we can make it <em>even</em> shorter still. If the arrow function
+contains only a single expression, we can remove the return and
+the braces and semicolon, resulting in a tiny one line expression
+which automatically returns it's value. This is so much cleaner.</p>
+<pre><code>(x) =&gt; x * 2
+var output = input.map((x)=&gt;x*2);</code></pre>
+<p>Arrow functions can make your code very compact and powerful. But there's
+one more trick up it's sleeve. It fixes <code>this</code>.</p>
+<h3>The Curse of This</h3>
+<p>In Javascript the magic variable <code>this</code> always refers to the object
+that the function is called on. So code like the following doesn't
+do what you think it does. </p>
+<pre><code>function App() {
+    this.clicked = false;
+    var button = document.getElementById('button');
+    button.addEventListener('click', function(evt) {
+        this.clicked = true; //won't do what you think
+    });
+}</code></pre>
+<p>When you are using other objects the <code>this</code> context may be
+different than what you expect. When you pass a function to
+somewhere else to be called back, it may call the function
+with a different 'this'. If you add an event
+handler to a button the button will be the 'this'. Sometimes
+that's what you want, but in the code above it isn't. We want
+<code>this</code> to be the surrounding App object, not the button.</p>
+<p>This is a long standing problem with Javascript. It's so common
+that developers have created something known as the <em>self</em> pattern
+where you save the correct <code>this</code> reference using a temporary
+variable <code>self</code>. It's yucky but it works.</p>
+<pre><code>function App() {
+    this.clicked = false;
+    var button = document.getElementById('button');
+    &lt;b&gt;var self = this;&lt;/b&gt;
+    button.addEventListener('click', function(evt) {
+        self.clicked = true;
+    });
+}</code></pre>
+<p>Another way to solve the problem is to <em>bind</em> the function.
+The <code>bind</code> method forces the <code>this</code> to be a specific object,
+regardless of how the function is latter called.</p>
+<pre><code>function App() {
+    this.clicked = false;
+    var button = document.getElementById('button');
+    var callback = (function(evt) {
+        this.clicked = true
+    })&lt;b&gt;.bind(this);&lt;/b&gt;
+    button.addEventListener('click',callback);
+}</code></pre>
+<p>Again, this will <em>work</em> but it's not great. We now
+have extra code to write, and underneath doing a bind can create
+extra overhead. Arrow functions give us a better way to do it.</p>
+<pre><code>function App() {
+    this.clicked = false;
+    var button = document.getElementById('button');
+    button.addEventListener('click',()=&gt;{
+        this.clicked = true;
+    });
+}</code></pre>
+<p>Arrow functions automatically capture the <code>this</code> var from the surrounding
+context of where the function <em>is defined</em>,
+not from where the function <em>is used</em>.
+This means you can pass the function to some other place and absolutely
+know that right version of <code>this</code> will be used.
+In the code above everything works perfectly without any yucky hacks.</p>
+<p>In short, arrow functions are really awesome. I try to use them
+everywhere I can. They make your code shorter, easier to
+read, and <code>this</code> becomes sensible again.</p>
+<h2 id="promises"><a href="#promises"><span class="icon">#</span> Promises</a></h2>
+<p>Another great feature of arrow functions is that they work well
+with Promises. A Promise is a new kind of object in Javascript
+designed to help with things that take a long time to execute.
+Javascript doesn't have threads so if you want to do something that
+might take a long time then you have to use callbacks.</p>
+<p>For example, in Node you might want to load a file, parse it,
+make a database request, then write a new file. These must all be
+done in order, but they are all asynchronous so you have to start
+nesting your callbacks. This produces what JS hackers like to
+call <em>The Pyramid of Doom</em>. You get massively nested code.</p>
+<pre><code>fs.readFile("file.txt", function(err, file) {
+    db.fetchNames(function(err, names) {
+        processFile(file, names, function(err, outfile) {
+            fs.writeFile('file.txt',outfile, function(err, status) {
+                console.log("we are done writing the file");
+            })
+        });
+    })
+});</code></pre>
+<p>This code is ugly, hard to reason about, and has lots of nasty corners
+for bugs to hide. Promises help us defeat the pyramid of doom.</p>
+<p>A Javascript <code>Promise</code> is an object that represents a value which may not be
+available yet. It <em>promises</em> to have the value in the future.
+You can add a callback to be invoked when the final value is ready
+using the <code>then</code> function.</p>
+<pre><code>var prom = makeSomePromise();
+//value not ready yet
+prom.then((value)=&gt;{
+    //do something with the value
+})</code></pre>
+<p>Promises with <code>then</code> callbacks are much like traditional callbacks,
+but promises add an extra twist: they can be <em>chained</em>.  Let's revisit
+our code from before. Each of the functions must be called in order,
+and each depends on the result of the previous one. Using promises
+we can do it like this instead. </p>
+<pre><code>    fs.readFile("file.txt")
+        .then((file) =&gt; {
+            return db.fetchNames().then((names)=&gt;{
+                return processFile(file,names)
+            })
+        })
+        .then((outfile)=&gt;{
+            return fs.writeFile('file.txt',outfile);
+        })
+        .then(()=&gt;{
+            console.log("we are done writing the file");
+        });</code></pre>
+<p>Notice how the arrow functions make this nice and clean.
+Each <code>then()</code> callback returns a value. This value is passed
+to the next one so all of our functions can be easily chained.</p>
+<p>Now you'll notice that the <code>processFile</code> command needs the result
+of the previous <em>two</em> values however a promise only passes one value.
+We also don't care what order <code>readFile</code> and <code>fetchNames</code> happens
+in. We just want to know when both are completed. Promise can do this
+too.</p>
+<h3>Promise.all</h3>
+<p>Suppose want to load each file from an array of filenames and be
+be notified when they are all done. We can do that with <code>Promise.all()</code>.
+<code>all</code> is a utility method on <code>Promise</code> which takes an array of promises and returns a new promise that resolves when all of the sub-promises complete.
+Here's how we would load all of the files with <code>Promise.all</code>. (assume that
+<code>readFile</code> is a function which returns a promise to read the file).</p>
+<pre><code>var proms = filenames.map((name)=&gt; readFile(name));
+Promise.all(proms).then((files)=&gt;{
+    console.log(`we have ${files.length} files`);
+});</code></pre>
+<p>Now we can rewrite our original Node example like this:</p>
+<pre><code>Promise.all([
+    fs.readFile("file.txt"),
+    db.fetchNames()
+])
+.then((vals) =&gt; processFile(vals[0],vals[1]))
+.then((outfile)=&gt; fs.writeFile('file.txt',outfile))
+.then(()=&gt; console.log("we are done writing the file"));</code></pre>
+<p>I've combined the read file and database calls into a
+single promise using <code>Promise.all</code>. The value it will
+return is an array containing the results of both sub-promises,
+so I can then put them into <code>processFile</code>. Notice that I've
+also used the abbreviated arrow syntax to make the code smaller
+and cleaner.</p>
+<h3>Handling Failure</h3>
+<p>Now consider what happens if one of these Promises fails?  To
+handle the first one failing we could put in a try / catch block,
+but the next <code>then</code> will still be called. Really we want everything
+to stop if the first one fails. Promises have another trick up
+their sleeves: the catch callback.</p>
+<p>In the new version below if anything fails it will immediately jump to the
+catch callback at the end, skipping the rest. After the catch we
+can still add more then clauses.</p>
+<pre><code>Promise.all([
+    fs.readFile("file.txt"),
+    db.fetchNames()
+])
+.then((vals) =&gt; processFile(vals[0],vals[1]))
+.then((outfile)=&gt; fs.writeFile('file.txt',outfile))
+.then(()=&gt; console.log("we are done writing the file"))
+.catch((e) =&gt; {
+    console.log("some error happened");
+});</code></pre>
+<h3>Making your own Promises</h3>
+<p>Of course promises only work if the APIs we call actually use them.
+Lots of libraries are starting to switch over to
+promises, but while we wait we can make our own promises too.
+We do it with the <code>Promise</code> constructor.</p>
+<pre><code>function makePromise(foo,bar) {
+    return new Promise((resolve, reject) =&gt; {
+        try {
+            //do long stuff
+            resolve(value);
+        } catch {
+            reject(error);
+        }
+    });
+}</code></pre>
+<p>It takes two values: <code>resolve</code> and <code>reject</code>. Each of these are
+callback functions. Inside you do whatever you need to do that
+takes a long time, even if it involves multiple callbacks.
+When you are completely done invoke <code>resolve()</code> with the final
+value. This will then be sent the to the first <code>then</code>
+clause of whatever uses your promise.</p><p></p>
+<p>If something bad happens and you want to reject the value,
+instead of throwing an error use the <code>reject()</code>, passing
+whatever alternate value you want.</p>
+<p>Here's a real-life example. I use AJAX calls all the
+time but they can be ugly, like this.</p>
+<pre><code>var url = "http://api.silly.io/api/list/e3da7b3b-976d-4de1-a743-e0124ce973b8?format=json";
+
+var xml = new XMLHttpRequest();
+xml.addEventListener('load', function() {
+    var result = JSON.parse(this.responseText);
+    console.log(result);
+});
+xml.addEventListener('error',function(error) {
+    console.log("something bad happened");
+});
+xml.open("GET",url);
+xml.send();</code></pre>
+<p>Let's wrap this code up in a promise.</p>
+<pre><code>function doGet(url) {
+    return new Promise((resolve,rej)=&gt;{
+        var xml = new XMLHttpRequest();
+        xml.addEventListener('load', function() {
+            var result = JSON.parse(this.responseText);
+            resolve(result);
+        });
+        xml.addEventListener('error',function(error) {
+            reject(error);
+        });
+        xml.open("GET",url);
+        xml.send();
+    });
+}</code></pre>
+<p>This is still the same basic code, but I can call it like this instead.</p>
+<pre><code>var url = "someapi.com/dostuff?foo=bar";
+doGet(url).then((obj)=&gt;{
+    console.log(obj);
+});</code></pre>
+<p>Wow, that's <em>so</em> much cleaner. In reality I don't need make my own
+AJAX Promise wrapper because there is a new web standard called
+Fetch which already does this for me. Fetch isn't quite supported in
+all browsers yet, so we can use our own until then.</p>
+<p>Promises can be a bit tricky to wrap your head around at
+first, but once you start using them I think you'll really like
+them. They make it very easy to pull multiple functions together
+into a single workflow that makes logical sense, and to
+properly catch all errors along the way.</p>
+<h2 id="arrays"><a href="#arrays"><span class="icon">#</span> Arrays</a></h2>
+<p>Finally I want to show you a bunch of new Array features.
+Most of these aren't exactly <em>new</em> for ES6, and in fact some of
+them are quite old. However, they are finally supported everywhere
+and play nicelly with Arrow Functions and Promises, so I think of them
+as new.</p>
+<p>Suppose you want to do something to every element of an array. Instead
+of using a for loop, use the <code>forEach</code> or <code>map</code> functions.</p>
+<pre><code>var values = [1,2,3,4,5,6,7,8,9,10];
+values.forEach((x)=&gt;console.log(x));
+var doubled = values.map((x) =&gt; x*2);</code></pre>
+<p>The <code>forEach</code> function runs the callback on every element of the
+array. The <code>map</code> function also runs on each element, but it stores the
+results of each callback into a new array.</p>
+<p>If you want to transform an array by including only certain values,
+use the <code>filter</code> function.</p>
+<pre><code>//find all values that match the filter
+var evens = values.filter((x)=&gt;x%2==0);</code></pre>
+<p>Array also has functions to find single values within the array based
+on some criteria.</p>
+<pre><code>//find the first that matches
+var six = values.find((x) =&gt;  x &gt;= 6);
+//find the index of the first that match
+var index = values.findIndex((x) =&gt;  x &gt;= 6);
+//true if at least one item matches
+var any = values.some((x) =&gt; x &gt; 10);</code></pre>
+<p>Finally arrays can be reduced to a single value with the <code>reduce</code> function.
+<code>reduce</code> is very powerful and can be used to do lots of things like
+summing an array or flattening nested arrays</p>
+<pre><code>//reduce the array to a single value
+var sum = values.reduce((a,b) =&gt; a+b, 0);
+//flatten nested arrays
+var list1 = [[0, 1], [2, 3], [4, 5]];
+var list2 = [0, [1, [2, [3, [4, [5]]]]]];
+const flatten = arr =&gt; arr.reduce(
+  (acc, val) =&gt; acc.concat(
+    Array.isArray(val) ? flatten(val) : val
+  ),
+  []
+);
+flatten(list1); // returns [0, 1, 2, 3, 4, 5]
+flatten(list2); // returns [0, 1, 2, 3, 4, 5]</code></pre>
+<p>To loop over the properties in an object you can use the <code>Object.keys</code>
+to get an array of property names, then loop over it with <code>forEach</code></p>
+<pre><code>var obj = {
+    first:'Alice',
+    middle:'N',
+    last:'Wonderland',
+    age:8,
+    height:45,
+}
+Object.keys(obj).forEach((key)=&gt;{
+    console.log("key = ", key);
+    console.log("value = ", obj[key]);
+});</code></pre>
+<h2 id="things-to-avoid"><a href="#things-to-avoid"><span class="icon">#</span> Things to Avoid</a></h2>
+<p>The five features I've shown you can be used today, but there's
+a lot of other things in ES6 that you should avoid for time being;
+either because they don't provide much value or aren't well supported
+yet. These include:</p>
+<ul>
+<li>Destructuring</li>
+<li>Modules</li>
+<li>Default Parameters</li>
+<li>Spread Operator</li>
+<li>Symbols</li>
+<li>Generators and Iterators</li>
+<li>Weak Maps and Weak Sets</li>
+<li>Proxies</li>
+</ul>
+<p>Destructuring allows you to pull values out of an object by name.
+It can be useful in a few situations, but the best use I've found is
+extracting functions from modules. Unfortunately modules are still a
+mess and don't work the same everywhere, so avoid them for now. </p>
+<p>Along with destructuring you can do without tricks like default
+parameters, and the spread operator. I find these to be more
+trouble than they are worth, at least for now.</p>
+<p>Symbols, generators, iterators, weak maps and sets, and proxies
+are genuinely useful but they aren't supported everywhere yet so I
+suggest you wait a while before using them.</p>
+<p>There is also a new class syntax. It still uses JavaScript's
+prototypical inheritance, but it makes the syntax of defining a
+class cleaner and consistent. However, it is also not as valuable
+without the new module support so I suggest waiting a bit longer.</p>
+<pre><code>class Foo extends Bar {
+    constructor(stuff) {
+        super(stuff);
+        this.first = "first name"
+    }
+    doStuff() {
+    }
+    doMoreStuff() {
+    }
+}</code></pre>
+<h2 id="can-i-use-it"><a href="#can-i-use-it"><span class="icon">#</span> Can I Use It?</a></h2>
+<p>Most desktop and mobile browsers support everything I've shown you.
+However, depending on your audience you may have older
+browsers / older mobile OSes that don’t.  Whenever you want to know
+if something is ready, go to <a href="http://caniuse.com">caniuse.com</a>. It
+will tell you what versions of each browser support what.</p>
+<p>If you need to support IE &lt; 10, there's a good chance you'll want to use a <a href="https://scotch.io/tutorials/javascript-transpilers-what-they-are-why-we-need-them">transpiler</a> like <a href="https://scotch.io/tutorials/from-javascript-to-typescript-pt-i-types-variables">TypeScript</a> or <a href="https://babeljs.io">Babel</a></p>
+<p>So those are five awesome features of ES6 that you can start
+using right away. More stuff is coming, but you don't need to wait to
+use these. Get to codin'. And if you want go use them in
+low latency data stream driven Javascript code, go check out
+<a href="https://www.pubnub.com/products/blocks/?utm_source=Inbound&amp;utm_medium=scotchio&amp;utm_campaign=IN-CY17-Q1-XXX-XXX-March-14&amp;utm_term=utm-generator&amp;utm_content=utm-example/">PubNub BLOCKS</a>. </p>
+<h3>Sample Code</h3>
+<p>We've created <a href="https://www.pubnub.com/blocks-catalog/?utm_source=Inbound&amp;utm_medium=scotchio&amp;utm_campaign=IN-CY17-Q1-XXX-XXX-March-14&amp;utm_term=utm-generator&amp;utm_content=utm-example/">a catalog of example code</a> that uses Arrow Functions and Promises
+to communicate with lots of useful realtime webservices like
+on-the-fly language translation, geo-coding, and chatbot apis.</p>
+                                                                    <p>This content is <strong>sponsored</strong> via <a href="https://synd.co/1tbGq6z">Syndicate Ads</a>
+                                
+                            </p></div>
 					</div>
 				</article>
 				<!--================= END :: Tutorial =================-->
