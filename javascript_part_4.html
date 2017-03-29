@@ -142,6 +142,7 @@ table td { border: 1px solid #999; padding: 5px;}
 	<a href="#t42"><h1>Hello World : A "Hello World"-like example of Javascript using the MVC pattern.</h1></a>
 	<a href="#t43"><h1>JavaScript's Magical Tips Every Developer Should Remember</h1></a>
 	<a href="#t44"><h1>5 Features You Can Use in ES6 Today</h1></a>
+	<a href="#t45"><h1>Asynchronous in the Browser</h1></a>
 </div>
 		<!--================= END :: Tutorial Index =================-->
 		
@@ -11060,6 +11061,474 @@ on-the-fly language translation, geo-coding, and chatbot apis.</p>
                                                                     <p>This content is <strong>sponsored</strong> via <a href="https://synd.co/1tbGq6z">Syndicate Ads</a>
                                 
                             </p></div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t45" name="t45"></a><h1>45 : Asynchronous in the Browser</h1>
+					<span class="ref-site">http://www.datchley.name/asynchronous-in-the-browser/</span>
+					<div class="tutorial__content">
+<section class="post-content">
+    <p>Asynchronous programming can be a hard thing to wrap your head around as a programmer if you're used to direct, synchronous style programming. In the browser, the most familiar form of asynchronous programming is likely the DOM event API.  But, asynchronous development in the browser happens in a number of places:</p>
+
+<ul>
+<li>DOM Events</li>
+<li>Browser API calls like <code>setTimout()</code>, <code>setInterval()</code> and <code>setImmediate()</code></li>
+<li>XHR (XML HTTP Requests), or Ajax calls</li>
+</ul>
+
+<p>This post will look at the primary mechanism used to handle asynchronous programming in the browser - callbacks.  We'll look at standard callbacks and continuation passing style (CPS); and various patterns used to implement those and keep them efficient. Don't worry, though, in the next part we'll cover a better asynchronous design pattern: Promises.</p>
+
+<h2 id="asyncvssynchronous">Async vs Synchronous</h2>
+
+<p>In direct style, synchronous programming, one task follows another task, and so forth, until all the tasks are complete. Each task completes its work and returns execution before the next task can begin.  This is easy to reason about as a developer - things happen in a sequence.</p>
+
+<pre><code>first();  
+second();  
+last();  
+</code></pre>
+
+<p>Even when the sequence is chained, via the first step calling the second step, which calls the last step.  It's still fairly easy to follow the chain of execution in the sequence.</p>
+
+<p>For example:  </p>
+
+<pre><code>function getList() { return [1,2,3,4,5,6]; }  
+function getEvens() {  
+  return addFour().filter(function(item) { return item % 2 == 0; });
+}
+function addFour() {  
+  return getList().map(function(item) { return item + 4; });
+}
+function sum() {  
+  return getEvens().reduce(function(sum, n){ return (sum += n); }, 0);
+}
+console.log("sum =", sum());  
+</code></pre>
+
+<p>In the above example the synchronous flow of events looks like this:</p>
+
+<p><a href="http://www.datchley.name/content/images/2015/06/synchronous-chain-sequence-diagram.png" class="lightbox" data-featherlight="image"><img src="http://www.datchley.name/content/images/2015/06/synchronous-chain-sequence-diagram.png" alt="" draggable="true" data-bukket-ext-bukket-draggable="true"></a></p>
+
+<p>Each function in the chain simply calls the next function in the chain, returning a result.</p>
+
+<p>However, if our <code>getList()</code> function had to fetch the list from a remote resource (<em>asynchronously</em>), how would we handle processing the results?  This is where callbacks come into play.</p>
+
+<h3 id="callbacks">Callbacks</h3>
+
+<p>Many of you are likely already familiar with the concept of callbacks as you use them every time you listen for DOM events, or use jQuery's <code>$.ajax()</code> or even the browser's timer API calls like <code>setTimeout()</code> and its relatives.</p>
+
+<p>At its most basic, a function that performs a task asynchronously will immediately return, so as not to block the main execution thread<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>. It will typically use some browser API (setTimeout, XHR) to perform its processing in the background until it finishes. </p>
+
+<p>But, in order to allow you to process the results of that long running task, those functions take an extra argument which is a function to call with that result once it's ready.  That function is termed a <em>callback</em>.</p>
+
+<p>Let's reimplement our <code>getList()</code> method to operate asynchronously and take a callback to allow us to continue processing its results.</p>
+
+<pre><code>function getList(callback) {  
+  // runs asynchronously and immediately returns
+  setTimeout(function(){ callback([1,2,3,4,5,6]); }, 2000);
+}
+function getEvens(list) {  
+  return list.filter(function(item) { return item % 2 == 0; });
+}
+function addFour(list) {  
+  return list.map(function(item) { return item + 4; });
+}
+function sum(list) {  
+  var res = getEvens(list);
+  res = addFour(res);
+  console.log(res.reduce(function(sum, n){ return (sum += n); }, 0));
+}
+
+getList(sum);  
+console.log("waiting...");  
+// waiting... (2 seconds pass)
+// 24
+</code></pre>
+
+<p>Now that <code>getList()</code> immediately returns, we have to wrap our previous synchronous calls in a function that we pass to <code>getList()</code> as the callback.  In this case, we just modified the <code>sum()</code> function to wrap our tasks to perform after receiving the results from <code>getList()</code>. We have to move all of our processing of the results into the callback function, as the callback is the only scope in which the results of the asynchronous process are available.</p>
+
+<p>Here's the control flow for our asynchronous version of <code>getList()</code>.</p>
+
+<p><a href="http://www.datchley.name/content/images/2015/06/async-chain-sequence-diagram.png" class="lightbox" data-featherlight="image"><img src="http://www.datchley.name/content/images/2015/06/async-chain-sequence-diagram.png" alt="" draggable="true" data-bukket-ext-bukket-draggable="true"></a></p>
+
+<p>Since <code>getList()</code> returns immediately, we see the output from the <code>console.log()</code> statement before our callback completes its processing.</p>
+
+<p>If we have a series of asynchronous tasks that allow you to handle processing via a callback, we have to build up a nested callback structure.</p>
+
+<pre><code>function asyncTask(fn) {  
+  return setTimeout(function(){ fn(); }, 2000); 
+}
+
+function foo(n, fn) {  
+  asyncTask(function(val){ fn(n); });
+}
+function bar(n, fn) {  
+  asyncTask(function(val){ fn(n); });
+}
+function baz(n, fn) {  
+  asyncTask(function(val){ fn(n); });
+}
+
+var n = 1;  
+foo(n, function(res) {  
+  bar(res+1, function(res) {
+    baz(res+1, function(res) {
+      console.log("result =", res);
+    });
+  });
+});
+// 6 seconds pass...
+// result = 3
+</code></pre>
+
+<p>Even with the simplified code above, you can see why this situation is referred to as <em>callback hell</em>.  Working with numerous asynchronous tasks that are interdependent can be a nightmare to manage with callbacks in this fashion.  Here's the sequence diagram for that flow.</p>
+
+<p><a href="http://www.datchley.name/content/images/2015/06/async-nested-sequence-diagram.png" class="lightbox" data-featherlight="image"><img src="http://www.datchley.name/content/images/2015/06/async-nested-sequence-diagram.png" alt="" draggable="true" data-bukket-ext-bukket-draggable="true"></a></p>
+
+<h3 id="continuationpassingstylecps">Continuation Passing Style (CPS)</h3>
+
+<p>Continuation Passing Style is common in the node API, among other places. The idea behind continuation passing style is:</p>
+
+<ul>
+<li>no function is allowed to return to it's caller.</li>
+<li>Each function takes a callback or continuation function as its last argument</li>
+<li>that continuation function is the last thing to be called</li>
+</ul>
+
+<pre><code>function foo() {  
+  bar(function (res) {
+    console.log("result = " + res);
+  });
+}
+function bar(fn) {  
+  baz(fn);
+}
+function baz(fn) {  
+  fn(3);
+}
+foo();  
+</code></pre>
+
+<p>The above code sample shows a set of functions written using CPS. Each function's last (<em>and only in this example</em>) argument is a callback. Once you start writing functions using CPS, everything else must follow suit and become CPS as well.</p>
+
+<p>Here's the control flow sequence for the above example:</p>
+
+<p><a href="http://www.datchley.name/content/images/2015/06/cps-sync-sequence-diagram.png" class="lightbox" data-featherlight="image"><img src="http://www.datchley.name/content/images/2015/06/cps-sync-sequence-diagram.png" alt="" draggable="true" data-bukket-ext-bukket-draggable="true"></a></p>
+
+<p>CPS works well for systems that are asynchronous by default, like node, where the event loop constantly runs and the API functions as callbacks.  Converting direct style programming to CPS, however, requires some work and some different thinking about how your processing takes place.</p>
+
+<p>Let's take the following expression and convert it to use <em>Continuation Passing Style</em>.</p>
+
+<pre><code>var a=1, b=2, c=3, d=4, e=5;  
+(a + ((Math.pow(b, 2)) * c) / d) - e;   // -4
+</code></pre>
+
+<p>A simple, direct mathematical expression; and not something you would want or need to convert to CPS; but for this example, it gives us a good view into how functions can be modified to work in this style.  We'll convert each arithmetic operation into it's own function that operates according to CPS rules.</p>
+
+<pre><code>function mul(x, y, cont) { cont(x*y); }  
+function add(x, y, cont) { cont(x+y); }  
+function sub(x, y, cont) { cont(x-y); }  
+function div(x, y, cont) { cont(x/y); }  
+function sqr(x, cont) { cont(x^2); }
+
+sqr(b, function(res){  
+  mul(res, c, function(res) {
+    div(res, d, function(res) {
+      add(a, res, function(res) {
+        sub(res, e, function(res) {
+          console.log(res);  // -4
+        });
+      });
+    });
+  });
+});
+</code></pre>
+
+<p>In order to handle processing, we have to nest each call to retain the scope and results passed to each callback. This gives us another case of the <em>pyramid of doom</em> or callback hell. </p>
+
+<p>However, we can attempt to flatten the nested series of callbacks to make our code easier to read; as well as easier to reason about. </p>
+
+<h3 id="thestacktailcalls">The Stack &amp; Tail Calls</h3>
+
+<p>In stack based languages, like Javascript, function invocations create a new "frame" on the stack which holds the context, scope identifiers, return location and other items necessary to execute the function and return control to the caller.</p>
+
+<p>The stack itself is memory resident, and so the stack is typically a much smaller portion of the memory allocated for the browser.  This means stack space is limited. When a function returns, its stack frame is removed from the stack which frees that memory.</p>
+
+<p>If you've ever written a recursive function, you've likely run up against the infamous <code>Range Error: Maximum call stack size exceeded</code> message.  For example, take a simple factorial function written in recursive style:</p>
+
+<pre><code>function factorial(n) {  
+  return n ? n * factorial(n-1) : 1;
+}
+factorial(10);     // 3628800  
+factorial(1000);   // Infinity  (integer overflow!)  
+factorial(32768);  // Range Error: stack size exceeded  
+</code></pre>
+
+<p>We'll ignore the issue with integer overflow on <code>factorial(1000)</code> causing a result of <code>Infinity</code> (<em>a special value in Javascript</em>)<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup> as it's out of the scope of our conversation at the moment. It's the <code>Range Error</code> that interests us here.</p>
+
+<p>Because the stack is limited in memory size, there are only so many nested functions you can call - as in the case of our recursive <code>factorial()</code> function.  This could be solved, however, if Javascript's runtime handled "tail call elimination"<sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup>.</p>
+
+<p>Tail calls occur when a function returns the result of calling another function.  That function is said to be in <em>tail position</em>. Our <code>factorial</code> function isn't optimized for tail call elimination, since the it returns the result of an expression (<code>n * factorial(n-1)</code>), not a function invocation; </p>
+
+<p>If Javascript had tail call optimization, we could rewrite our <code>factorial()</code> function to take advantage of that feature like so:</p>
+
+<pre><code>function factorial(n) {  
+  function _factorial(n, acc) {
+    acc || (acc = 1);
+      return n ? _factorial(n-1, n*acc) : acc;  // tail call
+  }
+  return _factorial(n);
+}
+</code></pre>
+
+<p>Tail call optimization would transform the recursive calls into an iterative loop, which gives us a constant stack space and is much more efficient.</p>
+
+<p>CPS falls into this same category of having tail calls, as each continuation function passed is an explicit tail call; and hence, could be optimized by the language runtime. But without optimization, CPS alone can lead to growing stack problems.</p>
+
+<h3 id="trampolining">Trampolining</h3>
+
+<p>We can optimize for tail calls ourselves by either writing the function in tail position as a loop:</p>
+
+<pre><code>function factorialL(n) {  
+    var acc = 1;
+    while(n) {
+        acc *= n--;
+    }
+    return acc;
+}
+</code></pre>
+
+<p>or using a technique called <em>trampolining</em>.  Trampolining is common in functional programming and provides us a way to call our function in tail position without growing the stack.</p>
+
+<p>Here's an implementation of the <code>trampoline()</code> function:  </p>
+
+<pre><code>function trampoline(fn) {  
+    var args = [].slice.call(arguments, 1);
+    while (fn &amp;&amp; fn instanceof Function) {
+        fn = fn.apply(this, args);
+    }
+    return fn;
+}
+</code></pre>
+
+<p>The trampoline works by continuously executing a function as long as it continues to return a function. Once it returns a value, the loop terminates and the value is returned.</p>
+
+<p>Here's our <code>factorial()</code> function written to optimize for recursive tail calls by using <code>trampoline()</code>. We simply wrap our call to our internal <code>_factorial()</code> function in a call to <code>trampoline()</code> and ensure that the internal function will return a reference to the next invocation of itself to be executed.  Once done, we simply return our <code>acc</code> value and the trampoline stops.</p>
+
+<pre><code>function factorial(n) {  
+  function _factorial(n, acc) {
+    acc || (acc = 1);
+      return n ? _factorial.bind(this, n-1, n*acc) : acc;
+  }
+  return trampoline(_factorial, n);
+}
+
+factorial(32768);  
+// Infinity - no range error now!
+</code></pre>
+
+<p>So how does this help us in Continuation Passing Style? Remember, each <em>continuation</em> is a function, that represents the <em>next step in processing</em>. This continuation is executed in tail position by the current phase of processing once it has finished - the callback is now a continuation to more processing.  There is no need to retain the stack frame or context of the current function once it executes the continuation, as everything needed is passed to the continuation callback.</p>
+
+<p>Instead of nesting our continuations and growing the stack, we can use our <code>trampoline()</code> to flatten out the processing steps; and retain a constant stack space.</p>
+
+<pre><code>// CPS functions representing our processing steps
+var steps = [  
+    function first(cont) {
+        cont(1);
+    },
+    function second(val, cont) {
+        cont(val+2);
+    },
+    function third(val, cont) {
+        cont(val+3);
+    }
+];
+
+// A function to flatten our CPS steps into a series
+// passing any values as we go. Takes a callback which
+// will receive the result passed to the final continuation
+function waterfall(steps, done) {  
+    steps.push(done);
+    trampoline(function() {
+        return steps.length ? 
+            function _cb(){
+                var args = [].slice.call(arguments),
+                    fn = steps.shift(); 
+                fn.apply(this, args.concat(_cb));
+            } :
+            undefined;  // steps complete 
+    });
+}
+
+waterfall(steps, function(res) {  
+    console.log("final = ", res);   // final = 6
+});
+</code></pre>
+
+<p>This is very similar to the <code>async.waterfall</code> method in the node <a href="https://github.com/caolan/async">async module</a>.  We can define our processing steps individually and allow our <code>waterfall()</code> function to run them, in order, using an anonymous callback as the continuation. </p>
+
+<p>Our <code>waterfall()</code> also takes a final callback continuation, in CPS fashion, that will be passed the result given to the last continuation in the last step. It functions like a pipeline, where we are able to pass each step's result to the next step.</p>
+
+<p>Here's a non-trampolined version of the <code>waterfall()</code> function that uses recursion.</p>
+
+<pre><code>function waterfall(list, final) {  
+  var args = [].slice.call(arguments, 2);
+
+  if (list.length) {
+    var fn = list.shift(),
+        cb = function() {
+          var results = [].slice.call(arguments);
+          waterfall.apply(this, [list, final].concat(results));
+        };
+    fn.apply(this, args.concat(cb));
+  }
+  else {
+    final.apply(this, args);
+  }
+}
+</code></pre>
+
+<h2 id="asyncerrorhandlingpatterns">Async Error Handling Patterns</h2>
+
+<p>Error handling in asynchronous programming can be problematic. Because the asynchronous functions aren't running in the main thread, you can't really wrap them in a <code>try..catch</code>.</p>
+
+<pre><code>try {  
+    function async(cb) {
+        setTimeout(function() {
+            throw new Error("woops!");
+            cb("done");
+        }, 2000);
+    }
+
+
+    async(function(res) {
+        console.log("received:", res);
+    });
+}
+catch(e) {  
+    console.log(e);
+}
+// Uncaught Error: woops!
+</code></pre>
+
+<p>This doesn't work because the error is thrown in a separate thread of execution, so even wrapping our entire program in a <code>try..catch</code> won't help.  The only way to handle it would be inside the actual asynchronous call and then processing that error a different way.</p>
+
+<p>To get around that, many async library APIs have been built to take two callbacks, one for successful completion and one that gets called on error. We can rework our async function above to allow for this as well.</p>
+
+<pre><code>function async2(cb, err) {  
+    setTimeout(function() {
+        try {
+            if (true)
+                throw new Error("woops!");
+            else
+                cb("done");
+        }
+        catch(e) {
+            err(e);
+        }
+    }, 2000);
+}
+
+async2(function(res) {  
+    console.log("received:", res);
+}, function(err) {
+    console.log("Error: async threw an exception:", err);
+});
+// Error: async threw an exception: Error: woops!
+</code></pre>
+
+<p>Now, we have a way to gracefully handle exceptions and errors encountered in our asynchronous process and can provide a fallback path of execution.</p>
+
+<p>In Continuation Passing Style, a common pattern is the error first design of callbacks which is common in the node API.  In this pattern, you use a single callback and the first argument is reserved for any error response, which would mean the async process didn't complete successfully. </p>
+
+<pre><code>function asyncCPS(continuation) {  
+    setTimeout(function() {
+        try {
+            var res = 42;
+            if (true)
+                throw new Error("woops!");
+            else
+                continuation(null, res); // pass 'null' for error
+        }
+        catch(e) {
+            continuation(e, null);
+        }
+    }, 2000);
+}
+
+asyncCPS(function(err, res) {  
+    if (err)
+        console.log("Error: (cps) failed:", err);
+    else
+        console.log("(cps) received:", res);
+});
+// Error: (cps) failed: woops!
+</code></pre>
+
+<p>Now, our callbacks simply check if <code>err</code> is defined first, and if so, handle the issue in some graceful way; otherwise, our usual continuation processing occurs.  </p>
+
+<p>We can generalize this type of error handling by writing a function which works as a decorator on a async function that returns a new function that is wrapped in a <code>try..catch</code> for us.</p>
+
+<pre><code>// Function decorator that will give us a new
+// function that wraps the invocation of a given function
+// in a try catch.
+function Try(fn, cont) {  
+    return function _tryWrapper(){
+        var args = [].slice.call(arguments);
+        try {
+            fn.apply(this, args);
+        }
+        catch(e) {
+            cont(e);
+        }
+    };
+}
+
+function asyncCPSWrap(continuation) {  
+    setTimeout(Try(function _cpsAsync() {
+        var res = 42;
+        if (true)
+            throw new Error("woops!");
+        else
+            continuation(null, res);
+
+    }, continuation), 2000);
+};
+
+asyncCPSWrap(function _callback(err, res) {  
+    if (err)
+        console.log("(cps) error:", err);
+    else
+        console.log("(cps) received:", res);
+});
+// (cps) error: Error: woops!
+</code></pre>
+
+<p>Our version of <code>Try()</code> above is written to work with CPS as it takes the async function to wrap and takes the continuation callback as a second parameter.  On any exception, it knows to pass the error as the first argument to the continuation.  </p>
+
+<p>You could also easily re-write this for regular callbacks to accept a <em>success</em> and <em>error</em> callback handler as well and wire them up appropriately in the function returned from <code>Try()</code>.  As we'll see in the next article, <em>Promises</em> make error handling much cleaner and easier to implement than what's available using straight callbacks and CPS.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>With node/iojs, XHR/Ajax, DOM Events and so many other asynchronous processes that happen in modern day web applications, understanding how callbacks and patterns like <em>continuation passing</em> work is a must. This post just skimmed the surface of these patterns; but there is more in the world of asynchronous web development you can look into, such as <a href="https://rxjs.codeplex.com/">observable streams</a> and <a href="http://davidwalsh.name/es6-generators">ES6 generators</a>.</p>
+
+<p>In the next piece we'll cover another widely used standard for asynchronous programming on the web, Promises.</p>
+
+<hr>
+
+<div class="footnotes"><ol><li class="footnote" id="fn:1"><p>For the curious (<em>and I hope you are</em>) this might lead you to ponder the workings of Javascript's single execution thread and the event loop in the browser, for which there is a <a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ">great talk</a> by Philip Roberts you should immediately go watch. <a href="#fnref:1" title="return to article">↩</a></p></li>
+<li class="footnote" id="fn:2"><p>Numbers in Javascript are an interesting topic, and you can find out more about <em>Infinity</em>, IEEE 754 Standard in a <a href="http://www.2ality.com/2012/04/number-encoding.html">great post</a> by Axel Rauschmayer. <a href="#fnref:2" title="return to article">↩</a></p></li>
+<li class="footnote" id="fn:3"><p>Keep hope alive, and continue to optimize for tail calls since <a href="http://wiki.ecmascript.org/doku.php?id=harmony:proper_tail_calls">ES6 will support proper tail call optimizations</a>. Yay! <a href="#fnref:3" title="return to article">↩</a></p></li></ol></div>
+        <ul class="tags">
+            <li class="tag" id="tag-id-5"><a href="/tag/javascript/">javascript</a></li> 
+            <li class="tag" id="tag-id-8"><a href="/tag/asynchronous/">asynchronous</a></li> 
+            <li class="tag" id="tag-id-9"><a href="/tag/cps/">cps</a></li> 
+            <li class="tag" id="tag-id-10"><a href="/tag/callbacks/">callbacks</a></li> 
+            <li class="tag" id="tag-id-11"><a href="/tag/tail-call-optimization/">tail call optimization</a></li> 
+        </ul>
+  </section>
 					</div>
 				</article>
 				<!--================= END :: Tutorial =================-->
