@@ -143,6 +143,9 @@ table td { border: 1px solid #999; padding: 5px;}
 	<a href="#t43"><h1>JavaScript's Magical Tips Every Developer Should Remember</h1></a>
 	<a href="#t44"><h1>5 Features You Can Use in ES6 Today</h1></a>
 	<a href="#t45"><h1>Asynchronous in the Browser</h1></a>
+	<a href="#t46"><h1>The Basics of DOM Manipulation in Vanilla JavaScript (No jQuery)</h1></a>
+	<a href="#t47"><h1>Functional Programming Jargon</h1></a>
+	<a href="#t48"><h1>ES6 Object Destructuring</h1></a>
 </div>
 		<!--================= END :: Tutorial Index =================-->
 		
@@ -11529,6 +11532,936 @@ asyncCPSWrap(function _callback(err, res) {
             <li class="tag" id="tag-id-11"><a href="/tag/tail-call-optimization/">tail call optimization</a></li> 
         </ul>
   </section>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t46" name="t46"></a><h1>46: The Basics of DOM Manipulation in Vanilla JavaScript (No jQuery)</h1>
+					<span class="ref-site">https://www.sitepoint.com/dom-manipulation-vanilla-javascript-no-jquery/</span>
+					<div class="tutorial__content">
+<p class='wp-special'>Whenever we need to perform DOM manipulation, we&#8217;re all quick to reach for jQuery. However, the vanilla JavaScript DOM API is actually quite capable in its own right, and since IE &lt; 11 has been <a href="https://www.microsoft.com/en-us/WindowsForBusiness/End-of-IE-support">officially abandoned</a>, it can now be used without any worries.</p>
+<p>In this article, I&#8217;ll demonstrate how to accomplish some of the most common DOM manipulation tasks with plain JavaScript, namely:</p>
+
+<ul>
+<li>querying and modifying the DOM,</li>
+<li>modifying classes and attributes,</li>
+<li>listening to events, and</li>
+<li>animation.</li>
+</ul>
+<p>I&#8217;ll finish off by showing you how to create your own super slim DOM-library that you can drop into any project. Along the way, you&#8217;ll learn that DOM manipulation with VanillaJS is not rocket science and that many jQuery methods in fact have direct equivalents in the native API.</p>
+<p>So let&#8217;s get to it &#8230;</p>
+<h2 id="dommanipulationqueryingthedom">DOM Manipulation: Querying the DOM</h2>
+<p><em>Please note: I won&#8217;t explain the Vanilla DOM API in full detail, but only scratch the surface. In the usage examples, you may encounter methods I haven&#8217;t introduced explicitly. In this case just refer to the excellent <a href="https://developer.mozilla.org/en-US/">Mozilla Developer Network</a> for details.</em></p>
+<p>The DOM can be queried using the <code>.querySelector()</code> method, which takes an arbitrary CSS selector as an argument:</p>
+<pre><code class="javascript language-javascript">const myElement = document.querySelector('#foo &gt; div.bar')
+</code></pre>
+<p>This will return the first match (depth first). Conversely, we can check if an element matches a selector:</p>
+<pre><code class="javascript language-javascript">myElement.matches('div.bar') === true
+</code></pre>
+<p>If we want to get all occurrences, we can use:</p>
+<pre><code class="javascript language-javascript">const myElements = document.querySelectorAll('.bar')
+</code></pre>
+<p>If we already have a reference to a parent element, we can just query that element&#8217;s children instead of the whole <code>document</code>. Having narrowed down the context like this, we can simplify selectors and increase performance.</p>
+<pre><code class="javascript language-javascript">const myChildElemet = myElement.querySelector('input[type="submit"]')
+
+// Instead of
+// document.querySelector('#foo &gt; div.bar input[type="submit"]')
+</code></pre>
+<p>Then why use those other, less convenient methods like <code>.getElementsByTagName()</code> at all? Well, one important difference is that the result of <code>.querySelector()</code> is <em>not live</em>, so when we dynamically add an element (see <a href="#modifyingthedom">section 3</a> for details) that matches a selector, the collection won&#8217;t update.</p>
+<pre><code class="javascript language-javascript">const elements1 = document.querySelectorAll('div')
+const elements2 = document.getElementsByTagName('div')
+const newElement = document.createElement('div')
+
+document.body.appendChild(newElement)
+elements1.length === elements2.length // false
+</code></pre>
+<p>Another consideration is that such a live collection doesn&#8217;t need to have all of the information up front, whereas <code>.querySelectorAll()</code> immediately gathers everything in a static list, making it <a href="https://www.nczonline.net/blog/2010/09/28/why-is-getelementsbytagname-faster-that-queryselectorall/">less performant</a>.</p>
+<h3 id="workingwithnodelists">Working with Nodelists</h3>
+<p>Now there are two common gotchas regarding <code>.querySelectorAll()</code>. The first one is that we can&#8217;t call Node methods on the result and propagate them to its elements (like you might be used from jQuery objects). Rather we have to explicitly iterate over those elements. And this is the other gotcha: the return value is a NodeList, not an Array. This means we can&#8217;t call any array methods (e.g. <code>.forEach</code>) on it. We have to convert it to an array first.</p>
+<pre><code class="javascript language-javascript">// Using Array.from()
+Array.from(myElements).forEach(doSomethingWithEachElement)
+
+// Or prior to ES6
+Array.prototype.forEach.call(myElements, doSomethingWithEachElement)
+
+// Shorthand:
+[].forEach.call(myElements, doSomethingWithEachElement)
+</code></pre>
+<p>Each element also has a couple of rather self-explanatory read-only properties referencing the &#8220;family&#8221;, all of which are live:</p>
+<pre><code class="javascript language-javascript">myElement.children
+myElement.firstElementChild
+myElement.lastElementChild
+myElement.previousElementSibling
+myElement.nextElementSibling
+</code></pre>
+<p>As the <a href="https://developer.mozilla.org/en-US/docs/Web/API/element">Element</a> interface inherits from the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node">Node</a> interface, the following properties are also available:</p>
+<pre><code class="javascript language-javascript">myElement.childNodes
+myElement.firstChild
+myElement.lastChild
+myElement.previousSibling
+myElement.nextSibling
+myElement.parentNode
+myElement.parentElement
+</code></pre>
+<p>Where the former only reference elements, the latter (except for <code>.parentElement</code>) can be any kind of node, e.g. text nodes. We can then check the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType">type</a> of a given node like e.g.</p>
+<pre><code class="javascript language-javascript">myElement.firstChild.nodeType === 3 // this would be a text node
+</code></pre>
+<p>As with any object, we can check a node&#8217;s prototype chain using the <code>instanceof</code> operator:</p>
+<pre><code class="javascript language-javascript">myElement.firstChild.nodeType instanceof Text
+</code></pre>
+<h2 id="modifyingclassesandattributes">Modifying Classes and Attributes</h2>
+<p>Modifying classes of elements is as easy as:</p>
+<pre><code class="javascript language-javascript">myElement.classList.add('foo')
+myElement.classList.remove('bar')
+myElement.classList.toggle('baz')
+</code></pre>
+<p>You can read a more in-depth disussion of how to modify classes in this <a href="https://www.sitepoint.com/add-remove-css-class-vanilla-js/">quick tip by Yaphi Berhanu</a>. Element properties can be accessed like any other object&#8217;s properties</p>
+<pre><code class="javascript language-javascript">// Get an attribute value
+const value = myElement.value
+
+// Set an attribute as an element property
+myElement.value = 'foo'
+
+// Set multiple properties using Object.assign()
+Object.assign(myElement, {
+  value: 'foo',
+  id: 'bar'
+})
+
+// Remove an attribute
+myElement.value = null
+</code></pre>
+<p>Note that there are also the methods <code>.getAttibute()</code>, <code>.setAttribute()</code> and .<code>removeAttribute()</code>. These directly modify the <em>HTML attributes</em> (as opposed to the DOM properties) of an element, thus causing a browser redraw (you can observe the changes by inspecting the element with your browser&#8217;s dev tools). Not only is such a browser redraw more expensive than just setting DOM properties, but  these methods also can have <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute#Notes">unexpected results</a>.</p>
+<p>As a rule of thumb, only use them for attributes that don&#8217;t have a corresponding DOM property (such as <code>colspan</code>), or if you really want to &#8220;persist&#8221; those changes to the HTML (e.g. to keep them when cloning an element or modifying its parent&#8217;s <code>.innerHTML</code> — see <a href="#modifyingthedom">section 3</a>).</p>
+<h3 id="addingcssstyles">Adding CSS styles</h3>
+<p>CSS rules can be applied like any other property; note though that the properties are camel-cased in JavaScript:</p>
+<pre><code class="javascript language-javascript">myElement.style.marginLeft = '2em'
+</code></pre>
+<p>If we want certain values, we can obtain these via the <code>.style</code> property. However, this will only give us styles that have been explicitly applied. To get the computed values, we can use, <code>.window.getComputedStyle()</code>. It takes the element and returns a <a href="https://developer.mozilla.org/en-US/docs/Web/API/CSSStyleDeclaration">CSSStyleDeclaration</a> containing all styles from the element itself as well as those inherited from its parents:</p>
+<pre><code class="javascript language-javascript">window.getComputedStyle(myElement).getPropertyValue('margin-left')
+</code></pre>
+<h2 id="modifyingthedom">Modifying the DOM</h2>
+<p>We can move elements around like so:</p>
+<pre><code class="javascript language-javascript">// Append element1 as the last child of element2
+element1.appendChild(element2)
+
+// Insert element2 as child of element 1, right before element3
+element1.insertBefore(element2, element3)
+
+// Insert element2 as child of element 1, right after element3
+element1.insertAfter(element2, element3)
+</code></pre>
+<p>If we don&#8217;t want to move the element, but insert a copy, we can clone it like so:</p>
+<pre><code class="javascript language-javascript">// Create a clone
+const myElementClone = myElement.cloneNode()
+myParentElement.appendChild(myElementClone)
+</code></pre>
+<p>The <code>.cloneNode()</code> method optionally takes a boolean as argument; if set to true, a <em>deep</em> copy will be created, meaning its children are also cloned.</p>
+<p>Of course, we can just as well create entirely new elements or text nodes:</p>
+<pre><code class="javascript language-javascript">const myNewElement = document.createElement('div')
+const myNewTextNode = document.createTextNode('some text')
+</code></pre>
+<p>which we can then insert as shown above.  If we want to remove an element, we can&#8217;t do so directly, but we <em>can</em> remove children from a parent element, like so:</p>
+<pre><code class="javascript language-javascript">myParentElement.removeChild(myElement)
+</code></pre>
+<p>This gives us a nice little work around, meaning can actually remove an element indirectly, by referencing its parent element:</p>
+<pre><code class="javascript language-javascript">myElement.parentNode.removeChild(myElement)
+</code></pre>
+<h3 id="elementproperties">Element properties</h3>
+<p>Every element also has the properties <code>.innerHTML</code> and <code>.textContent</code> (as well as <code>.innerText</code>, which is similar to <code>.textContent</code>, but has some <a href="http://perfectionkills.com/the-poor-misunderstood-innerText/">important differences</a>). These  hold the HTML and plain text content respectively. They are writable properties, meaning we can modify elements and their contents directly:</p>
+<pre><code class="javascript language-javascript">// Replace the inner HTML
+myElement.innerHTML = `
+  &lt;div&gt;
+    &lt;h2&gt;New content&lt;/h2&gt;
+    &lt;p&gt;beep boop beep boop&lt;/p&gt;
+  &lt;/div&gt;
+`
+
+// Remove all child nodes
+myElement.innerHTML = null
+
+// Append to the inner HTML
+myElement.innerHTML += `
+  &lt;a href="foo.html"&gt;continue reading...&lt;/a&gt;
+  &lt;hr/&gt;
+`
+</code></pre>
+<p>Appending markup to the HTML as shown above is usually a bad idea though, as we&#8217;d lose any previously made property changes on the affected elements (unless we persisted those changes as HTML attributes as shown in <a href="#modifyingclassesandattributes">section 2</a>) and bound event listeners.  Setting the <code>.innerHTML</code> is good for completely throwing away markup and replacing it with something else, e.g. server-rendered markup. So appending elements would better be done like so:</p>
+<pre><code class="javascript language-javascript">const link = document.createElement('a')
+const text = document.createTextNode('continue reading...')
+const hr = document.createElement('hr')
+
+link.href = 'foo.html'
+link.appendChild(text)
+myElement.appendChild(link)
+myElement.appendChild(hr)
+</code></pre>
+<p>With this approach however we&#8217;d cause two browser redraws — one for each appended element — whereas changing the <code>.innerHTML</code> only causes one. As a way around this performance issue we can first assemble all nodes in a <a href="https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment">DocumentFragment</a>, and then just append that single fragment:</p>
+<pre><code class="javascript language-javascript">const fragment = document.createDocumentFragment()
+
+fragment.appendChild(text)
+fragment.appendChild(hr)
+myElement.appendChild(fragment)
+</code></pre>
+<h2 id="listeningtoevents">Listening to events</h2>
+<p>This is possibly the best known way to bind an event listener:</p>
+<pre><code class="javascript language-javascript">myElement.onclick = function onclick (event) {
+  console.log(event.type + ' got fired')
+}
+</code></pre>
+<p>But this should generally be avoided. Here, <code>.onclick</code> is a property of the element, meaning that you can change it, but you cannot use it to add  additional listeners — by reassigning a new function you&#8217;ll overwrite the reference to the old one.</p>
+<p>Instead, we can use the much mightier <code>.addEventListener()</code> method to add as many events of as many types as we like. It takes three arguments: the event type (such as <code>click</code>), a function that gets called whenever the event occurs on the element (this function gets passed an event object), and an optional config object which will be explained further below.</p>
+<pre><code class="javascript language-javascript">myElement.addEventListener('click', function (event) {
+  console.log(event.type + ' got fired')
+})
+
+myElement.addEventListener('click', function (event) {
+  console.log(event.type + ' got fired again')
+})
+</code></pre>
+<p>Within the listener function, <code>event.target</code> refers to the element on which the event was triggered (as does <code>this</code>, unless of course we&#8217;re using an <a href="https://www.sitepoint.com/es6-arrow-functions-new-fat-concise-syntax-javascript/">arrow function</a>). Thus you can easily access its properties like so:</p>
+<pre><code class="javascript language-javascript">// The `forms` property of the document is an array holding
+// references to all forms
+const myForm = document.forms[0]
+const myInputElements = myForm.querySelectorAll('input')
+
+Array.from(myInputElements).forEach(el =&gt; {
+  el.addEventListener('change', function (event) {
+    console.log(event.target.value)
+  })
+})
+</code></pre>
+<h3 id="preventingdefaultactions">Preventing default actions</h3>
+<p>Note that <code>event</code> is always available within the listener function, but it is good practive to explitly pass it in anyway when needed (and we can name it as we like then, of course). Without elaborating on the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event">Event</a> interface itself, one particularly noteworthy method is <code>.preventDefault()</code>, which will, well, prevent the browser&#8217;s default behavior, such as following a link. Another common use-case would be to conditionally prevent the submission of a form if the client-side form-validation fails.</p>
+<pre><code class="javascript language-javascript">myForm.addEventListener('submit', function (event) {
+  const name = this.querySelector('#name')
+
+  if (name.value === 'Donald Duck') {
+    alert('You gotta be kidding!')
+    event.preventDefault()
+  }
+})
+</code></pre>
+<p>Another important event method is <code>.stopPropagation()</code>, which will prevent the event from bubbling up the DOM. This means that if we have a propagation-stopping click listener (say) on an element, and another click listener on one of its parents, a click event that gets triggered on the child element won&#8217;t get triggered on the parent — otherwise, it would get triggered on both.</p>
+<p>Now <code>.addEventListener()</code> takes an optional config object as a 3rd argument, which can have any of the following boolean properties (all of which default to <code>false</code>):</p>
+<ul>
+<li><code>capture</code>: The event will be triggered on the element before any other element beneath it in the DOM (event capturing and bubbling is an article in its own right, for more details have a look <a href="http://javascript.info/tutorial/bubbling-and-capturing">here</a>)</li>
+<li><code>once</code>: As you might guess, this indicates that the event will get triggered only once</li>
+<li><code>passive</code>: This means that <code>event.preventDefault()</code> will be ignored (and usually yield a warning in the console)</li>
+</ul>
+<p>The most common option is <code>.capture</code>; in fact, it is so common that there&#8217;s a shorthand for this: instead of specifying it in the config object, you can just pass in a boolean here:</p>
+<pre><code class="javascript language-javascript">myElement.addEventListener(type, listener, true)
+</code></pre>
+<p>Event listeners can be removed using <code>.removeEventListener()</code>, which takes the event type and a reference to the callback function to be removed; for example, the <code>once</code> option could also be implemented like</p>
+<pre><code class="javascript language-javascript">myElement.addEventListener('change', function listener (event) {
+  console.log(event.type + ' got triggered on ' + this)
+  this.removeEventListener('change', listener)
+})
+</code></pre>
+<h3 id="eventdelegation">Event delegation</h3>
+<p>Another useful pattern is <em>event delegation</em>: say we have a form and want to add a <code>change</code> event listener to all of its <code>input</code> children. One way to do so would be iterating over them using <code>myForm.querySelectorAll('input')</code> as shown above. However, this is unnecessary when we can just as well add it to the form itself and check the contents of <code>event.target</code>.</p>
+<pre><code class="javascript language-javascript">myForm.addEventListener('change', function (event) {
+  const target = event.target
+  if (target.matches('input')) {
+    console.log(target.value)
+  }
+})
+</code></pre>
+<p>Another advantage of this pattern is that it automatically accounts for dynamically inserted children as well, without having to bind new listeners to each.</p>
+<h2 id="animation">Animation</h2>
+<p>Usually, the cleanest way to perform animations is to apply CSS classes with a <code>transition</code> property, or use CSS <code>@keyframes</code>. But if you need more flexibility  (e.g. for a game), this can be done with JavaScript as well.</p>
+<p>The naive approach would be to have a <code>window.setTimeout()</code> function call itself until the desired animation is completed. However, this inefficiently forces rapid document reflows; and this <em>layout thrashing</em> can quickly lead to stuttering, expecially on mobile devices. Intead, we can sync the updates using <code>window.requestAnimationFrame()</code> to schedule all current changes to the next browser repaint frame. It takes a callback as argument which receives the current (high res) timestamp:</p>
+<pre><code class="javascript language-javascript">const start = window.performance.now()
+const duration = 2000
+
+window.requestAnimationFrame(function fadeIn (now)) {
+  const progress = now - start
+  myElement.style.opacity = progress / duration
+
+  if (progress &lt; duration) {
+    window.requestAnimationFrame(fadeIn)
+  }
+}
+</code></pre>
+<p>This way we can achieve very smooth animations. For a more detailed discussion, please have a look at <a href="https://www.sitepoint.com/quick-tip-game-loop-in-javascript/">this</a> article by Mark Brown.</p>
+<h2 id="writingyourownhelpermethods">Writing your own helper methods</h2>
+<p>True, always having to iterate over elements to do something with them may be rather cumbersome compared to jQuery&#8217;s concise and chainable <code>$('.foo').css({color: 'red'})</code> syntax.  So why not simply write our own shorthand methods for things like this?</p>
+<pre><code class="javascript language-javascript">const $ = function $ (selector, context = document) {
+const elements = Array.from(context.querySelectorAll(selector))
+
+  return {
+    elements,
+
+    html (newHtml) {
+      this.elements.forEach(element =&gt; {
+        element.innerHTML = newHtml
+      })
+
+      return this
+    },
+
+    css (newCss) {
+      this.elements.forEach(element =&gt; {
+        Object.assign(element.style, newCss)
+      })
+
+      return this
+    },
+
+    on (event, handler, options) {
+      this.elements.forEach(element =&gt; {
+        element.addEventListener(event, handler, options)
+      })
+
+      return this
+    }
+
+    // etc.
+  }
+}
+</code></pre>
+<p>Thus we have a super slim DOM-library with only the methods that we really need, and without all the backwards-compatibility weight. Usually we&#8217;d have those methods in our collection&#8217;s prototype though. Here&#8217;s a (somewhat more elaborate) <a href="https://gist.github.com/SitePointEditors/4f6643d62a87aece860b0784c6eeffd2">gist</a> with some ideas how to implement such helpers. Alternatively, we might keep it as simple as</p>
+<pre><code class="javascript language-javascript">const $ = (selector, context = document) =&gt; context.querySelector(selector)
+const $$ = (selector, context = document) =&gt; context.querySelectorAll(selector)
+
+const html = (nodeList, newHtml) =&gt; {
+  Array.from(nodeList).forEach(element =&gt; {
+    element.innerHTML = newHtml
+  })
+}
+
+// And so on...
+</code></pre>
+<h2 id="demo">Demo</h2>
+<p>To round this article off, here&#8217;s a CodePen which demonstrates many of the concepts explained above to implement a simple lightbox technique. I encourage you to take some time to look through the source code and let me know in the comments below if you have any observations or questions.</p>
+<p data-height="360" data-theme-id="6441" data-slug-hash="aJaggB" data-default-tab="result" data-user="SitePoint" data-embed-version="2" data-pen-title="Tightbox" class="codepen">See the Pen <a href="http://codepen.io/SitePoint/pen/aJaggB/">Tightbox</a> by SitePoint (<a href="http://codepen.io/SitePoint">@SitePoint</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<p><script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>I hope I could show that DOM manipulation with plain JavaScript is not rocket science and that in fact, many jQuery methods have direct equivalents in the native DOM API. This means that for some everyday use cases (such as a navigation menu or a modal popup), the additional overhead of a DOM library may be out of place.</p>
+<p>And while it&#8217;s true that some parts of the native API are verbose or inconvenient (such as having to iterate over node lists manually all the time),  we can quite easily write our own small helper functions to abstract away such repetitive tasks.</p>
+<p>But now it&#8217;s over to you. What do you think? Do you prefer to avoid third-party libraries where you can, or is rolling your own simply not worth the cognitive overhead? Let me know in the comments below.</p>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t47" name="t47"></a><h1>47 : Functional Programming Jargon</h1>
+					<span class="ref-site">https://github.com/hemanth/functional-programming-jargon</span>
+					<div class="tutorial__content">
+<article class="markdown-body entry-content" itemprop="text">
+<p>Functional programming (FP) provides many advantages, and its popularity has been increasing as a result. However, each programming paradigm comes with its own unique jargon and FP is no exception. By providing a glossary, we hope to make learning FP easier.</p>
+<p>Examples are presented in JavaScript (ES2015). <a href="https://github.com/hemanth/functional-programming-jargon/wiki/Why-JavaScript%3F">Why JavaScript?</a></p>
+<p><em>This is a <a href="https://github.com/hemanth/functional-programming-jargon/issues/20">WIP</a>; please feel free to send a PR ;)</em></p>
+<p>Where applicable, this document uses terms defined in the <a href="https://github.com/fantasyland/fantasy-land">Fantasy Land spec</a></p>
+
+
+<p><strong>Table of Contents</strong></p>
+
+<ul>
+<li><a href="#arity">Arity</a></li>
+<li><a href="#higher-order-functions-hof">Higher-Order Functions (HOF)</a></li>
+<li><a href="#partial-application">Partial Application</a></li>
+<li><a href="#currying">Currying</a></li>
+<li><a href="#auto-currying">Auto Currying</a></li>
+<li><a href="#function-composition">Function Composition</a></li>
+<li><a href="#continuation">Continuation</a></li>
+<li><a href="#purity">Purity</a></li>
+<li><a href="#side-effects">Side effects</a></li>
+<li><a href="#idempotent">Idempotent</a></li>
+<li><a href="#point-free-style">Point-Free Style</a></li>
+<li><a href="#predicate">Predicate</a></li>
+<li><a href="#contracts">Contracts</a></li>
+<li><a href="#guarded-functions">Guarded Functions</a></li>
+<li><a href="#category">Category</a></li>
+<li><a href="#value">Value</a></li>
+<li><a href="#constant">Constant</a></li>
+<li><a href="#functor">Functor</a>
+<ul>
+<li><a href="#preserves-identity">Preserves identity</a></li>
+<li><a href="#composable">Composable</a></li>
+</ul>
+</li>
+<li><a href="#pointed-functor">Pointed Functor</a></li>
+<li><a href="#lift">Lift</a></li>
+<li><a href="#referential-transparency">Referential Transparency</a></li>
+<li><a href="#equational-reasoning">Equational Reasoning</a></li>
+<li><a href="#lambda">Lambda</a></li>
+<li><a href="#lambda-calculus">Lambda Calculus</a></li>
+<li><a href="#lazy-evaluation">Lazy evaluation</a></li>
+<li><a href="#monoid">Monoid</a></li>
+<li><a href="#monad">Monad</a></li>
+<li><a href="#comonad">Comonad</a></li>
+<li><a href="#applicative-functor">Applicative Functor</a></li>
+<li><a href="#morphism">Morphism</a>
+<ul>
+<li><a href="#endomorphism">Endomorphism</a></li>
+<li><a href="#isomorphism">Isomorphism</a></li>
+</ul>
+</li>
+<li><a href="#setoid">Setoid</a></li>
+<li><a href="#semigroup">Semigroup</a></li>
+<li><a href="#foldable">Foldable</a></li>
+<li><a href="#traversable">Traversable</a></li>
+<li><a href="#type-signatures">Type Signatures</a></li>
+<li><a href="#union-type">Union type</a></li>
+<li><a href="#product-type">Product type</a></li>
+<li><a href="#option">Option</a></li>
+<li><a href="#functional-programming-libraries-in-javascript">Functional Programming Libraries in JavaScript</a></li>
+</ul>
+
+<h2><a id="user-content-arity" class="anchor" href="#arity" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Arity</h2>
+<p>The number of arguments a function takes. From words like unary, binary, ternary, etc. This word has the distinction of being composed of two suffixes, "-ary" and "-ity." Addition, for example, takes two arguments, and so it is defined as a binary function or a function with an arity of two. Such a function may sometimes be called "dyadic" by people who prefer Greek roots to Latin. Likewise, a function that takes a variable number of arguments is called "variadic," whereas a binary function must be given two and only two arguments, currying and partial application notwithstanding (see below).</p>
+<pre><code>const sum = (a, b) =&gt; a + b
+
+const arity = sum.length
+console.log(arity) // 2
+
+// The arity of sum is 2
+</code></pre>
+<h2><a id="user-content-higher-order-functions-hof" class="anchor" href="#higher-order-functions-hof" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Higher-Order Functions (HOF)</h2>
+<p>A function which takes a function as an argument and/or returns a function.</p>
+<pre><code>const filter = (predicate, xs) =&gt; xs.filter(predicate)
+</code></pre>
+<pre><code>const is = (type) =&gt; (x) =&gt; Object(x) instanceof type
+</code></pre>
+<pre><code>filter(is(Number), [0, '1', 2, null]) // [0, 2]
+</code></pre>
+<h2><a id="user-content-partial-application" class="anchor" href="#partial-application" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Partial Application</h2>
+<p>Partially applying a function means creating a new function by pre-filling some of the arguments to the original function.</p>
+<pre><code>// Helper to create partially applied functions
+// Takes a function and some arguments
+const partial = (f, ...args) =&gt;
+  // returns a function that takes the rest of the arguments
+  (...moreArgs) =&gt;
+    // and calls the original function with all of them
+    f(...args, ...moreArgs)
+
+// Something to apply
+const add3 = (a, b, c) =&gt; a + b + c
+
+// Partially applying `2` and `3` to `add3` gives you a one-argument function
+const fivePlus = partial(add3, 2, 3) // (c) =&gt; 2 + 3 + c
+
+fivePlus(4) // 9
+</code></pre>
+<p>You can also use <code>Function.prototype.bind</code> to partially apply a function in JS:</p>
+<pre><code>const add1More = add3.bind(null, 2, 3) // (c) =&gt; 2 + 3 + c
+</code></pre>
+<p>Partial application helps create simpler functions from more complex ones by baking in data when you have it. <a href="#currying">Curried</a> functions are automatically partially applied.</p>
+<h2><a id="user-content-currying" class="anchor" href="#currying" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Currying</h2>
+<p>The process of converting a function that takes multiple arguments into a function that takes them one at a time.</p>
+<p>Each time the function is called it only accepts one argument and returns a function that takes one argument until all arguments are passed.</p>
+<pre><code>const sum = (a, b) =&gt; a + b
+
+const curriedSum = (a) =&gt; (b) =&gt; a + b
+
+curriedSum(40)(2) // 42.
+
+const add2 = curriedSum(2) // (b) =&gt; 2 + b
+
+add2(10) // 12
+</code></pre>
+<h2><a id="user-content-auto-currying" class="anchor" href="#auto-currying" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Auto Currying</h2>
+<p>Transforming a function that takes multiple arguments into one that if given less than its correct number of arguments returns a function that takes the rest. When the function gets the correct number of arguments it is then evaluated.</p>
+<p>lodash &amp; ramda have a <code>curry</code> function that works this way.</p>
+<pre><code>const add = (x, y) =&gt; x + y
+
+const curriedAdd = _.curry(add)
+curriedAdd(1, 2) // 3
+curriedAdd(1) // (y) =&gt; 1 + y
+curriedAdd(1)(2) // 3
+</code></pre>
+<p><strong>Further reading</strong></p>
+<ul>
+<li><a href="http://fr.umio.us/favoring-curry/">Favoring Curry</a></li>
+<li><a href="https://www.youtube.com/watch?v=m3svKOdZijA">Hey Underscore, You're Doing It Wrong!</a></li>
+</ul>
+<h2><a id="user-content-function-composition" class="anchor" href="#function-composition" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Function Composition</h2>
+<p>The act of putting two functions together to form a third function where the output of one function is the input of the other.</p>
+<pre><code>const compose = (f, g) =&gt; (a) =&gt; f(g(a)) // Definition
+const floorAndToString = compose((val) =&gt; val.toString(), Math.floor) // Usage
+floorAndToString(121.212121) // '121'
+</code></pre>
+<h2><a id="user-content-continuation" class="anchor" href="#continuation" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Continuation</h2>
+<p>At any given point in a program, the part of the code that's yet to be executed is known as a continuation.</p>
+<pre><code>const printAsString = (num) =&gt; console.log(`Given ${num}`)
+
+const addOneAndContinue = (num, cc) =&gt; {
+  const result = num + 1
+  cc(result)
+}
+
+addOneAndContinue(2, printAsString) // 'Given 3'
+</code></pre>
+<p>Continuations are often seen in asynchronous programming when the program needs to wait to receive data before it can continue. The response is often passed off to the rest of the program, which is the continuation, once it's been received.</p>
+<pre><code>const continueProgramWith = (data) =&gt; {
+  // Continues program with data
+}
+
+readFileAsync('path/to/file', (err, response) =&gt; {
+  if (err) {
+    // handle error
+    return
+  }
+  continueProgramWith(response)
+})
+</code></pre>
+<h2><a id="user-content-purity" class="anchor" href="#purity" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Purity</h2>
+<p>A function is pure if the return value is only determined by its
+input values, and does not produce side effects.</p>
+<pre><code>const greet = (name) =&gt; `Hi, ${name}`
+
+greet('Brianne') // 'Hi, Brianne'
+</code></pre>
+<p>As opposed to each of the following:</p>
+<pre><code>window.name = 'Brianne'
+
+const greet = () =&gt; `Hi, ${window.name}`
+
+greet() // "Hi, Brianne"
+</code></pre>
+<p>The above example's output is based on data stored outside of the function...</p>
+<pre><code>let greeting
+
+const greet = (name) =&gt; {
+  greeting = `Hi, ${name}`
+}
+
+greet('Brianne')
+greeting // "Hi, Brianne"
+</code></pre>
+<p>... and this one modifies state outside of the function.</p>
+<h2><a id="user-content-side-effects" class="anchor" href="#side-effects" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Side effects</h2>
+<p>A function or expression is said to have a side effect if apart from returning a value, it interacts with (reads from or writes to) external mutable state.</p>
+<pre><code>const differentEveryTime = new Date()
+</code></pre>
+<pre><code>console.log('IO is a side effect!')
+</code></pre>
+<h2><a id="user-content-idempotent" class="anchor" href="#idempotent" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Idempotent</h2>
+<p>A function is idempotent if reapplying it to its result does not produce a different result.</p>
+<pre><code>f(f(x)) ≍ f(x)
+</code></pre>
+<pre><code>Math.abs(Math.abs(10))
+</code></pre>
+<pre><code>sort(sort(sort([2, 1])))
+</code></pre>
+<h2><a id="user-content-point-free-style" class="anchor" href="#point-free-style" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Point-Free Style</h2>
+<p>Writing functions where the definition does not explicitly identify the arguments used. This style usually requires <a href="#currying">currying</a> or other <a href="#higher-order-functions-hof">Higher-Order functions</a>. A.K.A Tacit programming.</p>
+<pre><code>// Given
+const map = (fn) =&gt; (list) =&gt; list.map(fn)
+const add = (a) =&gt; (b) =&gt; a + b
+
+// Then
+
+// Not points-free - `numbers` is an explicit argument
+const incrementAll = (numbers) =&gt; map(add(1))(numbers)
+
+// Points-free - The list is an implicit argument
+const incrementAll2 = map(add(1))
+</code></pre>
+<p><code>incrementAll</code> identifies and uses the parameter <code>numbers</code>, so it is not points-free.  <code>incrementAll2</code> is written just by combining functions and values, making no mention of its arguments.  It <strong>is</strong> points-free.</p>
+<p>Points-free function definitions look just like normal assignments without <code>function</code> or <code>=&gt;</code>.</p>
+<h2><a id="user-content-predicate" class="anchor" href="#predicate" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Predicate</h2>
+<p>A predicate is a function that returns true or false for a given value. A common use of a predicate is as the callback for array filter.</p>
+<pre><code>const predicate = (a) =&gt; a &gt; 2
+
+;[1, 2, 3, 4].filter(predicate) // [3, 4]
+</code></pre>
+<h2><a id="user-content-contracts" class="anchor" href="#contracts" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contracts</h2>
+<p>A contract specifies the obligations and guarantees of the behavior from a function or expression at runtime. This acts as a set of rules that are expected from the input and output of a function or expression, and errors are generally reported whenever a contract is violated.</p>
+<pre><code>// Define our contract : int -&gt; int
+const contract = (input) =&gt; {
+  if (typeof input === 'number') return true
+  throw new Error('Contract violated: expected int -&gt; int')
+}
+
+const addOne = (num) =&gt; contract(num) &amp;&amp; num + 1
+
+addOne(2) // 3
+addOne('some string') // Contract violated: expected int -&gt; int
+</code></pre>
+<h2><a id="user-content-guarded-functions" class="anchor" href="#guarded-functions" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Guarded Functions</h2>
+<p>TODO</p>
+<h2><a id="user-content-category" class="anchor" href="#category" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Category</h2>
+<p>A category in category theory is a collection of objects and morphisms between them. In programming, typically types
+act as the objects and functions as morphisms.</p>
+<p>To be a valid category 3 rules must be met:</p>
+<ol>
+<li>There must be an identity morphism that maps an object to itself.
+Where <code>a</code> is an object in some category,
+there must be a function from <code>a -&gt; a</code>.</li>
+<li>Morphisms must compose.
+Where <code>a</code>, <code>b</code>, and <code>c</code> are objects in some category,
+and <code>f</code> is a morphism from <code>a -&gt; b</code>, and <code>g</code> is a morphism from <code>b -&gt; c</code>;
+<code>g(f(x))</code> must be equivalent to <code>(g • f)(x)</code>.</li>
+<li>Composition must be associative
+<code>f • (g • h)</code> is the same as <code>(f • g) • h</code></li>
+</ol>
+<p>Since these rules govern composition at very abstract level, category theory is great at uncovering new ways of composing things.</p>
+<h3><a id="user-content-further-reading" class="anchor" href="#further-reading" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Further reading</h3>
+<ul>
+<li><a href="https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/">Category Theory for Programmers</a></li>
+</ul>
+<h2><a id="user-content-value" class="anchor" href="#value" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Value</h2>
+<p>Anything that can be assigned to a variable.</p>
+<pre><code>5
+Object.freeze({name: 'John', age: 30}) // The `freeze` function enforces immutability.
+;(a) =&gt; a
+;[1]
+undefined
+</code></pre>
+<h2><a id="user-content-constant" class="anchor" href="#constant" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constant</h2>
+<p>A variable that cannot be reassigned once defined.</p>
+<pre><code>const five = 5
+const john = Object.freeze({name: 'John', age: 30})
+</code></pre>
+<p>Constants are <a href="#referential-transparency">referentially transparent</a>. That is, they can be replaced with the values that they represent without affecting the result.</p>
+<p>With the above two constants the following expression will always return <code>true</code>.</p>
+<pre><code>john.age + five === ({name: 'John', age: 30}).age + (5)
+</code></pre>
+<h2><a id="user-content-functor" class="anchor" href="#functor" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Functor</h2>
+<p>An object that implements a <code>map</code> function which, while running over each value in the object to produce a new object, adheres to two rules:</p>
+<h3><a id="user-content-preserves-identity" class="anchor" href="#preserves-identity" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Preserves identity</h3>
+<pre><code>object.map(x =&gt; x) ≍ object
+</code></pre>
+<h3><a id="user-content-composable" class="anchor" href="#composable" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Composable</h3>
+<pre><code>object.map(compose(f, g)) ≍ object.map(g).map(f)
+</code></pre>
+<p>(<code>f</code>, <code>g</code> be arbitrary functions)</p>
+<p>A common functor in JavaScript is <code>Array</code> since it abides to the two functor rules:</p>
+<pre><code>[1, 2, 3].map(x =&gt; x) // = [1, 2, 3]
+</code></pre>
+<p>and</p>
+<pre><code>const f = x =&gt; x + 1
+const g = x =&gt; x * 2
+
+;[1, 2, 3].map(x =&gt; f(g(x))) // = [3, 5, 7]
+;[1, 2, 3].map(g).map(f)     // = [3, 5, 7]
+</code></pre>
+<h2><a id="user-content-pointed-functor" class="anchor" href="#pointed-functor" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pointed Functor</h2>
+<p>An object with an <code>of</code> function that puts <em>any</em> single value into it.</p>
+<p>ES2015 adds <code>Array.of</code> making arrays a pointed functor.</p>
+<pre><code>Array.of(1) // [1]
+</code></pre>
+<h2><a id="user-content-lift" class="anchor" href="#lift" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Lift</h2>
+<p>Lifting is when you take a value and put it into an object like a <a href="#pointed-functor">functor</a>. If you lift a function into an <a href="#applicative-functor">Applicative Functor</a> then you can make it work on values that are also in that functor.</p>
+<p>Some implementations have a function called <code>lift</code>, or <code>liftA2</code> to make it easier to run functions on functors.</p>
+<pre><code>const liftA2 = (f) =&gt; (a, b) =&gt; a.map(f).ap(b) // note it's `ap` and not `map`.
+
+const mult = a =&gt; b =&gt; a * b
+
+const liftedMult = liftA2(mult) // this function now works on functors like array
+
+liftedMult([1, 2], [3]) // [3, 6]
+liftA2((a, b) =&gt; a + b)([1, 2], [3, 4]) // [4, 5, 5, 6]
+</code></pre>
+<p>Lifting a one-argument function and applying it does the same thing as <code>map</code>.</p>
+<pre><code>const increment = (x) =&gt; x + 1
+
+lift(increment)([2]) // [3]
+;[2].map(increment) // [3]
+</code></pre>
+<h2><a id="user-content-referential-transparency" class="anchor" href="#referential-transparency" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Referential Transparency</h2>
+<p>An expression that can be replaced with its value without changing the
+behavior of the program is said to be referentially transparent.</p>
+<p>Say we have function greet:</p>
+<pre><code>const greet = () =&gt; 'Hello World!'
+</code></pre>
+<p>Any invocation of <code>greet()</code> can be replaced with <code>Hello World!</code> hence greet is
+referentially transparent.</p>
+<h2><a id="user-content-equational-reasoning" class="anchor" href="#equational-reasoning" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Equational Reasoning</h2>
+<p>When an application is composed of expressions and devoid of side effects, truths about the system can be derived from the parts.</p>
+<h2><a id="user-content-lambda" class="anchor" href="#lambda" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Lambda</h2>
+<p>An anonymous function that can be treated like a value.</p>
+<pre><code>;(function (a) {
+  return a + 1
+})
+
+;(a) =&gt; a + 1
+</code></pre>
+<p>Lambdas are often passed as arguments to Higher-Order functions.</p>
+<pre><code>[1, 2].map((a) =&gt; a + 1) // [2, 3]
+</code></pre>
+<p>You can assign a lambda to a variable.</p>
+<pre><code>const add1 = (a) =&gt; a + 1
+</code></pre>
+<h2><a id="user-content-lambda-calculus" class="anchor" href="#lambda-calculus" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Lambda Calculus</h2>
+<p>A branch of mathematics that uses functions to create a <a href="https://en.wikipedia.org/wiki/Lambda_calculus">universal model of computation</a>.</p>
+<h2><a id="user-content-lazy-evaluation" class="anchor" href="#lazy-evaluation" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Lazy evaluation</h2>
+<p>Lazy evaluation is a call-by-need evaluation mechanism that delays the evaluation of an expression until its value is needed. In functional languages, this allows for structures like infinite lists, which would not normally be available in an imperative language where the sequencing of commands is significant.</p>
+<pre><code>const rand = function*() {
+  while (1 &lt; 2) {
+    yield Math.random()
+  }
+}
+</code></pre>
+<pre><code>const randIter = rand()
+randIter.next() // Each execution gives a random value, expression is evaluated on need.
+</code></pre>
+<h2><a id="user-content-monoid" class="anchor" href="#monoid" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Monoid</h2>
+<p>An object with a function that "combines" that object with another of the same type.</p>
+<p>One simple monoid is the addition of numbers:</p>
+<pre><code>1 + 1 // 2
+</code></pre>
+<p>In this case number is the object and <code>+</code> is the function.</p>
+<p>An "identity" value must also exist that when combined with a value doesn't change it.</p>
+<p>The identity value for addition is <code>0</code>.</p>
+<pre><code>1 + 0 // 1
+</code></pre>
+<p>It's also required that the grouping of operations will not affect the result (associativity):</p>
+<pre><code>1 + (2 + 3) === (1 + 2) + 3 // true
+</code></pre>
+<p>Array concatenation also forms a monoid:</p>
+<pre><code>;[1, 2].concat([3, 4]) // [1, 2, 3, 4]
+</code></pre>
+<p>The identity value is empty array <code>[]</code></p>
+<pre><code>;[1, 2].concat([]) // [1, 2]
+</code></pre>
+<p>If identity and compose functions are provided, functions themselves form a monoid:</p>
+<pre><code>const identity = (a) =&gt; a
+const compose = (f, g) =&gt; (x) =&gt; f(g(x))
+</code></pre>
+<p><code>foo</code> is any function that takes one argument.</p>
+<pre><code>compose(foo, identity) ≍ compose(identity, foo) ≍ foo
+</code></pre>
+<h2><a id="user-content-monad" class="anchor" href="#monad" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Monad</h2>
+<p>A monad is an object with <a href="#pointed-functor"><code>of</code></a> and <code>chain</code> functions. <code>chain</code> is like <a href="#functor"><code>map</code></a> except it un-nests the resulting nested object.</p>
+<pre><code>// Implementation
+Array.prototype.chain = function (f) {
+  return this.reduce((acc, it) =&gt; acc.concat(f(it)), [])
+}
+
+// Usage
+;Array.of('cat,dog', 'fish,bird').chain((a) =&gt; a.split(',')) // ['cat', 'dog', 'fish', 'bird']
+
+// Contrast to map
+;Array.of('cat,dog', 'fish,bird').map((a) =&gt; a.split(',')) // [['cat', 'dog'], ['fish', 'bird']]
+</code></pre>
+<p><code>of</code> is also known as <code>return</code> in other functional languages.
+<code>chain</code> is also known as <code>flatmap</code> and <code>bind</code> in other languages.</p>
+<h2><a id="user-content-comonad" class="anchor" href="#comonad" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Comonad</h2>
+<p>An object that has <code>extract</code> and <code>extend</code> functions.</p>
+<pre><code>const CoIdentity = (v) =&gt; ({
+  val: v,
+  extract () {
+    return this.val
+  },
+  extend (f) {
+    return CoIdentity(f(this))
+  }
+})
+</code></pre>
+<p>Extract takes a value out of a functor.</p>
+<pre><code>CoIdentity(1).extract() // 1
+</code></pre>
+<p>Extend runs a function on the comonad. The function should return the same type as the comonad.</p>
+<pre><code>CoIdentity(1).extend((co) =&gt; co.extract() + 1) // CoIdentity(2)
+</code></pre>
+<h2><a id="user-content-applicative-functor" class="anchor" href="#applicative-functor" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Applicative Functor</h2>
+<p>An applicative functor is an object with an <code>ap</code> function. <code>ap</code> applies a function in the object to a value in another object of the same type.</p>
+<pre><code>// Implementation
+Array.prototype.ap = function (xs) {
+  return this.reduce((acc, f) =&gt; acc.concat(xs.map(f)), [])
+}
+
+// Example usage
+;[(a) =&gt; a + 1].ap([1]) // [2]
+</code></pre>
+<p>This is useful if you have two objects and you want to apply a binary function to their contents.</p>
+<pre><code>// Arrays that you want to combine
+const arg1 = [1, 3]
+const arg2 = [4, 5]
+
+// combining function - must be curried for this to work
+const add = (x) =&gt; (y) =&gt; x + y
+
+const partiallyAppliedAdds = [add].ap(arg1) // [(y) =&gt; 1 + y, (y) =&gt; 3 + y]
+</code></pre>
+<p>This gives you an array of functions that you can call <code>ap</code> on to get the result:</p>
+<pre><code>partiallyAppliedAdds.ap(arg2) // [5, 6, 7, 8]
+</code></pre>
+<h2><a id="user-content-morphism" class="anchor" href="#morphism" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Morphism</h2>
+<p>A transformation function.</p>
+<h3><a id="user-content-endomorphism" class="anchor" href="#endomorphism" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Endomorphism</h3>
+<p>A function where the input type is the same as the output.</p>
+<pre><code>// uppercase :: String -&gt; String
+const uppercase = (str) =&gt; str.toUpperCase()
+
+// decrement :: Number -&gt; Number
+const decrement = (x) =&gt; x - 1
+</code></pre>
+<h3><a id="user-content-isomorphism" class="anchor" href="#isomorphism" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Isomorphism</h3>
+<p>A pair of transformations between 2 types of objects that is structural in nature and no data is lost.</p>
+<p>For example, 2D coordinates could be stored as an array <code>[2,3]</code> or object <code>{x: 2, y: 3}</code>.</p>
+<pre><code>// Providing functions to convert in both directions makes them isomorphic.
+const pairToCoords = (pair) =&gt; ({x: pair[0], y: pair[1]})
+
+const coordsToPair = (coords) =&gt; [coords.x, coords.y]
+
+coordsToPair(pairToCoords([1, 2])) // [1, 2]
+
+pairToCoords(coordsToPair({x: 1, y: 2})) // {x: 1, y: 2}
+</code></pre>
+<h2><a id="user-content-setoid" class="anchor" href="#setoid" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Setoid</h2>
+<p>An object that has an <code>equals</code> function which can be used to compare other objects of the same type.</p>
+<p>Make array a setoid:</p>
+<pre><code>Array.prototype.equals = function (arr) {
+  const len = this.length
+  if (len !== arr.length) {
+    return false
+  }
+  for (let i = 0; i &lt; len; i++) {
+    if (this[i] !== arr[i]) {
+      return false
+    }
+  }
+  return true
+}
+
+;[1, 2].equals([1, 2]) // true
+;[1, 2].equals([0]) // false
+</code></pre>
+<h2><a id="user-content-semigroup" class="anchor" href="#semigroup" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Semigroup</h2>
+<p>An object that has a <code>concat</code> function that combines it with another object of the same type.</p>
+<pre><code>;[1].concat([2]) // [1, 2]
+</code></pre>
+<h2><a id="user-content-foldable" class="anchor" href="#foldable" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Foldable</h2>
+<p>An object that has a <code>reduce</code> function that can transform that object into some other type.</p>
+<pre><code>const sum = (list) =&gt; list.reduce((acc, val) =&gt; acc + val, 0)
+sum([1, 2, 3]) // 6
+</code></pre>
+<h2><a id="user-content-traversable" class="anchor" href="#traversable" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Traversable</h2>
+<p>TODO</p>
+<h2><a id="user-content-type-signatures" class="anchor" href="#type-signatures" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Type Signatures</h2>
+<p>Often functions in JavaScript will include comments that indicate the types of their arguments and return values.</p>
+<p>There's quite a bit of variance across the community but they often follow the following patterns:</p>
+<pre><code>// functionName :: firstArgType -&gt; secondArgType -&gt; returnType
+
+// add :: Number -&gt; Number -&gt; Number
+const add = (x) =&gt; (y) =&gt; x + y
+
+// increment :: Number -&gt; Number
+const increment = (x) =&gt; x + 1
+</code></pre>
+<p>If a function accepts another function as an argument it is wrapped in parentheses.</p>
+<pre><code>// call :: (a -&gt; b) -&gt; a -&gt; b
+const call = (f) =&gt; (x) =&gt; f(x)
+</code></pre>
+<p>The letters <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code> are used to signify that the argument can be of any type. The following version of <code>map</code> takes a function that transforms a value of some type <code>a</code> into another type <code>b</code>, an array of values of type <code>a</code>, and returns an array of values of type <code>b</code>.</p>
+<pre><code>// map :: (a -&gt; b) -&gt; [a] -&gt; [b]
+const map = (f) =&gt; (list) =&gt; list.map(f)
+</code></pre>
+<p><strong>Further reading</strong></p>
+<ul>
+<li><a href="https://github.com/ramda/ramda/wiki/Type-Signatures">Ramda's type signatures</a></li>
+<li><a href="https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch7.html#whats-your-type">Mostly Adequate Guide</a></li>
+<li><a href="http://stackoverflow.com/a/399392/22425">What is Hindley-Milner?</a> on Stack Overflow</li>
+</ul>
+<h2><a id="user-content-union-type" class="anchor" href="#union-type" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Union type</h2>
+<p>A union type is the combination of two types together into another one.</p>
+<p>JS doesn't have static types but let's say we invent a type <code>NumOrString</code> which is a sum of <code>String</code> and <code>Number</code>.</p>
+<p>The <code>+</code> operator in JS works on strings and numbers so we can use this new type to describe its inputs and outputs:</p>
+<pre><code>// add :: (NumOrString, NumOrString) -&gt; NumOrString
+const add = (a, b) =&gt; a + b
+
+add(1, 2) // Returns number 3
+add('Foo', 2) // Returns string "Foo2"
+add('Foo', 'Bar') // Returns string "FooBar"
+</code></pre>
+<p>Union types are also known as algebraic types, tagged unions, or sum types.</p>
+<p>There's a <a href="https://github.com/paldepind/union-type">couple</a> <a href="https://github.com/puffnfresh/daggy">libraries</a> in JS which help with defining and using union types.</p>
+<h2><a id="user-content-product-type" class="anchor" href="#product-type" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Product type</h2>
+<p>A <strong>product</strong> type combines types together in a way you're probably more familiar with:</p>
+<pre><code>// point :: (Number, Number) -&gt; {x: Number, y: Number}
+const point = (x, y) =&gt; ({x: x, y: y})
+</code></pre>
+<p>It's called a product because the total possible values of the data structure is the product of the different values.</p>
+<p>See also <a href="https://en.wikipedia.org/wiki/Set_theory">Set theory</a>.</p>
+<h2><a id="user-content-option" class="anchor" href="#option" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Option</h2>
+<p>Option is a <a href="#union-type">union type</a> with two cases often called <code>Some</code> and <code>None</code>.</p>
+<p>Option is useful for composing functions that might not return a value.</p>
+<pre><code>// Naive definition
+
+const Some = (v) =&gt; ({
+  val: v,
+  map (f) {
+    return Some(f(this.val))
+  },
+  chain (f) {
+    return f(this.val)
+  }
+})
+
+const None = () =&gt; ({
+  map (f) {
+    return this
+  },
+  chain (f) {
+    return this
+  }
+})
+
+// maybeProp :: (String, {a}) -&gt; Option a
+const maybeProp = (key, obj) =&gt; typeof obj[key] === 'undefined' ? None() : Some(obj[key])
+</code></pre>
+<p>Use <code>chain</code> to sequence functions that return <code>Option</code>s</p>
+<pre><code>// getItem :: Cart -&gt; Option CartItem
+const getItem = (cart) =&gt; maybeProp('item', cart)
+
+// getPrice :: Item -&gt; Option Number
+const getPrice = (item) =&gt; maybeProp('price', item)
+
+// getNestedPrice :: cart -&gt; Option a
+const getNestedPrice = (cart) =&gt; getItem(obj).chain(getPrice)
+
+getNestedPrice({}) // None()
+getNestedPrice({item: {foo: 1}}) // None()
+getNestedPrice({item: {price: 9.99}}) // Some(9.99)
+</code></pre>
+<p><code>Option</code> is also known as <code>Maybe</code>. <code>Some</code> is sometimes called <code>Just</code>. <code>None</code> is sometimes called <code>Nothing</code>.</p>
+<h2><a id="user-content-functional-programming-libraries-in-javascript" class="anchor" href="#functional-programming-libraries-in-javascript" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Functional Programming Libraries in JavaScript</h2>
+
+
+</article>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t48" name="t48"></a><h1>48 : ES6 Object Destructuring</h1>
+					<span class="ref-site"></span>
+					<div class="tutorial__content">
+<div class="post"><p>As JavaScript developers you are working a lot with objects and let's face it, manipulating objects wasn't the most convenient thing in JavaScript. ES6 is about to change this. Today we are going to discuss how to destructure objects using ES6.</p>
+<p>Before however let's take a look at a sample object and see what we'd do now, using ES5:</p>
+<pre><code>var person = {
+    name: 'Joe',
+    age: 21,
+    married: true,
+    hobbies: ['football', 'tennis', 'cooking']
+};
+</code></pre>
+<p>In order to extract some information and store them as variables we'd probably do:</p>
+<pre><code>var name = person.name;
+var age = person.age;
+// so on
+</code></pre>
+<p>This is a slightly laborous exercise, with ES6, utilising object destructuring we can very simply do:</p>
+<pre><code>var {name, age} = person;
+</code></pre>
+<p>The above line will automatically create both a <code>name</code> and an <code>age</code> variable. If we want we can also have different names then the property name from the object for the variables:</p>
+<pre><code>var {myName: name, myAge: age} = person;
+</code></pre>
+<p>This will create <code>myName</code> and <code>myAge</code> variables with the right values.</p>
+<p>And finally, we can also desctructure arrays using the same notation:</p>
+<pre><code>var {name, age, hobbies: [first, second]} = person;
+</code></pre>
+<p>You could now easily access these variables, for example <code>console.log(first)</code> would return 'football'.</p>
+
+              </div>
 					</div>
 				</article>
 				<!--================= END :: Tutorial =================-->
