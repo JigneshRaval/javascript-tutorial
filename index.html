@@ -1037,6 +1037,258 @@ car.setSpeed();
 								<p>JavaScript supports single class inheritance. To create a child class that inherit parent class, we create a Parent class object and assign it to the Child class.</p>
 							</article>
 						</section>
+						
+<pre>
+// Example 2:
+// REF.: https://ncombo.wordpress.com/2013/07/11/javascript-inheritance-done-right/
+
+function BaseClass(name) {
+    this.name = name;
+}
+
+BaseClass.prototype.foo = function (arg) {
+    return 'This is the foo method with argument: ' + arg;
+};
+
+function SubClass(name) {
+    // Call the base class' constructor.
+    BaseClass.call(this, name);
+}
+
+// SubClass' prototype is based on BaseClass' prototype
+SubClass.prototype = Object.create(BaseClass.prototype);
+
+SubClass.prototype.sub = function () {
+    return 'This is the sub method.'
+}
+
+SubClass.prototype.foo = function (arg) {
+    // Call the base class foo method on the current instance
+    return BaseClass.prototype.foo.call(this, arg) + ' SUB';
+}
+</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>When you define a function in JavaScript, initially, its prototype will be an empty object. What we're doing here is setting the SubClass' prototype to be a new instance which shares the BaseClass' prototype. Effectively, this allows us to freely modify the SubClass' extended prototype without messing with the BaseClass' prototype – The advantage of this technique over simply cloning the prototype is that changes in the BaseClass prototype will still be reflected in the SubClass (but not the other way around). The best way to think about the Object.create() method is that it instantiates a class based on a prototype without actually going through its constructor.</p>
+							</article>
+						</section>
+<pre>
+// Example 4
+// REF.: http://adripofjavascript.com/blog/drips/basic-inheritance-with-javascript-constructors.html
+//================================
+
+// SUPERCLASS
+//-------------------------------------
+function SuperHuman (name, superPower) {
+    this.name = name;
+    this.superPower = superPower;
+}
+
+SuperHuman.prototype.usePower = function () {
+    console.log(this.superPower + "!");
+};
+
+var banshee = new SuperHuman("Silver Banshee", "sonic wail");
+
+// Outputs: "sonic wail!"
+banshee.usePower();
+
+// SUBCLASS
+//-------------------------------------
+function SuperHero (name, superPower) {
+    // Reuse SuperHuman initialization
+    SuperHuman.call(this, name, superPower);
+
+    this.allegiance = "Good";
+}
+
+SuperHero.prototype = new SuperHuman();
+
+SuperHero.prototype.saveTheDay = function () {
+    console.log(this.name + " saved the day!");
+};
+
+var marvel = new SuperHero("Captain Marvel", "magic");
+
+// Outputs: "Captain Marvel saved the day!"
+marvel.saveTheDay();
+
+// Outputs: "magic!"
+marvel.usePower();
+</pre>
+
+<pre>
+// Example 5
+// REF : https://www.accelebrate.com/blog/javascript-es6-classes-and-prototype-inheritance-part-1-of-2/
+//==========================================
+
+// ES5
+//------------------------------------------------
+// Person constructor function
+// when called with the "new" operator,
+// a new Person object is created
+
+function Person(firstName, lastName) {
+  // the "new" operator sets the reference of
+  // "this" to a new object
+  this.firstName = firstName;
+  this.lastName = lastName;
+}
+
+// this property referencing the function will
+// be configured on person's prototype object,
+// and will be inherited by students
+Person.prototype.getFullName = function() {
+  return this.firstName + " " + this.lastName;
+};
+
+// Student constructor function
+// when called with the "new" operator,
+// a new Student object is created
+
+function Student(studentId, firstName, lastName) {
+  // the "new" operator sets the reference of "this" to
+  // a new object, the new object is then passed to the
+  // Person constructor function through the use of call,
+  // so the first name and last name properties can be set
+  this._super.call(this, firstName, lastName);
+  this.studentId = studentId;
+}
+
+// students will inherit from a new object
+// which inherits from the parent
+Student.prototype = Object.create(Person.prototype);
+
+// set the constructor property back to the Student
+// constructor function
+Student.prototype.constructor = Student;
+
+// "_super" is NOT part of ES5, its a convention
+// defined by the developer
+// set the "_super" to the Person constructor function
+Student.prototype._super = Person;
+
+// this will exist on the student's prototype object
+Student.prototype.getStudentInfo = function() {
+  return this.studentId + " " + this.lastName + ", " + this.firstName;
+};
+
+// instantiate a new Student object
+var student = new Student(1, "Bob", "Smith");
+
+// invoking function on parent prototype
+// outputs "Bob Smith"
+console.log(student.getFullName());
+
+// invoking function on child prototype
+// output "1 Smith, Bob"
+console.log(student.getStudentInfo());
+
+// ES6/ES2015
+//-----------------------------------------
+"use strict";
+
+class Person {
+
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  getFullName() {
+    return this.firstName + " " + this.lastName;
+  }
+
+}
+
+class Student extends Person {
+
+  constructor(studentId, firstName, lastName) {
+    super(firstName, lastName);
+    this.studentId = studentId;
+  }
+
+  getStudentInfo() {
+    return this.studentId + " " + this.lastName + ", " + this.firstName;
+  }
+
+}
+
+var student = new Student(1, "Bob", "Smith");
+console.log(student.getFullName());
+console.log(student.getStudentInfo());
+
+// Use of Extends Method
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+</pre>
+
+<pre>
+// REF: https://medium.com/ecmascript-2015/es6-classes-and-inheritance-607804080906
+// ES5
+//================================
+function Vehicle (name, type) {
+  this.name = name;
+  this.type = type;
+};
+ 
+Vehicle.prototype.getName = function getName () {
+  return this.name;
+};
+ 
+Vehicle.prototype.getType = function getType () {
+  return this.type;
+};
+function Car (name) {
+  Vehicle.call(this, name, ‘car’);
+}
+Car.prototype = Object.create(Vehicle.prototype);
+Car.prototype.constructor = Car;
+Car.parent = Vehicle.prototype;
+Car.prototype.getName = function () {
+  return 'It is a car: '+ this.name;
+};
+var car = new Car('Tesla');
+console.log(car.getName()); // It is a car: Tesla
+console.log(car.getType()); // car
+
+// ES6/ES2015
+//===========================
+class Vehicle {
+ 
+  constructor (name, type) {
+    this.name = name;
+    this.type = type;
+  }
+ 
+  getName () {
+    return this.name;
+  }
+ 
+  getType () {
+    return this.type;
+  }
+ 
+}
+class Car extends Vehicle {
+ 
+  constructor (name) {
+    super(name, 'car');
+  }
+ 
+  getName () {
+    return 'It is a car: ' + super.getName();
+  }
+ 
+}
+let car = new Car('Tesla');
+console.log(car.getName()); // It is a car: Tesla
+console.log(car.getType()); // car
+</pre>
 					</div>
 				</div>
 			</div>
@@ -1314,12 +1566,87 @@ let clone = Object.assign({}, obj);
 ChromeSamples.log(clone);
 // {person: 'Thor Odinson'}	
 </pre>
+
 						<section class="example__description">
 							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
 							<article>
-								<p>ExampleDescription</p>
+								<p>To support ES2015 class inheritance, TypeScript transpiles the ES2015 extends keyword functionality to a function named __extends, which executes the code needed to setup the inheritance. Here is the code for the __extends function:</p>
 							</article>
 						</section>
+<pre>
+// REF : https://www.accelebrate.com/blog/javascript-es6-classes-and-prototype-inheritance-part-1-of-2/
+//=====
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+
+/**
+ * The above code is a little hard to follow, so here is an expanded, documented version of it. 
+ * Review the added source code comments to understand the purpose of each line of code. 
+ * The __extends function works with any pair of parent and child objects.
+*/
+// declare a variable to reference the extends function
+var __extends;
+
+if (this && this.__extends) {
+
+	// the extends function is already defined within the context
+	// of this code, so use the existing __extends function
+	__extends = this.__extends;
+
+} else {
+// the extends function is not already defined within the current
+// context; therefore, define it
+__extends = function (child, parent) {
+
+  // mixin pattern for copying parent constructor function properties
+  // as static properties to the child constructor function
+  // properties on constructor function are commonly known as static
+  // properties
+  for (var parentPropertyName in parent) {
+
+    // only copy properties specifically defined on the parent
+    if (parent.hasOwnProperty(parentPropertyName)) {
+      // for primitive types, this will copy the value,
+      // for object types, this will copy the reference only
+      child[parentPropertyName] = parent[parentPropertyName];
+    }
+
+  }
+
+  // constructor function for the object that instantiated child objects
+  // will inherit from
+  // this function is unique within the context of each call to extend
+
+  function __() {
+    this.constructor = child;
+  }
+
+  if (parent === null) {
+
+    // objects instantiated with the child constructor function will
+    // inherit from an object that inherits from nothing, not even
+    // the built-in JavaScript Object
+    child.prototype = Object.create(parent);
+
+  } else {
+
+    // assign the prototype property of the parent constructor function
+    // to the prototype property of the constructor function defined
+    // above
+    __.prototype = parent.prototype;
+
+    // create the object that all instances of the child will inherit
+    // from, and assign it to the prototype property of the child
+    // constructor function
+    child.prototype = new __();
+
+  }
+
+};
+</pre>
 					</div>
 				</div>
 			</div>
@@ -1454,6 +1781,68 @@ this.document.on('keyup', function(event) {
 	}, 500);
 });
 </pre>
+					</div>
+				</div>
+			</div>
+			<!-- END :: Example -->
+			
+			<!-- START :: Example -->
+			<div class="row">
+				<div class=" col-md-12">
+					<div class="example" id="example1">
+						<h2 class="example__title grd_wg">ES6 Generator</h2>
+<pre>
+// Example 1:
+// REF.: https://medium.com/ecmascript-2015/es6-generators-4494aa135ad3
+//============================================================
+
+// ES6 ( ES2015 )
+//------------------------------------------
+function* random1_10 () {
+  while (true) {
+    yield Math.floor(Math.random() * 10) + 1;
+  }
+}
+let rand = random1_10();
+console.log(rand.next());
+console.log(rand.next());
+
+// ES5
+//------------------------------------------
+function random1_10 () {
+  return {
+    next: function() {
+      return {
+        value: Math.floor(Math.random() * 10) + 1,
+        done: false
+      };
+    }
+  };
+}
+let rand = random1_10();
+console.log(rand.next());
+console.log(rand.next());
+
+// Mixing Generators
+//------------------------------------------
+function* random (max) {
+  yield Math.floor(Math.random() * max) + 1;
+}
+function* random1_20 () {
+  while (true) {
+    yield* random(20);
+  }
+}
+let rand = random1_20();
+console.log(rand.next());
+console.log(rand.next());
+</pre>
+						<section class="example__description">
+							<!--<p class="tr no-margin-all"><a href="javascript:;" class="lnk-view-more">View Detail</a></p>-->
+							<article>
+								<p>ExampleDescription</p>
+							</article>
+						</section>
 					</div>
 				</div>
 			</div>

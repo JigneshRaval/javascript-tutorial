@@ -117,88 +117,2953 @@ table td { border: 1px solid #999; padding: 5px;}
 			<section class="section__one">
 			
 				<!--================= START :: Tutorial =================-->
-				<article style="display:none;">
-					<a id="t01" name="t01"></a><h1>01 : Index</h1>
+				<article>
+					<a id="t01" name="t01"></a><h1>01 : ECMAScript 6 equivalents in ES5</h1>
+					<span class="ref-site">https://github.com/addyosmani/es6-equivalents-in-es5</span>
+					<div class="tutorial__content">
+<article class="markdown-body entry-content" itemprop="text">
+<p><strong>Table of contents:</strong></p>
+<ol>
+<li><a href="#arrow-functions">Arrow Functions</a></li>
+<li><a href="#block-scoping-functions">Block Scoping Functions</a></li>
+<li><a href="#template-literals">Template Literals</a></li>
+<li><a href="#computed-property-names">Computed Property Names</a></li>
+<li><a href="#destructuring-assignment">Destructuring Assignment</a></li>
+<li><a href="#default-parameters">Default Parameters</a></li>
+<li><a href="#iterators-and-for-of">Iterators and For-Of</a></li>
+<li><a href="#classes">Classes</a></li>
+<li><a href="#modules">Modules</a></li>
+<li><a href="#numeric-literals">Numeric Literals</a></li>
+<li><a href="#property-method-assignment">Property Method Assignment</a></li>
+<li><a href="#object-initializer-shorthand">Object Initializer Shorthand</a></li>
+<li><a href="#rest-parameters">Rest Parameters</a></li>
+<li><a href="#spread-operator">Spread Operator</a></li>
+<li><a href="#proxying-a-function-object">Proxying a function object</a></li>
+<li><a href="#array-like-object-to-array">Array-like object to array</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#license">License</a></li>
+</ol>
+<h2><a id="user-content-arrow-functions" class="anchor" href="#arrow-functions" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Arrow Functions</h2>
+<p>An arrow function expression (also known as fat arrow function) has a shorter syntax compared to function expressions and lexically binds the this value. Arrow functions are always anonymous.</p>
+<p>ES6:</p>
+<pre><code>[1, 2, 3].map(n =&gt; n * 2);
+// -&gt; [ 2, 4, 6 ]
+</code></pre>
+<p>ES5 equivalent:</p>
+<pre><code>[1, 2, 3].map(function(n) { return n * 2; }, this);
+// -&gt; [ 2, 4, 6 ]
+</code></pre>
+<p>ES6:</p>
+<pre><code>var evens = [2, 4, 6, 8, 10];
+
+// Expression bodies
+var odds = evens.map(v =&gt; v + 1);
+var nums = evens.map((v, i) =&gt; v + i);
+
+console.log(odds);
+// -&gt; [3, 5, 7, 9, 11]
+
+console.log(nums);
+// -&gt; [2, 5, 8, 11, 14]
+
+// Statement bodies
+var fives = [];
+nums = [1, 2, 5, 15, 25, 32];
+nums.forEach(v =&gt; {
+  if (v % 5 === 0)
+    fives.push(v);
+});
+
+console.log(fives);
+// -&gt; [5, 15, 25]
+
+// Lexical this
+var bob = {
+  _name: 'Bob',
+  _friends: [],
+  printFriends() {
+    this._friends.forEach(f =&gt;
+      console.log(this._name + ' knows ' + f));
+  }
+}
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+
+var evens = [2, 4, 6, 8, 10];
+
+// Expression bodies
+var odds = evens.map(function (v) {
+  return v + 1;
+}, this);
+var nums = evens.map(function (v, i) {
+  return v + i;
+}, this);
+
+console.log(odds);
+// -&gt; [3, 5, 7, 9, 11]
+
+console.log(nums);
+// -&gt; [2, 5, 8, 11, 14]
+
+var fives = [];
+nums = [1, 2, 5, 15, 25, 32];
+
+// Statement bodies
+nums.forEach(function (v) {
+  if (v % 5 === 0) {
+    fives.push(v);
+  }
+}, this);
+
+console.log(fives);
+// -&gt; [5, 15, 25]
+
+// Lexical this
+var bob = {
+  _name: 'Bob',
+  _friends: [],
+  printFriends: function printFriends() {
+    this._friends.forEach(function (f) {
+      return console.log(this._name + ' knows ' + f);
+    }, this);
+  }
+};
+</code></pre>
+<h2><a id="user-content-block-scoping-functions" class="anchor" href="#block-scoping-functions" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Block Scoping Functions</h2>
+<p>Block scoped bindings provide scopes other than the function and top level scope. This ensures your variables don't leak out of the scope they're defined:</p>
+<p>ES6:</p>
+<pre><code>// let declares a block scope local variable,
+// optionally initializing it to a value in ES6
+
+'use strict';
+
+var a = 5;
+var b = 10;
+
+if (a === 5) {
+  let a = 4; // The scope is inside the if-block
+  var b = 1; // The scope is inside the function
+
+  console.log(a);  // 4
+  console.log(b);  // 1
+}
+
+console.log(a); // 5
+console.log(b); // 1
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+
+var a = 5;
+var b = 10;
+
+if (a === 5) {
+  // technically is more like the following
+  (function () {
+    var a = 4;
+    b = 1;
+
+    console.log(a); // 4
+    console.log(b); // 1
+  })();
+}
+
+console.log(a); // 5
+console.log(b); // 1
+</code></pre>
+<p>ES6:</p>
+<pre><code>// const creates a read-only named constant in ES6.
+'use strict';
+// define favorite as a constant and give it the value 7
+const favorite = 7;
+// Attempt to overwrite the constant
+try {
+  favorite = 15;
+} catch (err) {
+  console.log('my favorite number is still: ' + favorite);
+  // will still print 7
+}
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+// define favorite as a non-writable `constant` and give it the value 7
+Object.defineProperties(window, {
+  favorite: {
+    value: 7,
+    enumerable: true
+  }
+});
+// ^ descriptors are by default false and const are enumerable
+var favorite = 7;
+// Attempt to overwrite the constant
+favorite = 15;
+// will still print 7
+console.log('my favorite number is still: ' + favorite);
+</code></pre>
+<h2><a id="user-content-template-literals" class="anchor" href="#template-literals" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Template Literals</h2>
+<p>ES6 Template Literals are strings that can include <strong>embedded expressions</strong>. This is sometimes referred to as string interpolation.</p>
+<p>ES6:</p>
+<pre><code>// Basic usage with an expression placeholder
+var person = 'Addy Osmani';
+console.log(`Yo! My name is ${person}!`);
+
+// Expressions work just as well with object literals
+var user = {name: 'Caitlin Potter'};
+console.log(`Thanks for getting this into V8, ${user.name}.`);
+
+// Expression interpolation. One use is readable inline math.
+var a = 50;
+var b = 100;
+console.log(`The number of JS frameworks is ${a + b} and not ${2 * a + b}.`);
+
+// Multi-line strings without needing \n\
+console.log(`string text line 1
+string text line 2`);
+
+// Functions inside expressions
+function fn() { return 'result'; }
+console.log(`foo ${fn()} bar`);
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+
+// Basic usage with an expression placeholder
+var person = 'Addy Osmani';
+console.log('Yo! My name is ' + person + '!');
+
+// Expressions work just as well with object literals
+var user = { name: 'Caitlin Potter' };
+console.log('Thanks for getting this into V8, ' + user.name + '.');
+
+// Expression interpolation. One use is readable inline math.
+var a = 50;
+var b = 100;
+console.log('The number of JS frameworks is ' + (a + b) + ' and not ' + (2 * a + b) + '.');
+
+// Multi-line strings:
+console.log('string text line 1\nstring text line 2');
+// Or, alternatively:
+console.log('string text line 1\n\
+string text line 2');
+
+// Functions inside expressions
+function fn() {
+  return 'result';
+}
+console.log('foo ' + fn() + ' bar');
+</code></pre>
+<h2><a id="user-content-computed-property-names" class="anchor" href="#computed-property-names" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Computed Property Names</h2>
+<p>Computed property names allow you to specify properties in object literals based on expressions:</p>
+<p>ES6:</p>
+<pre><code>var prefix = 'foo';
+var myObject = {
+  [prefix + 'bar']: 'hello',
+  [prefix + 'baz']: 'world'
+};
+
+console.log(myObject['foobar']);
+// -&gt; hello
+console.log(myObject['foobaz']);
+// -&gt; world
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+
+var prefix = 'foo';
+var myObject = {};
+
+myObject[prefix + 'bar'] = 'hello';
+myObject[prefix + 'baz'] = 'world';
+
+console.log(myObject['foobar']);
+// -&gt; hello
+console.log(myObject['foobaz']);
+// -&gt; world
+</code></pre>
+<h2><a id="user-content-destructuring-assignment" class="anchor" href="#destructuring-assignment" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Destructuring Assignment</h2>
+<p>The destructuring assignment syntax is a JavaScript expression that makes it possible to extract data from arrays or objects using a syntax that mirrors the construction of array and object literals.</p>
+<p>ES6:</p>
+<pre><code>var {foo, bar} = {foo: 'lorem', bar: 'ipsum'};
+// foo =&gt; lorem and bar =&gt; ipsum
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+
+var _ref = { foo: 'lorem', bar: 'ipsum' };
+
+// foo =&gt; lorem and bar =&gt; ipsum
+var foo = _ref.foo;
+var bar = _ref.bar;
+</code></pre>
+<p>ES3:</p>
+<pre><code>with({foo: 'lorem', bar: 'ipsum'}) {
+  // foo =&gt; lorem and bar =&gt; ipsum
+}
+</code></pre>
+<p>ES6:</p>
+<pre><code>var [a, , b] = [1,2,3];
+</code></pre>
+<p>ES6 (shimming using <code>Symbol.iterator</code>):</p>
+<pre><code>'use strict';
+
+var _slicedToArray = function (arr, i) {
+  if (Array.isArray(arr)) {
+    return arr;
+  } else {
+    var _arr = [];
+
+    for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+      _arr.push(_step.value);
+
+      if (i &amp;&amp; _arr.length === i) {
+        break;
+      }
+    }
+
+    return _arr;
+  }
+};
+
+var _ref = [1, 2, 3];
+
+var _ref2 = _slicedToArray(_ref, 3);
+
+var a = _ref2[0];
+var b = _ref2[2];
+</code></pre>
+<p>ES5:</p>
+<pre><code>String.prototype.asNamedList = function () {
+  return this.split(/\s*,\s*/).map(function (name, i) {
+    return name ? ('var ' + name + '=slice(' + i + ', ' + (i + 1) + ')[0]') : '';
+  }).join(';');
+};
+
+with([1,2,3]) {
+  eval('a, , b'.asNamedList());
+}
+</code></pre>
+<h2><a id="user-content-default-parameters" class="anchor" href="#default-parameters" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Default Parameters</h2>
+<p>Default parameters allow your functions to have optional arguments without needing to check arguments.length or check for undefined.</p>
+<p>ES6:</p>
+<pre><code>function greet(msg='hello', name='world') {
+  console.log(msg,name);
+}
+
+greet();
+// -&gt; hello world
+greet('hey');
+// -&gt; hey world
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+
+function greet() {
+  // unfair ... if you access arguments[0] like this you can simply
+  // access the msg variable name instead
+  var msg = arguments[0] === undefined ? 'hello' : arguments[0];
+  var name = arguments[1] === undefined ? 'world' : arguments[1];
+  console.log(msg, name);
+}
+
+function greet(msg, name) {
+  (msg === undefined) &amp;&amp; (msg = 'hello');
+  (name === undefined) &amp;&amp; (name = 'world');
+  console.log(msg,name);
+}
+
+// using basic utility that check against undefined
+function greet(msg, name) {
+  console.log(
+    defaults(msg, 'hello'),
+    defaults(name, 'world')
+  );
+}
+
+greet();
+// -&gt; hello world
+greet('hey');
+// -&gt; hey world
+</code></pre>
+<p>ES6:</p>
+<pre><code>function f(x, y=12) {
+  // y is 12 if not passed (or passed as undefined)
+  return x + y;
+}
+
+f(3) === 15;
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+
+function f(x, y) {
+  if (y === undefined) {
+    y = 12;
+  }
+
+  return x + y;
+}
+
+f(3) === 15;
+</code></pre>
+<h2><a id="user-content-iterators-and-for-of" class="anchor" href="#iterators-and-for-of" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Iterators And For-Of</h2>
+<p>Iterators are objects that can traverse a container. It's a useful way to make a class work inside a for of loop.
+The interface is similar to the iterators-interface. Iterating with a <code>for..of</code> loop looks like:</p>
+<p>ES6:</p>
+<pre><code>// Behind the scenes, this will get an iterator from the array and loop through it, getting values from it.
+for (let element of [1, 2, 3]) {
+  console.log(element);
+}
+// =&gt; 1 2 3
+</code></pre>
+<p>ES6 (without using <code>for-of</code>, if <code>Symbol</code> is supported):</p>
+<pre><code>'use strict';
+
+for (var _iterator = [1, 2, 3][Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+  var element = _step.value;
+  console.log(element);
+}
+
+// =&gt; 1 2 3
+</code></pre>
+<p>ES5 (approximates):</p>
+<pre><code>// Using forEach()
+// Doesn't require declaring indexing and element variables in your containing
+// scope. They get supplied as arguments to the iterator and are scoped to just
+// that iteration.
+var a = [1,2,3];
+a.forEach(function (element) {
+    console.log(element);
+});
+
+// =&gt; 1 2 3
+
+// Using a for loop
+var a = [1,2,3];
+for (var i = 0; i &lt; a.length; ++i) {
+    console.log(a[i]);
+}
+// =&gt; 1 2 3
+</code></pre>
+<p>Note the use of <code>Symbol</code>. The ES5 equivalent would require a Symbol polyfill in order to correctly function.</p>
+<h2><a id="user-content-classes" class="anchor" href="#classes" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Classes</h2>
+<p>This implements class syntax and semantics as described in the ES6 draft spec. Classes are a great way to reuse code.
+Several JS libraries provide classes and inheritance, but they aren't mutually compatible.</p>
+<p>ES6:</p>
+<pre><code>class Hello {
+  constructor(name) {
+    this.name = name;
+  }
+
+  hello() {
+    return 'Hello ' + this.name + '!';
+  }
+
+  static sayHelloAll() {
+    return 'Hello everyone!';
+  }
+}
+
+class HelloWorld extends Hello {
+  constructor() {
+    super('World');
+  }
+
+  echo() {
+    alert(super.hello());
+  }
+}
+
+var hw = new HelloWorld();
+hw.echo();
+
+alert(Hello.sayHelloAll());
+</code></pre>
+<p>ES5 (approximate):</p>
+<pre><code>function Hello(name) {
+  this.name = name;
+}
+
+Hello.prototype.hello = function hello() {
+  return 'Hello ' + this.name + '!';
+};
+
+Hello.sayHelloAll = function () {
+  return 'Hello everyone!';
+};
+
+function HelloWorld() {
+  Hello.call(this, 'World');
+}
+
+HelloWorld.prototype = Object.create(Hello.prototype);
+HelloWorld.prototype.constructor = HelloWorld;
+HelloWorld.sayHelloAll = Hello.sayHelloAll;
+
+HelloWorld.prototype.echo = function echo() {
+  alert(Hello.prototype.hello.call(this));
+};
+
+var hw = new HelloWorld();
+hw.echo();
+
+alert(Hello.sayHelloAll());
+</code></pre>
+<p>A more faithful (albeit, slightly verbose) interpretation can be found in this <a href="https://goo.gl/ZvEQDq">Babel</a> output.</p>
+<h2><a id="user-content-modules" class="anchor" href="#modules" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Modules</h2>
+<p>Modules are mostly implemented, with some parts of the Loader API still to be corrected. Modules try to solve many issues in dependencies and deployment, allowing users to create modules with explicit exports, import specific exported names from those modules, and keep these names separate.</p>
+<p><em>Assumes an environment using CommonJS</em></p>
+<p>app.js - ES6</p>
+<pre><code>import math from 'lib/math';
+console.log('2π = ' + math.sum(math.pi, math.pi));
+</code></pre>
+<p>app.js - ES5</p>
+<pre><code>var math = require('lib/math');
+console.log('2π = ' + math.sum(math.pi, math.pi));
+</code></pre>
+<p>lib/math.js - ES6</p>
+<pre><code>export function sum(x, y) {
+  return x + y;
+}
+export var pi = 3.141593;
+</code></pre>
+<p>lib/math.js - ES5</p>
+<pre><code>exports.sum = sum;
+function sum(x, y) {
+  return x + y;
+}
+var pi = exports.pi = 3.141593;
+</code></pre>
+<p>lib/mathplusplus.js - ES6</p>
+<pre><code>export * from 'lib/math';
+export var e = 2.71828182846;
+export default function(x) {
+  return Math.exp(x);
+}
+</code></pre>
+<p>lib/mathplusplus.js - ES5</p>
+<pre><code>var Math = require('lib/math');
+
+var _extends = function (target) {
+  for (var i = 1; i &lt; arguments.length; i++) {
+    var source = arguments[i];
+    for (var key in source) {
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+};
+
+var e = exports.e = 2.71828182846;
+exports['default'] = function (x) {
+  return Math.exp(x);
+};
+
+module.exports = _extends(exports['default'], exports);
+</code></pre>
+<h2><a id="user-content-numeric-literals" class="anchor" href="#numeric-literals" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Numeric Literals</h2>
+<p>ES6:</p>
+<pre><code>var binary = [
+  0b0,
+  0b1,
+  0b11
+];
+console.assert(binary === [0, 1, 3]);
+
+var octal = [
+  0o0,
+  0o1,
+  0o10,
+  0o77
+];
+console.assert(octal === [0, 1, 8, 63]);
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+
+var binary = [0, 1, 3];
+console.assert(binary === [0, 1, 3]);
+
+var octal = [0, 1, 8, 63];
+console.assert(octal === [0, 1, 8, 63]);
+</code></pre>
+<h2><a id="user-content-property-method-assignment" class="anchor" href="#property-method-assignment" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Property Method Assignment</h2>
+<p>Method syntax is supported in object initializers, for example see toString():</p>
+<p>ES6:</p>
+<pre><code>var object = {
+  value: 42,
+  toString() {
+    return this.value;
+  }
+};
+
+console.log(object.toString() === 42);
+// -&gt; true
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+
+var object = {
+  value: 42,
+  toString: function toString() {
+    return this.value;
+  }
+};
+
+console.log(object.toString() === 42);
+// -&gt; true
+</code></pre>
+<h2><a id="user-content-object-initializer-shorthand" class="anchor" href="#object-initializer-shorthand" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Object Initializer Shorthand</h2>
+<p>This allows you to skip repeating yourself when the property name and property value are the same in an object literal.</p>
+<p>ES6:</p>
+<pre><code>function getPoint() {
+  var x = 1;
+  var y = 10;
+
+  return {x, y};
+}
+
+console.log(getPoint() === {
+  x: 1,
+  y: 10
+});
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+
+function getPoint() {
+  var x = 1;
+  var y = 10;
+
+  return { x: x, y: y };
+}
+
+console.log(getPoint() === {
+  x: 1,
+  y: 10
+});
+</code></pre>
+<h2><a id="user-content-rest-parameters" class="anchor" href="#rest-parameters" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Rest Parameters</h2>
+<p>Rest parameters allows your functions to have variable number of arguments without using the arguments object.
+The rest parameter is an instance of Array so all the array methods just work.</p>
+<p>ES6:</p>
+<pre><code>function f(x, ...y) {
+  // y is an Array
+  return x * y.length;
+}
+
+console.log(f(3, 'hello', true) === 6);
+// -&gt; true
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+
+function f(x) {
+  var y = [];
+  y.push.apply(y, arguments) &amp;&amp; y.shift();
+
+  // y is an Array
+  return x * y.length;
+}
+
+console.log(f(3, 'hello', true) === 6);
+// -&gt; true
+</code></pre>
+<h2><a id="user-content-spread-operator" class="anchor" href="#spread-operator" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Spread Operator</h2>
+<p>The spread operator is like the reverse of rest parameters. It allows you to expand an array into multiple formal parameters.</p>
+<p>ES6:</p>
+<pre><code>function add(a, b) {
+  return a + b;
+}
+
+let nums = [5, 4];
+
+console.log(add(...nums));
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+
+var _toArray = function (arr) {
+  return Array.isArray(arr) ? arr : [].slice.call(arr);
+};
+
+function add(a, b) {
+  return a + b;
+}
+
+var nums = [5, 4];
+console.log(add.apply(null, _toArray(nums)));
+</code></pre>
+<p>ES6:</p>
+<pre><code>function f(x, y, z) {
+  return x + y + z;
+}
+// Pass each elem of array as argument
+f(...[1,2,3]) === 6;
+</code></pre>
+<p>ES5:</p>
+<pre><code>'use strict';
+
+function f(x, y, z) {
+  return x + y + z;
+}
+// Pass each elem of array as argument
+f.apply(null, [1, 2, 3]) === 6;
+</code></pre>
+<h2><a id="user-content-proxying-a-function-object" class="anchor" href="#proxying-a-function-object" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Proxying a function object</h2>
+<p>ES6:</p>
+<pre><code>var target = function () {
+  return 'I am the target';
+};
+
+var handler = {
+  apply: function (receiver, ...args) {
+    return 'I am the proxy';
+  }
+};
+
+var p = new Proxy(target, handler);
+console.log(p() === 'I am the proxy');
+// -&gt; true
+</code></pre>
+<p>ES5:</p>
+<p>No proxy in ES5, hard to intercept <strong>noSuchMethod</strong> and others.</p>
+<h2><a id="user-content-array-like-object-to-array" class="anchor" href="#array-like-object-to-array" aria-hidden="true"><svg aria-hidden="true" class="octicon octicon-link" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Array-like object to array</h2>
+<p><strong>Array.from</strong> converts a single argument that is an array-like object or list (eg. <code>arguments</code>, <code>NodeList</code>, <code>DOMTokenList</code> (used by <code>classList</code>), <code>NamedNodeMap</code> (used by attributes property) into a new Array() and returns it.</p>
+<p>ES6:</p>
+<pre><code>var listFriends = function() {
+  var friends = Array.from(arguments);
+  friends.forEach(friend =&gt; {
+    console.log(friend);
+  });
+};
+listFriends('ann', 'bob');
+// -&gt; 'ann'
+// -&gt; 'bob'
+
+
+var divs = document.querySelectorAll('div');
+Array.from(divs).forEach(node =&gt; {
+    console.log(node);
+});
+// -&gt; &lt;div&gt;...&lt;/div&gt;
+// -&gt; &lt;div&gt;...&lt;/div&gt;
+</code></pre>
+<p>ES5:</p>
+<pre><code>var listFriends = function() {
+  var friends = [].slice.call(arguments)
+  friends.forEach(function(friend) {
+    console.log(friend);
+  });
+};
+listFriends('ann', 'bob');
+// -&gt; 'ann'
+// -&gt; 'bob'
+
+
+var divsArray = [].slice.call(document.querySelectorAll('div'));
+divsArray.forEach(function(node) {
+    console.log(node);
+});
+// -&gt; &lt;div&gt;...&lt;/div&gt;
+// -&gt; &lt;div&gt;...&lt;/div&gt;
+</code></pre>
+</article>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t02" name="t02"></a><h1>02 : JavaScript Inheritance Done Right</h1>
+					<span class="ref-site">https://ncombo.wordpress.com/2013/07/11/javascript-inheritance-done-right/</span>
+					<div class="tutorial__content">
+<div class="entry-content">
+					<p>One of the worst (and possibly also one of the best) things about JavaScript is that it offers you many ways to do anything. Some tricks are simple and neat while others can be complex and confusing.</p>
+<p>If you have done some research, you will likely have come across many ways of implementing inheritance in JavaScript. I have personally used a lot of variations over time in various projects but it’s not until recently that I have settled on a particular technique.</p>
+<p>I have chosen this particular technique because I feel that it most closely resembles how most OO programming languages implement inheritance. To get it to work properly, you should use the prototype-based method of class definition. Here is an example of the technique in action:</p>
+<blockquote><p>
+function BaseClass(name) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="skimlinks-unlinked">this.name</span> = name;<br>
+}</p>
+<p><span class="skimlinks-unlinked">BaseClass.prototype.foo</span> = function (arg) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return ‘This is the foo method with argument: ‘ + arg;<br>
+};</p>
+<p>function SubClass(name) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Call the base class’ constructor.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="skimlinks-unlinked">BaseClass.call(this</span>, name);<br>
+}</p>
+<p>// SubClass’ prototype is based on BaseClass’ prototype<br>
+SubClass.prototype = Object.create(BaseClass.prototype);</p>
+<p><span class="skimlinks-unlinked">SubClass.prototype.sub</span> = function () {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return ‘This is the sub method.’<br>
+}</p>
+<p><span class="skimlinks-unlinked">SubClass.prototype.foo</span> = function (arg) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;// Call the base class foo method on the current instance<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return <span class="skimlinks-unlinked">BaseClass.prototype.foo.call(this</span>, arg) + ‘ SUB’;<br>
+}</p></blockquote>
+<p>Ok, so what stands out the most in this code is this line:</p>
+<blockquote><p>SubClass.prototype = Object.create(BaseClass.prototype);</p></blockquote>
+<p>When you define a function in JavaScript, initially, its prototype will be an empty object. What we’re doing here is setting the SubClass’ prototype to be a new instance which shares the BaseClass’ prototype. Effectively, this allows us to freely modify the SubClass’ extended prototype without messing with the BaseClass’ prototype – The advantage of this technique over simply cloning the prototype is that changes in the BaseClass prototype will still be reflected in the SubClass (but not the other way around). The best way to think about the Object.create() method is that it instantiates a class based on a prototype without actually going through its constructor. The Object.create() function may not be supported by older browsers, but thankfully there is a simple polyfill which you can get from this page:<br>
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create</a></p>
+<p>The second weird thing about the code above is this line:</p>
+<p><span class="skimlinks-unlinked">BaseClass.call(this</span>, name);</p>
+<p>Now if you don’t know what call or apply do, you should check this:<br>
+<a href="http://stackoverflow.com/questions/1986896/what-is-the-difference-between-call-and-apply">http://stackoverflow.com/questions/1986896/what-is-the-difference-between-call-and-apply</a></p>
+<p>OO languages usually offer a way to explicitly call a super class’ constructor or method, JavaScript is no exception. With JavaScript, you just call the constructor/method using either call() or apply() and pass a reference to the current instance as the first argument. This is a neat feature of JavaScript which allows you to effectively borrow methods from any other class to use on the current instance.</p>
+<p>If you’re used to languages like Java, C# and Python, you might find the class definitions above unusual – In these languages you have an explicit ‘class’ keyword and you define the methods INSIDE the class block. If however, you have written C++ before, this might seem a little less confusing because C++ allows you to define methods of a class outside of the class definition block.&nbsp;While JavaScript does let you define methods inside the constructor’s function block, this makes inheritance more difficult to achieve and I would strongly recommend that you follow the technique above (I swear you won’t regret it).</p>
+										</div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t03" name="t03"></a><h1>03 : http://js-bits.blogspot.com/2010/08/javascript-inheritance-done-right.html</h1>
+					<span class="ref-site">http://js-bits.blogspot.com/2010/08/javascript-inheritance-done-right.html</span>
+					<div class="tutorial__content">
+<div class="post-body entry-content" id="post-body-578868776986553481" itemprop="description articleBody">
+I've seen a number of different ways of implementing Javascript inheritance. The real test to see if inheritance is working correctly is that the instanceof operator works correctly. So all the approaches that <a href="http://www.sitepoint.com/blogs/2006/01/17/javascript-inheritance/">copy methods</a> from the base to the subclass are out of the question because they do not correctly setup the prototype chain. Another consequence of inheritance by copying is that if you change the prototype after the object has been instantiated, the object does not magically inherit the added property. <br>
+<br>
+This leads me to the most common approach which does correctly set up prototype chain but has a few problems:<br>
+<br>
+<div><pre><code>function Animal(name) {
+&nbsp;&nbsp;this.name = name;
+}
+&nbsp;
+// This style of setting the prototype to an object
+// works for classes that inherit from Object.
+Animal.prototype = {
+&nbsp;&nbsp;sayMyName: function() {
+&nbsp;&nbsp;&nbsp;&nbsp;console.log(this.getWordsToSay() + " " + this.name);
+&nbsp;&nbsp;},
+&nbsp;&nbsp;getWordsToSay: function() {
+&nbsp;&nbsp;&nbsp;&nbsp;// Abstract
+&nbsp;&nbsp;}
+}
+&nbsp;
+function Dog(name) {
+&nbsp;&nbsp;// Call the parent's constructor
+&nbsp;&nbsp;Animal.call(this, name);
+}
+&nbsp;
+// Setup the prototype chain mmm... calling
+// the Animal without the required params?
+Dog.prototype = new Animal();
+&nbsp;
+Dog.prototype.getWordsToSay = function(){
+&nbsp;&nbsp;return "Ruff Ruff";
+}
+&nbsp;
+var dog = new Dog("Lassie");
+dog.sayMyName(); // Outputs Ruff Ruff Lassie
+console.log(dog instanceof Animal); // true
+console.log(dog.constructor); // Animal ???? That's not right
+console.log("name" in Dog.prototype)// true, but undefined
+</code></pre></div><br>
+Alright, what's going on?<br>
+<ul><li>Dog.prototype now has a property called "name" that is set to undefined. <br>
+That wasn't intentional. I knew that call to Animal's constructor was funny. Though that won't cause a problem, because we add a "name" to the object in the constructor, it's not very elegant</li>
+<li>dog (the instance) has a constructor property but it points to Animal,<br>
+that's just wrong</li>
+</ul><br>
+How can we fix that? Here's a first try<br>
+<br>
+<div><pre><code>// This is a constructor that is used to setup inheritance without
+// invoking the base's constructor. It does nothing, so it doesn't
+// create properties on the prototype like our previous example did
+function surrogateCtor() {}
+&nbsp;
+function extend(base, sub) {
+&nbsp;&nbsp;// Copy the prototype from the base to setup inheritance
+&nbsp;&nbsp;surrogateCtor.prototype = base.prototype;
+&nbsp;&nbsp;// Tricky huh?
+&nbsp;&nbsp;sub.prototype = new surrogateCtor();
+&nbsp;&nbsp;// Remember the constructor property was set wrong, let's fix it
+&nbsp;&nbsp;sub.prototype.constructor = sub;
+}
+&nbsp;
+// Let's try this
+function Animal(name) {
+&nbsp;&nbsp;this.name = name;
+}
+&nbsp;
+Animal.prototype = {
+&nbsp;&nbsp;sayMyName: function() {
+&nbsp;&nbsp;&nbsp;&nbsp;console.log(this.getWordsToSay() + " " + this.name);
+&nbsp;&nbsp;},
+&nbsp;&nbsp;getWordsToSay: function() {
+&nbsp;&nbsp;&nbsp;&nbsp;// Abstract
+&nbsp;&nbsp;}
+}
+&nbsp;
+function Dog(name) {
+&nbsp;&nbsp;// Call the parent's constructor
+&nbsp;&nbsp;Animal.call(this, name);
+}
+&nbsp;
+// Setup the prototype chain the right way
+extend(Animal, Dog);
+&nbsp;
+Dog.prototype.getWordsToSay = function(){
+&nbsp;&nbsp;return "Ruff Ruff";
+}
+&nbsp;
+var dog = new Dog("Lassie");
+dog.sayMyName(); // Outputs Ruff Ruff Lassie
+console.log(dog instanceof Animal); // true
+console.log(dog.constructor); // Dog
+console.log("name" in Dog.prototype)// false
+</code></pre></div><br>
+Nice isn't it? Let's add some syntactic sugar to make it more user friendly.<br>
+<ul><li>Add a reference to the base class so we don't have to hard code it</li>
+<li>Pass the object's prototype methods into the call</li>
+</ul><br>
+<br>
+<div><pre><code>function surrogateCtor() {}
+&nbsp;
+function extend(base, sub, methods) {
+&nbsp;&nbsp;surrogateCtor.prototype = base.prototype;
+&nbsp;&nbsp;sub.prototype = new surrogateCtor();
+&nbsp;&nbsp;sub.prototype.constructor = sub;
+&nbsp;&nbsp;// Add a reference to the parent's prototype
+&nbsp;&nbsp;sub.base = base.prototype;
+&nbsp;
+&nbsp;&nbsp;// Copy the methods passed in to the prototype
+&nbsp;&nbsp;for (var name in methods) {
+&nbsp;&nbsp;&nbsp;&nbsp;sub.prototype[name] = methods[name];
+&nbsp;&nbsp;}
+&nbsp;&nbsp;// so we can define the constructor inline
+&nbsp;&nbsp;return sub;
+}
+&nbsp;
+// Use the same animal from above
+function Dog(name) {
+&nbsp;&nbsp;// Call the parent's constructor without hard coding the parent
+&nbsp;&nbsp;Dog.base.constructor.call(this, name);
+}
+&nbsp;
+extend(Animal, Dog, {
+&nbsp;&nbsp;getWordsToSay: function(){
+&nbsp;&nbsp;&nbsp;&nbsp;return "Ruff Ruff";
+&nbsp;&nbsp;}
+});
+</code></pre></div><br>
+One more step, I don't even like hard coding the name of the class in the methods in case I rename it, how can we fix that?<br>
+<br>
+The solution is to wrap everything in a self executing function and create a reference to the constructor<br>
+<br>
+<div><pre><code>Dog = (function(){
+&nbsp;&nbsp;// $this refers to the constructor
+&nbsp;&nbsp;var $this = function (name) {
+&nbsp;&nbsp;&nbsp;&nbsp;// Look, no hardcoded reference to this class's name
+&nbsp;&nbsp;&nbsp;&nbsp;$this.base.constructor.call(this, name);
+&nbsp;&nbsp;};
+&nbsp;
+&nbsp;&nbsp;extend(Animal, $this, {
+&nbsp;&nbsp;&nbsp;&nbsp;getWordsToSay: function(){
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "Ruff Ruff";
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;});
+&nbsp;
+&nbsp;&nbsp;return $this;
+})();
+</code></pre></div><br>
+With this final approach, renaming the class or changing its parent requires changing a single place (for each change).
+
+<h3>Update</h3>
+<p>This article was written a while ago, when <a href="">Object.create</a> wasn't as well supported. The extend function could be simplified to be</p>
+<div><pre><code>function extend(base, sub, methods) {
+&nbsp;&nbsp;sub.prototype = Object.create(base.prototype);
+&nbsp;&nbsp;sub.prototype.constructor = sub;
+&nbsp;&nbsp;sub.base = base.prototype;
+&nbsp;
+&nbsp;&nbsp;// Copy the methods passed in to the prototype
+&nbsp;&nbsp;for (var name in methods) {
+&nbsp;&nbsp;&nbsp;&nbsp;sub.prototype[name] = methods[name];
+&nbsp;&nbsp;}
+&nbsp;&nbsp;// so we can define the constructor inline
+&nbsp;&nbsp;return sub;
+}
+</code></pre></div><br>
+
+</div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t04" name="t04"></a><h1>04 : Basic Inheritance with JavaScript Constructors</h1>
+					<span class="ref-site">http://adripofjavascript.com/blog/drips/basic-inheritance-with-javascript-constructors.html</span>
+					<div class="tutorial__content">
+<div class="post">
+<p>We've looked before at using JavaScript's constructors to create our own custom object types. But what we didn't look at was how we can create an inheritance hierarchy.</p>
+
+<p>It's important to note that even though constructors are often referred to as "classes," they really aren't the same thing as classes in other languages. In JavaScript, a constructor is just a function invoked by the <code>new</code> operator which builds a new object.</p>
+
+<p>Here's a little refresher:</p>
+<pre><code>function SuperHuman (name, superPower) {
+    this.name = name;
+    this.superPower = superPower;
+}
+
+SuperHuman.prototype.usePower = function () {
+    console.log(this.superPower + "!");
+};
+
+var banshee = new SuperHuman("Silver Banshee", "sonic wail");
+
+// Outputs: "sonic wail!"
+banshee.usePower();
+</code></pre>
+<p>The <code>SuperHuman</code> constructor contains our initialization logic, while <code>SuperHuman.prototype</code> contains the methods that are shared across all <code>SuperHuman</code> instances.</p>
+
+<p>But suppose that we want to create a new type which inherits from <code>SuperHuman</code> while adding its own functionality? What would that look like?</p>
+<pre><code>function SuperHero (name, superPower) {
+    this.name = name;
+    this.superPower = superPower;
+    this.allegiance = "Good";
+}
+
+SuperHero.prototype.saveTheDay = function () {
+    console.log(this.name + " saved the day!");
+};
+
+var marvel = new SuperHero("Captain Marvel", "magic");
+
+// Outputs: "Captain Marvel saved the day!"
+marvel.saveTheDay();
+</code></pre>
+<p>While this gets us started, there are a couple of problems. First of all, the <code>SuperHero</code> constructor is repeating some of the logic of the <code>SuperHuman</code> constructor. And more importantly, at this point instances of <code>SuperHero</code> don't have access to <code>SuperHuman</code> methods. For example:</p>
+<pre><code>// TypeError: Object &lt;#SuperHero&gt; has no method 'usePower'
+marvel.usePower();
+</code></pre>
+<p>Let's fix those couple of issues.</p>
+<pre><code>function SuperHero (name, superPower) {
+    // Reuse SuperHuman initialization
+    SuperHuman.call(this, name, superPower);
+
+    this.allegiance = "Good";
+}
+
+SuperHero.prototype = new SuperHuman();
+
+SuperHero.prototype.saveTheDay = function () {
+    console.log(this.name + " saved the day!");
+};
+
+var marvel = new SuperHero("Captain Marvel", "magic");
+
+// Outputs: "Captain Marvel saved the day!"
+marvel.saveTheDay();
+
+// Outputs: "magic!"
+marvel.usePower();
+</code></pre>
+<p>We've managed to eliminate the repeated constructor logic by calling <code>SuperHuman</code> with <code>SuperHero</code>'s <code>this</code> object and passing along the necessary arguments. That ensures that <code>SuperHuman</code>'s initialization logic will act on the new <code>SuperHero</code> object. And then we tack on the additional logic that is specific to <code>SuperHero</code>.</p>
+
+<p>But where the inheritance comes in is on <code>SuperHero.prototype</code>. In order to ensure that it inherits the methods from <code>SuperHuman.prototype</code>, we actually make it an instance of <code>SuperHuman</code> with <code>new SuperHuman()</code>.</p>
+
+<p>This basic inheritance pattern won't always work, particularly if the parent constructor is complex, but it will handle simple situations quite well.</p>
+
+<p>In future issues we'll take a look at more sophisticated ways of doing inheritance.</p>
+
+    </div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t05" name="t05"></a><h1>05 : JavaScript ES2015 Classes and Prototype Inheritance (Part 1 of 2)</h1>
+					<span class="ref-site">https://www.accelebrate.com/blog/javascript-es6-classes-and-prototype-inheritance-part-1-of-2/</span>
+					<div class="tutorial__content">
+<div class="entry-content">
+                            <h2>What is JavaScript ES2015?</h2>
+<p>With the finalizing of the ECMA Script 2015 (ES2015) specification in June of last year, the JavaScript community can move towards the implementation of ES2015 in the many JavaScript engines in the marketplace. &nbsp;ES2015 was formerly known as ES6, but following the pattern of other programming languages, the year is now being used instead of an arbitrary version number.</p>
+<p>ES2015 offers many helpful new features and cleaner syntax for existing features. One example of this cleaner syntax is the class keyword, as well as improved syntax for using prototype inheritance in JavaScript applications.</p>
+<p>Until ES2015, implementing prototype inheritance with JavaScript was confusing and difficult for many JavaScript developers. The first challenge is to understand how prototype inheritance is different from the classic inheritance models of the C++, Java, and C# languages. In the conventional inheritance model, classes inherit from classes. Classes are nothing more than specifications or blueprints used to create objects. Specifications can inherit the qualities of other specifications. Using inherited qualities and its own qualities, new objects can be instantiated. Unlike traditional inheritance, JavaScript has no concept of these specifications.</p>
+<h2>What is JavaScript Prototype Inheritance?</h2>
+<p>In JavaScript prototype inheritance, one object inherits from another object, instead of one specification inheriting from another specification. Even the new class keyword is kind of a misnomer because while it implies a specification, it is still one object inheriting from another object. So if the inheritance mechanism is the same, why change the syntax needed to perform the task already accomplished in earlier versions of JavaScript? Simply put, the syntax in earlier versions of JavaScript is too tedious and difficult to follow. Therefore, once the developer understands object-to-object inheritance, the second challenge is how to improve the syntax for prototype inheritance – enter ES2015 classes.</p>
+<h2>ES2015 Classes in JavaScript</h2>
+<p>The new ES2015 syntax provides a clearer syntax for identifying class structures, creating constructor functions, extending classes, calling the constructor and functions on the super class, as well as providing static functions. Additionally, the new ES2015 class construct improves the syntax for creating ES5 style getter/setter property descriptors, enabling developers to utilize these largely unknown capabilities in ES2015.</p>
+<p><strong>Class Definitions<br>
+</strong>The use of the term “class” in JavaScript has a controversial history. Strictly speaking, JavaScript does not have classes. Even the classes in ES2015 are not really classes in the traditional sense. The classes in ES2015 are just a cleaned up syntax for setting up prototype inheritance between objects. Nevertheless, because ES2015 uses the term “class” for objects created with a function constructor (yes, a function constructor is the ultimate end result of the class keyword), this blog post will use the term “class” to describe not only ES2015 classes, but also ES5 and earlier constructor functions.</p>
+<p>In ES5 and earlier, constructor functions defined “classes” like this:</p>
+<pre><code>function MyClass() { }
+
+var myClass = new MyClass();</code></pre>
+<p>ES2015 introduces a new syntax using the class keyword:</p>
+<pre><code>class MyClass {
+  constructor() {  }
+}
+var myClass = new MyClass();</code></pre>
+<p><a href="http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip" onclick="__gaTracker('send', 'event', 'download', 'http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip');">Click Here to Download the Code</a> [typeof.js]</p>
+<p>The constructor function is the same function as defined in ES5. The class keyword wrapped block is where properties on the prototype are defined (this will be shown later). The new keyword syntax for instantiating a new instance of the class remains unchanged from ES5.</p>
+<p>With this new class keyword syntax comes a function object, which is what ES5 used. Observe the following output from the Node.js REPL environment. First, we define a new class and then the typeof operator lists the type of the class object.</p>
+<pre><code>&gt; class MyClass { constructor() {} }
+class MyClass { constructor() {} }
+[Function: MyClass]
+&gt; typeof MyClass
+'function'
+&gt;</code></pre>
+<p>ES2015 did not redefine the role and purpose of the constructor function; it simply cleaned up the syntax.</p>
+<h2>What are Constructors in JavaScript?</h2>
+<p>Constructors serve the same purpose as constructor functions in earlier versions of JavaScript. A constructor is a function that is executed when the new operator is used to instantiate a new instance of the class. Arguments can be passed into the constructor function to initialize object properties and perform other tasks.</p>
+<p>In ES5, constructor functions looked like this:</p>
+<pre><code>function Person(firstName, lastName) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+}</code></pre>
+<p>The equivalent constructor function with ES2015 syntax looks like this:</p>
+<pre><code>// the name of the ES5 constructor
+// function is name of the ES2015 class
+class Person {
+
+  // observe there is no "function" keyword
+  // also, the word "constructor" is used, not "Person"
+  constructor(firstName, lastName) {
+
+    // this represents the new object being
+    // created and initialized
+    this.firstName = firstName;
+    this.lastName = lastName;
+
+  }
+}</code></pre>
+<p>While the syntax is a little more verbose, it is also clearer, and makes it easier to add inherited properties.</p>
+<p>To instantiate objects with either syntax, the code is the same.</p>
+<pre><code>var person = new Person("Bob", "Smith");
+
+// outputs "Bob"
+console.log(person.firstName);
+
+// outputs "Smith"
+console.log(person.lastName);</code></pre>
+<p><a href="http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip" onclick="__gaTracker('send', 'event', 'download', 'http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip');">Click Here to Download the Code</a> [constructors.js]</p>
+<p><strong>Extending Classes</strong></p>
+<p>Prior to ES2015, most developers who coded JavaScript did not understand how to setup an inheritance relationship between objects. A quick conversation with a C++, Java, or C# developer would quickly reveal the ease with which they could setup one class to inherit from another, and then instantiate an object from the subclass. Ask a typical JavaScript developer to demonstrate how to setup inheritance between two objects, and the result is usually a blank stare. The reason for this great difference is that configuring prototype inheritance is not straightforward, and the concept of prototype inheritance is foreign to most JavaScript developers. Here is some example code with comments to explain the process of configuring inheritance.</p>
+<pre><code>// Person constructor function
+// when called with the "new" operator,
+// a new Person object is created
+
+function Person(firstName, lastName) {
+  // the "new" operator sets the reference of
+  // "this" to a new object
+  this.firstName = firstName;
+  this.lastName = lastName;
+}
+
+// this property referencing the function will
+// be configured on person's prototype object,
+// and will be inherited by students
+Person.prototype.getFullName = function() {
+  return this.firstName + " " + this.lastName;
+};
+
+// Student constructor function
+// when called with the "new" operator,
+// a new Student object is created
+
+function Student(studentId, firstName, lastName) {
+  // the "new" operator sets the reference of "this" to
+  // a new object, the new object is then passed to the
+  // Person constructor function through the use of call,
+  // so the first name and last name properties can be set
+  this._super.call(this, firstName, lastName);
+  this.studentId = studentId;
+}
+
+// students will inherit from a new object
+// which inherits from the parent
+Student.prototype = Object.create(Person.prototype);
+
+// set the constructor property back to the Student
+// constructor function
+Student.prototype.constructor = Student;
+
+// "_super" is NOT part of ES5, its a convention
+// defined by the developer
+// set the "_super" to the Person constructor function
+Student.prototype._super = Person;
+
+// this will exist on the student's prototype object
+Student.prototype.getStudentInfo = function() {
+  return this.studentId + " " + this.lastName + ", " + this.firstName;
+};
+
+// instantiate a new Student object
+var student = new Student(1, "Bob", "Smith");
+
+// invoking function on parent prototype
+// outputs "Bob Smith"
+console.log(student.getFullName());
+
+// invoking function on child prototype
+// output "1 Smith, Bob"
+console.log(student.getStudentInfo());</code></pre>
+<p><a href="http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip" onclick="__gaTracker('send', 'event', 'download', 'http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip');">Click Here to Download the Code</a> [es5_inheritance.js]</p>
+<p>The above code is hard to follow, and it takes a lot of work just for one object to inherit from another while supporting constructor functions. Most JavaScript developers cannot create this code from memory, and many have never seen or considered anything like this when working with JavaScript.</p>
+<p>To solve this problem and bring prototype inheritance into greater usage, ES2015 has introduced the <strong>extends</strong> keyword to the syntax of its new class structure. The following code demonstrates the same inheritance as the first code sample, but uses ES2015 syntax.</p>
+<pre><code>"use strict";
+
+class Person {
+
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  getFullName() {
+    return this.firstName + " " + this.lastName;
+  }
+
+}
+
+class Student extends Person {
+
+  constructor(studentId, firstName, lastName) {
+    super(firstName, lastName);
+    this.studentId = studentId;
+  }
+
+  getStudentInfo() {
+    return this.studentId + " " + this.lastName + ", " + this.firstName;
+  }
+
+}
+
+var student = new Student(1, "Bob", "Smith");
+console.log(student.getFullName());
+console.log(student.getStudentInfo());</code></pre>
+<p><a href="http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip" onclick="__gaTracker('send', 'event', 'download', 'http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip');">Click Here to Download the Code</a> [es6_inheritance.js]</p>
+<p>Clearly, the second approach easier to understand. The interesting result is that both code samples produce exactly the same object structure. Therefore, while the new syntax simply improves the inheritance code, it does not change the result.</p>
+<p>Another way to explore how this works is to look at the ES5 inheritance code generated by TypeScript. TypeScript is a JavaScript pre-processor language, which enhances JavaScript through strong-type checking and transpiling ES2015 code to ES5 code. Transpiling (aka transcompiling) is the process of compiling the source code of one language into the source code of another language. Popular transpilers include <a href="http://coffeescript.org" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://coffeescript.org', 'CoffeeScript');" target="_blank">CoffeeScript</a>, <a href="http://sass-lang.com" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://sass-lang.com', 'SASS');" target="_blank">SASS</a>, and <a href="http://lesscss.org" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://lesscss.org', 'LessCSS');" target="_blank">LessCSS</a>, as well as <a href="http://www.typescriptlang.org" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://www.typescriptlang.org', 'TypeScript');" target="_blank">TypeScript</a>.</p>
+<h2>The _extends function in JavaScript</h2>
+<p>To support ES2015 class inheritance, TypeScript transpiles the ES2015 <strong>extends</strong> keyword functionality to a function named <strong>__extends</strong>, which executes the code needed to setup the inheritance. Here is the code for the <strong>__extends</strong> function:</p>
+<pre><code>var __extends = (this &amp;&amp; this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};</code></pre>
+<p>The above code is a little hard to follow, so here is an expanded, documented version of it. Review the added source code comments to understand the purpose of each line of code. The <strong>__extends</strong> function works with any pair of parent and child objects.</p>
+<pre><code>// declare a variable to reference the extends function
+var __extends;
+
+if (this &amp;&amp; this.__extends) {
+
+	// the extends function is already defined within the context
+	// of this code, so use the existing __extends function
+	__extends = this.__extends;
+
+} else {</code></pre>
+<p>Within the else block is the implementation of the <strong>__extends</strong> function. The function utilizes both the mixin pattern and prototype inheritance to construct the inheritance relationship between parent and child objects. The mixin pattern copies the properties from one object to another. The code below walks through the <strong>__extends</strong> function.</p>
+<pre><code>// the extends function is not already defined within the current
+// context; therefore, define it
+__extends = function (child, parent) {
+
+  // mixin pattern for copying parent constructor function properties
+  // as static properties to the child constructor function
+  // properties on constructor function are commonly known as static
+  // properties
+  for (var parentPropertyName in parent) {
+
+    // only copy properties specifically defined on the parent
+    if (parent.hasOwnProperty(parentPropertyName)) {
+      // for primitive types, this will copy the value,
+      // for object types, this will copy the reference only
+      child[parentPropertyName] = parent[parentPropertyName];
+    }
+
+  }
+
+  // constructor function for the object that instantiated child objects
+  // will inherit from
+  // this function is unique within the context of each call to extend
+
+  function __() {
+    this.constructor = child;
+  }
+
+  if (parent === null) {
+
+    // objects instantiated with the child constructor function will
+    // inherit from an object that inherits from nothing, not even
+    // the built-in JavaScript Object
+    child.prototype = Object.create(parent);
+
+  } else {
+
+    // assign the prototype property of the parent constructor function
+    // to the prototype property of the constructor function defined
+    // above
+    __.prototype = parent.prototype;
+
+    // create the object that all instances of the child will inherit
+    // from, and assign it to the prototype property of the child
+    // constructor function
+    child.prototype = new __();
+
+  }
+
+};</code></pre>
+<p>The following two lines of code confuse many developers:</p>
+<pre><code>// assign the prototype property of the parent constructor function
+// to the prototype property of the constructor function defined
+// above
+__.prototype = parent.prototype;
+
+// create the object that all instances of the child will inherit
+// from, and assign it to the prototype property of the child
+// constructor function
+child.prototype = new __();</code></pre>
+<p>Developers may think the code should be written like this this instead:</p>
+<pre><code>// this code does not yield the desired result
+child.prototype = parent.prototype;</code></pre>
+<p>Mistakenly, developers reason that the child will now inherit from the parent constructor function’s prototype property. However, what really happens is that objects created with the parent’s constructor function, and objects created with the child’s constructor function, both inherit from the exact same prototype object. This is not desirable, because the child constructor function’s prototype property cannot be modified without also changing the parent constructor function’s prototype property. This means that all changes made to the child will also be made to the parent. This is not true inheritance.</p>
+<p><a href="https://www.accelebrate.com/blog/wp-content/uploads/2016/01/inheritance-structure.png"><img class="aligncenter wp-image-799 size-full" title="Inheritance Structure" src="https://www.accelebrate.com/blog/wp-content/uploads/2016/01/inheritance-structure.png" alt="Inheritance Structure" width="673" height="262" draggable="true" data-bukket-ext-bukket-draggable="true"></a></p>
+<p>When a new object is instantiated with the new operator and either the Parent or Child Constructor Functions, the resulting objects will inherit from the same prototype object (PPO). The instantiated parent and child objects are really siblings with the PPO as their parent. The child does not inherit from the parent.</p>
+<p>Therefore, the purpose of this code is to establish the following inheritance structure.</p>
+<pre><code>__.prototype = parent.prototype;
+child.prototype = new __();</code></pre>
+<p><a href="https://www.accelebrate.com/blog/wp-content/uploads/2016/01/correct-inheritance-structure.png"><img class=" wp-image-800 size-full aligncenter" title="Correct Inheritance Structure" src="https://www.accelebrate.com/blog/wp-content/uploads/2016/01/correct-inheritance-structure.png" alt="Correct Inheritance Structure" width="667" height="355" draggable="true" data-bukket-ext-bukket-draggable="true"></a></p>
+<p>With this new structure, new child objects will inherit from the CPO, which inherits from PPO. New properties can be added to the CPO, which will not affect the PPO. New parent objects will inherit from the PPO, and are thus unaffected by changes to the CPO. Changes to the PPO will be inherited by object created with both the Parent and Child Constructor Functions. With this new structure, child objects inherit from the parent.<br>
+Finally, the closing curly brace for the original if block.</p>
+<pre><code>}</code></pre>
+<p><a href="http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip" onclick="__gaTracker('send', 'event', 'download', 'http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip');">Click Here to Download the Code</a> [ts_extends.js]</p>
+<p>ES2015 syntax for extending classes is much easier to understand. There are two new keywords: <strong>extends</strong> and <strong>super</strong>. The <strong>extends</strong> keyword sets up the prototype inheritance relationship between the parent and child classes. The <strong>super</strong> keyword invokes the constructor on the parent (aka super) class. Invoking the <strong>super</strong> function is required even if the parent object does no configuration. The invoking of the super constructor is what actually created the new this object to be used in the child class (aka subclass).</p>
+<pre><code>class Person {
+
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  getFullName() {
+    return this.firstName + " " + this.lastName;
+  }
+
+}
+
+// 'extends' keyword sets up the prototype inheritance relationship
+// with the super object
+// 'extends' performs the same basic operation as the earlier
+// '__extends' function
+
+class Student extends Person {
+
+  constructor(studentId, firstName, lastName) {
+    // 'super' must be the first function called in the constructor
+    // the 'super' invokes the constructor of the super class
+    // the value of 'this' is not defined until 'super' is called
+    super(firstName, lastName);
+
+    // if this line is executed before the call to 'super' above
+    // an error will occur saying that 'this' is not defined
+    this.studentId = studentId;
+  }
+
+  getStudentInfo() {
+    return this.studentId + " " + this.lastName + ", " + this.firstName;
+  }
+
+}
+
+var student = new Student(1, "Bob", "Smith");</code></pre>
+<p><a href="http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip" onclick="__gaTracker('send', 'event', 'download', 'http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip');">Click Here to Download the Code</a> [extends.js]</p>
+<p>JavaScript objects only allow single inheritance, and there is no built-in support for interfaces (TypeScript offers interfaces).</p>
+<p>By adopting and formalizing many current JavaScript object design patterns, ES2015 classes greatly improves the syntax to define object inheritance, getter/setter properties. While ES2015 classes do not change the nature of prototype inheritance, it does make prototype inheritance more accessible to JavaScript developers. I hope that this new syntax will allow new and old JavaScript developers alike to expand their understanding and use of prototype inheritance in JavaScript.</p>
+<p><a href="https://www.accelebrate.com/blog/javascript-es2015-classes-and-properties-part-2-of-2/">JavaScript ES2015 Classes and Properties (Part 2 of 2)</a></p>
+<hr>
+<p>Author: Eric Greene, one of Accelebrate’s instructors.</p>
+
+                          </div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t06" name="t06"></a><h1>06 : JavaScript ES2015 Classes and Properties (Part 2 of 2)</h1>
+					<span class="ref-site">https://www.accelebrate.com/blog/javascript-es2015-classes-and-properties-part-2-of-2/</span>
+					<div class="tutorial__content">
+<div class="entry-content">
+                            <h2><strong>Classes, Objects and Properties </strong></h2>
+<p>In the previous post, <a href="https://www.accelebrate.com/blog/javascript-es6-classes-and-prototype-inheritance-part-1-of-2/">JavaScript ES2015 Classes and Prototype Inheritance (Part 1 of 2)</a>, we explored the new class syntax and the many intricacies of prototype inheritance.</p>
+<p>In this post, we will continue to explore properties that can be configured with the new class syntax and made available on objects that are instantiated. In particular, we will explore function properties, accessor properties, and static properties. The sharing of functions with multiple objects is the primary purpose of prototype inheritance ; therefore, understanding how to configure functions on classes is important.</p>
+<p>Accessor properties have been around since the days of ECMAScript 5 (ES5), yet many developers do not know they even exist in the language. We will examine the new class syntax which makes them easier to work with.</p>
+<p>Finally, many programming languages offer static members on class definitions. Static members are directly available on the class, with no specific instance required. Such properties are commonly used for helper functions related to the class. Even though there is no concept of static properties in JavaScript, the new <strong>class</strong> syntax offers a kind of static property through the <strong>static</strong> keyword.&nbsp; We will dive deeper into those as well. Use of static variables in certain cases was originally popularized by Java.&nbsp; You can read an excellent tutorial on this concept at <a href="https://docs.oracle.com/javase/tutorial/java/javaOO/classvars.html" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://docs.oracle.com/javase/tutorial/java/javaOO/classvars.html', 'https://docs.oracle.com/javase/tutorial/java/javaOO/classvars.html');" target="_blank">https://docs.oracle.com/javase/tutorial/java/javaOO/classvars.html</a>.</p>
+<h2><strong>Function Properties </strong></h2>
+<p>In practice, the primary purpose of prototype inheritance is to allow the inheritance of function properties (properties which point to any kind of function) from the parent object to the child object. Generally, value properties should exist directly on the child object because values are typically specific to a particular child object. Additionally, traversing the prototype chain to retrieve an object’s values is inefficient. However, function properties are different from value properties. Rarely are function implementations specific to a particular object, therefore, sharing the same function object between multiple objects reduces memory consumption by the JavaScript application.</p>
+<p>The key to different objects sharing the same function object is that the context of function execution is always determined by how the function is called, not the lexical position of the function in the source code. This flexibility means the same function can be used with any object, and the value of <strong>this</strong> within the function will always refer to the object which qualified the function call.</p>
+<pre><code>// 'getFullName' function object
+function getFullName() {
+&nbsp;   return this.firstName + " " + this.lastName;
+}
+
+var person1 = {
+  firstName: "Bob",
+  lastName: "Smith",
+  // property named 'getFullName' referencing the 'getFullName' function object above
+  getFullName: getFullName
+};
+
+var person2 = {
+  firstName: "Tim",
+  lastName: "Johnson",
+  // property named 'getFullName' referencing the 'getFullName' function object above
+  getFullName: getFullName
+};
+
+// outputs "Bob Smith"
+console.log(person1.getFullName());
+
+// outputs "Tim   Johnson"
+console.log(person2.getFullName());
+
+// outputs "true" because both properties point to the same function
+console.log(person1.getFullName === person2.getFullName);</code></pre>
+<p><a href="http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip" onclick="__gaTracker('send', 'event', 'download', 'http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip');">Click Here to Download the Code</a> [this.js]</p>
+<p>The property ‘getFullName’ on both the person1 and person2 objects points to the same ‘getFullName’ function object. By reusing the same function object for both objects (and the number of objects is not limited), less memory is used while allowing the function to be shared between different objects.</p>
+<p>This concept, combined with prototype inheritance, allows for a function object to be defined on the prototype object. &nbsp;All objects inheriting from the prototype can use the same function with the value of <strong>this</strong> for each function call to be specific to the object against which the function is being executed.</p>
+<p>To define properties to be inherited from the prototype, the following syntax is used.</p>
+<pre><code>"use strict";
+
+class Person {
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  // function definition
+  // a property referencing the function will exist on
+  // the prototype object, not on each instance of Person
+  getFullName() {
+    return this.firstName + " " +   this.lastName;
+  }
+}
+
+var person = new Person("Bob", "Smith");
+// invoke the function on the instance
+// the function is referenced on the prototype
+// to find the function, the prototype chain is
+// traversed, then function is executed within
+// the context of the 'person' instance
+console.log(person.getFullName());</code></pre>
+<p><a href="http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip" onclick="__gaTracker('send', 'event', 'download', 'http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip');">Click Here to Download the Code</a> [functions.js]</p>
+<p>Observe how the function object ‘getFullName’ is defined without using the <strong>function</strong> keyword. With the ES2015 class syntax, the keyword <strong>function</strong> is omitted from the function object definitions.&nbsp; This function will not be a direct property of the person object; rather, it will be on the Person prototype that the person object will inherit from.</p>
+<h2><strong>Getter/Setter Properties</strong></h2>
+<p>Getter and setter properties are not new to JavaScript, even though few JavaScript developers know that they exist or how to use them.&nbsp; With the addition of property descriptors in ES5, object properties could be defined with property descriptors to be either standard value properties or to use accessor functions for getting and setting the values of properties. Developers from a .NET background are familiar with the accessor pattern for properties since .NET uses accessors for properties in .NET class definitions.</p>
+<pre><code>"use strict";
+class Person {
+
+constructor(firstName, lastName) {
+  // internal properties can be prefixed with an underscore
+  this._firstName = firstName;
+  this._lastName = lastName;
+}
+
+// the name of the property is used when defining the accessor functions
+get firstName() {
+  // return the value of the internal property,
+  // other logic can be performed here as well
+  // internal properties are a convention, not
+  // part of the JavaScript languagereturn this._firstName;
+}
+
+// the accessor functions are defined on the prototype, while
+// the values are stored on internal properties on the instance
+set firstName(value) {
+  // set the value of the internal property,
+  // validation or other logic can go here as well
+  this._firstName = value;
+  }
+}
+
+var person = new Person("Bob", "Smith");
+
+// properties are set like normal value properties, the accessors are implicitly called
+person.firstName = "Tommy";
+
+// get operations work in a similar fashion
+console.log(person.firstName);</code></pre>
+<p><a href="http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip" onclick="__gaTracker('send', 'event', 'download', 'http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip');">Click Here to Download the Code</a> [accessors.js]</p>
+<h2><strong>Static Properties</strong></h2>
+<p>As first mentioned in the <strong>extends</strong> function source code comments above, JavaScript provides a convention for defining static properties for objects.&nbsp; ES2015 classes continue this convention through the formalized keyword <strong>static</strong>.</p>
+<pre><code>"use strict";
+
+class Person {
+  constructor(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  //   static function definition
+  // not accessible on the instance
+  // function is defined on the class (function) object
+  // itself, not the prototype; therefore, its not
+  // inherited and cannot be shadowed (overridden)
+  // by a child object
+  static getFormattedName(person) {
+    return person.lastName + ", " + person.firstName;
+  }
+}
+
+var person = new Person("Bob", "Smith"); // reference the static function directly on the class (function) object
+console.log(Person.getFormattedName(person));</code></pre>
+<p>Static function are defined directly on the class itself, and are not accessible using the <strong>this</strong> object. Static functions are primarily used as helper functions related to the class.</p>
+<p><a href="http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip" onclick="__gaTracker('send', 'event', 'download', 'http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip');">Click Here to Download the Code</a> [static.js]</p>
+<h2><strong>Private Properties</strong></h2>
+<p>ES2015 still does not formally support the use of public, protected, and private access modifiers for object properties.&nbsp; With JavaScript, all properties are public.&nbsp; Some preprocessors such as TypeScript added transpile time support for public and private access modifiers.&nbsp; With a little JavaScript wizardry using class expressions and closures, private properties can be achieved.</p>
+<pre><code>"use strict";
+
+var Person = {
+  // a wrapper function is needed to create new private variable for each
+  // instance of the class
+  // the class definition source code my be defined in the wrapper function
+  // because closures dependent the lexical structure of the code
+  create: function(...cargs) {
+    let _name = undefined;
+    return new class {
+      constructor(name) {
+&nbsp;       _name = name;
+      }
+      get name() {
+        return _name;
+      }
+      set name(value) {
+        _name = value;
+      }
+    }(...cargs);
+  }
+};
+
+// call the wrapper function to   create the object
+var person =   Person.create("Bob Smith");
+console.log(person.name);</code></pre>
+<p><a href="http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip" onclick="__gaTracker('send', 'event', 'download', 'http://lib.accelebrate.com/blog/JavaScript_ES2015_Classes.zip');">Click Here to Download the Code</a> [private.js]</p>
+<p>While this will work, it has some downsides. While closures are used all of the time in JavaScript, they can hurt application performance and consume extra memory. Creating more closures to simply hide some properties is not generally worth it. Also, a new class definition object is created with each call to the wrapper function. The class definition must be defined in the wrapper function to leverage closures. The creation of this class definition over and over will also consume more memory and be inefficient.</p>
+<p>It is key to remember that JavaScript is not C++, Java, or C#. It does not support classical inheritance and is not currently designed to mimic the typical features of classical inheritance such as access modifiers. Prefixing private (better termed internal) properties with an underscore or other character (Angular.js uses a $) is a commonly accepted pattern, and achieves the same goal without incurring the performance and memory overhead.</p>
+<h2><strong>Conclusion</strong></h2>
+<p>By adopting and formalizing many current JavaScript object design patterns, ES2015 classes greatly improves the syntax to define object inheritance, getter/setter properties. It also clarifies the differences between which properties are defined on the object instance, which are inherited, and which once are considered static. While ES2015 classes do not change the nature of prototype inheritance, they do make prototype inheritance more accessible to JavaScript developers. Hopefully this new syntax will allow new and old JavaScript developers alike to further expand their understanding and use of prototype inheritance in JavaScript.</p>
+<p><a href="https://www.accelebrate.com/blog/javascript-es6-classes-and-prototype-inheritance-part-1-of-2/">JavaScript ES2015 Classes and Prototype Inheritance (Part 1 of 2)</a></p>
+<hr>
+<p>Author: Eric Greene, one of Accelebrate’s instructors.</p>
+
+              
+                          </div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t07" name="t07"></a><h1>07 : ES6 - classes and inheritance</h1>
+					<h3>Let’s talk about ECMAScript 2015</h3>
 					<span class="ref-site"></span>
 					<div class="tutorial__content">
-						
+<div class="postArticle-content js-postField js-notesSource js-trackedPost" data-post-id="607804080906" data-source="post_page" data-collection-id="c8958ce340e4" data-tracking-context="postPage" data-scroll="native"><section name="1e20" class="section section--body"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><p name="0cdb" id="0cdb" class="graf graf--p graf--leading"><strong class="markup--strong markup--p-strong">OO</strong> keywords is probably the most awaited features in ES6. <strong class="markup--strong markup--p-strong">Classes</strong> are something like another syntactic sugar over the prototype-based OO pattern. We now have one, concise way to make class patterns easier to use.</p><blockquote name="1356" id="1356" class="graf graf--pullquote graf-after--p">Over the prototype-based <strong class="markup--strong markup--pullquote-strong">OO pattern</strong> to ensure <strong class="markup--strong markup--pullquote-strong">backwards compatibility</strong>.</blockquote><h4 name="790a" id="790a" class="graf graf--h4 graf-after--pullquote">Overview — an example of ES6 class syntax and ES5 equivalent</h4><pre name="5155" id="5155" class="graf graf--pre graf-after--h4"><strong class="markup--strong markup--pre-strong">class</strong> Vehicle {<br> <br>  <strong class="markup--strong markup--pre-strong">constructor</strong> (name, type) {<br>    this.name = name;<br>    this.type = type;<br>  }<br> <br>  getName () {<br>    return this.name;<br>  }<br> <br>  getType () {<br>    return this.type;<br>  }<br> <br>}</pre><pre name="a1ce" id="a1ce" class="graf graf--pre graf-after--pre">let car = new Vehicle('Tesla', 'car');<br>console.log(car.getName()); // Tesla<br>console.log(car.getType()); // car</pre><p name="5380" id="5380" class="graf graf--p graf-after--pre">It’s naive example, but we can see a new keywords as <strong class="markup--strong markup--p-strong">class </strong>and <strong class="markup--strong markup--p-strong">constructor</strong>.</p><p name="02b4" id="02b4" class="graf graf--p graf-after--p">ES5 equivalent could be something like this:</p><pre name="76c8" id="76c8" class="graf graf--pre graf-after--p">function Vehicle (name, type) {<br>  this.name = name;<br>  this.type = type;<br>};<br> <br>Vehicle.prototype.getName = function getName () {<br>  return this.name;<br>};<br> <br>Vehicle.prototype.getType = function getType () {<br>  return this.type;<br>};</pre><pre name="609a" id="609a" class="graf graf--pre graf-after--pre">var car = new Vehicle('Tesla', 'car');<br>console.log(car.getName()); // Tesla<br>console.log(car.getType()); // car</pre><blockquote name="01c1" id="01c1" class="graf graf--pullquote graf-after--pre">Classes support prototype-based <strong class="markup--strong markup--pullquote-strong">inheritance</strong>, <strong class="markup--strong markup--pullquote-strong">super calls</strong>, <strong class="markup--strong markup--pullquote-strong">instance</strong> and <strong class="markup--strong markup--pullquote-strong">static methods</strong> and <strong class="markup--strong markup--pullquote-strong">constructors</strong>.</blockquote><p name="49a5" id="49a5" class="graf graf--p graf-after--pullquote">It’s simple. We instantiate our classes the same way, but let’s add some..</p><h4 name="1425" id="1425" class="graf graf--h4 graf-after--p">inheritance</h4><p name="0de8" id="0de8" class="graf graf--p graf-after--h4">..to it and start from ES5 example:</p><pre name="b4a7" id="b4a7" class="graf graf--pre graf-after--p">function Vehicle (name, type) {<br>  this.name = name;<br>  this.type = type;<br>};<br> <br>Vehicle.prototype.getName = function getName () {<br>  return this.name;<br>};<br> <br>Vehicle.prototype.getType = function getType () {<br>  return this.type;<br>};</pre><pre name="0439" id="0439" class="graf graf--pre graf-after--pre">function Car (name) {<br>  Vehicle.call(this, name, ‘car’);<br>}</pre><pre name="7c27" id="7c27" class="graf graf--pre graf-after--pre">Car.prototype = Object.create(Vehicle.prototype);<br>Car.prototype.constructor = Car;<br>Car.parent = Vehicle.prototype;<br>Car.prototype.getName = function () {<br>  return 'It is a car: '+ this.name;<br>};</pre><pre name="03eb" id="03eb" class="graf graf--pre graf-after--pre">var car = new Car('Tesla');<br>console.log(car.getName()); // It is a car: Tesla<br>console.log(car.getType()); // car</pre><p name="36d1" id="36d1" class="graf graf--p graf-after--pre">And now look at the ES6 version:</p><pre name="62f6" id="62f6" class="graf graf--pre graf-after--p">class Vehicle {<br> <br>  constructor (name, type) {<br>    this.name = name;<br>    this.type = type;<br>  }<br> <br>  getName () {<br>    return this.name;<br>  }<br> <br>  getType () {<br>    return this.type;<br>  }<br> <br>}</pre><pre name="be03" id="be03" class="graf graf--pre graf-after--pre">class Car <strong class="markup--strong markup--pre-strong">extends</strong> Vehicle {<br> <br>  constructor (name) {<br>    <strong class="markup--strong markup--pre-strong">super</strong>(name, 'car');<br>  }<br> <br>  getName () {<br>    return 'It is a car: ' + <strong class="markup--strong markup--pre-strong">super</strong>.getName();<br>  }<br> <br>}</pre><pre name="b019" id="b019" class="graf graf--pre graf-after--pre">let car = new Car('Tesla');<br>console.log(car.getName()); // It is a car: Tesla<br>console.log(car.getType()); // car</pre><p name="85e3" id="85e3" class="graf graf--p graf-after--pre">We see how easy is to implement inheritance with ES6. It’s finally looking like in other OO programming languages. We use <strong class="markup--strong markup--p-strong">extends</strong> to inherit from another class and the <strong class="markup--strong markup--p-strong">super</strong> keyword to call the parent class (function). Moreover, <strong class="markup--strong markup--p-strong">getName()</strong> method was overridden in subclass <strong class="markup--strong markup--p-strong">Car</strong>.</p><blockquote name="da89" id="da89" class="graf graf--pullquote graf-after--p"><strong class="markup--strong markup--pullquote-strong">super</strong> — previously to achieve such functionality in Javascript required the use of <strong class="markup--strong markup--pullquote-strong">call</strong> or&nbsp;<strong class="markup--strong markup--pullquote-strong">apply</strong></blockquote><h4 name="9e79" id="9e79" class="graf graf--h4 graf-after--pullquote">static</h4><pre name="95ac" id="95ac" class="graf graf--pre graf-after--h4">class Vehicle {<br> <br>  constructor (name, type) {<br>    this.name = name;<br>    this.type = type;<br>  }<br> <br>  getName () {<br>    return this.name;<br>  }<br> <br>  getType () {<br>    return this.type;<br>  }<br> <br>  <strong class="markup--strong markup--pre-strong">static</strong> create (name, type) {<br>    return new Vehicle(name, type);<br>  }<br> <br>}</pre><pre name="9311" id="9311" class="graf graf--pre graf-after--pre">let car = Vehicle.create('Tesla', 'car');<br>console.log(car.getName()); // Tesla<br>console.log(car.getType()); // car</pre><p name="f880" id="f880" class="graf graf--p graf-after--pre">Classes gives us an opportunity to create static members. We don’t have to use the <strong class="markup--strong markup--p-strong">new</strong> keyword later to instantiate a class.</p><blockquote name="31bd" id="31bd" class="graf graf--pullquote graf-after--p"><strong class="markup--strong markup--pullquote-strong">static</strong> methods (properties) are also inherited<br>and could be called by&nbsp;<strong class="markup--strong markup--pullquote-strong">super</strong></blockquote><h4 name="425b" id="425b" class="graf graf--h4 graf-after--pullquote">get /&nbsp;set</h4><p name="6358" id="6358" class="graf graf--p graf-after--h4">Other great things in upcoming ES6 are <strong class="markup--strong markup--p-strong">getters</strong> and <strong class="markup--strong markup--p-strong">setters</strong> for object properties. They allow us to run the code on the reading or writing of a property.</p><pre name="9c1d" id="9c1d" class="graf graf--pre graf-after--p">class Car {<br> <br>  constructor (name) {<br>    this._name = name;<br>  } <br> <br>  <strong class="markup--strong markup--pre-strong">set</strong> name (name) {<br>    this._name = name;<br>  }<br> <br>  <strong class="markup--strong markup--pre-strong">get</strong> name () {<br>    return this._name;<br>  }<br> <br>}</pre><pre name="d7cb" id="d7cb" class="graf graf--pre graf-after--pre">let car = new Car('Tesla');<br>console.log(car.name); // Tesla</pre><pre name="4148" id="4148" class="graf graf--pre graf-after--pre">car.name = 'BMW';<br>console.log(car.name); // BMW</pre><p name="cfec" id="cfec" class="graf graf--p graf-after--pre">I use ‘<strong class="markup--strong markup--p-strong">_</strong>’ prefix to create a (<strong class="markup--strong markup--p-strong">tmp</strong>) field to store name property.</p><h4 name="acd2" id="acd2" class="graf graf--h4 graf-after--p">Enhanced Object Properties</h4><p name="e121" id="e121" class="graf graf--p graf-after--h4">The last thing I have to mention is <strong class="markup--strong markup--p-strong">property shorthand</strong>, <strong class="markup--strong markup--p-strong">computed property names</strong> and <strong class="markup--strong markup--p-strong">method properties</strong>.</p><p name="ff5c" id="ff5c" class="graf graf--p graf-after--p">ES6 gives us shorter syntax for common <strong class="markup--strong markup--p-strong">object property</strong> definition:</p><pre name="9d92" id="9d92" class="graf graf--pre graf-after--p">// <strong class="markup--strong markup--pre-strong">ES6</strong><br>let x = 1,<br>    y = 2,<br>    obj = { <strong class="markup--strong markup--pre-strong">x</strong>, <strong class="markup--strong markup--pre-strong">y</strong> };</pre><pre name="5977" id="5977" class="graf graf--pre graf-after--pre">console.log(obj); // Object { x: 1, y: 2 }</pre><pre name="ba54" id="ba54" class="graf graf--pre graf-after--pre">// <strong class="markup--strong markup--pre-strong">ES5</strong><br>var x = 1,<br>    y = 2,<br>    obj = {<br>      <strong class="markup--strong markup--pre-strong">x: x,<br>      y: y</strong><br>    };</pre><pre name="b686" id="b686" class="graf graf--pre graf-after--pre">console.log(obj); // Object { x: 1, y: 2 }</pre><p name="b19a" id="b19a" class="graf graf--p graf-after--pre graf--trailing">As you can see, this works because the property value has the same name as the property identifier.</p></div></div></section><section name="9b3a" class="section section--body"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><p name="7e78" id="7e78" class="graf graf--p graf--leading">Another thing is ES6 support for <strong class="markup--strong markup--p-strong">computed names</strong> in object property definitions:</p><pre name="aa3b" id="aa3b" class="graf graf--pre graf-after--p">// <strong class="markup--strong markup--pre-strong">ES6</strong><br>let getKey = () =&gt; '123',<br>    obj = {<br>      foo: 'bar',<br>      [<strong class="markup--strong markup--pre-strong">'key_' + getKey()</strong>]: 123<br>    };</pre><pre name="ff27" id="ff27" class="graf graf--pre graf-after--pre">console.log(obj); // Object { foo: 'bar', key_123: 123 }</pre><pre name="8077" id="8077" class="graf graf--pre graf-after--pre">// <strong class="markup--strong markup--pre-strong">ES5<br></strong>var getKey = function () {<br>      return '123';<br>    },<br>    obj = {<br>      foo: 'bar'<br>    };</pre><pre name="d2d9" id="d2d9" class="graf graf--pre graf-after--pre">obj[<strong class="markup--strong markup--pre-strong">'key_' + getKey()</strong>] = 123;</pre><pre name="3595" id="3595" class="graf graf--pre graf-after--pre graf--trailing">console.log(obj); // Object { foo: 'bar', key_123: 123 }</pre></div></div></section><section name="609e" class="section section--body"><div class="section-divider"><hr class="section-divider"></div><div class="section-content"><div class="section-inner sectionLayout--insetColumn"><p name="f811" id="f811" class="graf graf--p graf--leading">The one last thing is <strong class="markup--strong markup--p-strong">method properties</strong> seen in classes above. We can even use it in object definitions:</p><pre name="af18" id="af18" class="graf graf--pre graf-after--p">// <strong class="markup--strong markup--pre-strong">ES6</strong><br>let obj = {<br>  name: 'object name',<br>  <strong class="markup--strong markup--pre-strong">toString</strong> () { // '<strong class="markup--strong markup--pre-strong">function</strong>' keyword is omitted here<br>    return this.name;<br>  }<br>};</pre><pre name="c736" id="c736" class="graf graf--pre graf-after--pre">console.log(obj.toString()); // object name</pre><pre name="01b5" id="01b5" class="graf graf--pre graf-after--pre">// <strong class="markup--strong markup--pre-strong">ES5<br></strong>var obj = {<br>  name: 'object name',<br>  <strong class="markup--strong markup--pre-strong">toString</strong>: <strong class="markup--strong markup--pre-strong">function</strong> () {<br>    return this.name;<br>  }<br>};</pre><pre name="c3c9" id="c3c9" class="graf graf--pre graf-after--pre graf--trailing">console.log(obj.toString()); // object name</pre></div></div></section></div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t08" name="t08"></a><h1>08 : Learning ES6: Classes</h1>
+					<span class="ref-site">https://www.eventbrite.com/engineering/learning-es6-classes/</span>
+					<div class="tutorial__content">
+<div class="entry-content">
+		
+<p>We’re going from <a href="http://www.eventbrite.com/engineering/learning-es6-enhanced-object-literals/">enhanced object literals</a> that look a lot like classes to actual classes in ES6. We’ll learn, however, that these aren’t really classes, but syntactic sugar over the existing prototype functions in JavaScript. Let’s continue on with the <a href="http://www.eventbrite.com/engineering/tag/learning-es6/"><em>Learning ES6</em> series</a> series!</p>
+<h2 id="tldr">TL;DR</h2>
+<p>ECMAScript 6 provides syntactic sugar over the prototype-based, object-oriented pattern in JavaScript. ES6 classes provide support for constructors, instance and static methods, (prototype-based) inheritance, and super calls. Instance and static properties are not (yet) supported.</p>
+<div><pre><code>// Define base Note class
+class Note {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this._id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this._content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this._owner = owner;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;static add(...properties) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// `this` will be the class on which
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// `add()` was called increment counter
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++this._idCounter;
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let id = `note${this._idCounter}`;
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// construct a new instance of the note passing in the
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// arguments after the ID. This is so subclasses can
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// get all of the arguments needed
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let note = new this(id, ...properties);
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// add note to the lookup by ID
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this._noteLookup[id] = note;
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return note;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;static get(id) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this._noteLookup[id];
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;// read-only
+&nbsp;&nbsp;&nbsp;&nbsp;get id() { return this._id; }
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;get content() { return this._content; }
+&nbsp;&nbsp;&nbsp;&nbsp;set content(value) { this._content = value; }
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;get owner() { return this._owner; }
+&nbsp;&nbsp;&nbsp;&nbsp;set owner(value) { this._owner = value; }
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;toString() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return `ID: ${this._id}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content: ${this._content}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Owner: ${this._owner}`;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+&nbsp;
+// Static "private" properties (not yet supported in class syntax)
+Note._idCounter = -1;
+Note._noteLookup = {};
+&nbsp;
+class ColorNote extends Note {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner, color='#ff0000') {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// super constructor must be called first!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super(id, content, owner);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this._color = color;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;get color() { return this._color; }
+&nbsp;&nbsp;&nbsp;&nbsp;set color(value) { this._color = value; }
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;toString() {&nbsp; // computed method names are supported
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Override `toString()`, but call parent/super version
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// first
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return `${super.toString()}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color: ${this._color}`;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+&nbsp;
+// `add` factory method is defined on `Note`, but accessible
+// on ColorNote subclass
+let colorNote = ColorNote.add('My note', 'benmvp', '#0000ff');
+&nbsp;
+// output: ID: note0
+// Content: My Note
+// Owner: benmvp
+// Color: #0000ff
+console.log(`${colorNote}`);
+&nbsp;
+// output: true
+console.log(Note.get('note0') === colorNote);
+</code></pre></div>
+<p>This is just a quick example of how ES6 classes work. Be sure to clone the <a href="https://github.com/benmvp/learning-es6" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://github.com/benmvp/learning-es6', 'Learning ES6 Github repo');"><em>Learning ES6</em> Github repo</a> and take a look at the <a href="http://www.benmvp.com/learning-es6/#classes" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://www.benmvp.com/learning-es6/#classes', 'classes code examples');">classes code examples</a> page showing off the features in greater detail.</p>
+<p>The example also uses <a href="http://www.eventbrite.com/engineering/learning-es6-default-parameters/">default parameters</a>, <a href="http://www.eventbrite.com/engineering/learning-es6-rest-spread-operators/#rest-operator">rest parameters</a>, and the <a href="http://www.eventbrite.com/engineering/learning-es6-rest-spread-operators/#spread-operator">spread operator</a> so you may want to revisit the relevant articles if you’re not familiar. It also makes use of <a href="http://www.eventbrite.com/engineering/learning-es6-template-literals-tagged-templates/">template strings</a> for string interpolation, so you should read up on that as well.</p>
+<p><span id="more-3296"></span></p>
+<h2 id="whats-all-the-fuss">What’s all the fuss?</h2>
+<p>Before we jump into the nitty gritty details of the ES6 class features, let’s take a moment to talk about why the features even exist. Prototype inheritance already exists in JavaScript so why create a new syntax that makes it seem like JavaScript has classes (when it technically doesn’t)?</p>
+<p>Well JavaScript has always confused new developers by it’s lack of classes. Every other object-oriented language has them so their absence in JavaScript is pretty glaring. There are some folks out there who find the inclusion of ES6 classes pointless and misleading since, in the end, it’s just syntax sugar over the underlying prototypal inheritance system; a system that is based on first-class functions and the ability to add methods onto their <code>prototype</code> property and call <code>new</code> on them.</p>
+<p>However, the proliferation of JavaScript libraries and frameworks to try to make it easier to create classes is a pretty clear indication that there was need for a standard. Most developers don’t know or care to know the details of prototypal inheritance, which is why they are using a library in the first place. Having a standard, native, convenient syntax for declaring classes makes them much easier to use and encourages interoperability across libraries and frameworks.</p>
+<h2 id="class-declarations">Class declarations</h2>
+<p>Let’s first talk about class declarations…</p>
+<h3 id="base-class">Base class</h3>
+<p>Most developers have probably never had to do this because they create classes using their favorite library or framework, but the vanilla JavaScript way of creating a “class” looks something like:</p>
+<div><pre><code>// constructor function
+function Note(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;this.id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;this.content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;this.owner = owner;
+}
+</code></pre></div>
+<p>The <code>Note</code> “class” is actually a function. We just call <code>new</code> on it to turn it into a class. The arguments for the “constructor” are defined as the arguments of the function. Just looking at the code, you wouldn’t even know that <code>Note</code> is intended to be a class. Your only indication is that we’re assigning the arguments to <code>this</code>. This is generally a good indication that the function will be used as a class. But this is not at all intuitive, especially if you’re new to JavaScript.</p>
+<p>The equivalent ES6 code introduces the <code>class</code> keyword and looks like:</p>
+<div><pre><code>class Note {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.owner = owner;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</code></pre></div>
+<p>Anybody familiar with other programming languages can understand what’s going on here. We’re defining a class called <code>Note</code> and its constructor takes 3 parameters. Those parameters are then assigned to instance properties.</p>
+<p>If a class doesn’t need any special constructor handling, it can be omitted:</p>
+<div><pre><code>class Note {
+&nbsp;
+}
+</code></pre></div>
+<p>The class declaration is just syntactic sugar on top of the ES5 constructor function. The <code>Note</code> class will actually create a function that behaves like <code>constructor</code>:</p>
+<div><pre><code>const Note = function(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;this.id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;this.content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;this.owner = owner;
+};
+</code></pre></div>
+<p>The <code>const</code> is actually important in this recreation because classes declared using the ES6 class syntax are <code>const</code>. Their values cannot be reassigned after they are defined. This recreation also shows that ES6 classes are still functions even though syntactically they no longer look like functions. Here’s the proof:</p>
+<div><pre><code>// output: true
+console.log(typeof Note === 'function');
+</code></pre></div>
+<h3 id="inherited-class">Inherited class</h3>
+<p>The biggest win in my opinion for this new ES6 class syntax is creating derived or inherited classes. The ES5 code to create a derived <code>ColorNote</code> class is even less clear:</p>
+<div><pre><code>function ColorNote(id, content, owner, color) {
+&nbsp;&nbsp;&nbsp;&nbsp;Note.call(this, id, content, owner);
+&nbsp;&nbsp;&nbsp;&nbsp;this.color = color || '#ff0000';
+}
+&nbsp;
+ColorNote.prototype = new Note();
+</code></pre></div>
+<p><code>ColorNote</code> inherits from <code>Note</code>, and in order to do so it must overwrite <code>Color.prototype</code> with a new object created from <code>Note</code> to inherit the methods. It also has to call <code>Note.call()</code> in the constructor as an equivalent of calling <code>super</code> constructor.</p>
+<p>This code is as simple as it gets too. To be fully compliant we should use <code>Object.create</code>, check to ensure that <code>Note</code> is in fact a constructor function, etc. You’ll find that there are lots of variations on “how to inherit a class in JavaScript.” But once again, most developers have never had to worry about this because of libraries and frameworks. I imagine that most JavaScript developers (including this one) don’t even know how to create an inherited class from scratch off the top of their head.</p>
+<p>In ES6, derived classes use the <code>extends</code> keyword to specify the class from which the new class should inherit:</p>
+<div><pre><code>class ColorNote extends Note {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner, color='#ff0000') {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// super constructor must be called first!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super(id, content, owner);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.color = color;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</code></pre></div>
+<p>The <code>extends</code> keyword is just ES6 syntactic sugar over the ES5 implementation. The prototypes are automatically adjusted and you can access the base class constructor using <code>super()</code>. The nice thing about the ES6 class syntax is that unlike the ES5 syntax, the <code>Note</code> identifier is only used in the class declaration (<code>extends Note</code>) and not in the implementation of the constructor.</p>
+<p>If you specify a constructor in the inherited class (as in the above example), you must call <code>super()</code> before accessing <code>this</code>. The call to <code>super()</code> is what properly initializes <code>this</code>. If you don’t call <code>super()</code>, you’ll get an <code>Error</code> when you try to access <code>this</code>. You can of course omit the constructor as well.</p>
+<div><pre><code>class ColorNote extends Note {
+&nbsp;
+}
+</code></pre></div>
+<h3 id="abstract-base-class">Abstract base class</h3>
+<p>An abstract base class is a type of class that is exclusively intended to be inherited. It cannot be directly constructed. The main use case is for the inherited classes to have a common interface. Unfortunately, ES6 classes don’t yet leverage the <code>abstract</code> keyword to make abstract base classes, but you <em>can</em> use <code>new.target</code> (also introduced in ES6) to simulate it.</p>
+<p>Within a constructor, <code>new.target</code> is a reference to the class that is to be constructed:</p>
+<div><pre><code>class Note {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(new.target === Note);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+let note = new Note();
+&nbsp;
+// output: true
+</code></pre></div>
+<p>However, when an inherited class is constructed, <code>new.target</code> points to the inherited class:</p>
+<div><pre><code>class Note {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(new.target === Note);
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+class ColorNote extends Note {
+&nbsp;
+}
+let colorNote = new ColorNote();
+&nbsp;
+// output: false
+</code></pre></div>
+<p>So, to simulate an abstract base class, just throw an exception if <code>new.target</code> is the base class, which would mean that the base class was was attempted to be constructed:</p>
+<div><pre><code>class Note {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (new.target === Note) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error('Note cannot be directly constructed.')
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+class ColorNote extends Note {
+&nbsp;
+}
+let note = new Note();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // error!
+let colorNote = new ColorNote();&nbsp;&nbsp; // ok
+</code></pre></div>
+<h2 id="instance-methods">Instance methods</h2>
+<p>The syntax for defining methods in ES6 classes has been streamlined and resembles <a href="http://www.eventbrite.com/engineering/learning-es6-enhanced-object-literals/#method-definition-shorthand">object literal method shorthand</a> (but without the comma separators):</p>
+<div><pre><code>class Note {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.owner = owner;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;toString() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return `ID: ${this.id}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Content: ${this.content}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Owner: ${this.owner}`;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</code></pre></div>
+<p>Methods (like <code>toString()</code> in the above example) get auto-added to the prototype instead of having to manually do it in ES5:</p>
+<div><pre><code>function Note(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;this.id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;this.content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;this.owner = owner;
+}
+&nbsp;
+Note.prototype.toString = function() {
+&nbsp;&nbsp;&nbsp;&nbsp;return 'ID: ' + this.id +
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'\nContent: ' + this.content +
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'\nOwner:' + this.owner;
+};
+</code></pre></div>
+<p>Just like with enhanced object literals, method names in classes can also be computed:</p>
+<div><pre><code>class ColorNote extends Note {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner, color='#ff0000') {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// super constructor must be called first!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super(id, content, owner);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.color = color;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;['to' + 'String']() { // computed method names are supported
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Override `toString()`, but call
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// parent/super version first
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return `${super.toString()}
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color: ${this.color}`;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</code></pre></div>
+<p>In the above example, the <code>ColorNote</code> inherited class redefines the <code>toString()</code> method from the <code>Note</code> base class. If an inherited class has a method with the same name as the base class, it <em>overrides</em> the base class implementation. However, the inherited class can call <code>super.[methodName]</code> to call the base version, which is what is happening in the above example. We call <code>super.toString()</code> and concatenate additional information specific to <code>ColorNote</code> to it.</p>
+<h2 id="static-methods">Static methods</h2>
+<p>Static methods are indicated with the <code>static</code> keyword. They are methods on a class that do not depend on an instance of a class in their implementation. In short, they don’t need <code>this</code> to be a reference to an instance. In fact, in a static method <code>this</code> is a reference to the class itself.</p>
+<div><pre><code>class Note {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.owner = owner;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;static add(...properties) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// `this` will be the class on
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// which `add()` was called increment counter
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++this._idCounter;
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let id = `note${this._idCounter}`;
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// construct a new instance of the note passing in the
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// arguments after the ID. This is so subclasses can
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// get all of the arguments needed
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let note = new this(id, ...properties);
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// add note to the lookup by ID
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this._noteLookup[id] = note;
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return note;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;static get(id) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return this._noteLookup[id];
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+&nbsp;
+Note._idCounter = -1;
+Note._noteLookup = {};
+</code></pre></div>
+<p>I will explain <code>Note._idCounter</code> and <code>Note._noteLookup</code> in the <a href="#properties">Properties section</a>. This ES6 syntactic sugar simplifies creating a static method in comparison to the ES5 equivalent:</p>
+<div><pre><code>function Note(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;this.id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;this.content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;this.owner = owner;
+}
+&nbsp;
+Note._idCounter = -1;
+Note._noteLookup = {};
+&nbsp;
+Note.add = function(content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;var id, note;
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;// `this` will be the class on which `add()` was called
+&nbsp;&nbsp;&nbsp;&nbsp;// increment counter
+&nbsp;&nbsp;&nbsp;&nbsp;++this._idCounter;
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;id = 'note' + this._idCounter;
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;// construct a new instance of the note passing in the
+&nbsp;&nbsp;&nbsp;&nbsp;// arguments after the ID. This is so subclasses can
+&nbsp;&nbsp;&nbsp;&nbsp;// get all of the arguments needed
+&nbsp;&nbsp;&nbsp;&nbsp;note = new Note(id, content, owner);
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;// add note to the lookup by ID
+&nbsp;&nbsp;&nbsp;&nbsp;this._noteLookup[id] = note;
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;return note;
+};
+&nbsp;
+Note.get = function(id) {
+&nbsp;&nbsp;&nbsp;&nbsp;return this._noteLookup[id];
+};
+</code></pre></div>
+<p>One thing to note with ES6 classes. If a base class has static methods (such as <code>Note.add()</code>), then those static methods are also available on the derived class (such as <code>ColorNote.add()</code>). This didn’t happen by default with ES5 classes unless the methods were explicitly copied over.</p>
+<h2 id="accessor-properties">Accessor properties</h2>
+<p><a href="http://ejohn.org/blog/javascript-getters-and-setters/" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://ejohn.org/blog/javascript-getters-and-setters/', 'Accessor properties');">Accessor properties</a> were introduced in ES5 as a simplified way of providing getters and setters for JavaScript prototype functions. The same syntax works with ES6:</p>
+<div><pre><code>class Note {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (new.target === Note) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error('Note cannot be directly constructed.')
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this._id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this._content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this._owner = owner;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;// read-only
+&nbsp;&nbsp;&nbsp;&nbsp;get id() { return this._id; }
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;get content() { return this._content; }
+&nbsp;&nbsp;&nbsp;&nbsp;set content(value) { this._content = value; }
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;get owner() { return this._owner; }
+&nbsp;&nbsp;&nbsp;&nbsp;set owner(value) { this._owner = value; }
+}
+</code></pre></div>
+<p>This accessor property is created as non-enumerable, just like any other method would be, and is created on the <code>Note.prototype</code>. Accessor properties are just like methods in how they are defined except they have the <code>get</code>/<code>set</code> keyword in front of them. And since they are just like methods, they can also be marked <code>static</code> as well.</p>
+<p>Since accessor properties were introduced with ES5, they of course do not work in ES3 JavaScript engines such as Internet Explorer 8 and below. In addition, transpilers cannot transpile accessor properties down to ES3. Only use accessor properties if you only need to support higher than IE8.</p>
+<h2 id="properties">Properties</h2>
+<p>You may have noticed that our ES6 code defined some static properties like so:</p>
+<div><pre><code>Note._idCounter = -1;
+Note._noteLookup = {};
+</code></pre></div>
+<p>This is exactly how it’s done in ES5. It’s after the class is defined that we then add additional (static) properties to it. This is because ES6 class syntax does not support static properties. It also doesn’t support instance properties either. We got around the lack of instance properties by defining our <code>id</code>, <code>content</code> &amp; <code>owner</code> accessor properties within the class syntax, but those accessor properties were just wrappers of <code>_id</code>, <code>_content</code> &amp; <code>_owner</code>, which were instance properties assigned in the constructor. There is no such work-around for static properties besides just adding properties after the class definition as we’ve done.</p>
+<p>Although ES6 class syntax doesn’t support static or instance properties, there is an <a href="https://github.com/jeffmo/es-class-fields-and-static-properties" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://github.com/jeffmo/es-class-fields-and-static-properties', 'ES Class Fields &amp; Static Properties');">ES Class Fields &amp; Static Properties</a> specification under development. It appears to still be in Stage 1 so it will not be included in ES7/ES2016. Babel already supports transpiling static &amp; instance properties, and React makes heavy use of it. A specification that is still under development is not guaranteed to ultimately make it to approved status (see <a href="https://esdiscuss.org/topic/an-update-on-object-observe" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://esdiscuss.org/topic/an-update-on-object-observe', 'Object.observe');"><code>Object.observe</code></a> as a huge example), so I tend to avoid using features prematurely.</p>
+<p>The <a href="https://github.com/jeffmo/es-class-fields-and-static-properties#why" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://github.com/jeffmo/es-class-fields-and-static-properties#why', 'rationale for instance properties');">rationale for instance properties</a>:</p>
+<blockquote><p>The current idiomatic means of initializing a property on a class instance does not provide an expressively distinct way to “declare” them as part of the structure of a class. One must assign to an expando property on <code>this</code> in the constructor – or anywhere, really. This poses an inconvenience to tooling (and also often humans) when trying to deduce the <em>intended</em> set of members for a class simply because there is no clear distinction between initialization logic and the intended shape of the class.</p>
+<p>Additionally, because instance-generated properties often need to be setup during class construction for object initialization, derived classes that wish to declare/initialize their own properties must implement some boilerplate to execute base class initialization first.</p></blockquote>
+<p>And the <a href="https://github.com/jeffmo/es-class-fields-and-static-properties#why-1" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://github.com/jeffmo/es-class-fields-and-static-properties#why-1', 'rationale for static properties');">rationale for static properties</a>:</p>
+<blockquote><p>Currently it’s possible to express static methods on a class definition, but it is not possible to declaratively express static properties. As a result people generally have to assign static properties on a class after the class declaration – which makes it very easy to miss the assignment as it does not appear as part of the definition.</p></blockquote>
+<p>Hopefully they (officially) come soon!</p>
+<h2 id="class-expressions">Class expressions</h2>
+<p>As we saw earlier, ES6 classes are just syntactic sugar over prototype constructor functions. And as we know, there are two ways to define a function: a function declaration and a function expression. Similarly an ES6 class can be defined either via a class declaration (what we’ve seen thus far) or a class expression. Let’s talk about the latter.</p>
+<p>A class expression can be assigned to a variable:</p>
+<div><pre><code>const Note = class {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.owner = owner;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+};
+</code></pre></div>
+<p>A class expression can be passed into functions as arguments:</p>
+<div><pre><code>const NoteWithFancy = mixin(
+&nbsp;&nbsp;&nbsp;&nbsp;class {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.owner = owner;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fancy: function() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// method to be added to prototype of class expression
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+)
+</code></pre></div>
+<p>Just like functions, class expressions can be immediately invoked to create immediately-invoked class expressions (IICE), essentially creating a one-off singleton:</p>
+<div><pre><code>let noteSingleton = new (class {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.owner = owner;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}) (0, 'some content', benmvp);
+</code></pre></div>
+<p>Perhaps the most powerful aspect of derived classes in ECMAScript 6 is the ability to inherit from a class expression. We can use <code>extends</code> with <em>any</em> expression. If that expression resolves to a function with <code>[[Construct]]</code> and a <code>prototype</code>, that expression can be used as a base class.</p>
+<div><pre><code>class ColorNote extends (class {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.owner = owner;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}) {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner, color='#ff0000') {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// super constructor must be called first!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super(id, content, owner);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.color = color;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</code></pre></div>
+<p>This means that an ES6 class can derive from an ES5 prototype constructor function!</p>
+<div><pre><code>function Note(id, content, owner) {
+&nbsp;&nbsp;&nbsp;&nbsp;this.id = id;
+&nbsp;&nbsp;&nbsp;&nbsp;this.content = content;
+&nbsp;&nbsp;&nbsp;&nbsp;this.owner = owner;
+}
+&nbsp;
+class ColorNote extends Note {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor(id, content, owner, color='#ff0000') {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// super constructor must be called first!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;super(id, content, owner);
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.color = color;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</code></pre></div>
+<p>Will talk more about mixing ES6 and ES5 classes in the upcoming <a href="#interoperability">interoperability</a> section.</p>
+<h2 id="inheritable-built-ins">Inheritable built-ins</h2>
+<p>Let’s take a short break from syntactic sugar and talk about some new functionality introduced with ES6. Before in JavaScript, it wasn’t (easily) possible to inherit from one of the built-in classes like <code>Array</code>, <code>RegEx</code>, <code>String</code>, etc. The most common class to inherit was <code>Array</code> in order to create stacks, queues, and other list-like data structures. Or you may want to create your own fancy array that inherits from <code>Array</code> in order to add helper methods like <code>first</code>, <code>last</code>, <code>take</code>, etc. that you find in libraries like <a href="http://underscorejs.org/" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://underscorejs.org/', 'underscore.js');">underscore.js</a> and <a href="https://lodash.com/" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://lodash.com/', 'lodash');">lodash</a>. Imagine if the <code>jQuery</code> object actually inherited from <code>Array</code> instead of just being array-like. It’d be even more powerful.</p>
+<p>We can also inherit from the new ES6 APIs like <code>Promise</code> and the new collections (<code>Map</code>, <code>Set</code>, <code>WeakMap</code> &amp; <code>WeakSet</code>) that we’ll be talking about soon.</p>
+<p>One super useful class to inherit from is the <code>Error</code> class that is thrown with exceptions. Now when you need to throw an exception, you’re no longer limited to the handful of native <code>Error</code> classes. You can create your own custom <code>Error</code> subclass. Remember our example from earlier to create an abstract base class? Instead of just throwing a generic <code>Error</code>, we can throw a custom-created <code>Error</code> subclass:</p>
+<div><pre><code>class InheritanceError extends Error { }
+&nbsp;
+class Note {
+&nbsp;&nbsp;&nbsp;&nbsp;constructor() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (new.target === Note) {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new Error('Note cannot be directly constructed.')
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</code></pre></div>
+<p>The class doesn’t even have to do anything. But by create a custom <code>Error</code> class, if the error is ever thrown we can now check its type to know what type of error it was instead of having to rely solely on the message:</p>
+<div><pre><code>try {
+&nbsp;&nbsp;&nbsp;&nbsp;new Note(72, 'Vanilla note', 'benmvp');
+}
+catch (e) {
+&nbsp;&nbsp;&nbsp;&nbsp;// output: true
+&nbsp;&nbsp;&nbsp;&nbsp;console.log(e instanceof InheritanceError);
+}
+</code></pre></div>
+<p>The only gotcha with inheritable built-ins is that they cannot be transpiled nor shimmed. The JavaScript engine has to natively support it. This means that it will probably be a while until we can leverage this great functionality. All Internet Explorer browsers have to die first.</p>
+<h2 id="es6-classes-vs-es5-prototype-functions">ES6 classes vs ES5 prototype Functions</h2>
+<p>I’ve mentioned a few times how ES6 classes are just syntactic sugar over ES5 prototype constructor functions, but there actually are some differences between them that are worth talking about.</p>
+<p>First, class declarations, unlike function declarations, are not hoisted to the top of their enclosing scope. Class declarations act like block-scoped variables so they exist in the <a href="/learning-es6-block-level-scoping-let-const/#entering-the-temporal-dead-zone">temporal dead zone</a> until execution reaches the declaration. You cannot reference a class before it’s declared.</p>
+<p>Second, all code inside of class declarations runs in strict mode automatically. There’s no way to opt-out of strict mode inside of classes.</p>
+<p>Third, all methods are non-enumerable, meaning <code>Object.keys</code> or <code>for-in</code> won’t iterate over them. This is a significant change from ES5 prototype constructor functions, where you need to use <code>Object.defineProperty()</code> to make a method non-enumerable.</p>
+<p>Lastly, attempting to create an instance without using <code>new</code> or attempting to overwrite the class reference within a class method throws an <code>Error</code>. Some developers are annoyed by the fact that <code>new</code> <strong>must</strong> be used to create a class object, but I like it because it makes code more readable. It’s clear that a class instance is being created.</p>
+<p>So in sum, ES6 classes still are just syntactic sugar, but it’s sugar with additional layers of protection.</p>
+<h2 id="interoperability">Interoperability</h2>
+<p>Before we wrap up, let’s talk about how ES6 classes can coexist with existing ES5 prototype constructor functions. In theory, you should be able to have an ES6-style class extend from an ES5-style class. <em>In theory.</em> We already saw an example of a class we declared using ES6 syntax extending an ES5 prototype constructor function, but in practice this won’t always work unfortunately.</p>
+<p>As we also saw earlier, the way to create a class in ES5 is pretty onerous. As a result, many libraries and frameworks have their own “<code>extends</code>” method that allows developers to create their own classes. Something like:</p>
+<div><pre><code>var Note = Backbone.Model.extend({
+&nbsp;&nbsp;&nbsp;&nbsp;id: 0,
+&nbsp;&nbsp;&nbsp;&nbsp;content: null,
+&nbsp;&nbsp;&nbsp;&nbsp;owner: null,
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;toString: function() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return 'ID: ' + this.id +
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'\nContent: ' + this.content +
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'\nOwner:' + this.owner;
+&nbsp;&nbsp;&nbsp;&nbsp;}
+});
+</code></pre></div>
+<p>As you can see, our ES5 <code>Note</code> class doesn’t directly inherit from <code>Object</code> but instead inherits from the library’s base class (<a href="http://backbonejs.org/#Model" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://backbonejs.org/#Model', 'Backbone.Model');"><code>Backbone.Model</code></a> in the above example) that was created to abstract the complexity of creating classes in ES5. The interoperability problem stems from the fact that <code>Backbone.Model.extend()</code> can pretty much do whatever it wants before and after it ultimately creates a prototype constructor function and attaches methods to its <code>prototype</code>.</p>
+<p>It could manipulate that object literal we’re passing into <code>Backbone.Model.extend()</code> in ways that a plain ES6 class will not be able to do. Let’s look at another example to illustrate the point further. Let’s say you’re creating a custom <a href="http://marionettejs.com/docs/v2.4.4/marionette.view.html" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://marionettejs.com/docs/v2.4.4/marionette.view.html', 'Marionette.View');"><code>Marionette.View</code></a>:</p>
+<div><pre><code>var RegistrationView = Marionette.View.extend({
+&nbsp;&nbsp;&nbsp;&nbsp;ui: {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;registerButton: '.btn-register'
+&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;events: {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'click @ui.registerButton': 'handleRegisterClick'
+&nbsp;&nbsp;&nbsp;&nbsp;},
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;handleRegisterClick: function() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log('REGISTERED!');
+&nbsp;&nbsp;&nbsp;&nbsp;}
+});
+</code></pre></div>
+<p>On the surface, <code>RegistrationView</code> looks like a class with one method (<code>handleRegisterClick()</code>) and two instance properties (<code>ui</code> and <code>events</code>). Now we already learned that ES6 classes don’t support instance properties, but let’s say we decide to leverage Babel’s speculative implementation of the <a href="https://github.com/jeffmo/es-class-fields-and-static-properties" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://github.com/jeffmo/es-class-fields-and-static-properties', 'properties specification');">properties specification</a>. The ES6 equivalent would look something like:</p>
+<div><pre><code>class RegistrationView extends Marionette.View {
+&nbsp;&nbsp;&nbsp;&nbsp;ui = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;registerButton: '.btn-register'
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;&nbsp;events = {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'click @ui.registerButton': 'handleRegisterClick'
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;handleRegisterClick() {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log('REGISTERED!');
+&nbsp;&nbsp;&nbsp;&nbsp;}
+}
+</code></pre></div>
+<p>The problem is that this doesn’t work. <code>Marionette.View.extend()</code> does more than just enable a custom view to inherit from it. To give a simple summary, it does some processing of <code>ui</code>, <code>events</code> &amp; a few other properties before they get added to the <code>prototype</code>. In the end when you have an instance of the view, <code>this.ui.registerButton</code> is no longer a selector <code>String</code>, but a reference to a <code>jQuery</code> object.</p>
+<p><code>Marionette.View.extend()</code> is a factory method similar to our <code>Note.add()</code> method. There’s no way to declare a class using ES6 syntax to simulate what <code>Marionette.View.extend()</code> is doing behind the scenes (without some less-than-clean workarounds). Marionette would have to change it’s class structure, much the way React did, in order to allow Marionette developers to write ES6 class declarations.</p>
+<h2 id="javascript-engine-support">JavaScript engine support</h2>
+<p>I’m happy to report that all of the transpilers support ES6 class syntax!</p>
+<p>I already mentioned that the transpilers cannot support inheritable built-ins. Unfortunately Safari &amp; iOS don’t yet support it either. They also don’t support <code>new.target</code>, the trick we used to simulate an abstract base class. The transpilers also don’t support <code>new.target</code>. They treat it as invalid syntax.</p>
+<h2 id="additional-resources">Additional resources</h2>
+<p>As always, you can check out the <a href="http://www.benmvp.com/learning-es6/#classes" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://www.benmvp.com/learning-es6/#classes', 'Learning ES6 examples page');"><em>Learning ES6</em> examples page</a> for the <a href="https://github.com/benmvp/learning-es6" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://github.com/benmvp/learning-es6', 'Learning ES6 Github repo');"><em>Learning ES6</em> Github repo</a> where you will find all of the code used in this article running natively in the browser. You can also get some practice with ES6 classes using <a href="http://es6katas.org/" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://es6katas.org/', 'ES6 Katas');">ES6 Katas</a>.</p>
+<p>There is also lots of great reading to deep dive into ES6 classes:</p>
+<ul>
+<li><a href="http://benmccormick.org/2015/04/07/es6-classes-and-backbone-js/" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://benmccormick.org/2015/04/07/es6-classes-and-backbone-js/', 'Why Backbone.js and ES6 Classes Don’t Mix');">Why Backbone.js and ES6 Classes Don’t Mix</a> by <a href="https://twitter.com/ben336" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://twitter.com/ben336', 'Ben McCormick');">Ben McCormick</a></li>
+<li><a href="http://exploringjs.com/es6/ch_classes.html" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://exploringjs.com/es6/ch_classes.html', 'Classes');">Classes</a> in <a href="http://exploringjs.com/es6/" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://exploringjs.com/es6/', 'Exploring ES6');"><em>Exploring ES6</em></a> by <a href="https://twitter.com/rauschma" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://twitter.com/rauschma', 'Axel Rauschmayer');">Axel Rauschmayer</a></li>
+<li><a href="https://leanpub.com/understandinges6/read#leanpub-auto-classes" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://leanpub.com/understandinges6/read#leanpub-auto-classes', 'Classes');">Classes</a> in <a href="https://leanpub.com/understandinges6/" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://leanpub.com/understandinges6/', 'Understanding ECMAScript 6');"><em>Understanding ECMAScript 6</em></a> by <a href="https://twitter.com/slicknet" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://twitter.com/slicknet', 'Nicholas C. Zakas');">Nicholas C. Zakas</a></li>
+<li><a href="http://ponyfoo.com/articles/es6-classes-in-depth" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://ponyfoo.com/articles/es6-classes-in-depth', 'ES6 Classes in Depth');">ES6 Classes in Depth</a> in <a href="http://ponyfoo.com/articles/tagged/es6-in-depth" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://ponyfoo.com/articles/tagged/es6-in-depth', 'ES6 in Depth');"><em>ES6 in Depth</em></a> by <a href="https://twitter.com/nzgb" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://twitter.com/nzgb', 'Nicolas Bevacqua');">Nicolas Bevacqua</a></li>
+<li><a href="https://hacks.mozilla.org/2015/07/es6-in-depth-classes/" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://hacks.mozilla.org/2015/07/es6-in-depth-classes/', 'ES6 in Depth: Classes');">ES6 in Depth: Classes</a> in <a href="https://hacks.mozilla.org/category/es6-in-depth/" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://hacks.mozilla.org/category/es6-in-depth/', 'ES6 in Depth');"><em>ES6 in Depth</em></a> by Eric Faust</li>
+<li><a href="https://hacks.mozilla.org/2015/08/es6-in-depth-subclassing/" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://hacks.mozilla.org/2015/08/es6-in-depth-subclassing/', 'ES6 in Depth: Subclassing');">ES6 in Depth: Subclassing</a> in <a href="https://hacks.mozilla.org/category/es6-in-depth/" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://hacks.mozilla.org/category/es6-in-depth/', 'ES6 in Depth');"><em>ES6 in Depth</em></a> by Eric Faust</li>
+</ul>
+<h2 id="coming-up-next">Coming up next…</h2>
+<p>Up next, let’s talk about Promises. We’ve been using them in JavaScript for a while now with jQuery’s <code>Deferred</code> object and libraries like <a href="https://github.com/kriskowal/q#using-qpromise" onclick="__gaTracker('send', 'event', 'outbound-article', 'https://github.com/kriskowal/q#using-qpromise', 'Q');">Q</a>. But now they become first-class citizens in the ECMAScript world. Until then…</p>
+<h3 id="fyi">FYI</h3>
+<p>This <a href="http://www.eventbrite.com/engineering/tag/learning-es6/"><em>Learning ES6</em> series</a> is actually a cross-posting of a series with the same name on my personal blog, <a href="http://www.benmvp.com" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://www.benmvp.com', 'benmvp.com');">benmvp.com</a>. The content is pretty much the exact same except that this series will have additional information on how we are specifically leveraging ES6 here in Eventbrite Engineering when applicable. I’ll also be tackling the features in a different order than I did in my personal blog. The classes blog post can be found <a href="http://www.benmvp.com/learning-es6-classes/" onclick="__gaTracker('send', 'event', 'outbound-article', 'http://www.benmvp.com/learning-es6-classes/', 'here');">here</a>.</p>
+
+			</div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t09" name="t09"></a><h1>09 : Classes in ECMAScript 6 (final semantics)</h1>
+					<span class="ref-site">http://2ality.com/2015/02/es6-classes-final.html</span>
+					<div class="tutorial__content">
+<div data-reactid="36"><hr>
+<p><strong>Check out my book (free online): “<a href="http://exploringjs.com/es6/">Exploring ES6</a>”.</strong> Updated version of this blog post: chapter “<a href="http://exploringjs.com/es6/ch_classes.html">Classes</a>”.</p>
+<hr>
+<p><a href="https://github.com/rwaldron/tc39-notes/blob/master/es6/2015-01/jan-27.md#44-subclass-instantiation-reformation-status-and-open-issues">Recently</a>, TC39 decided on the final semantics of classes in ECMAScript 6 <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>. This blog post explains how their final incarnation works. The most significant recent changes were related to how subclassing is handled.</p>
+<!--more-->
+<h2 id="overview">Overview&nbsp;&nbsp;<a class="header-anchor" href="#overview" aria-hidden="true">#</a></h2>
+<pre><code>class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    toString() {
+        return '(' + this.x + ', ' + this.y + ')';
+    }
+}
+
+class ColorPoint extends Point {
+    constructor(x, y, color) {
+        super(x, y);
+        this.color = color;
+    }
+    toString() {
+        return super.toString() + ' in ' + this.color;
+    }
+}
+
+let cp = new ColorPoint(25, 8, 'green');
+cp.toString(); // '(25, 8) in green'
+
+console.log(cp instanceof ColorPoint); // true
+console.log(cp instanceof Point); // true
+</code></pre>
+<h2 id="the-essentials">The essentials&nbsp;&nbsp;<a class="header-anchor" href="#the-essentials" aria-hidden="true">#</a></h2>
+<h3 id="base-classes">Base classes&nbsp;&nbsp;<a class="header-anchor" href="#base-classes" aria-hidden="true">#</a></h3>
+<p>A class is defined like this in ECMAScript 6 (ES6):</p>
+<pre><code>class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    toString() {
+        return '(' + this.x + ', ' + this.y + ')';
+    }
+}
+</code></pre>
+<p>You use this class just like an ES5 constructor function:</p>
+<pre><code>&gt; var p = new Point(25, 8);
+&gt; p.toString()
+'(25, 8)'
+</code></pre>
+<p>In fact, the result of a class definition is a function:</p>
+<pre><code>&gt; typeof Point
+'function'
+</code></pre>
+<p>However, you can only invoke a class via <code>new</code>, not via a function call (<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-function-objects-call-thisargument-argumentslist">Sect. 9.2.2</a> in the spec):</p>
+<pre><code>&gt; Point()
+TypeError: Classes can’t be function-called
+</code></pre>
+<h4 id="class-declarations-are-not-hoisted">Class declarations are not hoisted&nbsp;&nbsp;<a class="header-anchor" href="#class-declarations-are-not-hoisted" aria-hidden="true">#</a></h4>
+<p>Function declarations are <em>hoisted</em>: When entering a scope, the functions that are declared in it are immediately available – independently of where the declarations happen. That means that you can call a function that is declared later:</p>
+<pre><code>foo(); // works, because `foo` is hoisted
+
+function foo() {}
+</code></pre>
+<p>In contrast, class declarations are not hoisted. Therefore, a class only exists after execution reached its definition and it was evaluated. Accessing it beforehand leads to a <code>ReferenceError</code>:</p>
+<pre><code>new Foo(); // ReferenceError
+
+class Foo {}
+</code></pre>
+<p>The reason for this limitation is that classes can have an <code>extends</code> clause whose value is an arbitrary expression. That expression must be evaluated in the proper “location”, its evaluation can’t be hoisted.</p>
+<p>Not having hoisting is less limiting than you may think. For example, a function that comes before a class declaration can still refer to that class, but you have to wait until the class declaration has been evaluated before you can call the function.</p>
+<pre><code>function functionThatUsesBar() {
+    new Bar();
+}
+
+functionThatUsesBar(); // ReferenceError
+class Bar {}
+functionThatUsesBar(); // OK
+</code></pre>
+<h4 id="class-expressions">Class expressions&nbsp;&nbsp;<a class="header-anchor" href="#class-expressions" aria-hidden="true">#</a></h4>
+<p>Similarly to functions, there are two kinds of <em>class definitions</em>, two ways to define a class: <em>class declarations</em> and <em>class expressions</em>.</p>
+<p>Also similarly to functions, the identifier of a class expression is only visible within the expression:</p>
+<pre><code>const MyClass = class Me {
+    getClassName() {
+        return Me.name;
+    }
+};
+let inst = new MyClass();
+console.log(inst.getClassName()); // Me
+console.log(Me.name); // ReferenceError: Me is not defined
+</code></pre>
+<h3 id="inside-the-body-of-a-class-definition">Inside the body of a class definition&nbsp;&nbsp;<a class="header-anchor" href="#inside-the-body-of-a-class-definition" aria-hidden="true">#</a></h3>
+<p>A class body can only contain methods, but not data properties. Prototypes having data properties is generally considered an anti-pattern, so this just enforces a best practice.</p>
+<h4 id="constructor-static-methods-prototype-methods"><code>constructor</code>, static methods, prototype methods&nbsp;&nbsp;<a class="header-anchor" href="#constructor-static-methods-prototype-methods" aria-hidden="true">#</a></h4>
+<p>Let’s examine three kinds of methods that you often find in class literals.</p>
+<pre><code>class Foo {
+    constructor(prop) {
+        this.prop = prop;
+    }
+    static staticMethod() {
+        return 'classy';
+    }
+    prototypeMethod() {
+        return 'prototypical';
+    }
+}
+let foo = new Foo(123);
+</code></pre>
+<p>The object diagram for this class declaration looks as follows. Tip for understanding it: <code>[[Prototype]]</code> is an inheritance relationship between objects, while <code>prototype</code> is a normal property whose value is an object. The property <code>prototype</code> is only special because the <code>new</code> operator uses its value as the prototype for instances it creates.</p>
+<p><img src="es6-classes-final/methods.jpg" alt="" draggable="true" data-bukket-ext-bukket-draggable="true"></p>
+<p><strong>First, the pseudo-method <code>constructor</code>.</strong> This method is special, as it defines the function that represents the class:</p>
+<pre><code>&gt; Foo === Foo.prototype.constructor
+true
+&gt; typeof Foo
+'function'
+</code></pre>
+<p>It is sometimes called a <code>class constructor</code>. It has features that normal constructor functions don’t have (mainly the ability to constructor-call its super-constructor via <code>super()</code>, which is explained later).</p>
+<p><strong>Second, static methods.</strong> <em>Static properties</em> (or <em>class properties</em>) are properties of <code>Foo</code> itself. If you prefix a method definition with <code>static</code>, you create a class method:</p>
+<pre><code>&gt; typeof Foo.staticMethod
+'function'
+&gt; Foo.staticMethod()
+'classy'
+</code></pre>
+<p><strong>Third, prototype methods.</strong> The <em>prototype properties</em> of <code>Foo</code> are the properties of <code>Foo.prototype</code>. They are usually methods and inherited by instances of <code>Foo</code>.</p>
+<pre><code>&gt; typeof Foo.prototype.prototypeMethod
+'function'
+&gt; foo.prototypeMethod()
+'prototypical'
+</code></pre>
+<h4 id="getters-and-setters">Getters and setters&nbsp;&nbsp;<a class="header-anchor" href="#getters-and-setters" aria-hidden="true">#</a></h4>
+<p>The syntax for getters and setters is just like <a href="http://speakingjs.com/es5/ch17.html#getters_setters">in ECMAScript 5 object literals</a>:</p>
+<pre><code>class MyClass {
+    get prop() {
+        return 'getter';
+    }
+    set prop(value) {
+        console.log('setter: '+value);
+    }
+}
+</code></pre>
+<p>You use <code>MyClass</code> as follows.</p>
+<pre><code>&gt; let inst = new MyClass();
+&gt; inst.prop = 123;
+setter: 123
+&gt; inst.prop
+'getter'
+</code></pre>
+<h4 id="computed-method-names">Computed method names&nbsp;&nbsp;<a class="header-anchor" href="#computed-method-names" aria-hidden="true">#</a></h4>
+<p>You can define the name of a method via an expression, if you put it in square brackets. For example, the following ways of defining <code>Foo</code> are all equivalent.</p>
+<pre><code>class Foo {
+    myMethod() {}
+}
+
+class Foo {
+    ['my'+'Method']() {}
+}
+
+const m = 'myMethod';
+class Foo {
+    [m]() {}
+}
+</code></pre>
+<p>Several special methods in ECMAScript 6 have keys that are symbols <sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>. Computed method names allow you to define such methods. For example, if an object has a method whose key is <code>Symbol.iterator</code>, it is <em>iterable</em> <sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>. That means that its contents can be iterated over by the <code>for-of</code> loop and other language mechanisms.</p>
+<pre><code>class IterableClass {
+    [Symbol.iterator]() {
+        ···
+    }
+}
+</code></pre>
+<h4 id="generator-methods">Generator methods&nbsp;&nbsp;<a class="header-anchor" href="#generator-methods" aria-hidden="true">#</a></h4>
+<p>If you prefix a method definition with an asterisk (<code>*</code>), it becomes a <em>generator method</em> <sup class="footnote-ref"><a href="#fn3" id="fnref3:1">[3:1]</a></sup>. Among other things, a generator is useful for defining the method whose key is <code>Symbol.iterator</code>. The following code demonstrates how that works.</p>
+<pre><code>class IterableArguments {
+    constructor(...args) {
+        this.args = args;
+    }
+    * [Symbol.iterator]() {
+        for (let arg of this.args) {
+            yield arg;
+        }
+    }
+}
+
+for (let x of new IterableArguments('hello', 'world')) {
+    console.log(x);
+}
+
+// Output:
+// hello
+// world
+</code></pre>
+<h3 id="subclassing">Subclassing&nbsp;&nbsp;<a class="header-anchor" href="#subclassing" aria-hidden="true">#</a></h3>
+<p>The <code>extends</code> clause lets you create a subclass of an existing constructor (which may or may not have been defined via a class):</p>
+<pre><code>class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    toString() {
+        return '(' + this.x + ', ' + this.y + ')';
+    }
+}
+
+class ColorPoint extends Point {
+    constructor(x, y, color) {
+        super(x, y); // (A)
+        this.color = color;
+    }
+    toString() {
+        return super.toString() + ' in ' + this.color; // (B)
+    }
+}
+</code></pre>
+<p>Again, this class is used like you’d expect:</p>
+<pre><code>&gt; let cp = new ColorPoint(25, 8, 'green');
+&gt; cp.toString()
+'(25, 8) in green'
+
+&gt; cp instanceof ColorPoint
+true
+&gt; cp instanceof Point
+true
+</code></pre>
+<p>There are two kinds of classes:</p>
+<ul>
+<li><code>Point</code> is a <em>base class</em>, because it doesn’t have an <code>extends</code> clause.</li>
+<li><code>ColorPoint</code> is a <em>derived class</em>.</li>
+</ul>
+<p>There are two ways of using <code>super</code>:</p>
+<ul>
+<li>A <em>class constructor</em> (the pseudo-method <code>constructor</code> in a class literal) uses it like a function call (<code>super(···)</code>), in order to make a super-constructor call (line A).</li>
+<li>Method definitions (in object literals or classes, with or without <code>static</code>) use it like property references (<code>super.prop</code>) or method calls (<code>super.method(···)</code>), in order to refer to super-properties (line B).</li>
+</ul>
+<h4 id="the-prototype-of-a-subclass-is-the-superclass">The prototype of a subclass is the superclass&nbsp;&nbsp;<a class="header-anchor" href="#the-prototype-of-a-subclass-is-the-superclass" aria-hidden="true">#</a></h4>
+<p>The prototype of a subclass is the superclass in ECMAScript 6:</p>
+<pre><code>&gt; Object.getPrototypeOf(ColorPoint) === Point
+true
+</code></pre>
+<p>That means that static properties are inherited:</p>
+<pre><code>class Foo {
+    static classMethod() {
+        return 'hello';
+    }
+}
+
+class Bar extends Foo {
+}
+Bar.classMethod(); // 'hello'
+</code></pre>
+<p>You can even super-call static methods:</p>
+<pre><code>class Foo {
+    static classMethod() {
+        return 'hello';
+    }
+}
+
+class Bar extends Foo {
+    static classMethod() {
+        return super.classMethod() + ', too';
+    }
+}
+Bar.classMethod(); // 'hello, too'
+</code></pre>
+<h4 id="super-constructor-calls">Super-constructor calls&nbsp;&nbsp;<a class="header-anchor" href="#super-constructor-calls" aria-hidden="true">#</a></h4>
+<p>In a derived class, you must call <code>super()</code> before you can use <code>this</code>:</p>
+<pre><code>class Foo {}
+
+class Bar extends Foo {
+    constructor(num) {
+        let tmp = num * 2; // OK
+        this.num = num; // ReferenceError
+        super();
+        this.num = num; // OK
+    }
+}
+</code></pre>
+<p>Implicitly leaving a derived constructor without calling <code>super()</code> also causes an error:</p>
+<pre><code>class Foo {}
+
+class Bar extends Foo {
+    constructor() {
+    }
+}
+
+let bar = new Bar(); // ReferenceError
+</code></pre>
+<h4 id="overriding-the-result-of-a-constructor">Overriding the result of a constructor&nbsp;&nbsp;<a class="header-anchor" href="#overriding-the-result-of-a-constructor" aria-hidden="true">#</a></h4>
+<p>Just like in ES5, you can override the result of a constructor by explicitly returning an object:</p>
+<pre><code>class Foo {
+    constructor() {
+        return Object.create(null);
+    }
+}
+console.log(new Foo() instanceof Foo); // false
+</code></pre>
+<p>If you do so, it doesn’t matter whether <code>this</code> has been initialized or not. In other words: you don’t have to call <code>super()</code> in a derived constructor if you override the result in this manner.</p>
+<h4 id="default-constructors-for-classes">Default constructors for classes&nbsp;&nbsp;<a class="header-anchor" href="#default-constructors-for-classes" aria-hidden="true">#</a></h4>
+<p>If you don’t specify a <code>constructor</code> for a base class, the following definition is used:</p>
+<pre><code>constructor() {}
+</code></pre>
+<p>For derived classes, the following default constructor is used:</p>
+<pre><code>constructor(...args) {
+    super(...args);
+}
+</code></pre>
+<h4 id="subclassing-built-in-constructors">Subclassing built-in constructors&nbsp;&nbsp;<a class="header-anchor" href="#subclassing-built-in-constructors" aria-hidden="true">#</a></h4>
+<p>In ECMAScript 6, you can finally subclass all built-in constructors (there are <a href="http://speakingjs.com/es5/ch28.html">work-arounds for ES5</a>, but these have significant limitations).</p>
+<p>For example, you can now create your own exception classes (that will inherit the feature of having a stack trace in most engines):</p>
+<pre><code>class MyError extends Error {    
+}
+throw new MyError('Something happened!');
+</code></pre>
+<p>You can also create subclasses of <code>Array</code> whose instances properly handle <code>length</code>:</p>
+<pre><code>class MyArray extends Array {
+    constructor(len) {
+        super(len);
+    }
+}
+
+// Instances of of `MyArray` work like real arrays:
+let myArr = new MyArray(0);
+console.log(myArr.length); // 0
+myArr[0] = 'foo';
+console.log(myArr.length); // 1
+</code></pre>
+<p>Note that subclassing built-in constructors is something that engines have to support natively, you won’t get this feature via transpilers.</p>
+<h2 id="the-details-of-classes">The details of classes&nbsp;&nbsp;<a class="header-anchor" href="#the-details-of-classes" aria-hidden="true">#</a></h2>
+<p>What we have seen so far are the essentials of classes. You only need to read on if you are interested how things happen under the hood. Let’s start with the syntax of classes. The following is a slightly modified version of the syntax shown in <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-functions-and-classes">Sect. A.4 of the ECMAScript 6 specification</a>.</p>
+<pre><code>ClassDeclaration:
+    "class" BindingIdentifier ClassTail
+ClassExpression:
+    "class" BindingIdentifier? ClassTail
+
+ClassTail:
+    ClassHeritage? "{" ClassBody? "}"
+ClassHeritage:
+    "extends" AssignmentExpression
+ClassBody:
+    ClassElement+
+ClassElement:
+    MethodDefinition
+    "static" MethodDefinition
+    ";"
+
+MethodDefinition:
+    PropName "(" FormalParams ")" "{" FuncBody "}"
+    "*" PropName "(" FormalParams ")" "{" GeneratorBody "}"
+    "get" PropName "(" ")" "{" FuncBody "}"
+    "set" PropName "(" PropSetParams ")" "{" FuncBody "}"
+
+PropertyName:
+    LiteralPropertyName
+    ComputedPropertyName
+LiteralPropertyName:
+    IdentifierName  /* foo */
+    StringLiteral   /* "foo" */
+    NumericLiteral  /* 123.45, 0xFF */
+ComputedPropertyName:
+    "[" Expression "]"
+</code></pre>
+<p>Two observations:</p>
+<ul>
+<li>
+<p>The value to be extended can be produced by an arbitrary expression. Which means that you’ll be able to write code such as the following:</p>
+<pre><code>class Foo extends combine(MyMixin, MySuperClass) {}
+</code></pre>
+</li>
+<li>
+<p>Semicolons are allowed between methods.</p>
+</li>
+</ul>
+<h3 id="various-checks">Various checks&nbsp;&nbsp;<a class="header-anchor" href="#various-checks" aria-hidden="true">#</a></h3>
+<ul>
+<li>
+<p>Error checks: the class name cannot be <code>eval</code> or <code>arguments</code>; duplicate class element names are not allowed; the name <code>constructor</code> can only be used for a normal method, not for a getter, a setter or a generator method.</p>
+</li>
+<li>
+<p>Classes can’t be function-called. They throw a <code>TypeException</code> if they are.</p>
+</li>
+<li>
+<p>Prototype methods cannot be used as constructors:</p>
+<pre><code>class C {
+    m() {}
+}
+new C.prototype.m(); // TypeError
+</code></pre>
+</li>
+</ul>
+<h3 id="attributes-of-properties">Attributes of properties&nbsp;&nbsp;<a class="header-anchor" href="#attributes-of-properties" aria-hidden="true">#</a></h3>
+<p>Class declarations create (mutable) let bindings. For a given class <code>Foo</code>:</p>
+<ul>
+<li>Static methods <code>Foo.*</code> are writable and configurable, but not enumerable. Making them writable allows for dynamic patching.</li>
+<li>A constructor and the object in its property <code>prototype</code> have an immutable link:
+<ul>
+<li><code>Foo.prototype</code> is non-writeable, non-enumerable, non-configurable.</li>
+<li><code>Foo.prototype.constructor</code> is non-writeable, non-enumerable, non-configurable.</li>
+</ul>
+</li>
+<li>Prototype methods <code>Foo.prototype.*</code> are writable and configurable, but not enumerable.</li>
+</ul>
+<p>Note that method definitions in object literals produce enumerable properties.</p>
+<h2 id="the-details-of-subclassing">The details of subclassing&nbsp;&nbsp;<a class="header-anchor" href="#the-details-of-subclassing" aria-hidden="true">#</a></h2>
+<p>In ECMAScript 6, subclassing looks as follows.</p>
+<pre><code>class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    ···
+}
+
+class ColorPoint extends Point {
+    constructor(x, y, color) {
+        super(x, y);
+        this.color = color;
+    }
+    ···
+}
+
+let cp = new ColorPoint(25, 8, 'green');
+</code></pre>
+<p>This code produces the following objects.</p>
+<p><img src="es6-classes-final/subclassing_es6.jpg" alt="" draggable="true" data-bukket-ext-bukket-draggable="true"></p>
+<p>The next subsection examines the prototype chains (in the two columns), the subsection after that examines how <code>cp</code> is allocated and initialized.</p>
+<h3 id="prototype-chains">Prototype chains&nbsp;&nbsp;<a class="header-anchor" href="#prototype-chains" aria-hidden="true">#</a></h3>
+<p>In the diagram, you can see that there are two <em>prototype chains</em> (objects linked via the <code>[[Prototype]]</code> relationship, which is an inheritance relationship):</p>
+<ul>
+<li>
+<p>Left column: classes (functions). The prototype of a derived class is the class it extends. The prototype of a base class is <code>Function.prototype</code>, which is also the prototype of functions:</p>
+<pre><code>&gt; const getProto = Object.getPrototypeOf.bind(Object);
+
+&gt; getProto(Point) === Function.prototype
+true
+&gt; getProto(function () {}) === Function.prototype
+true
+</code></pre>
+</li>
+<li>
+<p>Right column: the prototype chain of the instance. The whole purpose of a class is to set up this prototype chain. The prototype chain ends with <code>Object.prototype</code> (whose prototype is <code>null</code>), which is also the prototype of objects created via object literals:</p>
+<pre><code>&gt; const getProto = Object.getPrototypeOf.bind(Object);
+
+&gt; getProto(Point.prototype) === Object.prototype
+true
+&gt; getProto({}) === Object.prototype
+true
+</code></pre>
+</li>
+</ul>
+<p>The prototype chain in the left column leads to static properties being inherited.</p>
+<h3 id="allocating-and-initializing-the-instance-object">Allocating and initializing the instance object&nbsp;&nbsp;<a class="header-anchor" href="#allocating-and-initializing-the-instance-object" aria-hidden="true">#</a></h3>
+<p>The data flow between class constructors is different from the canonical way of subclassing in ES5. Under the hood, it roughly looks as follows.</p>
+<pre><code>// Instance is allocated here
+function Point(x, y) {
+    // Performed before entering this constructor:
+    this = Object.create(new.target.prototype);
+
+    this.x = x;
+    this.y = y;
+}
+···
+
+function ColorPoint(x, y, color) {
+    // Performed before entering this constructor:
+    this = uninitialized;
+
+    this = Reflect.construct(Point, [x, y], new.target); // (A)
+        // super(x, y);
+
+    this.color = color;
+}
+Object.setPrototypeOf(ColorPoint, Point);
+···
+
+let cp = Reflect.construct( // (B)
+             ColorPoint, [25, 8, 'green'],
+             ColorPoint);
+    // let cp = new ColorPoint(25, 8, 'green');
+</code></pre>
+<p>The instance object is created in different locations in ES6 and ES5:</p>
+<ul>
+<li>In ES6, it is created in the base constructor, the last in a chain of constructor calls.</li>
+<li>In ES5, it is created in the operand of <code>new</code>, the first in a chain of constructor calls.</li>
+</ul>
+<p>The previous code uses two new ES6 features:</p>
+<ul>
+<li>
+<p><code>new.target</code> is an implicit parameter that all functions have. It is to constructor calls what <code>this</code> is to method calls.</p>
+<ul>
+<li>If a constructor has been directly invoked via <code>new</code>, its value is that constructor (line B).</li>
+<li>If a constructor was called via <code>super()</code>, its value is the <code>new.target</code> of the constructor that made the call (line A).</li>
+<li>During a normal function call, it is <code>undefined</code>. That means that you can use <code>new.target</code> to determine whether a function was function-called or constructor-called (via <code>new</code>).</li>
+<li>Inside an arrow function, <code>new.target</code> refers to the <code>new.target</code> of the surrounding non-arrow function.</li>
+</ul>
+</li>
+<li>
+<p><code>Reflect.construct()</code> <sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup> lets you do a constructor call while specifying <code>new.target</code> via the last parameter.</p>
+</li>
+</ul>
+<p>The advantage of this way of subclassing is that it enables normal code to subclass built-in constructors (such as <code>Error</code> and <code>Array</code>). A later section explains why a different approach was necessary.</p>
+<h4 id="safety-checks">Safety checks&nbsp;&nbsp;<a class="header-anchor" href="#safety-checks" aria-hidden="true">#</a></h4>
+<ul>
+<li><code>this</code> originally being uninitialized in derived constructors means that an error is thrown if they access <code>this</code> in any way before they have called <code>super()</code>.</li>
+<li>Once <code>this</code> is initialized, calling <code>super()</code> produces a <code>ReferenceError</code>. This protects you against calling <code>super()</code> twice.</li>
+<li>If a constructor returns implicitly (without a <code>return</code> statement), the result is <code>this</code>. If <code>this</code> is uninitialized, a <code>ReferenceError</code> is thrown. This protects you against forgetting to call <code>super()</code>.</li>
+<li>If a constructor explicitly returns a non-object (including <code>undefined</code> and <code>null</code>), the result is <code>this</code> (this behavior is required to remain compatible with ES5 and earlier). If <code>this</code> is uninitialized, a <code>TypeError</code> is thrown.</li>
+<li>If a constructor explicitly returns an object, it is used as its result. Then it doesn’t matter whether <code>this</code> is initialized or not.</li>
+</ul>
+<h4 id="the-extends-clause">The <code>extends</code> clause&nbsp;&nbsp;<a class="header-anchor" href="#the-extends-clause" aria-hidden="true">#</a></h4>
+<p>Let’s examine how the <code>extends</code> clause influences how a class is set up (<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-runtime-semantics-classdefinitionevaluation">Sect. 14.5.14 of the spec</a>).</p>
+<p>The value of an <code>extends</code> clause must be “constructible” (invocable via <code>new</code>). <code>null</code> is allowed, though.</p>
+<pre><code>class C {
+}
+</code></pre>
+<ul>
+<li>Constructor kind: base</li>
+<li>Prototype of <code>C</code>: <code>Function.prototype</code> (like a normal function)</li>
+<li>Prototype of <code>C.prototype</code>: <code>Object.prototype</code> (which is also the prototype of objects created via object literals)</li>
+</ul>
+<pre><code>class C extends B {
+}
+</code></pre>
+<ul>
+<li>Constructor kind: derived</li>
+<li>Prototype of <code>C</code>: <code>B</code></li>
+<li>Prototype of <code>C.prototype</code>: <code>B.prototype</code></li>
+</ul>
+<pre><code>class C extends Object {
+}
+</code></pre>
+<ul>
+<li>Constructor kind: derived</li>
+<li>Prototype of <code>C</code>: <code>Object</code></li>
+<li>Prototype of <code>C.prototype</code>: <code>Object.prototype</code></li>
+</ul>
+<p>Note the following subtle difference with the first case: If there is no <code>extends</code> clause, the class is a base class and allocates instances. If a class extends <code>Object</code>, it is a derived class and <code>Object</code> allocates the instances. The resulting instances (including their prototype chains) are the same, but you get there differently.</p>
+<pre><code>class C extends null {
+}
+</code></pre>
+<ul>
+<li>Constructor kind: derived</li>
+<li>Prototype of <code>C</code>: <code>Function.prototype</code></li>
+<li>Prototype of <code>C.prototype</code>: <code>null</code></li>
+</ul>
+<p>Such a class is not very useful: <code>new</code>-calling it leads to an error, because the default constructor makes a super-constructor call and <code>Function.prototype</code> (the super-constructor) can’t be constructor-called. The only way to make the error go away is by adding a <code>constructor</code> that returns an object.</p>
+<h3 id="why-cant-you-subclass-built-in-constructors-in-es5">Why can’t you subclass built-in constructors in ES5?&nbsp;&nbsp;<a class="header-anchor" href="#why-cant-you-subclass-built-in-constructors-in-es5" aria-hidden="true">#</a></h3>
+<p>In ECMAScript 5, most built-in constructors can’t be subclassed (<a href="http://speakingjs.com/es5/ch28.html">several work-arounds exist</a>).</p>
+<p>To understand why, let’s use the canonical ES5 pattern to subclass <code>Array</code>. As we shall soon find out, this doesn’t work.</p>
+<pre><code>function MyArray(len) {
+    Array.call(this, len); // (A)
+}
+MyArray.prototype = Object.create(Array.prototype);    
+</code></pre>
+<p>Unfortunately, if we instantiate <code>MyArray</code>, we find out that it doesn’t work properly: The instance property <code>length</code> does not change in reaction to us adding array elements:</p>
+<pre><code>&gt; var myArr = new MyArray(0);
+&gt; myArr.length
+0
+&gt; myArr[0] = 'foo';
+&gt; myArr.length
+0
+</code></pre>
+<p>There are two obstracles that prevent <code>myArr</code> from being a proper array.</p>
+<p><strong>First obstacle: initialization.</strong> The <code>this</code> you hand to the constructor <code>Array</code> (in line A) is completely ignored. That means you can’t use <code>Array</code> to set up the instance that was created for <code>MyArray</code>.</p>
+<pre><code>&gt; var a = [];
+&gt; var b = Array.call(a, 3);
+&gt; a !== b  // a is ignored, b is a new object
+true
+&gt; b.length // set up correctly
+3
+&gt; a.length // unchanged
+0
+</code></pre>
+<p><strong>Second obstacle: allocation.</strong> The instance objects created by <code>Array</code> are <em>exotic</em> (a term used by the ECMAScript specification for objects that have features that normal objects don’t have): Their property <code>length</code> tracks and influences the management of array elements. In general, exotic objects can be created from scratch, but you can’t convert an existing normal object into an exotic one. Unfortunately, that is what <code>Array</code> would have to do, when called in line A: It would have to turn the normal object created for <code>MyArray</code> into an exotic array object.</p>
+<h4 id="the-solution-es6-subclassing">The solution: ES6 subclassing&nbsp;&nbsp;<a class="header-anchor" href="#the-solution-es6-subclassing" aria-hidden="true">#</a></h4>
+<p>In ECMAScript 6, subclassing <code>Array</code> looks as follows:</p>
+<pre><code>class MyArray extends Array {
+    constructor(len) {
+        super(len);
+    }
+}
+</code></pre>
+<p>This works (but it’s not something that ES6 transpilers can support, it depends on whether a JavaScript engine supports it natively):</p>
+<pre><code>&gt; let myArr = new MyArray(0);
+&gt; myArr.length
+0
+&gt; myArr[0] = 'foo';
+&gt; myArr.length
+1
+</code></pre>
+<p>We can now see how the ES6 approach to subclassing circumvents the obstacles:</p>
+<ul>
+<li>Allocation happens in the base constructor, which means that <code>Array</code> can allocate an exotic object. While most of the new approach is due to how derived constructors behave, this step requires that a base constructor is aware of <code>new.target</code> and makes <code>new.target.prototype</code> the protoype of the allocated instance.</li>
+<li>Initialization also happens in the base constructor, a derived constructor receives an initialized object and works with that one instead of passing its own instance to the super-constructor and requiring it to set it up.</li>
+</ul>
+<h3 id="referring-to-super-properties-in-methods">Referring to super-properties in methods&nbsp;&nbsp;<a class="header-anchor" href="#referring-to-super-properties-in-methods" aria-hidden="true">#</a></h3>
+<p>The following ES6 code makes a super-method call in line B.</p>
+<pre><code>class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    toString() { // (A)
+        return '(' + this.x + ', ' + this.y + ')';
+    }
+}
+
+class ColorPoint extends Point {
+    constructor(x, y, color) {
+        super(x, y);
+        this.color = color;
+    }
+    toString() {
+        return super.toString() // (B)
+               + ' in ' + this.color;
+    }
+}
+
+let cp = new ColorPoint(25, 8, 'green');
+console.log(cp.toString()); // (25, 8) in green
+</code></pre>
+<p>To understand how super-calls work, let’s look at the object diagram of <code>cp</code>:</p>
+<p><img src="es6-classes-final/supercalls.jpg" alt="" draggable="true" data-bukket-ext-bukket-draggable="true"></p>
+<p><code>ColorPoint.prototype.toString</code> makes a super-call (line B) to the method (starting in line A) that it has overridden. Let’s call the object, in which a method is stored, the <em>home object</em> of that method. For example, <code>ColorPoint.prototype</code> is the home object of <code>ColorPoint.prototype.toString()</code>.</p>
+<p>The super-call in line B involves three steps:</p>
+<ol>
+<li>
+<p>Start your search in the prototype of the home object of the current method.</p>
+</li>
+<li>
+<p>Look for a method whose name is <code>toString</code>. That method may be found in the object where the search started or later in the prototype chain.</p>
+</li>
+<li>
+<p>Call that method with the current <code>this</code>. The reason for doing so is: the super-called method must be able to access the same instance properties (in our example, the properties of <code>cp</code>).</p>
+</li>
+</ol>
+<p>Note that even if you are only getting or setting a property (not calling a method), you still have to consider <code>this</code> in step #3, because the property may be implemented via a getter or a setter.</p>
+<p>Let’s express these steps in three different, but equivalent, ways:</p>
+<pre><code>// Variation 1: super-method calls in ES5
+var result = Point.prototype.toString.call(this) // steps 1,2,3
+
+// Variation 2: ES5, refactored
+var superObject = Point.prototype; // step 1
+var superMethod = superObject.toString; // step 2
+var result = superMethod.call(this) // step 3
+
+// Variation 3: ES6
+var homeObject = ColorPoint.prototype;
+var superObject = Object.getPrototypeOf(homeObject); // step 1
+var superMethod = superObject.toString; // step 2
+var result = superMethod.call(this) // step 3
+</code></pre>
+<p>Variation 3 is how ECMAScript 6 handles super-calls. This approach is supported by <a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-function-environment-records">two internal <em>bindings</em></a> that the <em>environments</em> of functions have (<em>environments</em> provide storage space, so-called <em>bindings</em>, for the variables in a scope):</p>
+<ul>
+<li><code>[[thisValue]]</code>: This internal binding also exists in ECMAScript 5 and stores the value of <code>this</code>.</li>
+<li><code>[[HomeObject]]</code>: Refers to the home object of the environment’s function. Filled in via an internal property <code>[[HomeObject]]</code> that all methods have that use <code>super</code>. Both the binding and the property are new in ECMAScript 6.</li>
+</ul>
+<p>A method definition in a class literal that uses <code>super</code> is now special: Its value is still a function, but it has the internal property <code>[[HomeObject]]</code>. That property is set up by the method definition and can’t be changed in JavaScript. Therefore, you can’t meaningfully move such a method to a different object.</p>
+<p>Using <code>super</code> to refer to a property is not allowed in function declarations, function expressions and generator functions.</p>
+<p>Referring to super-properties is handy whenever prototype chains are involved, which is why you can use it in method definitions inside object literals and class literals (the class can be derived or not, the method can be static or not).</p>
+<h2 id="constructor-calls-explained-via-javascript-code">Constructor calls explained via JavaScript code&nbsp;&nbsp;<a class="header-anchor" href="#constructor-calls-explained-via-javascript-code" aria-hidden="true">#</a></h2>
+<p>The JavaScript code in this section is a much simplified version of how the specification describes constructor calls and super-constructor calls. It may be interesting to you if you prefer code to explanations in human language. Before we can delve into the actual functionality, we need to understand a few other mechanisms.</p>
+<h3 id="internal-variables-and-properties">Internal variables and properties&nbsp;&nbsp;<a class="header-anchor" href="#internal-variables-and-properties" aria-hidden="true">#</a></h3>
+<p>The specification writes internal variables and properties in double brackets (<code>[[Foo]]</code>). In the code, I use double underscores, instead (<code>__Foo__</code>).</p>
+<p>Internal variables used in the code:</p>
+<ul>
+<li><code>[[NewTarget]]</code>: The operand of the <code>new</code> operator that triggered the current constructor call (passed on if <code>[[Construct]]</code> is called recursively via <code>super()</code>).</li>
+<li><code>[[thisValue]]</code>: Stores the value of <code>this</code>.</li>
+<li><code>[[FunctionObject]]</code>: Refers to the function that is currently executed.</li>
+</ul>
+<p>Internal properties used in the code:</p>
+<ul>
+<li><code>[[Construct]]</code>: All constructor functions (including those created by classes) have this own (non-inherited) method. It implements constructor calls and is invoked by <code>new</code>.</li>
+<li><code>[[ConstructorKind]]</code>: A property of constructor functions whose value is either <code>'base'</code> or <code>'derived'</code>.</li>
+</ul>
+<h3 id="environments">Environments&nbsp;&nbsp;<a class="header-anchor" href="#environments" aria-hidden="true">#</a></h3>
+<p><em>Environments</em> provide storage space for variables, there is one environment per scope. Environments are managed as a stack. The environment on top of that stack is considered active. The following code is a sketch of how environments are handled.</p>
+<pre><code>/**
+ * Function environments are special, they have a few more
+ * internal variables than other environments.
+ * (`Environment` is not shown here)
+ */
+class FunctionEnvironment extends Environment {
+    constructor(Func) {
+        // [[FunctionObject]] is a function-specific
+        // internal variable
+        this.__FunctionObject__ = Func;
+    }    
+}
+
+/**
+ * Push an environment onto the stack
+ */
+function PushEnvironment(env) { ··· }
+
+/**
+ * Pop the topmost environment from the stack
+ */
+function PopEnvironment() { ··· }
+
+/**
+ * Find topmost function environment on stack
+ */
+function GetThisEnvironment() { ··· }
+</code></pre>
+<h3 id="constructor-calls">Constructor calls&nbsp;&nbsp;<a class="header-anchor" href="#constructor-calls" aria-hidden="true">#</a></h3>
+<p>Let’s start with the default way (<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-ecmascript-function-objects-construct-argumentslist-newtarget">ES6 spec Sect. 9.2.3</a>) in which constructor calls are handled for functions:</p>
+<pre><code>/**
+ * All constructible functions have this own method,
+ * it is called by the `new` operator
+ */
+AnyFunction.__Construct__ = function (args, newTarget) {
+    let Constr = this;
+    let kind = Constr.__ConstructorKind__;
+
+    let env = new FunctionEnvironment(Constr);
+    env.__NewTarget__ = newTarget;
+    if (kind === 'base') {
+        env.__thisValue__ = Object.create(newTarget.prototype);
+    } else {
+        // While `this` is uninitialized, getting or setting it
+        // throws a `ReferenceError`
+        env.__thisValue__ = uninitialized;
+    }
+
+    PushEnvironment(env);
+    let result = Constr(...args);
+    PopEnvironment();
+
+    // Let’s pretend there is a way to tell whether `result`
+    // was explicitly returned or not
+    if (WasExplicitlyReturned(result)) {
+        if (isObject(result)) {
+            return result;
+        }
+        // Explicit return of a primitive
+        if (kind === 'base') {
+            // Base constructors must be backwards compatible
+            return env.__thisValue__; // always initialized!
+        }
+        throw new TypeError();
+    }
+    // Implicit return
+    if (env.__thisValue__ === uninitialized) {
+        throw new ReferenceError();
+    }
+    return env.__thisValue__;
+}
+</code></pre>
+<h3 id="super-constructor-calls-2">Super-constructor calls&nbsp;&nbsp;<a class="header-anchor" href="#super-constructor-calls-2" aria-hidden="true">#</a></h3>
+<p>Super-constructor calls are handled as follows (<a href="https://people.mozilla.org/~jorendorff/es6-draft.html#sec-super-keyword-runtime-semantics-evaluation">ES6 spec Sect. 12.3.5.1</a>).</p>
+<pre><code>/**
+ * Handle super-constructor calls
+ */
+function super(...args) {
+    let env = GetThisEnvironment();
+    let newTarget = env.__NewTarget__;
+    let activeFunc = env.__FunctionObject__;
+    let superConstructor = Object.getPrototypeOf(activeFunc);
+
+    env.__thisValue__ = superConstructor
+                        .__Construct__(args, newTarget);
+}
+</code></pre>
+<h2 id="the-species-pattern">The species pattern&nbsp;&nbsp;<a class="header-anchor" href="#the-species-pattern" aria-hidden="true">#</a></h2>
+<p>One more mechanism of built-in constructors has been made extensible in ECMAScript 6: If a method such as <code>Array.prototype.map()</code> returns a fresh instance, what constructor should it use to create that instance? The default is to use the same constructor that created <code>this</code>, but some subclasses may want it to remain a direct instance of <code>Array</code>. ES6 lets subclasses override the default, via the so-called <em>species pattern</em>:</p>
+<ul>
+<li>When creating a new instance of <code>Array</code>, methods such as <code>map()</code> use the constructor stored in <code>this.constructor[Symbol.species]</code>.</li>
+<li>If a sub-constructor of <code>Array</code> does nothing, it inherits <code>Array[Symbol.species]</code>. That property is a getter that returns <code>this</code>.</li>
+</ul>
+<p>You can override the default, via a static getter (line A):</p>
+<pre><code>class MyArray1 extends Array {
+}
+let result1 = new MyArray1().map(x =&gt; x);
+console.log(result1 instanceof MyArray1); // true
+
+class MyArray2 extends Array {
+    static get [Symbol.species]() { // (A)
+        return Array;
+    }
+}
+let result2 = new MyArray2().map(x =&gt; x);
+console.log(result2 instanceof MyArray2); // false
+</code></pre>
+<p>An alternative is to use <code>Object.defineProperty()</code> (you can’t use assignment, as that would trigger a setter, which doesn’t exist):</p>
+<pre><code>Object.defineProperty(
+    MyArray2, Symbol.species, {
+        value: Array
+    });
+</code></pre>
+<p>The following getters all return <code>this</code>, which means that methods such as <code>Array.prototype.map()</code> use the constructor that created the current instance for their results.</p>
+<ul>
+<li><code>Array.get [Symbol.species]()</code></li>
+<li><code>ArrayBuffer.get [Symbol.species]()</code></li>
+<li><code>Map.get [Symbol.species]()</code></li>
+<li><code>Promise.get [Symbol.species]()</code></li>
+<li><code>RegExp.get [Symbol.species]()</code></li>
+<li><code>Set.get [Symbol.species]()</code></li>
+<li><code>%TypedArray%.get [Symbol.species]()</code></li>
+</ul>
+<h2 id="conclusion">Conclusion&nbsp;&nbsp;<a class="header-anchor" href="#conclusion" aria-hidden="true">#</a></h2>
+<h3 id="the-specialization-of-functions">The specialization of functions&nbsp;&nbsp;<a class="header-anchor" href="#the-specialization-of-functions" aria-hidden="true">#</a></h3>
+<p>There is an interesting trend in ECMAScript 6: Previously, a single kind of function took on three roles: real function, method and constructor. In ES6, there is specialization:</p>
+<ul>
+<li>
+<p>Arrow functions are specialized for non-method callbacks, where them picking up the <code>this</code> of their surrounding method or constructor is an advantage. Without <code>this</code>, they don’t make much sense as methods and they throw an exception when invoked via <code>new</code>.</p>
+</li>
+<li>
+<p>Method definitions enable the use of <code>super</code>, by setting up the property <code>[[HomeObject]]</code>. The functions they produce can’t be constructor-called.</p>
+</li>
+<li>
+<p>Class definitions are the only way to create derived constructors (enabling ES6-style subclassing that works for built-in constructors). Class definitions produce functions that can only be constructor-called.</p>
+</li>
+</ul>
+<h3 id="the-future-of-classes">The future of classes&nbsp;&nbsp;<a class="header-anchor" href="#the-future-of-classes" aria-hidden="true">#</a></h3>
+<p>The design maxim for classes was “maximally minimal”. Several advanced features were discussed, but ultimately discarded in order to get a design that would be unanimously accepted by TC39.</p>
+<p>Upcoming versions of ECMAScript can now extend this minimal design – classes will provide a foundation for features such as traits (or mixins), value objects (where different objects are equal if they have the same content) and const classes (that produce immutable instances).</p>
+<h3 id="does-javascript-need-classes">Does JavaScript need classes?&nbsp;&nbsp;<a class="header-anchor" href="#does-javascript-need-classes" aria-hidden="true">#</a></h3>
+<p>Classes are controversial within the JavaScript community. On one hand, people coming from class-based languages are happy that they don’t have to deal with JavaScript’s unorthodox inheritance mechanisms, anymore. On the other hand, there are many JavaScript programmers who argue that what’s complicated about JavaScript is not prototypal inheritance, but constructors <sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup>.</p>
+<p>ES6 classes provide a few clear benefits:</p>
+<ul>
+<li>
+<p>They are backwards compatible with much of the current code.</p>
+</li>
+<li>
+<p>Compared to constructors and constructor inheritance, classes make it easier for beginners to get started.</p>
+</li>
+<li>
+<p>Subclassing is supported within the language.</p>
+</li>
+<li>
+<p>Built-in constructors are subclassable.</p>
+</li>
+<li>
+<p>No library for inheritance is needed, anymore; code will become more portable between frameworks.</p>
+</li>
+<li>
+<p>They provide a foundation for advanced features in the future (mixins and more).</p>
+</li>
+<li>
+<p>They help tools that statically analyze code (IDEs, type checkers, style checkers, etc.).</p>
+</li>
+</ul>
+<p>I have made my peace with classes and am glad that they are in ES6. I would have preferred them to be prototypal (based on constructor objects <sup class="footnote-ref"><a href="#fn5" id="fnref5:1">[5:1]</a></sup>, not constructor functions), but I also understand that backwards compatibility is important.</p>
+<h2 id="further-reading">Further reading&nbsp;&nbsp;<a class="header-anchor" href="#further-reading" aria-hidden="true">#</a></h2>
+<p>Acknowledgement: #1 was an important source of this blog post.</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>“<a href="http://exploringjs.com/">Exploring ES6: Upgrade to the next version of JavaScript</a>”, book by Axel <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p><a href="http://2ality.com/2014/12/es6-symbols.html">Symbols in ECMAScript 6</a> <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p><a href="http://2ality.com/2013/06/iterators-generators.html">Iterators and generators in ECMAScript 6</a> <a href="#fnref3" class="footnote-backref">↩︎</a> <a href="#fnref3:1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p><a href="http://2ality.com/2014/12/es6-proxies.html">Meta programming with ECMAScript 6 proxies</a> <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p><a href="http://2ality.com/2011/06/prototypes-as-classes.html">Prototypes as classes – an introduction to JavaScript inheritance</a> <a href="#fnref5" class="footnote-backref">↩︎</a> <a href="#fnref5:1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+</div>
 					</div>
 				</article>
 				<!--================= END :: Tutorial =================-->
 				
 				<!--================= START :: Tutorial =================-->
 				<article style="display:none;">
-					<a id="t02" name="t02"></a><h1>02 : Index</h1>
-					<span class="ref-site"></span>
-					<div class="tutorial__content">
-						
-					</div>
-				</article>
-				<!--================= END :: Tutorial =================-->
-				
-				<!--================= START :: Tutorial =================-->
-				<article style="display:none;">
-					<a id="t03" name="t03"></a><h1>03 : Index</h1>
-					<span class="ref-site"></span>
-					<div class="tutorial__content">
-						
-					</div>
-				</article>
-				<!--================= END :: Tutorial =================-->
-				
-				<!--================= START :: Tutorial =================-->
-				<article style="display:none;">
-					<a id="t04" name="t04"></a><h1>04 : Index</h1>
-					<span class="ref-site"></span>
-					<div class="tutorial__content">
-						
-					</div>
-				</article>
-				<!--================= END :: Tutorial =================-->
-				
-				<!--================= START :: Tutorial =================-->
-				<article style="display:none;">
-					<a id="t05" name="t05"></a><h1>05 : Index</h1>
-					<span class="ref-site"></span>
-					<div class="tutorial__content">
-						
-					</div>
-				</article>
-				<!--================= END :: Tutorial =================-->
-				
-				<!--================= START :: Tutorial =================-->
-				<article style="display:none;">
-					<a id="t06" name="t06"></a><h1>06 : Index</h1>
-					<span class="ref-site"></span>
-					<div class="tutorial__content">
-						
-					</div>
-				</article>
-				<!--================= END :: Tutorial =================-->
-				
-				<!--================= START :: Tutorial =================-->
-				<article style="display:none;">
-					<a id="t07" name="t07"></a><h1>07 : Index</h1>
-					<span class="ref-site"></span>
-					<div class="tutorial__content">
-						
-					</div>
-				</article>
-				<!--================= END :: Tutorial =================-->
-				
-				<!--================= START :: Tutorial =================-->
-				<article style="display:none;">
-					<a id="t08" name="t08"></a><h1>08 : Index</h1>
-					<span class="ref-site"></span>
-					<div class="tutorial__content">
-						
-					</div>
-				</article>
-				<!--================= END :: Tutorial =================-->
-				
-				<!--================= START :: Tutorial =================-->
-				<article style="display:none;">
-					<a id="t09" name="t09"></a><h1>09 : Index</h1>
+					<a id="t10" name="t10"></a><h1>10 : Index</h1>
 					<span class="ref-site"></span>
 					<div class="tutorial__content">
 						
