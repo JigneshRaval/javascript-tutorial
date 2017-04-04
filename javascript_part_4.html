@@ -43,6 +43,16 @@
 			code { background-color: #EEE; padding: 3px; font-family: Consolas,monospace; }
 			pre code { background-color: transparent; padding: 0; display: block; }
 			
+			pre:after {
+				content: "<CODE>";
+				position: absolute;
+				top:0;
+				right: 0;
+				padding: 5px 15px;
+				background: #999;
+				color: #FFF;
+			}
+			
 			.tutorial-index {
 			counter-reset: section;
 			}
