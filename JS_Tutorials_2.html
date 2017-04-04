@@ -14029,12 +14029,12 @@ foo( <span class="pl-c1">10</span>, <span class="pl-c1">20</span> );      <span 
 		<h1 class="post_title">Fluent JavaScript – Three Different Kinds of Prototypal OO</h1>
 		<div class="entry_post"> 
 
-<p>In order to claim fluency in JavaScript, it’s important to understand how JavaScript’s native inheritance capabilities work. This is an often neglected area of JavaScript writing and learning, but understanding it can be dramatically empowering.</p>
-<p>JavaScript is one of the most expressive programming languages ever created. In particular, its combination of delegate prototypes, runtime object extension, and closures allow you to express three distinct types of prototypes in JavaScript. Let’s take a closer look at each of these.</p>
+<p>In order to claim fluency in JavaScript, it's important to understand how JavaScript's native inheritance capabilities work. This is an often neglected area of JavaScript writing and learning, but understanding it can be dramatically empowering.</p>
+<p>JavaScript is one of the most expressive programming languages ever created. In particular, its combination of delegate prototypes, runtime object extension, and closures allow you to express three distinct types of prototypes in JavaScript. Let's take a closer look at each of these.</p>
 <h3>Delegation / Differential Inheritance</h3>
-<p>A delegate prototype is an object that serves as a base for another object. When you inherit from a delegate prototype, the new object gets a reference to the prototype. When you try to access a property on the new object, it checks the object’s own properties first. If it doesn’t find it there, it checks the prototype, and so on up the chain until it gets back to Object.prototype. </p>
-<p>Method delegation is a fantastic way to preserve memory resources, because you only need one copy of each method to be shared by all instances. It’s also a great way to add capabilities at runtime to all objects which share a particular prototype.</p>
-<p>There are a couple of ways to set up that relationship in JavaScript. The one you’re likely to see in a lot of books goes something like this:</p>
+<p>A delegate prototype is an object that serves as a base for another object. When you inherit from a delegate prototype, the new object gets a reference to the prototype. When you try to access a property on the new object, it checks the object's own properties first. If it doesn't find it there, it checks the prototype, and so on up the chain until it gets back to Object.prototype. </p>
+<p>Method delegation is a fantastic way to preserve memory resources, because you only need one copy of each method to be shared by all instances. It's also a great way to add capabilities at runtime to all objects which share a particular prototype.</p>
+<p>There are a couple of ways to set up that relationship in JavaScript. The one you're likely to see in a lot of books goes something like this:</p>
 <p></p> 
 <div id="crayon-5322c785749f8355214122" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; z-index: 0; overflow: hidden;">function Greeter(name) {
@@ -14059,7 +14059,7 @@ var george = new Greeter('George');</textarea></div>
 </div>
  
 <p></p>
-<p>See <a href="http://ericleads.com/2013/01/javascript-constructor-functions-vs-factory-functions/">JavaScript Constructor Functions vs Factory Functions</a> and <a href="http://ericleads.com/2012/09/stop-using-constructor-functions-in-javascript/">Stop Using Constructor Functions in JavaScript</a> for my thoughts on why you should ignore this technique. I present it here only because it’s likely to be a familiar point of reference.</p>
+<p>See <a href="http://ericleads.com/2013/01/javascript-constructor-functions-vs-factory-functions/">JavaScript Constructor Functions vs Factory Functions</a> and <a href="http://ericleads.com/2012/09/stop-using-constructor-functions-in-javascript/">Stop Using Constructor Functions in JavaScript</a> for my thoughts on why you should ignore this technique. I present it here only because it's likely to be a familiar point of reference.</p>
 <p>I prefer this:</p>
 <p></p> 
 <div id="crayon-5322c78574a06113052588" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
@@ -14082,9 +14082,9 @@ george.name = 'George';</textarea></div>
 </div>
  
 <p></p>
-<p>The one major drawback to delegation is that it’s not very good at storing state. In particular, if you try to store state as objects or arrays, mutating any member of the object or array will mutate the member for every instance that shares the prototype. In order to preserve instance safety, you need to make a copy of the state for each object.</p>
+<p>The one major drawback to delegation is that it's not very good at storing state. In particular, if you try to store state as objects or arrays, mutating any member of the object or array will mutate the member for every instance that shares the prototype. In order to preserve instance safety, you need to make a copy of the state for each object.</p>
 <h3>Cloning / Concatenative Inheritance / Mixins</h3>
-<p>Prototype cloning is the process of copying the properties from one object to another, without retaining a reference between the two objects. Cloning a great way to store default state for objects. This process is commonly achieved by methods like Underscore’s <code>.extend()</code>, or jQuery’s <code>.extend()</code>:</p>
+<p>Prototype cloning is the process of copying the properties from one object to another, without retaining a reference between the two objects. Cloning a great way to store default state for objects. This process is commonly achieved by methods like Underscore's <code>.extend()</code>, or jQuery's <code>.extend()</code>:</p>
 <p></p> 
 <div id="crayon-5322c78574a0d996602988" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; z-index: 0; overflow: hidden;">var proto = {
@@ -14105,7 +14105,7 @@ var george = _.extend({}, proto, {name: 'George'});</textarea></div>
 </div>
  
 <p></p>
-<p>It’s common to see this style used for mixins. For example, Backbone users can make any object an event emitter by extending from Backbone.Events:</p>
+<p>It's common to see this style used for mixins. For example, Backbone users can make any object an event emitter by extending from Backbone.Events:</p>
 <p></p> 
 <div id="crayon-5322c78574a14444106027" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; z-index: 0; overflow: hidden;">var foo = _.extend({
@@ -14133,8 +14133,8 @@ var george = _.extend({}, proto, {name: 'George'});</textarea></div>
  
 <p></p>
 <h3>Closure Prototypes / Functional Inheritance</h3>
-<p>I’m cheating on the name for this one. It’s not really functional, and it’s not an <em>object prototype</em>. It’s a <em>function prototype</em>. Think of it as an alternative to a constructor / init function. It can be copied (inherited) from one factory to another, and combined with other functions like it to completely replace the need for <code>super()</code> (which is a <a href="http://martinfowler.com/bliki/CallSuper.html">code smell</a>, and should be avoided).</p>
-<p>Closure prototypes are functions that can be run against a target object in order to extend it. The primary advantage of this style is that it allows for encapsulation. In other words, you can enforce private state. Douglas Crockford called this style “functional inheritance” in his book, “JavaScript: The Good Parts”. It looks something like this (Foo, like above, with private attributes):</p>
+<p>I'm cheating on the name for this one. It's not really functional, and it's not an <em>object prototype</em>. It's a <em>function prototype</em>. Think of it as an alternative to a constructor / init function. It can be copied (inherited) from one factory to another, and combined with other functions like it to completely replace the need for <code>super()</code> (which is a <a href="http://martinfowler.com/bliki/CallSuper.html">code smell</a>, and should be avoided).</p>
+<p>Closure prototypes are functions that can be run against a target object in order to extend it. The primary advantage of this style is that it allows for encapsulation. In other words, you can enforce private state. Douglas Crockford called this style "functional inheritance" in his book, "JavaScript: The Good Parts". It looks something like this (Foo, like above, with private attributes):</p>
 <p></p> 
 <div id="crayon-5322c78574a33794530363" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; z-index: 0; overflow: hidden;">var model = function () {
@@ -14171,7 +14171,7 @@ george.set('name', 'Sam'); // Object {name: "name", value: "Sam"}</textarea></di
 </div>
  
 <p></p>
-<p>This is all well and good, but there’s an awful lot of jumping through hoops if you want to combine the techniques — so I wrote a little library to jump through the hoops for you. It’s called <a href="https://github.com/dilvie/stampit">Stampit</a>.</p>
+<p>This is all well and good, but there's an awful lot of jumping through hoops if you want to combine the techniques — so I wrote a little library to jump through the hoops for you. It's called <a href="https://github.com/dilvie/stampit">Stampit</a>.</p>
 <h2>Stampit</h2>
 <p>Create objects from reusable, composable behaviors.</p>
 <h3>Features</h3>
@@ -14179,18 +14179,18 @@ george.set('name', 'Sam'); // Object {name: "name", value: "Sam"}</textarea></di
 <li>Compose factories together to create new factories.</li>
 <li>Inherit methods and default state.</li>
 <li>Supports composable private state and privileged methods.</li>
-<li>State is cloned for each instance, so it won’t be accidentally shared.</li>
-<li>For the curious – it’s great for learning about prototypal OO. It mixes three major types of prototypes:
+<li>State is cloned for each instance, so it won't be accidentally shared.</li>
+<li>For the curious – it's great for learning about prototypal OO. It mixes three major types of prototypes:
 <ol>
 <li>differential inheritance, aka delegation (for methods),</li>
 <li>cloning, aka concatenation/exemplar prototypes (for state),</li>
 <li>functional / closure prototypes (for privacy / encapsulation)</li>
 </ol>
 </li>
-<h3>What’s the Point?</h3>
-<p>Prototypal OO is great, and JavaScript’s capabilities give us some really powerful tools to explore it, but it could be easier to use.</p>
-<p>Basic questions like “how do I inherit privileged methods and private data?” and “what are some good alternatives to inheritance hierarchies?” are stumpers for many JavaScript users.</p>
-<p>Let’s answer both of these questions at the same time. First, we’ll use a closure to create data privacy:</p>
+<h3>What's the Point?</h3>
+<p>Prototypal OO is great, and JavaScript's capabilities give us some really powerful tools to explore it, but it could be easier to use.</p>
+<p>Basic questions like "how do I inherit privileged methods and private data?" and "what are some good alternatives to inheritance hierarchies?" are stumpers for many JavaScript users.</p>
+<p>Let's answer both of these questions at the same time. First, we'll use a closure to create data privacy:</p>
 <p></p> 
 <div id="crayon-5322c78574a3b731499236" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; overflow: hidden; z-index: 0;">var a = stampit().enclose(function () {
@@ -14211,7 +14211,7 @@ george.set('name', 'Sam'); // Object {name: "name", value: "Sam"}</textarea></di
  
 <p></p>
 <p>It uses function scope to encapsulate private data. Note that the getter must be defined inside the function in order to access the closure variables.</p>
-<p>Let’s see if that worked:</p>
+<p>Let's see if that worked:</p>
 <p></p> 
 <div id="crayon-5322c78574a42452072635" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; overflow: hidden; z-index: 0;">a(); // Object -- so far so good.
@@ -14229,8 +14229,8 @@ a().getA(); // "a"</textarea></div>
 </div>
  
 <p></p>
-<p>Yes. Got it. In both of these instances, we actually created a brand new object, and then immediately threw it away, because we didn’t assign it to anything. Don’t worry about that.</p>
-<p>Here’s another:</p>
+<p>Yes. Got it. In both of these instances, we actually created a brand new object, and then immediately threw it away, because we didn't assign it to anything. Don't worry about that.</p>
+<p>Here's another:</p>
 <p></p> 
 <div id="crayon-5322c78574a48751223046" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; overflow: hidden; z-index: 0;">var b = stampit().enclose(function () {
@@ -14250,8 +14250,8 @@ a().getA(); // "a"</textarea></div>
 </div>
  
 <p></p>
-<p>Those <code>a</code>‘s are not a typo. The point is to demonstrate that <code>a</code> and <code>b</code>‘s private variables won’t clash.</p>
-<p>But here’s the real treat:</p>
+<p>Those <code>a</code>‘s are not a typo. The point is to demonstrate that <code>a</code> and <code>b</code>‘s private variables won't clash.</p>
+<p>But here's the real treat:</p>
 <p></p> 
 <div id="crayon-5322c78574a4e053417393" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; overflow: hidden; z-index: 0;">var c = stampit.compose(a, b);
@@ -14274,7 +14274,7 @@ foo.getB(); // "b"</textarea></div>
  
 <p></p>
 <p>WAT? Yeah. You just inherited privileged methods and private data from two sources at the same time.</p>
-<p>But that’s boring. Let’s see what else is on tap:</p>
+<p>But that's boring. Let's see what else is on tap:</p>
 <p></p> 
 <div id="crayon-5322c78574a54721715260" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">// Some more privileged methods, with some private data.
@@ -14349,11 +14349,11 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 <h1>A Touch of Class: Inheritance in JavaScript</h1>
 <div class="entry-content"><p>The object-oriented features of JavaScript, such as constructors and prototype chains, are possibly the most misunderstood aspects of the language. Plenty of people who have been working full time with JavaScript still struggle with these concepts, and I argue that this is purely a result of its confusing, Java-style syntax.</p>
 
-<p>But it doesn’t have to be this way. Hiding beneath the “new” keyword is a rich and elegant object model, and we’ll spend some time coming to grips with it.</p>
+<p>But it doesn't have to be this way. Hiding beneath the "new" keyword is a rich and elegant object model, and we'll spend some time coming to grips with it.</p>
 
-<p>By seeing how simple inheritance in JavaScript can be if we use more modern syntax, we’ll be able to better understand the unfortunate syntax we’ve been stuck with from the beginning.</p>
+<p>By seeing how simple inheritance in JavaScript can be if we use more modern syntax, we'll be able to better understand the unfortunate syntax we've been stuck with from the beginning.</p>
 
-<h2>JavaScript’s lack of class</h2>
+<h2>JavaScript's lack of class</h2>
 
 <p>The biggest act of misdirection in JavaScript is that it looks like it has <a href="http://en.wikipedia.org/wiki/Class_computer_programming">classes</a>. When someone is new to JavaScript, particularly if they come from another language that <em>does</em> have classes, they might be surprised to find code like this:</p>
 
@@ -14362,7 +14362,7 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>Which leads to quite possibly the biggest surprise people face when trying to come to grips with JavaScript: it <em>doesn’t</em> have classes. You might assume that elsewhere in the code is the class definition for “Actor”, but instead you find something like this:</p>
+<p>Which leads to quite possibly the biggest surprise people face when trying to come to grips with JavaScript: it <em>doesn't</em> have classes. You might assume that elsewhere in the code is the class definition for "Actor", but instead you find something like this:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -14406,19 +14406,19 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>Sometimes despite years of experience, even those who realise that JavaScript doesn’t have classes may still find themselves never quite grasping the concepts behind such cryptic syntax.</p>
+<p>Sometimes despite years of experience, even those who realise that JavaScript doesn't have classes may still find themselves never quite grasping the concepts behind such cryptic syntax.</p>
 
 <h2>Taking a step back</h2>
 
 <p>To put these decisions in the proper historical context, we need to take a trip back to the year 1995. Java was the hot new web language, and <a href="http://sunsite.uakom.sk/sunworldonline/swol-07-1995/swol-07-java.html">Java applets were going to take over the world</a>.</p>
 
-<p>We all know how this story ends, but this was the environment in which <a href="https://brendaneich.com/2010/07/a-brief-history-of-javascript/">Brendan Eich was toiling away at Netscape on his “little” web scripting langauge</a>.</p>
+<p>We all know how this story ends, but this was the environment in which <a href="https://brendaneich.com/2010/07/a-brief-history-of-javascript/">Brendan Eich was toiling away at Netscape on his "little" web scripting langauge</a>.</p>
 
-<p>This cultural pressure resulted in some rebranding. What was originally “Mocha”, then “LiveScript”, eventually became known as “JavaScript”. While it may have eventually extended beyond its original scope, Brendan Eich wasn’t shy about pitching it as Java’s little brother.</p>
+<p>This cultural pressure resulted in some rebranding. What was originally "Mocha", then "LiveScript", eventually became known as "JavaScript". While it may have eventually extended beyond its original scope, Brendan Eich wasn't shy about pitching it as Java's little brother.</p>
 
-<h2>It’s just a prototype</h2>
+<h2>It's just a prototype</h2>
 
-<p>The problem, of course, is that despite JavaScript’s syntactic similarities to Java, its conceptual roots lay elsewhere. A dynamically typed language, it borrowed functional aspects from <a href="http://en.wikipedia.org/wiki/Scheme_programming_language"><em>Scheme</em></a>, and prototypal inheritance from <a href="http://en.wikipedia.org/wiki/Self_programming_language"><em>Self</em></a>.</p>
+<p>The problem, of course, is that despite JavaScript's syntactic similarities to Java, its conceptual roots lay elsewhere. A dynamically typed language, it borrowed functional aspects from <a href="http://en.wikipedia.org/wiki/Scheme_programming_language"><em>Scheme</em></a>, and prototypal inheritance from <a href="http://en.wikipedia.org/wiki/Self_programming_language"><em>Self</em></a>.</p>
 
 <p>In classical languages, like Java, instances are created from classes. JavaScript differs in that it has <a href="http://en.wikipedia.org/wiki/Prototype-based_programming">prototypal inheritance</a>, in which there are no classes.</p>
 
@@ -14426,16 +14426,16 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 
 <h2>Modern inheritance</h2>
 
-<p>To best understand the concepts behind prototypal inheritance, you must unlearn what you have learned. You’ll find it is much easier to appreciate object-to-object inheritance if you pretend you’ve never seen JavaScript’s misleading, classically-styled syntax.</p>
+<p>To best understand the concepts behind prototypal inheritance, you must unlearn what you have learned. You'll find it is much easier to appreciate object-to-object inheritance if you pretend you've never seen JavaScript's misleading, classically-styled syntax.</p>
 
-<p>In ECMAScript 5, the latest version of JavaScript available in all modern browsers (Chrome, Firefox, Safari, Opera, IE9+), we have new syntax for creating object-to-object inheritance, based on <a href="http://javascript.crockford.com/prototypal.html">Douglas Crockford’s original utility method for simple inheritance</a>:</p>
+<p>In ECMAScript 5, the latest version of JavaScript available in all modern browsers (Chrome, Firefox, Safari, Opera, IE9+), we have new syntax for creating object-to-object inheritance, based on <a href="http://javascript.crockford.com/prototypal.html">Douglas Crockford's original utility method for simple inheritance</a>:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="js"><span class="line"><span class="kd">var</span> <span class="nx">childObject</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">parentObject</span><span class="p">);</span>
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>If we use <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/create"><em>Object.create</em></a> to recreate our <em>‘SilentActor’</em> example from earlier, it becomes much easier to see what’s really going on:</p>
+<p>If we use <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/create"><em>Object.create</em></a> to recreate our <em>‘SilentActor'</em> example from earlier, it becomes much easier to see what's really going on:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -14475,11 +14475,11 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>In this simple example, we’ve been able to set up a prototype chain without using a single constructor or “new” keyword.</p>
+<p>In this simple example, we've been able to set up a prototype chain without using a single constructor or "new" keyword.</p>
 
 <h2>Walking the chain</h2>
 
-<p>So how does a prototype chain work? When we try to read a property from our new <em>‘busterKeaton’</em> object, it checks the object itself and, if it didn’t find the property, it traverses up the prototype chain, checking each of its prototype objects in order until it finds the first occurence of the property.</p>
+<p>So how does a prototype chain work? When we try to read a property from our new <em>‘busterKeaton'</em> object, it checks the object itself and, if it didn't find the property, it traverses up the prototype chain, checking each of its prototype objects in order until it finds the first occurence of the property.</p>
 
 <p>All this happens when we ask for the value of a property from an object.</p>
 
@@ -14488,18 +14488,18 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>In order to properly evaluate the value of <em>‘canAct’</em> on <em>‘busterKeaton’</em>, the JS engine does the following:</p>
+<p>In order to properly evaluate the value of <em>‘canAct'</em> on <em>‘busterKeaton'</em>, the JS engine does the following:</p>
 
 <ol>
-<li>Checks <em>‘busterKeaton’</em> for the <em>‘canAct’</em> property, but finds nothing.</li>
-<li>Checks <em>‘silentActor’</em>, but doesn’t find the <em>‘canAct’</em> property.</li>
-<li>Checks <em>‘actor’</em> and finds the <em>‘canAct’</em> property, so returns its value, which is ‘true’.</li>
+<li>Checks <em>‘busterKeaton'</em> for the <em>‘canAct'</em> property, but finds nothing.</li>
+<li>Checks <em>‘silentActor'</em>, but doesn't find the <em>‘canAct'</em> property.</li>
+<li>Checks <em>‘actor'</em> and finds the <em>‘canAct'</em> property, so returns its value, which is ‘true'.</li>
 </ol>
 
 
 <h2>Modifying the chain</h2>
 
-<p>The interesting thing is that the <em>‘actor’</em> and <em>‘silentActor’</em> objects are still live in the system and can be modified at runtime.</p>
+<p>The interesting thing is that the <em>‘actor'</em> and <em>‘silentActor'</em> objects are still live in the system and can be modified at runtime.</p>
 
 <p>So, for a contrived example, if all silect actors lost their jobs, we could do the following:</p>
 
@@ -14514,17 +14514,17 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<h2>Where’s “super”?</h2>
+<h2>Where's "super"?</h2>
 
 <p>In classical languages, when overriding methods, you can run the method from the parent class in the current context.</p>
 
 <p>In JavaScript we have even more options: <em>we can run any function in any context</em>.</p>
 
-<p>How do we achieve this? Using JavaScript’s <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/call"><em>‘call’</em></a> and <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/apply"><em>‘apply’</em></a> methods which are available on all functions. Appropiately enough, these are available because they exist on the ‘Function’ prototype.</p>
+<p>How do we achieve this? Using JavaScript's <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/call"><em>‘call'</em></a> and <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/apply"><em>‘apply'</em></a> methods which are available on all functions. Appropiately enough, these are available because they exist on the ‘Function' prototype.</p>
 
 <p>They both allow us to run a function in a specific context which we provide as the first parameter, along with any arguments we wish to pass to the function.</p>
 
-<p>Using our <em>‘silentActor’</em> example, if we want to achieve the equivalent of calling <em>‘super’</em>, it looks something like this:</p>
+<p>Using our <em>‘silentActor'</em> example, if we want to achieve the equivalent of calling <em>‘super'</em>, it looks something like this:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -14593,14 +14593,14 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 
 <h2>Understanding prototypes with a touch of class</h2>
 
-<p>Now that we’ve seen how simple object-to-object inheritance can be, it’s time to look at our original example again with fresh eyes:</p>
+<p>Now that we've seen how simple object-to-object inheritance can be, it's time to look at our original example again with fresh eyes:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="js"><span class="line"><span class="kd">var</span> <span class="nx">charlie</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Actor</span><span class="p">();</span>
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p><em>‘Actor’</em> is, obviously, not a class. It is, however, a function.</p>
+<p><em>‘Actor'</em> is, obviously, not a class. It is, however, a function.</p>
 
 <p>It could be a function that does nothing:</p>
 
@@ -14620,15 +14620,15 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>In our example, the <em>‘Actor’</em> function is being used as a constructor since it is invoked with the “new” keyword.</p>
+<p>In our example, the <em>‘Actor'</em> function is being used as a constructor since it is invoked with the "new" keyword.</p>
 
-<p>The funny thing about JavaScript is that <em>any</em> function can be used as a constructor, so there’s nothing special about our <em>‘Actor’</em> function that makes it different from any other function.</p>
+<p>The funny thing about JavaScript is that <em>any</em> function can be used as a constructor, so there's nothing special about our <em>‘Actor'</em> function that makes it different from any other function.</p>
 
-<h2>Clarifying “constructors”</h2>
+<h2>Clarifying "constructors"</h2>
 
-<p>Since any function can be a constructor, all functions have a <em>‘prototype’</em> property just in case they’re used as a constructor. Even when it doesn’t make sense.</p>
+<p>Since any function can be a constructor, all functions have a <em>‘prototype'</em> property just in case they're used as a constructor. Even when it doesn't make sense.</p>
 
-<p>A perfect example is the <a href="https://developer.mozilla.org/en-US/docs/DOM/window.alert"><em>‘alert’</em></a> function, which is provided by the browser. Even though it’s not meant to be used as a constructor (in fact, the browser won’t even let you), it still has a <em>‘prototype’</em> property:</p>
+<p>A perfect example is the <a href="https://developer.mozilla.org/en-US/docs/DOM/window.alert"><em>‘alert'</em></a> function, which is provided by the browser. Even though it's not meant to be used as a constructor (in fact, the browser won't even let you), it still has a <em>‘prototype'</em> property:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -14639,7 +14639,7 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>When <em>‘Actor’</em> is used as a constructor, our new <em>‘charlie’</em> object inherits from the object sitting at <em>‘Actor.prototype’</em>.</p>
+<p>When <em>‘Actor'</em> is used as a constructor, our new <em>‘charlie'</em> object inherits from the object sitting at <em>‘Actor.prototype'</em>.</p>
 
 <h2>Functions are objects</h2>
 
@@ -14660,7 +14660,7 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>However, the <em>‘prototype’</em> property of a function is where we store the object that all new instances will inherit from:</p>
+<p>However, the <em>‘prototype'</em> property of a function is where we store the object that all new instances will inherit from:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -14683,7 +14683,7 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 
 <p>Setting up multiple inheritance with our class-like syntax should now be a bit easier to grasp.</p>
 
-<p>It’s simply a case of making a function’s <em>‘prototype’</em> property inherit from another function’s <em>‘prototype’</em>:</p>
+<p>It's simply a case of making a function's <em>‘prototype'</em> property inherit from another function's <em>‘prototype'</em>:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -14720,7 +14720,7 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 
 <h2>Construction: Just 3 simple steps</h2>
 
-<p>At this point, it’s important to point out what’s going on inside a constructor. Instantiating a new object with a “constructor” performs three actions and, as an example, let’s take a look at what happens with our <em>‘Actor’</em> constructor:</p>
+<p>At this point, it's important to point out what's going on inside a constructor. Instantiating a new object with a "constructor" performs three actions and, as an example, let's take a look at what happens with our <em>‘Actor'</em> constructor:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="js"><span class="line"><span class="kd">var</span> <span class="nx">charlie</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Actor</span><span class="p">();</span>
@@ -14730,15 +14730,15 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 <p>This one line of the code does the following:</p>
 
 <ol>
-<li>Creates a new object, <em>‘charlie’</em>, that inherits from the object sitting at <em>‘Actor.prototype’</em>,</li>
-<li>Runs the <em>‘Actor’</em> function against <em>‘charlie’</em>, and</li>
-<li>Returns <em>‘charlie’</em>.</li>
+<li>Creates a new object, <em>‘charlie'</em>, that inherits from the object sitting at <em>‘Actor.prototype'</em>,</li>
+<li>Runs the <em>‘Actor'</em> function against <em>‘charlie'</em>, and</li>
+<li>Returns <em>‘charlie'</em>.</li>
 </ol>
 
 
 <h2>Coming full circle</h2>
 
-<p>You might think that this sounds awfully familiar because this precisely mirrors the steps in our “DIY constructor” from earlier, which looked like this:</p>
+<p>You might think that this sounds awfully familiar because this precisely mirrors the steps in our "DIY constructor" from earlier, which looked like this:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -14763,26 +14763,26 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>Just like our earlier example, asking our <em>‘busterKeaton’</em> object for the <em>‘canAct’</em> property will walk up the prototype chain, except this time the JS engine will act slightly differently:</p>
+<p>Just like our earlier example, asking our <em>‘busterKeaton'</em> object for the <em>‘canAct'</em> property will walk up the prototype chain, except this time the JS engine will act slightly differently:</p>
 
 <ol>
-<li>Checks <em>‘busterKeaton’</em> for the <em>‘canAct’</em> property, but finds nothing.</li>
-<li>Checks <em>‘SilentActor.prototype’</em>, but doesn’t find the <em>‘canAct’</em> property.</li>
-<li>Checks <em>‘Actor.prototype’</em> and finds the <em>‘canAct’</em> property, so returns its value.</li>
+<li>Checks <em>‘busterKeaton'</em> for the <em>‘canAct'</em> property, but finds nothing.</li>
+<li>Checks <em>‘SilentActor.prototype'</em>, but doesn't find the <em>‘canAct'</em> property.</li>
+<li>Checks <em>‘Actor.prototype'</em> and finds the <em>‘canAct'</em> property, so returns its value.</li>
 </ol>
 
 
-<p>You’ll notice that the chain now consists of objects sitting at the <em>‘prototype’</em> property of functions, each of which had been used as the object’s constructor.</p>
+<p>You'll notice that the chain now consists of objects sitting at the <em>‘prototype'</em> property of functions, each of which had been used as the object's constructor.</p>
 
 <h2>Keeping it classic</h2>
 
-<p>Even after understanding the syntax, it’s still common for people to want to get as far away from it as possible.</p>
+<p>Even after understanding the syntax, it's still common for people to want to get as far away from it as possible.</p>
 
-<p>There are implementations of “classical” inheritance built on top of JavaScript’s prototypal inhertance, the most notable of which is <a href="http://ejohn.org/blog/simple-javascript-inheritance/">John Resig’s famous “Class” function</a>.</p>
+<p>There are implementations of "classical" inheritance built on top of JavaScript's prototypal inhertance, the most notable of which is <a href="http://ejohn.org/blog/simple-javascript-inheritance/">John Resig's famous "Class" function</a>.</p>
 
-<p>You’ll also find a lot of languages that compile to JavaScript, such as <a href="http://coffeescript.org/">CoffeeScript</a> or <a href="http://www.typescriptlang.org/">TypeScript</a>, offer standard class syntax. TypeScript in particular ensures it closely resembles the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:classes">draft ECMAScript 6 class specification</a>.</p>
+<p>You'll also find a lot of languages that compile to JavaScript, such as <a href="http://coffeescript.org/">CoffeeScript</a> or <a href="http://www.typescriptlang.org/">TypeScript</a>, offer standard class syntax. TypeScript in particular ensures it closely resembles the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:classes">draft ECMAScript 6 class specification</a>.</p>
 
-<p>Yes, the ES6 specification draft contains “class” sugar which, like CoffeeScript and TypeScript, is really prototypal inheritance under the hood.</p>
+<p>Yes, the ES6 specification draft contains "class" sugar which, like CoffeeScript and TypeScript, is really prototypal inheritance under the hood.</p>
 
 <h2>Clearing the air</h2>
 
@@ -14790,7 +14790,7 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 
 <p>Hopefully this article has helped clear things up for you and, if you still find yourself puzzled, I hope at the very least that the next time you dig into prototypal inheritance, your mind will have been sufficiently prepared for thinking like Brendan Eich did all those years ago.</p>
 
-<p>If not, there’s always Java applets.</p>
+<p>If not, there's always Java applets.</p>
 
 <h3>Slides from Web Directions South 2012</h3>
 

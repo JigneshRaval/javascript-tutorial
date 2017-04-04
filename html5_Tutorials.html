@@ -1016,9 +1016,9 @@ full featured is always a good thing in my book.</p>
 
 <h2 id="toc-intro">Introduction</h2>
 
-<p>A revolution is coming. There’s a new addition to JavaScript that’s going to change <em>everything</em> you think you know about data-binding. It’s also going to change how many of your MVC libraries approach observing models for edits and updates. Are you ready for some sweet performance boosts to apps that care about property observation?</p>
+<p>A revolution is coming. There's a new addition to JavaScript that's going to change <em>everything</em> you think you know about data-binding. It's also going to change how many of your MVC libraries approach observing models for edits and updates. Are you ready for some sweet performance boosts to apps that care about property observation?</p>
 
-<p>Okay. Okay. Without further delay, I’m happy to announce <a href="http://wiki.ecmascript.org/doku.php?id=harmony:observe">Object.observe() </a> has landed in <a href="http://www.chromestatus.com/features/6147094632988672">Chrome 36</a> stable. <em>[WOOOO. THE CROWD GOES WILD]</em>.</p>
+<p>Okay. Okay. Without further delay, I'm happy to announce <a href="http://wiki.ecmascript.org/doku.php?id=harmony:observe">Object.observe() </a> has landed in <a href="http://www.chromestatus.com/features/6147094632988672">Chrome 36</a> stable. <em>[WOOOO. THE CROWD GOES WILD]</em>.</p>
 
 <p><code>Object.observe()</code>, part of a future ECMAScript standard, is a method for asynchronously observing changes to JavaScript objects...without the need for a separate library. It allows an observer to receive a time-ordered sequence of change records which describe the set of changes which took place to a set of observed objects.</p>
 
@@ -1043,7 +1043,7 @@ full featured is always a good thing in my book.</p>
 
 <p>With <code>Object.observe()</code> (I like to call it O.o() or Oooooooo), you can implement two-way data-binding <a href="http://bitworking.org/news/2014/05/zero_framework_manifesto">without the need for a framework</a>.</p>
 
-<p>That’s not to say you shouldn’t use one. For large projects with complicated business logic, opinionated frameworks are invaluable and you should continue to use them. They simplify the orientation of new developers, require less code maintenance and impose patterns on how to achieve common tasks. When you don’t need one, you can use smaller, more focused libraries like <a href="http://polymer-project.org">Polymer</a> (which already take advantage of O.o()).</p>
+<p>That's not to say you shouldn't use one. For large projects with complicated business logic, opinionated frameworks are invaluable and you should continue to use them. They simplify the orientation of new developers, require less code maintenance and impose patterns on how to achieve common tasks. When you don't need one, you can use smaller, more focused libraries like <a href="http://polymer-project.org">Polymer</a> (which already take advantage of O.o()).</p>
 
 <p>Even if you find yourself heavily using a framework or MV* library, O.o() has the potential to provide them with some healthy performance improvements, with a faster, simpler implementation whilst keeping the same API. For example, last year Angular <a href="https://mail.mozilla.org/pipermail/es-discuss/2012-September/024978.html">found </a>that in a benchmark where changes were being made to a model, dirty-checking took 40ms per update and O.o() took 1-2ms per update (an improvement of 20-40x faster).</p>
 
@@ -1053,7 +1053,7 @@ full featured is always a good thing in my book.</p>
 
 <h2 id="toc-what-are-we-observing">What do we want to observe?</h2>
 
-<p>When we’re talking about data observation, we’re usually referring to keeping an eye out for some specific types of changes:</p>
+<p>When we're talking about data observation, we're usually referring to keeping an eye out for some specific types of changes:</p>
 
 <ul>
 <li><p>Changes to raw JavaScript objects</p></li>
@@ -1065,9 +1065,9 @@ full featured is always a good thing in my book.</p>
 
 <h2 id="toc-importance">The importance of data-binding</h2>
 
-<p>Data-binding starts to become important when you care about model-view control separation. HTML is a great declarative mechanism, but it’s completely static. Ideally, you just want to declare the relationship between your data and the DOM and keep the DOM up to date. This creates leverage and saves you a lot of time writing really repetitive code that just sends data to and from the DOM between your application’s internal state or the server.</p>
+<p>Data-binding starts to become important when you care about model-view control separation. HTML is a great declarative mechanism, but it's completely static. Ideally, you just want to declare the relationship between your data and the DOM and keep the DOM up to date. This creates leverage and saves you a lot of time writing really repetitive code that just sends data to and from the DOM between your application's internal state or the server.</p>
 
-<p>Data-binding is particularly useful when you have a complex user-interface where you need to wire up relationships between multiple properties in your data models with multiple elements in your views. This is pretty common in the single-page applications we’re building today.</p>
+<p>Data-binding is particularly useful when you have a complex user-interface where you need to wire up relationships between multiple properties in your data models with multiple elements in your views. This is pretty common in the single-page applications we're building today.</p>
 
 <p>By baking a way to natively observe data in the browser, we give JavaScript frameworks (and small utility libraries you write) a way to observe changes to model data without relying on some of the slow hacks the world uses today.</p>
 
@@ -1075,7 +1075,7 @@ full featured is always a good thing in my book.</p>
 
 <p><strong>Dirty-checking</strong></p>
 
-<p>Where have you seen data-binding before? Well, if you use a modern MV* library for building your webapps (e.g Angular, Knockout) you’re probably used to binding model data to the DOM. As a refresher, here’s an example of a Phone list app where we’re binding the value of each phone in a <code>phones</code> array (defined in JavaScript) to a list item so that our data and UI are always in sync:</p>
+<p>Where have you seen data-binding before? Well, if you use a modern MV* library for building your webapps (e.g Angular, Knockout) you're probably used to binding model data to the DOM. As a refresher, here's an example of a Phone list app where we're binding the value of each phone in a <code>phones</code> array (defined in JavaScript) to a list item so that our data and UI are always in sync:</p>
 
 <pre class="prettyprint"><span class="tag">&lt;html</span><span class="pln"> </span><span class="atn">ng-app</span><span class="tag">&gt;</span><span class="pln">
   </span><span class="tag">&lt;head&gt;</span><span class="pln">
@@ -1110,11 +1110,11 @@ phonecatApp</span><span class="pun">.</span><span class="pln">controller</span><
 
 <p><a href="http://angular.github.io/angular-phonecat/step-2/app/">(Demo)</a></p>
 
-<p>Anytime the underlying model data changes, our list in the DOM gets updated. How does Angular achieve this? Well, behind the scenes it’s doing something called dirty-checking.</p>
+<p>Anytime the underlying model data changes, our list in the DOM gets updated. How does Angular achieve this? Well, behind the scenes it's doing something called dirty-checking.</p>
 
 <img src="image_1.png">
 
-<p>The basic idea with dirty-checking is that anytime data could have changed, the library has to go and check if it did change via a digest or change cycle. In Angular’s case, a digest cycle identifies all expressions registered to be watched to see if there’s a change. It <a href="http://stackoverflow.com/questions/9682092/databinding-in-angularjs/9693933#9693933">knows</a> about a model’s previous values and if they have changed, a change event is fired. For a developer, the main benefit here is that you get to use raw JavaScript object data which is pleasant to use and composes fairly well. The downside is that it has bad algorithmic behavior and is potentially very expensive.</p>
+<p>The basic idea with dirty-checking is that anytime data could have changed, the library has to go and check if it did change via a digest or change cycle. In Angular's case, a digest cycle identifies all expressions registered to be watched to see if there's a change. It <a href="http://stackoverflow.com/questions/9682092/databinding-in-angularjs/9693933#9693933">knows</a> about a model's previous values and if they have changed, a change event is fired. For a developer, the main benefit here is that you get to use raw JavaScript object data which is pleasant to use and composes fairly well. The downside is that it has bad algorithmic behavior and is potentially very expensive.</p>
 
 <img src="image_2.png">
 
@@ -1156,13 +1156,13 @@ phonecatApp</span><span class="pun">.</span><span class="pln">controller</span><
 
 <p>Ideally what we want is the best of both worlds - a way to observe data with support for raw data objects (regular JavaScript objects) if we choose to AND without the need to dirty-check everything all the time. Something with good algorithmic behavior. Something that composes well and is baked into the platform. This is the beauty of what <code>Object.observe()</code> brings to the table.</p>
 
-<p>It allows us to observe an object, mutate properties and see the change report of what has changed. But enough about the theory, let’s look at some code!</p>
+<p>It allows us to observe an object, mutate properties and see the change report of what has changed. But enough about the theory, let's look at some code!</p>
 
 <img src="image_3.png">
 
 <h3>Object.observe() and Object.unobserve()</h3>
 
-<p>Let’s imagine that we have a simple vanilla JavaScript object representing a model:</p>
+<p>Let's imagine that we have a simple vanilla JavaScript object representing a model:</p>
 
 <pre class="prettyprint"><span class="com">// A model can be a simple vanilla object</span><span class="pln">
 </span><span class="kwd">var</span><span class="pln"> todoModel </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
@@ -1187,7 +1187,7 @@ phonecatApp</span><span class="pun">.</span><span class="pln">controller</span><
 
 <pre class="prettyprint"><span class="typ">Object</span><span class="pun">.</span><span class="pln">observe</span><span class="pun">(</span><span class="pln">todoModel</span><span class="pun">,</span><span class="pln"> observer</span><span class="pun">);</span></pre>
 
-<p>Let’s start making some changes to our Todos model object:</p>
+<p>Let's start making some changes to our Todos model object:</p>
 
 <pre class="prettyprint"><span class="pln">todoModel</span><span class="pun">.</span><span class="pln">label </span><span class="pun">=</span><span class="pln"> </span><span class="str">'Buy some more milk'</span><span class="pun">;</span></pre>
 
@@ -1195,7 +1195,7 @@ phonecatApp</span><span class="pun">.</span><span class="pln">controller</span><
 
 <p><img src="image_4.png"></p>
 
-<p>Woo! Goodbye, dirty-checking! Your tombstone should be carved in Comic Sans. Let’s change another property. This time <code>completeBy</code>:</p>
+<p>Woo! Goodbye, dirty-checking! Your tombstone should be carved in Comic Sans. Let's change another property. This time <code>completeBy</code>:</p>
 
 <pre class="prettyprint"><span class="pln">todoModel</span><span class="pun">.</span><span class="pln">completeBy </span><span class="pun">=</span><span class="pln"> </span><span class="str">'01/01/2014'</span><span class="pun">;</span></pre>
 
@@ -1203,7 +1203,7 @@ phonecatApp</span><span class="pun">.</span><span class="pln">controller</span><
 
 <p><img src="image_5.png"></p>
 
-<p>Great. What if we now decided to delete the ‘completed’ property from our object:</p>
+<p>Great. What if we now decided to delete the ‘completed' property from our object:</p>
 
 <pre class="prettyprint"><span class="kwd">delete</span><span class="pln"> todoModel</span><span class="pun">.</span><span class="pln">completed</span><span class="pun">;</span></pre>
 
@@ -1211,7 +1211,7 @@ phonecatApp</span><span class="pun">.</span><span class="pln">controller</span><
 
 <p>As we can see, the report of changes returned includes information about the deletion. As expected, the new value of the property is now undefined. So, we now know you can find out when properties have been added. When they've been deleted. Basically, the <em>set</em> of properties on an object ("new", "deleted", "reconfigured") and it's prototype changing (_proto_).</p>
 
-<p>As in any observation system, a method also exists to stop listening out for changes. In this case, it’s <code>Object.unobserve()</code>, which has the same signature as O.o() but can be called as follows:</p>
+<p>As in any observation system, a method also exists to stop listening out for changes. In this case, it's <code>Object.unobserve()</code>, which has the same signature as O.o() but can be called as follows:</p>
 
 <pre class="prettyprint"><span class="typ">Object</span><span class="pun">.</span><span class="pln">unobserve</span><span class="pun">(</span><span class="pln">todoModel</span><span class="pun">,</span><span class="pln"> observer</span><span class="pun">);</span></pre>
 
@@ -1221,11 +1221,11 @@ phonecatApp</span><span class="pun">.</span><span class="pln">controller</span><
 
 <h3>Specifying changes of interest</h3>
 
-<p>So we’ve looked at the basics behind how to get back a list of changes to an observed object. What if you’re interested in only a subset of changes that were made to an object rather than all of them?. Everyone needs a spam filter. Well, observers can specify only those types of changes they wish to hear about through an accept list. This can be specified using the third argument to O.o() as follows:</p>
+<p>So we've looked at the basics behind how to get back a list of changes to an observed object. What if you're interested in only a subset of changes that were made to an object rather than all of them?. Everyone needs a spam filter. Well, observers can specify only those types of changes they wish to hear about through an accept list. This can be specified using the third argument to O.o() as follows:</p>
 
 <pre class="prettyprint"><span class="typ">Object</span><span class="pun">.</span><span class="pln">observe</span><span class="pun">(</span><span class="pln">obj</span><span class="pun">,</span><span class="pln"> callback</span><span class="pun">,</span><span class="pln"> optAcceptList</span><span class="pun">)</span></pre>
 
-<p>Let’s walk through an example of how this can be used:</p>
+<p>Let's walk through an example of how this can be used:</p>
 
 <pre class="prettyprint"><span class="com">// Like earlier, a model can be a simple vanilla object</span><span class="pln">
 
@@ -1246,7 +1246,7 @@ phonecatApp</span><span class="pun">.</span><span class="pln">controller</span><
 </span><span class="pun">};</span><span class="pln">
 
 </span><span class="com">// Which we then observe, specifying an array of change </span><span class="pln">
-</span><span class="com">// types we’re interested in</span><span class="pln">
+</span><span class="com">// types we're interested in</span><span class="pln">
 
 </span><span class="typ">Object</span><span class="pun">.</span><span class="pln">observe</span><span class="pun">(</span><span class="pln">todoModel</span><span class="pun">,</span><span class="pln"> observer</span><span class="pun">,</span><span class="pln"> </span><span class="pun">[</span><span class="str">'delete'</span><span class="pun">]);</span><span class="pln">
 
@@ -1261,19 +1261,19 @@ todoModel</span><span class="pun">.</span><span class="pln">label </span><span c
 
 <pre class="prettyprint"><span class="kwd">delete</span><span class="pln"> todoModel</span><span class="pun">.</span><span class="pln">label</span><span class="pun">;</span></pre>
 
-<p>If you don’t specify a list of accept types to O.o(), it defaults to the "intrinsic" object change types ("add", "update", "delete", "reconfigure", "preventExtensions" (for when an object becoming non-extensible isn’t observable)).</p>
+<p>If you don't specify a list of accept types to O.o(), it defaults to the "intrinsic" object change types ("add", "update", "delete", "reconfigure", "preventExtensions" (for when an object becoming non-extensible isn't observable)).</p>
 
 <h2 id="toc-notifications">Notifications</h2>
 
-<p>O.o() also comes with the notion of notifications. They’re nothing like those annoying things you get on a phone, but rather useful. Notifications are similar to <a href="https://developer.mozilla.org/en/docs/Web/API/MutationObserver">Mutation Observers</a>. They happen at the end of the micro-task. In the browser context, this is almost always going to be at the end of the current event handler.</p>
+<p>O.o() also comes with the notion of notifications. They're nothing like those annoying things you get on a phone, but rather useful. Notifications are similar to <a href="https://developer.mozilla.org/en/docs/Web/API/MutationObserver">Mutation Observers</a>. They happen at the end of the micro-task. In the browser context, this is almost always going to be at the end of the current event handler.</p>
 
-<p>The timing is nice because generally one unit of work is finished and now observers get to do their work. It’s a nice turn-based processing model.</p>
+<p>The timing is nice because generally one unit of work is finished and now observers get to do their work. It's a nice turn-based processing model.</p>
 
 <p>The workflow for using a notifier looks a little like this:</p>
 
 <p><img src="image_8.png"></p>
 
-<p>Let’s look at an example of how notifiers might be used in practice to define custom notifications for when properties on an object are get or set. Keep an eye on the comments here:</p>
+<p>Let's look at an example of how notifiers might be used in practice to define custom notifications for when properties on an object are get or set. Keep an eye on the comments here:</p>
 
 <pre class="prettyprint"><span class="com">// Define a simple model</span><span class="pln">
 </span><span class="kwd">var</span><span class="pln"> model </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
@@ -1323,7 +1323,7 @@ todoModel</span><span class="pun">.</span><span class="pln">label </span><span c
 
 <img src="image_9.png">
 
-<p>Here we report when the value of the data properties change ("update"). Anything else the object’s implementation chooses to report (<code>notifier.notifyChange()</code>).</p>
+<p>Here we report when the value of the data properties change ("update"). Anything else the object's implementation chooses to report (<code>notifier.notifyChange()</code>).</p>
 
 <p>Years of experience on the web platform have taught us that a synchronous approach is the first thing you try because its the easiest to wrap your head around. The problem is it creates a fundamentally dangerous processing model. If you're writing code and say, update the property of an object, you don't really want a situation having update the property of that object could have invited some arbitrary code to go do whatever it wanted. It's not ideal to have your assumptions invalidated as you're running through the middle of a function.</p>
 
@@ -1333,7 +1333,7 @@ todoModel</span><span class="pun">.</span><span class="pln">label </span><span c
 
 <h2 id="toc-synth-change-records">Synthetic change records</h2>
 
-<p>Basically, if you want to have accessors or computed properties it is your responsibility to notify when these values change. It’s a little extra work but it is designed as a sort of first-class feature of this mechanism and these notifications will be delivered with the rest of the notifications from underlying data objects. From data properties.</p>
+<p>Basically, if you want to have accessors or computed properties it is your responsibility to notify when these values change. It's a little extra work but it is designed as a sort of first-class feature of this mechanism and these notifications will be delivered with the rest of the notifications from underlying data objects. From data properties.</p>
 
 <img src="image_10.png">
 
@@ -1341,7 +1341,7 @@ todoModel</span><span class="pun">.</span><span class="pln">label </span><span c
 
 <p>Again, webdevs should expect libraries to help make notifying and various approaches to computed properties easy (and reduce boilerplate).</p> 
 
-<p>Let’s set up the next example, which is a circle class. The idea here is that we have this circle and there’s a radius property. In this case the radius is an accessor and when its value changes it’s actually going to notify for itself that the value changed. This will be delivered with all other changes to this object or any other object. Essentially, if you’re implementing an object you want to have synthetic or computed properties or you have to pick a strategy for how this is going to work. Once you do, this will fit into your system as a whole.</p>
+<p>Let's set up the next example, which is a circle class. The idea here is that we have this circle and there's a radius property. In this case the radius is an accessor and when its value changes it's actually going to notify for itself that the value changed. This will be delivered with all other changes to this object or any other object. Essentially, if you're implementing an object you want to have synthetic or computed properties or you have to pick a strategy for how this is going to work. Once you do, this will fit into your system as a whole.</p>
 
 <p>Skip past the code to see this working in DevTools.
 
@@ -1400,25 +1400,25 @@ todoModel</span><span class="pun">.</span><span class="pln">label </span><span c
 
 <p>If you assign to an accessor JavaScript just invokes the function there and from its point of view nothing has changed. It just gave some code the opportunity to run.</p>
 
-<p>The problem is semantically we can look at our above assignment to the value - 5 to it. We ought to be able to know what happened here. This is actually an unsolvable problem. The example demonstrates why. There is really no way for any system to know what is meant by this because this can be arbitrary code. It can do whatever it wants in this case. It’s updating the value every time it is accessed and so asking whether it changed doesn’t make much sense.</p>
+<p>The problem is semantically we can look at our above assignment to the value - 5 to it. We ought to be able to know what happened here. This is actually an unsolvable problem. The example demonstrates why. There is really no way for any system to know what is meant by this because this can be arbitrary code. It can do whatever it wants in this case. It's updating the value every time it is accessed and so asking whether it changed doesn't make much sense.</p>
 
 <h2 id="toc-single-callback-observers">Observing multiple objects with one callback</h2>
 
-<p>Another pattern possible with O.o() is the notion of a single callback observer. This allows a single callback to be used as an "observer" for lots of different objects. The callback will be delivered the full set of changes to all objects it observes at the “end of the microtask” (Note the similarity to Mutation Observers).</p>
+<p>Another pattern possible with O.o() is the notion of a single callback observer. This allows a single callback to be used as an "observer" for lots of different objects. The callback will be delivered the full set of changes to all objects it observes at the "end of the microtask" (Note the similarity to Mutation Observers).</p>
 
 <img src="image_12.png">
 
 <h2 id="toc-largescale">Large-scale changes</h2>
 
-<p>Maybe you’re working on a reaaaally big app and regularly have to work with large-scale changes. Objects may wish to describe larger semantic changes which will affect lots of properties in a more compact way (instead of broadcasting tons of property changes).</p>
+<p>Maybe you're working on a reaaaally big app and regularly have to work with large-scale changes. Objects may wish to describe larger semantic changes which will affect lots of properties in a more compact way (instead of broadcasting tons of property changes).</p>
 
-<p>O.o() helps with this in the form of two specific utilities: <code>notifier.performChange()</code> and <code>notifier.notify()</code>, which we’ve already introduced.</p>
+<p>O.o() helps with this in the form of two specific utilities: <code>notifier.performChange()</code> and <code>notifier.notify()</code>, which we've already introduced.</p>
 
 <img src="image_13.png">
 
-<p>Let’s look at this in an example of how large-scale changes can be described where we define a Thingy object with some math utilities (multiply, increment, incrementAndMultiply). Any time a utility is used, it tells the system that a collection of work comprises a specific type of change.</p>
+<p>Let's look at this in an example of how large-scale changes can be described where we define a Thingy object with some math utilities (multiply, increment, incrementAndMultiply). Any time a utility is used, it tells the system that a collection of work comprises a specific type of change.</p>
 
-<p>For example: <code>notifier.performChange(‘foo’, performFooChangeFn);</code></p>
+<p>For example: <code>notifier.performChange(‘foo', performFooChangeFn);</code></p>
 
 <pre class="prettyprint"><span class="kwd">function</span><span class="pln"> </span><span class="typ">Thingy</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> c</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
   </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">a </span><span class="pun">=</span><span class="pln"> a</span><span class="pun">;</span><span class="pln">
@@ -1484,7 +1484,7 @@ todoModel</span><span class="pun">.</span><span class="pln">label </span><span c
 </span></pre>
 
 <p>
-We then define two observers for our object: one which is a catch-all for changes and another which will only report back on specific accept types we’ve defined (Thingy.INCREMENT, Thingy.MULTIPLY, Thingy.INCREMENT_AND_MULTIPLY).
+We then define two observers for our object: one which is a catch-all for changes and another which will only report back on specific accept types we've defined (Thingy.INCREMENT, Thingy.MULTIPLY, Thingy.INCREMENT_AND_MULTIPLY).
 </p>
 
 <pre class="prettyprint"><span class="kwd">var</span><span class="pln"> observer</span><span class="pun">,</span><span class="pln"> observer2 </span><span class="pun">=</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
@@ -1520,7 +1520,7 @@ observer2</span><span class="pun">.</span><span class="pln">callback </span><spa
 </span><span class="pun">}</span><span class="pln">
 </span></pre>
 
-<p>We can now start playing with this code. Let’s define a new Thingy:</p>
+<p>We can now start playing with this code. Let's define a new Thingy:</p>
 
 <pre class="prettyprint"><span class="kwd">var</span><span class="pln"> thingy </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> </span><span class="typ">Thingy</span><span class="pun">(</span><span class="lit">2</span><span class="pun">,</span><span class="pln"> </span><span class="lit">4</span><span class="pun">);</span></pre>
 
@@ -1542,15 +1542,15 @@ thingy</span><span class="pun">.</span><span class="pln">incrementAndMultiply</s
 
 <p>&nbsp;</p>
 
-<p>Everything inside of the "perform function" is considered to be the work of “big-change”. Observers which accept “big-change” will only receive the “big-change” record. Observers which do not will receive the underlying changes resulting from the work which “perform function” did.</p>
+<p>Everything inside of the "perform function" is considered to be the work of "big-change". Observers which accept "big-change" will only receive the "big-change" record. Observers which do not will receive the underlying changes resulting from the work which "perform function" did.</p>
 
 <h2 id="toc-observing-arrays">Observing arrays</h2>
 
-<p>We’ve talked for a while about observing changes to objects but what about arrays?! Great question. When someone tells me, "Great question." I never hear their answer because I'm busy congratulating myself for asking such a great question, but I digress. We have new methods for working with arrays too!</p>
+<p>We've talked for a while about observing changes to objects but what about arrays?! Great question. When someone tells me, "Great question." I never hear their answer because I'm busy congratulating myself for asking such a great question, but I digress. We have new methods for working with arrays too!</p>
 
-<p><code>Array.observe()</code> is a method that treats large-scale changes to itself - for example - splice, unshift or anything which implicitly changes it length - as a "splice" change record. Internally it uses <code>notifier.performChange(“splice”,...)</code>.</p> 
+<p><code>Array.observe()</code> is a method that treats large-scale changes to itself - for example - splice, unshift or anything which implicitly changes it length - as a "splice" change record. Internally it uses <code>notifier.performChange("splice",...)</code>.</p> 
 
-<p>Here’s an example where we observe a model "array" and similarly get back a list of changes when there are any changes to the underlying data:</p>
+<p>Here's an example where we observe a model "array" and similarly get back a list of changes when there are any changes to the underlying data:</p>
 
 <pre class="prettyprint"><span class="kwd">var</span><span class="pln"> model </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="str">'Buy some milk'</span><span class="pun">,</span><span class="pln"> </span><span class="str">'Learn to code'</span><span class="pun">,</span><span class="pln"> </span><span class="str">'Wear some plaid'</span><span class="pun">];</span><span class="pln">
 </span><span class="kwd">var</span><span class="pln"> count </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span><span class="pln">
@@ -1581,7 +1581,7 @@ model</span><span class="pun">[</span><span class="lit">1</span><span class="pun
 
 <p>Why? Well, dirty-checking has to run any time data *may* have changed. There simply isn't a very robust way to do this and any approach to it has significant downsides (e.g checking on a polling interval risks visual artifacts and race conditions between code concerns). Dirty-checking also requires a global registry of observers, creating memory-leak hazards and tear-down costs O.o() avoids.</p>
 
-<p>Let’s take a look at some numbers. </p>
+<p>Let's take a look at some numbers. </p>
 
 <p>The below benchmark tests (available on <a href="https://github.com/Polymer/observe-js/tree/master/benchmark">GitHub</a>) allow us to compare dirty-checking vs O.o(). They're structured as graphs of Observed-Object-Set-Size vs Number-Of-Mutations.</p>
 <p>The general result is that dirty-checking performance is algorithmically proportional to the number of observed objects while O.o() performance is proportional to the number of mutations which were made. </p>
@@ -1596,9 +1596,9 @@ model</span><span class="pun">[</span><span class="lit">1</span><span class="pun
 
 <h2 id="toc-polyfills">Polyfilling Object.observe()</h2>
 
-<p>Great - so O.o() can be used in Chrome 36, but what about using it in other browsers? We’ve got you covered. Polymer’s <a href="https://github.com/Polymer/observe-js">Observe-JS</a> is a polyfill for O.o() which will use the native implementation if it’s present, but otherwise polyfills it and includes some useful sugaring on top. It offers an aggregate view of the world that sums up changes and delivers a report of what has changed. Two really powerful things it exposes are:</p>
+<p>Great - so O.o() can be used in Chrome 36, but what about using it in other browsers? We've got you covered. Polymer's <a href="https://github.com/Polymer/observe-js">Observe-JS</a> is a polyfill for O.o() which will use the native implementation if it's present, but otherwise polyfills it and includes some useful sugaring on top. It offers an aggregate view of the world that sums up changes and delivers a report of what has changed. Two really powerful things it exposes are:</p>
 
-<p>1) You can observe paths. This means you can say, I would like to observe "foo.bar.baz" from a given object and they’ll tell you when the value at that path changed. If the path is unreachable, it considers the value undefined.</p>
+<p>1) You can observe paths. This means you can say, I would like to observe "foo.bar.baz" from a given object and they'll tell you when the value at that path changed. If the path is unreachable, it considers the value undefined.</p>
 
 <p>Example of observing a value at a path from a given object:</p>
 
@@ -1609,7 +1609,7 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
   </span><span class="com">// respond to obj.foo.bar having changed value.</span><span class="pln">
 </span><span class="pun">});</span></pre>
 
-<p>2) It will tell you about array splices. Array splices are basically the minimal set of splice operations you will have to perform on an array in order to transform the old version of the array into the new version of the array. This is a type of transform or different view of the array. It’s the minimum amount of work you need to do to move from the old state to the new state.</p>
+<p>2) It will tell you about array splices. Array splices are basically the minimal set of splice operations you will have to perform on an array in order to transform the old version of the array into the new version of the array. This is a type of transform or different view of the array. It's the minimum amount of work you need to do to move from the old state to the new state.</p>
 
 <p>Example of reporting changes to an array as a minimal set of splices:</p>
 
@@ -1635,9 +1635,9 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 
 <p>O.o() is a powerful addition to the web platform which you can go out and use today.</p>
 
-<p>We’re hopeful that in time the feature will land in more browsers, allowing JavaScript frameworks to get performance boosts from access to native object observation capabilities. Those targeting Chrome should be able to use O.o() in Chrome 36 (and above) and the feature should also be available in a future Opera release.</p>
+<p>We're hopeful that in time the feature will land in more browsers, allowing JavaScript frameworks to get performance boosts from access to native object observation capabilities. Those targeting Chrome should be able to use O.o() in Chrome 36 (and above) and the feature should also be available in a future Opera release.</p>
 
-<p>So, go forth and talk to the authors of JavaScript frameworks about <code>Object.observe()</code> and how they’re planning on using it to improve the performance of data-binding in your apps. There are most definitely exciting times ahead!</p>
+<p>So, go forth and talk to the authors of JavaScript frameworks about <code>Object.observe()</code> and how they're planning on using it to improve the performance of data-binding in your apps. There are most definitely exciting times ahead!</p>
 
 <h2 id="toc-resources">Resources</h2>
 
@@ -1660,15 +1660,15 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 
 <p>At first glance, they may seem like a complicated set of new technologies, but Web Components are built around a simple premise. Developers should be free to act like browser vendors, extending the vocabulary of HTML itself.</p>
 
-<p>If you’re intimidated by these new technologies or haven’t experimented with them yet, this post has a very simple message for you. If you’re already familiar with HTML elements and DOM APIs, you are already an expert at Web Components.</p>
+<p>If you're intimidated by these new technologies or haven't experimented with them yet, this post has a very simple message for you. If you're already familiar with HTML elements and DOM APIs, you are already an expert at Web Components.</p>
 
-<h2>“Components” today</h2>
+<h2>"Components" today</h2>
 
-<p>To understand why Web Components are so important, we need look no further than how we’ve hacked around the <em>lack</em> of Web Components.</p>
+<p>To understand why Web Components are so important, we need look no further than how we've hacked around the <em>lack</em> of Web Components.</p>
 
-<p>As an example, let’s run through the process of consuming a typical third-party widget.</p>
+<p>As an example, let's run through the process of consuming a typical third-party widget.</p>
 
-<p>First, we include the widget’s CSS and JavaScript:</p>
+<p>First, we include the widget's CSS and JavaScript:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -1699,23 +1699,23 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>This was a bit of work, but we’re <em>still</em> not finished.</p>
+<p>This was a bit of work, but we're <em>still</em> not finished.</p>
 
-<p>We’ve introduced a custom widget to the page, but it is not aware of the browser’s element lifecycle. This becomes clear if we update the DOM:</p>
+<p>We've introduced a custom widget to the page, but it is not aware of the browser's element lifecycle. This becomes clear if we update the DOM:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="js"><span class="line"><span class="nx">el</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">'&lt;div data-my-widget&gt;&lt;/div&gt;'</span><span class="p">;</span>
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>Since this isn’t a typical element, we now must manually instantiate any new widgets as we update the document:</p>
+<p>Since this isn't a typical element, we now must manually instantiate any new widgets as we update the document:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 </pre></td><td class="code"><pre><code class="js"><span class="line"><span class="nx">$</span><span class="p">(</span><span class="nx">el</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="s1">'[data-my-widget]'</span><span class="p">).</span><span class="nx">myWidget</span><span class="p">();</span>
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>The most common way to avoid this constant two-step process is to completely abstract away DOM interaction. Unfortunately, that’s a pretty heavy-handed solution that usually results in widgets being tied to particular libraries or frameworks.</p>
+<p>The most common way to avoid this constant two-step process is to completely abstract away DOM interaction. Unfortunately, that's a pretty heavy-handed solution that usually results in widgets being tied to particular libraries or frameworks.</p>
 
 <h2>Component soup</h2>
 
@@ -1744,7 +1744,7 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 
 <h2>Web Components to the rescue</h2>
 
-<p>With Web Components, it becomes clear what we’ve been missing.</p>
+<p>With Web Components, it becomes clear what we've been missing.</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -1759,9 +1759,9 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>In this case, we’ve imported a new custom element with a single import and used it immediately.</p>
+<p>In this case, we've imported a new custom element with a single import and used it immediately.</p>
 
-<p>More importantly, since <code>&lt;my-widget /&gt;</code> is an actual element, it hooks into the browser’s element lifecycle, allowing us to add a new instance to the page like we would with any native widget:</p>
+<p>More importantly, since <code>&lt;my-widget /&gt;</code> is an actual element, it hooks into the browser's element lifecycle, allowing us to add a new instance to the page like we would with any native widget:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -1793,13 +1793,13 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 
 <h2>In the interest of time</h2>
 
-<p>When we talk about Web Components, we’re not talking about a single technology.</p>
+<p>When we talk about Web Components, we're not talking about a single technology.</p>
 
-<p>We’re talking about a suite of new tools that are each useful in their own right: <a href="http://www.html5rocks.com/en/tutorials/webcomponents/customelements/">Custom Elements</a>, <a href="http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/">Shadow DOM</a>, <a href="http://www.html5rocks.com/en/tutorials/webcomponents/template/">HTML Templates</a>, <a href="http://www.html5rocks.com/en/tutorials/webcomponents/imports/">HTML Imports</a>, and <a href="http://w3c.github.io/webcomponents/explainer/#decorator-section">Decorators</a>.</p>
+<p>We're talking about a suite of new tools that are each useful in their own right: <a href="http://www.html5rocks.com/en/tutorials/webcomponents/customelements/">Custom Elements</a>, <a href="http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/">Shadow DOM</a>, <a href="http://www.html5rocks.com/en/tutorials/webcomponents/template/">HTML Templates</a>, <a href="http://www.html5rocks.com/en/tutorials/webcomponents/imports/">HTML Imports</a>, and <a href="http://w3c.github.io/webcomponents/explainer/#decorator-section">Decorators</a>.</p>
 
-<p>The primary goal of Web Components is to give us the encapsulation we’ve been missing. Luckily, this goal can be achieved purely with Custom Elements and Shadow DOM. So, in the interest of time, we’ll begin by focusing on these two technologies.</p>
+<p>The primary goal of Web Components is to give us the encapsulation we've been missing. Luckily, this goal can be achieved purely with Custom Elements and Shadow DOM. So, in the interest of time, we'll begin by focusing on these two technologies.</p>
 
-<p>Rather than immediately jumping into a list of new browser features, I find it helpful for us to first reacquaint ourselves with what we already know about the native elements we’ve been consuming for years. After all, it doesn’t hurt for us to understand what we’re trying to build.</p>
+<p>Rather than immediately jumping into a list of new browser features, I find it helpful for us to first reacquaint ourselves with what we already know about the native elements we've been consuming for years. After all, it doesn't hurt for us to understand what we're trying to build.</p>
 
 <h2>What we already know about elements</h2>
 
@@ -1904,9 +1904,9 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>Finally, we know that elements can have their own private styles. Unlike the custom widgets of today, we never need to manually include CSS for the browser’s native widgets.</p>
+<p>Finally, we know that elements can have their own private styles. Unlike the custom widgets of today, we never need to manually include CSS for the browser's native widgets.</p>
 
-<p>By understanding all of this, we’re well on our way to understanding Web Components. With Custom Elements and Shadow DOM, we can now recreate all of this standard behaviour in our widgets.</p>
+<p>By understanding all of this, we're well on our way to understanding Web Components. With Custom Elements and Shadow DOM, we can now recreate all of this standard behaviour in our widgets.</p>
 
 <h2>Custom elements</h2>
 
@@ -1919,7 +1919,7 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>You might have noticed that our element name contains a hyphen. This is an important requirement for Custom Elements to ensure our tag names don’t clash with current or future elements.</p>
+<p>You might have noticed that our element name contains a hyphen. This is an important requirement for Custom Elements to ensure our tag names don't clash with current or future elements.</p>
 
 <p>This element now works like any other native element:</p>
 
@@ -1945,7 +1945,7 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 
 <h2>Breathing life into our custom element</h2>
 
-<p>Currently, this is a pretty useless element. Let’s give it some content:</p>
+<p>Currently, this is a pretty useless element. Let's give it some content:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -1974,21 +1974,21 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>In this example, we’ve set up the <a href="http://markdalgleish.com/2012/10/a-touch-of-class-inheritance-in-javascript/">prototype</a> for our custom element, using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a> to make a new object that inherits from the <a href="https://developer.mozilla.org/en/docs/Web/API/HTMLElement">HTMLElement</a> prototype.</p>
+<p>In this example, we've set up the <a href="http://markdalgleish.com/2012/10/a-touch-of-class-inheritance-in-javascript/">prototype</a> for our custom element, using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create</a> to make a new object that inherits from the <a href="https://developer.mozilla.org/en/docs/Web/API/HTMLElement">HTMLElement</a> prototype.</p>
 
-<p>We’ve defined a <code>createdCallback</code> function which will run every time a new instance of the element is created.</p>
+<p>We've defined a <code>createdCallback</code> function which will run every time a new instance of the element is created.</p>
 
 <p>We could also optionally define <code>attributeChangedCallback</code>, <code>enteredViewCallback</code> and <code>leftViewCallback</code>.</p>
 
-<p>Inside our callback we can modify our new element however we like. In this case, we’ve set its <code>innerHTML</code>.</p>
+<p>Inside our callback we can modify our new element however we like. In this case, we've set its <code>innerHTML</code>.</p>
 
-<p>So far we’re able to dynamically modify the contents of our custom element, but this isn’t too different from the custom widgets of today. In order to complete the picture, we need a way to provide encapsulation to our new element by hiding its internals.</p>
+<p>So far we're able to dynamically modify the contents of our custom element, but this isn't too different from the custom widgets of today. In order to complete the picture, we need a way to provide encapsulation to our new element by hiding its internals.</p>
 
 <h2>Encapsulation with Shadow DOM</h2>
 
-<p>We’re going to modify our <code>createdCallback</code> a bit.</p>
+<p>We're going to modify our <code>createdCallback</code> a bit.</p>
 
-<p>This time, instead of setting the <code>innerHTML</code> directly on our custom element, we’re going to do something quite different:</p>
+<p>This time, instead of setting the <code>innerHTML</code> directly on our custom element, we're going to do something quite different:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -2009,17 +2009,17 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>In this example, you would see the words ‘SHADOW DOM!’ when looking at the page, but inspecting the DOM would reveal a single, empty <code>&lt;my-element /&gt;</code> tag. Instead of modifying the containing page, we’ve created a new shadow root inside our custom element using <code>this.createShadowRoot()</code>.</p>
+<p>In this example, you would see the words ‘SHADOW DOM!' when looking at the page, but inspecting the DOM would reveal a single, empty <code>&lt;my-element /&gt;</code> tag. Instead of modifying the containing page, we've created a new shadow root inside our custom element using <code>this.createShadowRoot()</code>.</p>
 
 <p>Anything inside of this shadow root, while visible to the naked eye, is hidden from DOM APIs and CSS selectors in the containing page, maintaining the illusion that this widget is only a single element.</p>
 
 <p>If we were writing a custom calendar widget, the shadow root is where our complex calendar markup would go, allowing us to expose a single tag as a simple interface to its hidden complexity.</p>
 
-<h2>Accessing the “light DOM”</h2>
+<h2>Accessing the "light DOM"</h2>
 
 <p>So far, our custom element is just an empty tag, but what happens if elements were nested inside our new component? We may want a widget with similar flexibility to the <code>&lt;select&gt;</code> tag, which can contain many <code>&lt;option&gt;</code> tags.</p>
 
-<p>As a working example, let’s assume the following markup.</p>
+<p>As a working example, let's assume the following markup.</p>
 
 <figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tbody><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
 <span class="line-number">2</span>
@@ -2034,9 +2034,9 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>As soon as a new shadow root is created against this custom element, its child nodes are no longer visible. We refer to these hidden child nodes as the “light DOM”. If we inspect the page or traverse the DOM we can see these hidden nodes, but the end user would have no clue these elements exist at all.</p>
+<p>As soon as a new shadow root is created against this custom element, its child nodes are no longer visible. We refer to these hidden child nodes as the "light DOM". If we inspect the page or traverse the DOM we can see these hidden nodes, but the end user would have no clue these elements exist at all.</p>
 
-<p>Without shadow DOM, this example would simply appear as ‘This is the light DOM. <em>hello world</em>’.</p>
+<p>Without shadow DOM, this example would simply appear as ‘This is the light DOM. <em>hello world</em>'.</p>
 
 <p>When we set up the shadow DOM inside the <code>createdCallback</code> function, we can use the new <code>content</code> tag to distribute elements from the light DOM into the shadow DOM:</p>
 
@@ -2067,11 +2067,11 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>With shadow DOM and the <code>&lt;content&gt;</code> tag, this now appears as ‘The “i” tags from the light DOM are: <em>helloworld</em>’. Note that the <code>&lt;i&gt;</code> tags have rendered next to each other with no whitespace.</p>
+<p>With shadow DOM and the <code>&lt;content&gt;</code> tag, this now appears as ‘The "i" tags from the light DOM are: <em>helloworld</em>'. Note that the <code>&lt;i&gt;</code> tags have rendered next to each other with no whitespace.</p>
 
 <h2>Encapsulating styles</h2>
 
-<p>What’s important to understand about Shadow DOM is that we’ve created a clean separation between our widget’s markup and the outside world, known as the shadow boundary.</p>
+<p>What's important to understand about Shadow DOM is that we've created a clean separation between our widget's markup and the outside world, known as the shadow boundary.</p>
 
 <p>One powerful feature of Shadow DOM is that styles declared inside do not leak outside of the shadow boundary.</p>
 
@@ -2107,9 +2107,9 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>If we’re distributing elements from the light DOM into the shadow DOM, like in our <code>&lt;i&gt;</code> example earlier, it’s important to understand that these nodes don’t technically belong to our widget.</p>
+<p>If we're distributing elements from the light DOM into the shadow DOM, like in our <code>&lt;i&gt;</code> example earlier, it's important to understand that these nodes don't technically belong to our widget.</p>
 
-<p>Distributed nodes still belong to the containing page, meaning that we can’t style these elements by simply writing a standard selector.</p>
+<p>Distributed nodes still belong to the containing page, meaning that we can't style these elements by simply writing a standard selector.</p>
 
 <p>Instead, we must style these distributed elements with the <code>::content</code> pseudo-element:</p>
 
@@ -2151,7 +2151,7 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 
 <p>When we hide the internal markup of our custom element, it is still sometimes desirable to allow certain aspects of our element to be re-styled from outside.</p>
 
-<p>For example, if we were writing a custom calendar widget, we might want to allow end users to style the buttons, without giving them access to the entirety of our widget’s markup.</p>
+<p>For example, if we were writing a custom calendar widget, we might want to allow end users to style the buttons, without giving them access to the entirety of our widget's markup.</p>
 
 <p>This is where the <code>part</code> attribute and pseudo element comes in:</p>
 
@@ -2185,27 +2185,27 @@ observer</span><span class="pun">.</span><span class="pln">open</span><span clas
 </span></code></pre></td></tr></tbody></table></div></figure>
 
 
-<p>This <code>part</code> contract is essential in maintaining encapsulation. In the previous example, we styled the word “World”, but users of our widget would have no idea that it’s actually an <code>em</code> tag under the hood.</p>
+<p>This <code>part</code> contract is essential in maintaining encapsulation. In the previous example, we styled the word "World", but users of our widget would have no idea that it's actually an <code>em</code> tag under the hood.</p>
 
-<p>One important benefit of this system is that we’re free to dramatically change the markup inside our widget between versions, so long as the “part” attributes are still in place.</p>
+<p>One important benefit of this system is that we're free to dramatically change the markup inside our widget between versions, so long as the "part" attributes are still in place.</p>
 
 <h2>Just the beginning</h2>
 
-<p>Web Components finally give us a way to achieve simple, consistent, reusable, encapsulated and composable widgets, but we’re only just getting started. It’s a great time to start experimenting.</p>
+<p>Web Components finally give us a way to achieve simple, consistent, reusable, encapsulated and composable widgets, but we're only just getting started. It's a great time to start experimenting.</p>
 
-<p>Before you can begin, you need to make sure your browser has the relevant features enabled. If you use Chrome, head to <code>chrome://flags</code> and enable “experimental Web Platform features”.</p>
+<p>Before you can begin, you need to make sure your browser has the relevant features enabled. If you use Chrome, head to <code>chrome://flags</code> and enable "experimental Web Platform features".</p>
 
-<p>To target browsers that don’t have these features enabled, you can use Google’s <a href="http://www.polymer-project.org/">Polymer</a>, or Mozilla’s <a href="http://www.x-tags.org/">X-Tag</a>.</p>
+<p>To target browsers that don't have these features enabled, you can use Google's <a href="http://www.polymer-project.org/">Polymer</a>, or Mozilla's <a href="http://www.x-tags.org/">X-Tag</a>.</p>
 
 <h2>Time to experiment</h2>
 
-<p>All of the functionality presented in this article is simply an exercise in emulating standard browser behaviour. We’ve been working with the browser’s native widgets for a long time, so taking the step towards writing our own isn’t as difficult as it might seem.</p>
+<p>All of the functionality presented in this article is simply an exercise in emulating standard browser behaviour. We've been working with the browser's native widgets for a long time, so taking the step towards writing our own isn't as difficult as it might seem.</p>
 
-<p>If you haven’t created a component before, I urge you to open up the console and experiment. Try making a custom element, then try creating a shadow root (against any element, not just Custom Elements).</p>
+<p>If you haven't created a component before, I urge you to open up the console and experiment. Try making a custom element, then try creating a shadow root (against any element, not just Custom Elements).</p>
 
-<p>This experimentation will naturally raise questions about topics not fully discussed in this article. Do we have to use strings to define the markup in our Shadow DOM? No, this is where <a href="http://www.html5rocks.com/en/tutorials/webcomponents/template/">HTML Templates</a> come in. Can we bundle an HTML template with our component’s JavaScript? Yes, with <a href="http://www.html5rocks.com/en/tutorials/webcomponents/imports/">HTML Imports</a>.</p>
+<p>This experimentation will naturally raise questions about topics not fully discussed in this article. Do we have to use strings to define the markup in our Shadow DOM? No, this is where <a href="http://www.html5rocks.com/en/tutorials/webcomponents/template/">HTML Templates</a> come in. Can we bundle an HTML template with our component's JavaScript? Yes, with <a href="http://www.html5rocks.com/en/tutorials/webcomponents/imports/">HTML Imports</a>.</p>
 
-<p>Even if <a href="http://www.polymer-project.org/faq.html#readiness">it’s too early to use this stuff in production</a>, it’s never too early to be prepared for the future of the web.</p>
+<p>Even if <a href="http://www.polymer-project.org/faq.html#readiness">it's too early to use this stuff in production</a>, it's never too early to be prepared for the future of the web.</p>
 
 <p><em>This article is based on a 15 minute presentation from Web Directions South 2013 in Sydney, Australia <a href="http://markdalgleish.github.io/presentation-web-components/">(Slides)</a>.</em></p>
 

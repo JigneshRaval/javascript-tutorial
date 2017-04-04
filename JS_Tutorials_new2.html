@@ -3351,7 +3351,7 @@ flexible, scalable and easy to test.</p>
 
 <p><img src="http://blog.mgechev.com/slides/javascript-patterns/images/twitter.png" class="aligncenter" width="650"></p>
 
-<p>If you look at the interface you simply have different boxes. You can think of each box as different module. For example you can post a tweet. This action requires update of few modules. Firstly it has to update your profile data (upper left box) but it also has to update your timeline. Of course, you can keep references to both modules and update them separately using their public interface but it's easier (and better) to just publish an event. This will make the modification of your application easier because of loosing coupling. If you develop new module which depends on new tweets you can just subscribe to the “publish-tweet” event and handle it. This approach is very useful and can make your application very decoupled. You can reuse your modules very easy.</p>
+<p>If you look at the interface you simply have different boxes. You can think of each box as different module. For example you can post a tweet. This action requires update of few modules. Firstly it has to update your profile data (upper left box) but it also has to update your timeline. Of course, you can keep references to both modules and update them separately using their public interface but it's easier (and better) to just publish an event. This will make the modification of your application easier because of loosing coupling. If you develop new module which depends on new tweets you can just subscribe to the "publish-tweet" event and handle it. This approach is very useful and can make your application very decoupled. You can reuse your modules very easy.</p>
 
 <p>Here is a basic example of the last approach (this is not original twitter code it's just a sample by me):</p>
 
@@ -3383,7 +3383,7 @@ flexible, scalable and easy to test.</p>
 
 <p>For this approach there's very good talk by <a href="http://www.nczonline.net/" target="_blank">Nicholas Zakas</a>. For the first MV* approach the best articles and books, I know, are published by <a href=" http://addyosmani.com/blog/" target="_blank">Addy Osmani</a>.</p>
 
-<p>Drawbacks. You have to be careful about the excessive use of publish/subscribe. If you've got hundreds of events it can become very confusing to manage all of them. You may also have collisions if you're not using namespacing (or not using it in the right way). An advanced implementation of mediator which looks much like an publish/subscribe can be found here https://github.com/ajacksified/Mediator.js. It has namespacing and feature like event “bubbling” which, of course, can be interrupted. Another drawback of the publish/subscribe is the hard unit testing, it may become difficult to isolate the different functions in the modules and test them independently.</p>
+<p>Drawbacks. You have to be careful about the excessive use of publish/subscribe. If you've got hundreds of events it can become very confusing to manage all of them. You may also have collisions if you're not using namespacing (or not using it in the right way). An advanced implementation of mediator which looks much like an publish/subscribe can be found here https://github.com/ajacksified/Mediator.js. It has namespacing and feature like event "bubbling" which, of course, can be interrupted. Another drawback of the publish/subscribe is the hard unit testing, it may become difficult to isolate the different functions in the modules and test them independently.</p>
 
       
     
@@ -3710,7 +3710,7 @@ function addEvent( element, event, callback ) {
 		<h1>JavaScript Design Patterns: Composite </h1>
 		<div class="post-wrapper">
 			
-        <p>My last post was about the <a href="/javascript/javascript-design-patterns-bridge/" title="JavaScript Design Patterns: Bridge on joezimjs.com">Bridge Design Pattern</a>, which continued the JavaScript Design Patterns series that started off with the <a href="/javascript/javascript-design-patterns-singleton/" title="JavaScript Design Patterns: Singleton on joezimjs.com">Singleton</a>. Today we've moved onto the Composite Pattern. Composites are quite useful. By definition of the word “composite”, Composites are _composed _of multiple parts to create one whole entity.<a id="more"></a></p>
+        <p>My last post was about the <a href="/javascript/javascript-design-patterns-bridge/" title="JavaScript Design Patterns: Bridge on joezimjs.com">Bridge Design Pattern</a>, which continued the JavaScript Design Patterns series that started off with the <a href="/javascript/javascript-design-patterns-singleton/" title="JavaScript Design Patterns: Singleton on joezimjs.com">Singleton</a>. Today we've moved onto the Composite Pattern. Composites are quite useful. By definition of the word "composite", Composites are _composed _of multiple parts to create one whole entity.<a id="more"></a></p>
 <p>These are the two main benefits that the Composite pattern provides:</p>
 <p>You can treat the whole collection of objects the same way you would treat any of the individual objects in the collection. Functions executed on the composite are passed down to each of the children to be executed. On large collections, this becomes very beneficial (though also may be misleading, because you may not realize how large the collection is and therefore not understand how much performance may suffer).</p>
 <p>It organizes the objects into a tree structure, and since each composite object contains a method to get its children, you can hide the implementation and organize the children in any way you wish.</p>
@@ -3721,7 +3721,7 @@ function addEvent( element, event, callback ) {
 <p>If you look around, I'm sure you'll see some more examples. You might even see some implemented using JavaScript.</p>
 <h2 id="Our_JavaScript_Example_of_the_Composite_Pattern"><a href="#Our_JavaScript_Example_of_the_Composite_Pattern" class="headerlink" title="Our JavaScript Example of the Composite Pattern"></a>Our JavaScript Example of the Composite Pattern</h2><p>To demonstrate the Composite pattern to you using JavaScript, I will use neither of the above examples. Instead I will make an image gallery. It is actually quite similar to the file system example, except that this in no way needs to reflect the place in which the images are stored or organized on the drive and is really only intended to have a certain number of levels. See the image below:</p>
 <p><img src="/wp-content/uploads/gallery_structure.png" alt="Gallery Example's Structure" title="Gallery Example's Structure"></p>
-<p>Notice that in my image, all of the images are contained within composites on the “Gallery” level. This is by no means necessary, nor will it be enforced in the code, but it is ideally how the images are to be organized.</p>
+<p>Notice that in my image, all of the images are contained within composites on the "Gallery" level. This is by no means necessary, nor will it be enforced in the code, but it is ideally how the images are to be organized.</p>
 <p>Each of the objects in the hierarchy needs to implement a certain interface. Since JavaScript does not have interfaces we just need to make sure we implement certain methods. Below is the list of methods and what they do:</p>
 <table>
 <thead>
@@ -3834,7 +3834,7 @@ GalleryComposite.prototype = {
 <p>You can demo the code on the <a href="/composite-pattern-demo-page/" title="Composite Pattern Demo Page">Composite Pattern Demo Page</a>. You can view the source code of that page to see that none of the albums or images were premade using HTML, but were all added to the DOM via our JavaScript code.</p>
 <h2 id="Benefits_and_Drawbacks_of_the_Composite_Pattern"><a href="#Benefits_and_Drawbacks_of_the_Composite_Pattern" class="headerlink" title="Benefits and Drawbacks of the Composite Pattern"></a>Benefits and Drawbacks of the Composite Pattern</h2><p>You can see the amazing benefits of always being able to just call a function on a top level object and have the results happen to any or all of the nodes in the composite structure. The code becomes much easier to use. Also the objects in the composite are loosely coupled because they all just follow the same interface. Finally, the composite gives a nice structure to the objects, rather than keeping them all in separate variables or in an array.</p>
 <p>However, as mentioned earlier, the composite pattern can be deceptive. Making a call to a single function may be so easy that you might not realize the adverse effect it'll have on performance if the composite grows rather large.</p>
-<p>The Composite pattern is a powerful tool, but as many know, “with great power comes great responsibility.” Use JavaScript's Composite pattern wisely and you'll be one step closer to becoming a JavaScript guru. If you thought this was helpful or you just plain liked the article, please spread the word using the social sharing buttons below the post. Thanks!</p>
+<p>The Composite pattern is a powerful tool, but as many know, "with great power comes great responsibility." Use JavaScript's Composite pattern wisely and you'll be one step closer to becoming a JavaScript guru. If you thought this was helpful or you just plain liked the article, please spread the word using the social sharing buttons below the post. Thanks!</p>
 <p><strong>JavaScript Design Patterns series:</strong><br></p>
 
       
@@ -4033,7 +4033,7 @@ console.log(hippify(&quot;The Baby Boomers just look the other way.&quot;));
 		<!--=========================
 			START : POST
 		=============================-->
-		<h1>The Final Steps to Mastering JavaScript's “this” Keyword</h1>
+		<h1>The Final Steps to Mastering JavaScript's "this" Keyword</h1>
 		<div class="post-wrapper">
 			<p>In a <a href="http://www.sitepoint.com/inner-workings-javascripts-this-keyword/">previous article</a> we learned the fundamentals of using JavaScript's <code>this</code> keyword properly. We saw that the crucial factor in determining what <code>this</code> refers to, is to find out the current execution context. However, this task can be a bit tricky in situations where the context gets changed in a way we don't expect. In this article I will highlight when this might happen and what we can do to remedy it.</p>
 <h2 id="fixing-common-issues">Fixing Common Issues</h2>
@@ -4129,7 +4129,7 @@ car.getBrand();   // output: Nissan</code></pre>
 <p>Here, the value of <code>this</code> can be assigned to <code>_this</code>, <code>that</code>, <code>self</code>, <code>me</code>, <code>my</code>, <code>context</code>, an object's pseudo name, or whatever else works for you. The main point is to keep a reference to the original object. </p>
 <h2 id="ecmascript-6-to-the-rescue">ECMAScript 6 to the Rescue</h2>
 <p>In the previous example we saw a primer on what is known as &#8220;lexical <code>this</code>&#8220;—when we set the <code>this</code> value to another variable. In ECMAScript 6 we can use the similar, but more elegant, technique, applicable via the new arrow functions.</p>
-<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">Arrow-functions</a> are created not by the <code>function</code> keyword, but by the so-called “fat arrow” operator (<code>=&gt;</code>).  Unlike regular functions, arrow functions take the <code>this</code> value from their immediate enclosing scope. The lexical binding of an arrow function can't be overridden, even with the <code>new</code> operator.</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions">Arrow-functions</a> are created not by the <code>function</code> keyword, but by the so-called "fat arrow" operator (<code>=&gt;</code>).  Unlike regular functions, arrow functions take the <code>this</code> value from their immediate enclosing scope. The lexical binding of an arrow function can't be overridden, even with the <code>new</code> operator.</p>
 <p>Let's now see how arrow function can be used to substitute the <code>var self = this;</code> statement.</p>
 <pre><code class='language-javascript'>var car = {
   brand: &quot;Nissan&quot;,
@@ -4514,7 +4514,7 @@ car.getBrand();   // output: Nissan</code></pre>
 <h2>Higher Order Functions</h2>
 <p>We know functions in JavaScript are nothing but objects. Does this mean functions can be passed around as arguments
   to other functions? And can one function return another function?</p>
-<p>The answer to both questions is “Yes”. And such functions which taking in other functions are arguments and / or
+<p>The answer to both questions is "Yes". And such functions which taking in other functions are arguments and / or
   return functions are typically called <strong>higher order functions</strong>.</p>
 <p>In the example below, we will define a higher order function <code>forEach</code>. This function takes in two
   arguments: a <code>list</code> and an <code>action</code>. The first argument list is an array containing containing
@@ -6317,8 +6317,8 @@ shorter (not to mention more efficient) to just write it out with
 		=============================-->
 		<h1>Shuffling and Sorting JavaScript Arrays</h1>
 		<div class="post-wrapper">
-			<p>It’s been said that there are only two hard problems in computer science: cache invalidation and naming things. To those, I might add a third: reordering and prioritizing things. Thankfully, a lot of brainpower has been expended on solving just those kinds of problems.
-<p>Shuffling and sorting is often needed in scripts: ranking a series of recorded scores, for example, or randomly reordering values for use in a game. Unfortunately <a href="/Javascript" rel=tag>JavaScript</a> doesn’t yet have a built-in <code>shuffle</code> method, and it’s <code>sort</code> method has a few quirks… but both can be accomplished if you know how.<h2>Shuffling An Array</h2>
+			<p>It's been said that there are only two hard problems in computer science: cache invalidation and naming things. To those, I might add a third: reordering and prioritizing things. Thankfully, a lot of brainpower has been expended on solving just those kinds of problems.
+<p>Shuffling and sorting is often needed in scripts: ranking a series of recorded scores, for example, or randomly reordering values for use in a game. Unfortunately <a href="/Javascript" rel=tag>JavaScript</a> doesn't yet have a built-in <code>shuffle</code> method, and it's <code>sort</code> method has a few quirks… but both can be accomplished if you know how.<h2>Shuffling An Array</h2>
 <p>I covered shuffling previously in <a href="/82/Recipes-for-Randomness-in-JavaScript">my article on recipes for randomness in JavaScript</a>: this version, known as the <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm">Durstenfeld shuffle</a>, is a high-performance variation:
 <pre><code class="language-javascript">function shuffle(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -6345,7 +6345,7 @@ shorter (not to mention more efficient) to just write it out with
 <pre><code class="language-javascript">var ranValues = [ 7, 11, 12, 15, 3, 1, 10 ];</code></pre>
 <p>Sorting the array yields this rather confusing result:
 <pre><code class="language-javascript">> [1, 10, 11, 12, 15, 3, 7]</code></pre>
-<h3>What’s going on?</h3>
+<h3>What's going on?</h3>
 <p>By default, <code>sort</code> works in lexicographical order: i.e. a dictionary sort. <em>This includes numerals</em>: <code>sort</code> converts the numbers in the array to strings, then orders them to produce a result. In that system <code>3</code> comes immediately before <code>30</code>, yielding the strange result we see above.
 <p>Fortunately, we can pass a <a href="/1033/Introduction-to-JavaScript-Functions"><em>function</em></a> into the <code>sort</code> method to control the sorting process. To sort numerals correctly use:
 <pre><code class="language-javascript">sort(function(a,b){return a - b}) </code></pre>
@@ -7653,7 +7653,7 @@ window.setTimeout(function() {
 		ALIVE!!!</strong> displayed. If things didn't work properly and you 
 		don't see that, make sure your many parentheses are in the correct 
 		locations. The most common illness that afflicts IIFEs are mismatched or 
-		misplaced parentheses! Anyway, now that you have created a working IIFE, let’s peel back the layers 
+		misplaced parentheses! Anyway, now that you have created a working IIFE, let's peel back the layers 
 		and look at what exactly is going on.</p>
 		<p>First, you have your function with 
 		the code you want to execute:</p>
@@ -7715,7 +7715,7 @@ window.setTimeout(function() {
 		<h4>Quick Review of Scoping and Functions&nbsp;</h4>
 		<p>To help make the next few sections digestible, let's review one 
 		important detail. From the 
-		<a class="blueEmphasis" href="//www.kirupa.com/html5/variable_scope_js.htm">Variable Scope</a> article, you learned that JavaScript doesn’t 
+		<a class="blueEmphasis" href="//www.kirupa.com/html5/variable_scope_js.htm">Variable Scope</a> article, you learned that JavaScript doesn't 
 		have the concept of block scoping. It only has lexical scope. This means 
 		that variables declared inside a block such as an 
 		<span class="inlineCode">if</span> statement or loop 
@@ -7962,7 +7962,7 @@ alert(person());</pre>
 		</div>
 		<h3>&nbsp;</h3>
 		<h3>Making Things Private</h3>
-		<p>In JavaScript, you don’t have an easy, built-in way to limit the 
+		<p>In JavaScript, you don't have an easy, built-in way to limit the 
 		visibility of variables and properties you end up creating. This means 
 		it is difficult to have parts of your app hidden from other parts of 
 		your app.</p>
@@ -7987,7 +7987,7 @@ alert(person());</pre>
 		check if what you entered matches the value of <span class="inlineCode">
 		secretCode</span>. If it matches, <strong>you are awesome</strong> will 
 		get displayed. 
-		If it isn’t, <strong>you are still awesome</strong>…despite what this 
+		If it isn't, <strong>you are still awesome</strong>…despite what this 
 		code will tell you.</p>
 		<p>Now, here is where some privacy in your code may help. Nothing 
 		prevents me, you, or someone who uses this code from checking the value 
@@ -8013,7 +8013,7 @@ alert(bar.secretCode) // sigh :(</pre>
 		secretCode</span>, and that would be the end of this entire conversation. JavaScript isn't 
 		like other languages. You have to jump through hoops to solve your 
 		problem, and one such awesome hoop to is our friendly IIFE.</p>
-		<p>By taking advantage of the local scope IIFE’s 
+		<p>By taking advantage of the local scope IIFE's 
 		create, you can selectively choose what to expose or what not to expose. 
 		Here is a version of the same example that works as we would like:</p>
 		<pre class="brush: js">var awesomeSauce = (function () {
@@ -8939,7 +8939,7 @@ function changeColor() {
 		<div class="post-wrapper">
 			
 
-	  <p>So far, all of the code we’ve written really contained no structure. 
+	  <p>So far, all of the code we've written really contained no structure. 
 		It was just…there:</p>
 		<pre class="brush: js">alert("hello, world!");</pre>
 		<p>There is nothing wrong with having code like this. This is especially 
@@ -8967,7 +8967,7 @@ alert(speed * time);</pre>
 		multiplying the values stored by the <span class="inlineCode">speed</span> 
 		and <span class="inlineCode">time</span> variables. This is a pretty 
 		literal translation of the distance equation you just saw.</p>
-		<p>Let’s say we want to calculate the distance for more values. Using 
+		<p>Let's say we want to calculate the distance for more values. Using 
 		only what we&#39;ve seen so far, our code would look as follows:</p>
 		<pre class="brush: js">var speed = 10;
 var time = 5;
@@ -8984,7 +8984,7 @@ alert(speed2 * time2);
 var speed3 = 42;
 var time3 = 21;
 alert(speed3 * time3);</pre>
-		<p>I don’t know about you, but this just looks 
+		<p>I don't know about you, but this just looks 
 		<a class="blueEmphasis" href="http://www.youtube.com/watch?v=jKTb5Nfyh1o" target="_blank">
 		turrible</a>. Our code is 
 		unnecessarily verbose and repetitive. Like I mentioned earlier when we 
@@ -9002,7 +9002,7 @@ showDistance(10, 5);
 showDistance(85, 1.5);
 showDistance(12, 9);
 showDistance(42, 21);</pre>
-		<p>Don’t worry too much about what this code does just yet. Just know that this smaller chunk of code 
+		<p>Don't worry too much about what this code does just yet. Just know that this smaller chunk of code 
 		does everything all those many lines of code did earlier without all of 
 		the negative side effects. We'll 
 		learn all about functions and how they do all the sweet things that they 
@@ -10975,15 +10975,15 @@ alert(funnyGuy.getName());</pre>
 		=============================-->
 		<h1>Why and how to bind methods in your React component classes? </h1>
 		<div class="post-wrapper">
-<p>React v0.13 introduced a major change in how you can define your component classes. <strong>What was a React-bound class system was slimmed down to a level where the pure JavaScript classes can be used.</strong> It has many benefits - your component classes are not ‘magical’ anymore, you can take advantage of the common JavaScript idioms and so on.</p>
+<p>React v0.13 introduced a major change in how you can define your component classes. <strong>What was a React-bound class system was slimmed down to a level where the pure JavaScript classes can be used.</strong> It has many benefits - your component classes are not ‘magical' anymore, you can take advantage of the common JavaScript idioms and so on.</p>
 
-<p>This change emphasized that <em>React is JavaScript</em> - and React authors don’t want to escape this truth. That change encourages you to use language features, not custom solutions to create your React code. For people coming from different background than JavaScript / Node.js using some language features can be confusing.</p>
+<p>This change emphasized that <em>React is JavaScript</em> - and React authors don't want to escape this truth. That change encourages you to use language features, not custom solutions to create your React code. For people coming from different background than JavaScript / Node.js using some language features can be confusing.</p>
 
 <p>One of those confusing features is function context binding in JavaScript. In this blogpost I want to explain how and why you need to do it.</p>
 
 <!-- more -->
-<h2 id="let__39_s_start_with_javascript">Let’s start with JavaScript</h2>
-<p>As has been said before, React does not hide its JavaScript roots. That’s why it’s important to understand how JavaScript handles the function context assignment.</p>
+<h2 id="let__39_s_start_with_javascript">Let's start with JavaScript</h2>
+<p>As has been said before, React does not hide its JavaScript roots. That's why it's important to understand how JavaScript handles the function context assignment.</p>
 
 <p>In languages like Ruby or Java, <code>this</code> (or in case of Ruby <code>self</code>) will always point to the object in which your method is defined. So in Ruby if you are working on the <code>foo</code> method inside the <code>Bar</code> class, <code>self</code> will always point to the object which is the instance of the <code>Bar</code> class.</p>
 
@@ -10998,7 +10998,7 @@ alert(funnyGuy.getName());</pre>
 <li><strong>apply invocation pattern</strong></li>
 </ul>
 
-<p>All of these patterns used define function context differently. In next paragraphs you’ll see how.</p>
+<p>All of these patterns used define function context differently. In next paragraphs you'll see how.</p>
 <h2 id="function_invocation_pattern">Function invocation pattern</h2>
 <blockquote>
 <p>If there are no dots in your function call, your context is likely to be <code>window</code>.</p>
@@ -11014,7 +11014,7 @@ alert(funnyGuy.getName());</pre>
 
 <p>Calling the function this way will set its context (<code>this</code>) to a global variable of an environment on which your JavaScript operates. In browsers it is a <code>window</code> global variable.</p>
 
-<p>It can be very counter-intuitive. Let’s see an another example:</p>
+<p>It can be very counter-intuitive. Let's see an another example:</p>
 
 <pre><code class="language-javascript highlight javascript"><span class="kd">var</span> <span class="nx">unicorns</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">func</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// ... }</span>
@@ -11023,7 +11023,7 @@ alert(funnyGuy.getName());</pre>
 <span class="kd">var</span> <span class="nx">fun</span> <span class="o">=</span> <span class="nx">unicorns</span><span class="p">.</span><span class="nx">func</span><span class="p">;</span>
 <span class="nx">fun</span><span class="p">();</span></code></pre>
 
-<p>The <code>object.func</code> function is a <em>method</em> of the <code>unicorns</code> object. Since JavaScript treats functions like every other value, it can be assigned to the variable. Usually people think that such assignment cannot change the context of the function - it’ll still be <code>unicorns</code>, right? Wrong. Since context binding is determined by the way you call this function, the context will change to <code>window</code> global variable. Oops!</p>
+<p>The <code>object.func</code> function is a <em>method</em> of the <code>unicorns</code> object. Since JavaScript treats functions like every other value, it can be assigned to the variable. Usually people think that such assignment cannot change the context of the function - it'll still be <code>unicorns</code>, right? Wrong. Since context binding is determined by the way you call this function, the context will change to <code>window</code> global variable. Oops!</p>
 
 <p>The less surprising behaviour can be achieved by using the <em>method invocation pattern</em> of calling functions.</p>
 <h2 id="method_invocation_pattern">Method invocation pattern</h2>
@@ -11056,7 +11056,7 @@ alert(funnyGuy.getName());</pre>
 
 <p>This is less surprising for people coming from another languages. It is very similar to behaviour of the most programming languages.</p>
 
-<p>This pattern works well if you have one object and want to have your context defined properly. If you are instantiating objects, you’d like to have <code>this</code> pointing to each instance separately. Let’s say <em>hi</em> to <em>constructor invocation pattern</em>!</p>
+<p>This pattern works well if you have one object and want to have your context defined properly. If you are instantiating objects, you'd like to have <code>this</code> pointing to each instance separately. Let's say <em>hi</em> to <em>constructor invocation pattern</em>!</p>
 <h2 id="constructor_invocation_pattern">Constructor invocation pattern</h2>
 <blockquote>
 <p>Every time you see a <code>new</code> followed by a function name, your <code>this</code> will point to a newly created empty object.</p>
@@ -11068,7 +11068,7 @@ alert(funnyGuy.getName());</pre>
   <span class="k">this</span><span class="p">.</span><span class="nx">castSpell</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="s2">"KABOOM"</span><span class="p">;</span> <span class="p">}</span>
 <span class="p">}</span></code></pre>
 
-<p>Calling it directly will cause <code>window</code> to be mutated (since it’ll be a <em>function invocation pattern</em>). But this function is intended to be called with a <code>new</code> operator.</p>
+<p>Calling it directly will cause <code>window</code> to be mutated (since it'll be a <em>function invocation pattern</em>). But this function is intended to be called with a <code>new</code> operator.</p>
 
 <pre><code class="language-javascript highlight javascript"><span class="kd">function</span> <span class="nx">Wizard</span><span class="p">()</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">castSpell</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="s2">"KABOOM"</span><span class="p">;</span> <span class="p">};</span>
@@ -11095,7 +11095,7 @@ alert(funnyGuy.getName());</pre>
 <code>apply</code> - it takes a <em>context</em> as the first argument and an array of arguments for the function being called as the second argument.</li>
 </ul>
 
-<p>Let’s see those methods in action!</p>
+<p>Let's see those methods in action!</p>
 
 <pre><code class="language-javascript highlight javascript"><span class="kd">function</span> <span class="nx">addAndSetX</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">+=</span> <span class="nx">a</span> <span class="o">+</span> <span class="nx">b</span><span class="p">;</span>
@@ -11111,7 +11111,7 @@ alert(funnyGuy.getName());</pre>
 <h2 id="binding_functions">Binding functions</h2>
 <p><em>Bounded function</em> in JavaScript is a function that is <em>bounded</em> to a given context. That means no matter how you call it, the context of the call will stay the same. The only exception is the <code>new</code> operator which <strong>always</strong> return a new context.</p>
 
-<p>To create a <em>bounded function</em> out of the regular function, the <code>bind</code> method is used. <code>bind</code> method take context to which you want to bind your function as a first argument. The rest of arguments are arguments that will be always passed to such function. It returns a bounded function as a result. Let’s see an example:</p>
+<p>To create a <em>bounded function</em> out of the regular function, the <code>bind</code> method is used. <code>bind</code> method take context to which you want to bind your function as a first argument. The rest of arguments are arguments that will be always passed to such function. It returns a bounded function as a result. Let's see an example:</p>
 
 <pre><code class="language-javascript highlight javascript"><span class="kd">function</span> <span class="nx">add</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">result</span> <span class="o">+=</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
@@ -11127,7 +11127,7 @@ alert(funnyGuy.getName());</pre>
 <span class="nx">boundedAddPlusTwo</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span> <span class="c1">// `this` is set to `computation1`.</span>
                       <span class="c1">// computation1 after call: { result: 9 }</span></code></pre>
 
-<p>Bounded function can’t be changed even by manually calling <code>call</code> and <code>apply</code>! See these examples:</p>
+<p>Bounded function can't be changed even by manually calling <code>call</code> and <code>apply</code>! See these examples:</p>
 
 <pre><code class="language-javascript highlight javascript"><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span> <span class="na">boundedPlusTwo</span><span class="p">:</span> <span class="nx">boundedAddPlusTwo</span> <span class="p">};</span>
 <span class="nx">obj</span><span class="p">.</span><span class="nx">boundedPlusTwo</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span> <span class="c1">// `this` is set to `computation1`.</span>
@@ -11140,7 +11140,7 @@ alert(funnyGuy.getName());</pre>
                                      <span class="c1">// `computation2`</span>
                                      <span class="c1">// computation1 after call: { result: 18 }</span></code></pre>
 
-<p>You are now equipped with this knowledge about the JavaScript. Let’s jump to your React component classes and see how function call context affects your code.</p>
+<p>You are now equipped with this knowledge about the JavaScript. Let's jump to your React component classes and see how function call context affects your code.</p>
 
 <div class="newsletter newsletter-reactjs_by_example_is_10">
         
@@ -11170,7 +11170,7 @@ alert(funnyGuy.getName());</pre>
 
 <p>That means function context calls within ES2015 classes follow the same principles as the rest of JavaScript.</p>
 
-<p>You can think (to simplify things - it’s <em>not</em> exactly true how ES2015 classes are defined. ES2015 classes use prototypes and <code>Object.defineProperty</code> under the hood. But in this case, semantics are the same) that such class:</p>
+<p>You can think (to simplify things - it's <em>not</em> exactly true how ES2015 classes are defined. ES2015 classes use prototypes and <code>Object.defineProperty</code> under the hood. But in this case, semantics are the same) that such class:</p>
 
 <pre><code class="language-javascript highlight javascript"><span class="kr">class</span> <span class="nx">Foo</span> <span class="p">{</span>
   <span class="nx">constructor</span><span class="p">()</span> <span class="p">{</span>
@@ -11214,9 +11214,9 @@ alert(funnyGuy.getName());</pre>
 <li>You must have a <code>render</code> method - so it is too called with a <em>method invocation pattern</em>. Most non-event handler functions are called from <code>render</code>, so you have full control over the pattern you use - and you should generally use <code>this.method</code> pattern since it binds context correctly.</li>
 </ul>
 
-<p>But event handlers you pass as properties (like <code>onChange</code> or <code>onClick</code>) can come from many sources. They can be even passed from the non-React level by a property of the top-level component. In <code>React.createClass</code> React assumes that they come from your component and binds them automaticaly. But in ES2015 classes you have freedom. Under the hood they are called using the <em>function invocation pattern</em>. You can check it by yourself <a href="http://jsbin.com/kacuviloxi/edit?html,js,output">here</a>. Just click on a “Hello” word on the Output pane and see that <code>this</code> points to <code>window</code>. You may need to open your browser’s developer console to see that.</p>
+<p>But event handlers you pass as properties (like <code>onChange</code> or <code>onClick</code>) can come from many sources. They can be even passed from the non-React level by a property of the top-level component. In <code>React.createClass</code> React assumes that they come from your component and binds them automaticaly. But in ES2015 classes you have freedom. Under the hood they are called using the <em>function invocation pattern</em>. You can check it by yourself <a href="http://jsbin.com/kacuviloxi/edit?html,js,output">here</a>. Just click on a "Hello" word on the Output pane and see that <code>this</code> points to <code>window</code>. You may need to open your browser's developer console to see that.</p>
 
-<p>That means by default you can’t access properties, state and component methods like <code>setState</code> from event handlers. To do so, you need to bind them explicitly.</p>
+<p>That means by default you can't access properties, state and component methods like <code>setState</code> from event handlers. To do so, you need to bind them explicitly.</p>
 
 <p>The best place to bind your event handlers is your constructor:</p>
 
@@ -11295,11 +11295,11 @@ alert(funnyGuy.getName());</pre>
 
 <pre><code class="language-javascript highlight javascript"><span class="nx">change</span> <span class="o">=</span> <span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="na">text</span><span class="p">:</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span> <span class="p">});</span></code></pre>
 
-<p>It is a more concise way than writing a <code>function(ev) { .... }</code> statement. If you don’t provide <code>{</code> and <code>}</code> brackets after the <code>=&gt;</code> arrow, such function is a single expression which is returned instantly. So this desugars to something like:</p>
+<p>It is a more concise way than writing a <code>function(ev) { .... }</code> statement. If you don't provide <code>{</code> and <code>}</code> brackets after the <code>=&gt;</code> arrow, such function is a single expression which is returned instantly. So this desugars to something like:</p>
 
 <pre><code class="language-javascript highlight javascript"><span class="nx">change</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="na">text</span><span class="p">:</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span> <span class="p">});</span> <span class="p">};</span></code></pre>
 
-<p>If that would be the case, you’d still have a problem with binding event handlers. But there is another very useful side-effect - arrow functions always gets the context from where they have been defined. So in fact, this example is equivalent to:</p>
+<p>If that would be the case, you'd still have a problem with binding event handlers. But there is another very useful side-effect - arrow functions always gets the context from where they have been defined. So in fact, this example is equivalent to:</p>
 
 <pre><code class="language-javascript highlight javascript"><span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
 <span class="nx">change</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">that</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span> <span class="na">text</span><span class="p">:</span> <span class="nx">ev</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span> <span class="p">});</span> <span class="p">};</span></code></pre>
@@ -11320,9 +11320,9 @@ alert(funnyGuy.getName());</pre>
   <span class="c1">// ...</span>
 <span class="p">}</span></code></pre>
 
-<p>This <code>that</code> trick is a very common JavaScript idiom. It is used when you want to call a function using the <em>function invocation pattern</em>, but still have an access to the higher level context. It is useful in modules and closures in JavaScript. It’s a technique certainly worth to know!</p>
+<p>This <code>that</code> trick is a very common JavaScript idiom. It is used when you want to call a function using the <em>function invocation pattern</em>, but still have an access to the higher level context. It is useful in modules and closures in JavaScript. It's a technique certainly worth to know!</p>
 
-<p>So, defining the <code>InputExample</code> component class with class properties and arrow functions allows you to get rid of binding altogether. Let’s see the final result:</p>
+<p>So, defining the <code>InputExample</code> component class with class properties and arrow functions allows you to get rid of binding altogether. Let's see the final result:</p>
 
 <pre><code class="language-javascript highlight javascript"><span class="kr">class</span> <span class="nx">InputExample</span> <span class="kr">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
   <span class="nx">state</span> <span class="o">=</span> <span class="p">{</span> <span class="na">text</span><span class="p">:</span> <span class="s1">''</span> <span class="p">};</span>
@@ -11338,7 +11338,7 @@ alert(funnyGuy.getName());</pre>
 
 <p>The downside of this solution is that class properties are still in an <strong>experimental stage</strong>. That means this feature can be removed in later iterations of ECMAScript 2016 (a.k.a ECMAScript 7 or ES7) without warning. It can also be removed by maintainers of your EcmaScript transpiler. One of the transpilers that is widely used in React community and allows you to enable this feature is <a href="http://babeljs.io/">Babel.js</a>.</p>
 
-<p>In my opinion using this syntax has <strong>more advantages than disadvantages</strong>. Class properties syntax is widely adopted already and if you have your codebase tested your tests will detect if something happen with this feature. You can also desugar this syntax very easily if you need to. Overall gain is huge, so for me it’s a way to go with defining React component classes.</p>
+<p>In my opinion using this syntax has <strong>more advantages than disadvantages</strong>. Class properties syntax is widely adopted already and if you have your codebase tested your tests will detect if something happen with this feature. You can also desugar this syntax very easily if you need to. Overall gain is huge, so for me it's a way to go with defining React component classes.</p>
 <h2 id="summary">Summary</h2>
 <p><strong>Knowing how JavaScript function call contexts behaves is a very valuable knowledge</strong> - it allows you to track subtle bugs that can arise while developing your UI using JavaScript. Since React is JavaScript, component classes follows the same principles of call contexts than rest of your codebase. Apart from the surprise effect you can get when coming from another languages, having your React component classes defined with pure ES2015 classes makes your React codebase behaviour more consistent with the rest of your codebase. Good luck!</p>
 <h2 id="examples___one_more_time">Examples - one more time</h2><h3 id="before__es_2015_">Before (ES 2015)</h3>
@@ -12457,8 +12457,8 @@ InputTextNumberComponent.prototype.resetValue = function(){
 		<div class="post-wrapper">
 			
 			<p><a href="https://lodash.com/">Lodash</a> is the <a href="https://www.npmjs.com/browse/depended">most depended on npm package</a>
- right now, but if you’re using ES6, you might not actually need it. In 
-this article, we’re going to look at using native collection methods 
+ right now, but if you're using ES6, you might not actually need it. In 
+this article, we're going to look at using native collection methods 
 with arrow functions and other new ES6 features to help us cut corners 
 around many popular use cases.</p>
 
@@ -12482,7 +12482,7 @@ _.filter([1, 2, 3], function(n) { return n &lt;= 2; });
 [1, 2, 3].filter(n =&gt; n &lt;= 2);
 </code></pre>
 
-<p>It doesn’t stop here either, if we’re using an ES6 polyfill, we can also use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find">find</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some">some</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every">every</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight">reduceRight</a> too.</p>
+<p>It doesn't stop here either, if we're using an ES6 polyfill, we can also use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find">find</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some">some</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every">every</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceRight">reduceRight</a> too.</p>
 
 <h2>2. Head &amp; Tail</h2>
 
@@ -12498,7 +12498,7 @@ _.tail([1, 2, 3]);
 const [head, ...tail] = [1, 2, 3];
 </code></pre>
 
-<p>It’s also possible to get the initial elements and the last element in a similar way.</p>
+<p>It's also possible to get the initial elements and the last element in a similar way.</p>
 
 <pre><code>_.initial([1, 2, 3]);
 // -&gt; [1, 2]
@@ -12548,8 +12548,8 @@ say('hello', 'fred', 'barney', 'pebbles');
 
 <h2>4. Curry</h2>
 
-<p>Without a higher level language such as <a href="http://www.typescriptlang.org/">TypeScript</a> or <a href="http://flowtype.org/">Flow</a>, we can’t give our functions type signatures which makes <a href="https://www.sitepoint.com/currying-in-functional-javascript/">currying</a>
- quite difficult. When we receive curried functions it’s hard to know 
+<p>Without a higher level language such as <a href="http://www.typescriptlang.org/">TypeScript</a> or <a href="http://flowtype.org/">Flow</a>, we can't give our functions type signatures which makes <a href="https://www.sitepoint.com/currying-in-functional-javascript/">currying</a>
+ quite difficult. When we receive curried functions it's hard to know 
 how many arguments have already been supplied and which we will need to 
 provide next. With arrow functions we can define curried functions 
 explicitly, making them easier to understand for other programmers.</p>
@@ -12598,7 +12598,7 @@ console.log(add3);
 // function b =&gt; a + b
 </code></pre>
 
-<p>If we’re using a functional library like <a href="https://github.com/lodash/lodash/wiki/FP-Guide">lodash/fp</a> or <a href="http://ramdajs.com/">ramda</a> then we can also use arrows to remove the need for the auto-curry style.</p>
+<p>If we're using a functional library like <a href="https://github.com/lodash/lodash/wiki/FP-Guide">lodash/fp</a> or <a href="http://ramdajs.com/">ramda</a> then we can also use arrows to remove the need for the auto-curry style.</p>
 
 <pre><code>_.map(_.prop('name'))(people);
 
@@ -12626,7 +12626,7 @@ sayHelloTo('fred');
 // "hello fred"
 </code></pre>
 
-<p>It’s also possible to use rest parameters with the spread operator to partially apply variadic functions.</p>
+<p>It's also possible to use rest parameters with the spread operator to partially apply variadic functions.</p>
 
 <pre><code>const sayHelloTo = (name, ...args) =&gt; greet('hello', name, ...args);
 sayHelloTo('fred', 1, 2, 3);
@@ -12662,7 +12662,7 @@ _.reduce([1, 2, 3], _.add);
 
 <h2>7. Paths</h2>
 
-<p>Many of Lodash’s functions take paths as strings or arrays. We can use arrow functions to create more reusable paths instead.</p>
+<p>Many of Lodash's functions take paths as strings or arrays. We can use arrow functions to create more reusable paths instead.</p>
 
 <pre><code>var object = { 'a': [{ 'b': { 'c': 3 } }, 4] };
 
@@ -12684,7 +12684,7 @@ _.at(['a', 'b', 'c'], 0, 2);
 ].map(path =&gt; path(['a', 'b', 'c']));
 </code></pre>
 
-<p>Because these paths are “just functions”, we can compose them too.</p>
+<p>Because these paths are "just functions", we can compose them too.</p>
 
 <pre><code>const getFirstPerson = people =&gt; people[0];
 const getPostCode = person =&gt; person.address.postcode;
@@ -12751,7 +12751,7 @@ const noop = () =&gt; undefined;
 <p>Lodash provides some functions for helping us write chained 
 statements. In many cases the built-in collection methods return an 
 array instance that can be directly chained, but in some cases where the
- method mutates the collection, this isn’t possible.</p>
+ method mutates the collection, this isn't possible.</p>
 
 <p>However, we can define the same transformations as an array of arrow functions.</p>
 
@@ -12774,7 +12774,7 @@ const pipeline = [
 pipeline.reduce((xs, f) =&gt; f(xs), [1, 2, 3]);
 </code></pre>
 
-<p>This way, we don’t even have to think about the difference between <a href="https://lodash.com/docs#tap">tap</a> and <a href="https://lodash.com/docs#thru">thru</a>. Wrapping this reduction in a utility function makes a great general purpose tool.</p>
+<p>This way, we don't even have to think about the difference between <a href="https://lodash.com/docs#tap">tap</a> and <a href="https://lodash.com/docs#thru">thru</a>. Wrapping this reduction in a utility function makes a great general purpose tool.</p>
 
 <pre><code>const pipe = functions =&gt; data =&gt; {
   return functions.reduce(
@@ -12803,7 +12803,7 @@ perspective on how the evolved version of JavaScript is allowing us to
 solve some problems in situations where we would have previously relied 
 on utility modules.</p>
 
-<p>Don’t disregard it, but instead—next time you reach for an abstraction—think about whether a simple function would do instead!</p>
+<p>Don't disregard it, but instead—next time you reach for an abstraction—think about whether a simple function would do instead!</p>
 		</div>
 		<!--=========================
 			END : POST
@@ -12814,15 +12814,15 @@ on utility modules.</p>
 		=============================-->
 		<h1>Promises: All The Wrong Ways</h1>
 		<div class="post-wrapper">
-<p>If you’re not well-versed on JavaScript Promises yet, I urge you to <a href="https://blog.getify.com/promises-part-1/">read up</a> on <a href="https://github.com/getify/You-Dont-Know-JS/blob/master/async%20&amp;%20performance/ch3.md">them</a> before diving into this article.</p>
+<p>If you're not well-versed on JavaScript Promises yet, I urge you to <a href="https://blog.getify.com/promises-part-1/">read up</a> on <a href="https://github.com/getify/You-Dont-Know-JS/blob/master/async%20&amp;%20performance/ch3.md">them</a> before diving into this article.</p>
 
 <p>Promises are the <em>promise</em> of a vastly improved asynchrony 
 over our previous primitives (notably: callbacks). By abstracting a 
 potentially future value so that it can be treated as time-independent —
- we don’t have to care if the value is still pending or already 
+ we don't have to care if the value is still pending or already 
 finalized — we remove <strong>time</strong> from our concerns, making our programs far easier to reason about.</p>
 
-<p>But I’m not writing to convince you to use promises. Nor am I writing to convince you <em>not</em>
+<p>But I'm not writing to convince you to use promises. Nor am I writing to convince you <em>not</em>
  to use them. I simply want to call out some ways promises are being 
 used in the wild that I think miss the point, muddy up your code, and 
 dilute the benefits of using them in the first place.</p>
@@ -12833,10 +12833,10 @@ dilute the benefits of using them in the first place.</p>
 supposedly when you call it, you get a promise back. But… exactly what 
 flavor of promise is it? Your app uses Bluebird promises because you 
 love those extra API methods, but do you know what kind of promise this 
-other <code>foo()</code> function is going to give you? Are you even sure it’s a reliably Promises/A+ compliant promise?</p>
+other <code>foo()</code> function is going to give you? Are you even sure it's a reliably Promises/A+ compliant promise?</p>
 
-<p>How much can you really trust that the promise you’re getting is the 
-promise you think you’re getting? And what if you are using different 
+<p>How much can you really trust that the promise you're getting is the 
+promise you think you're getting? And what if you are using different 
 libraries that each have their own flavor of promises returned? How are 
 you managing the mixing of all these promises in your code?</p>
 
@@ -12847,7 +12847,7 @@ you managing the mixing of all these promises in your code?</p>
 ..
 </pre>
 
-<p>You need to normalize the promise you’re receiving back to make sure it’s a legitimate promise and of the flavor you assume.</p>
+<p>You need to normalize the promise you're receiving back to make sure it's a legitimate promise and of the flavor you assume.</p>
 
 <p>Fortunately, this is relatively easy, if not a teeny bit tedious. Use <code>Promise.resolve(..)</code>
  — or whatever the equivalent is for your promise library of choice — to
@@ -12858,7 +12858,7 @@ you managing the mixing of all these promises in your code?</p>
 ..
 </pre>
 
-<p>If <code>foo()</code> returns a promise that is the same as you are expecting, it’ll pass through <code>Promise.resolve(..)</code> untouched. Otherwise, it’ll be adapted so that the return of <code>Promise.resolve(..)</code> <em>is</em> a promise you recognize and trust.</p>
+<p>If <code>foo()</code> returns a promise that is the same as you are expecting, it'll pass through <code>Promise.resolve(..)</code> untouched. Otherwise, it'll be adapted so that the return of <code>Promise.resolve(..)</code> <em>is</em> a promise you recognize and trust.</p>
 
 <p>But wait… does that mean we have to wrap every single promise we get? Eh, not exactly.</p>
 
@@ -12871,31 +12871,31 @@ fulfillment or rejection handlers.</p>
 .then( lastStep );
 </pre>
 
-<p>Even if <code>bar()</code> produces a different kind of promise, that promise is subsumed by <code>then(..)</code> — the <code>then(..)</code> that comes from the kind of promise we want, via <code>Promise.resolve(..)</code> — meaning that the normalization is automatically implied as we’d want.</p>
+<p>Even if <code>bar()</code> produces a different kind of promise, that promise is subsumed by <code>then(..)</code> — the <code>then(..)</code> that comes from the kind of promise we want, via <code>Promise.resolve(..)</code> — meaning that the normalization is automatically implied as we'd want.</p>
 
-<p>So it’s really only the beginning of the promise chain that we need 
+<p>So it's really only the beginning of the promise chain that we need 
 to be more careful with. We need to make sure to normalize all 
 first-of-chain promises, just in case.</p>
 
 <h4>Start Delays</h4>
 
-<p>Speaking of the start of a promise chain, another mistake that’s 
+<p>Speaking of the start of a promise chain, another mistake that's 
 often made is adding unnecessary promise resolution steps. For example:</p>
 
 <pre>Promise.resolve()
 .then( firstStep );
 </pre>
 
-<p>Why would we do this? The first reason is that it automatically normalizes <code>firstStep()</code>‘s returned value/promise, as just described. The second we’ll cover in the next section.</p>
+<p>Why would we do this? The first reason is that it automatically normalizes <code>firstStep()</code>‘s returned value/promise, as just described. The second we'll cover in the next section.</p>
 
 <p>But instead of calling <code>firstStep()</code> right away, here 
-it’ll be delayed until the end of the event-loop tick. Is that really a 
+it'll be delayed until the end of the event-loop tick. Is that really a 
 big deal? Usually not, but when you do this over and over again, those 
 delays <em>can</em> add up.</p>
 
-<p>Don’t put an extra empty tick at the beginning of your promise chain. Just start the chain right away.</p>
+<p>Don't put an extra empty tick at the beginning of your promise chain. Just start the chain right away.</p>
 
-<p>And while we’re discussing it, don’t do this either:</p>
+<p>And while we're discussing it, don't do this either:</p>
 
 <pre>new Promise( function(resolve,reject){
   firstStep()
@@ -12904,19 +12904,19 @@ delays <em>can</em> add up.</p>
 ..
 </pre>
 
-<p>You may think that’d be obnoxious and obviously bad, but it’s more common than you’d realize and really shouldn’t be done.</p>
+<p>You may think that'd be obnoxious and obviously bad, but it's more common than you'd realize and really shouldn't be done.</p>
 
 <h4>Failing To Start</h4>
 
-<p>What if there’s any case where <code>firstStep()</code> being called could result directly in a synchronous exception — not a rejected promise?</p>
+<p>What if there's any case where <code>firstStep()</code> being called could result directly in a synchronous exception — not a rejected promise?</p>
 
-<p>Most people think such method behavior shouldn’t ever be designed — 
+<p>Most people think such method behavior shouldn't ever be designed — 
 indeed, many would call such a function an anti-pattern in and of itself
- — but this post isn’t about bad patterns with API design, it’s about 
+ — but this post isn't about bad patterns with API design, it's about 
 bad practices with using the promises you get.</p>
 
 <p>The fact is, some functions of this sort do exist. If you have to 
-deal with one, you’re probably going to want trap such an exception and 
+deal with one, you're probably going to want trap such an exception and 
 turn it into a promise rejection that can be dealt with in the 
 normalized promise chain.</p>
 
@@ -12937,8 +12937,8 @@ p
 </pre>
 
 <p>We not only normalize the return value to the desired promise flavor with <code>Promise.resolve(..)</code>, but the <code>try..catch</code>
- also normalizes any caught exception into the rejection. That’s 
-effective, but ugly, and this code’s verbosity doesn’t actually 
+ also normalizes any caught exception into the rejection. That's 
+effective, but ugly, and this code's verbosity doesn't actually 
 contribute to easier understanding, IMO.</p>
 
 <p>This concern is where two earlier-mentioned patterns probably originated from:</p>
@@ -12971,12 +12971,12 @@ handling for.</p>
 <p><strong>Note:</strong> <code>async function</code>s are a proposed 
 addition to the JS standard, but have not officially landed. They are 
 experimentally implemented in several major browsers, but as with all 
-recent JS changes, you’ll likely be transpiling them, which is fully 
+recent JS changes, you'll likely be transpiling them, which is fully 
 supported by Babel and others.</p>
 
 <p>The <code>async function</code> normalizes whatever comes back from the <code>firstStep()</code> function call into a promise, including catching any exception and turning it into a promise rejection.</p>
 
-<p>The small caveat here, different from using <code>Promise.resolve(..)</code> manually, is that the promise coming back from an <code>async function</code> is going to be a built-in native Promise, not some custom extended flavor. Use an additional <code>Promise.resolve(..)</code> or equivalent to cast it into a promise you’re happy with.</p>
+<p>The small caveat here, different from using <code>Promise.resolve(..)</code> manually, is that the promise coming back from an <code>async function</code> is going to be a built-in native Promise, not some custom extended flavor. Use an additional <code>Promise.resolve(..)</code> or equivalent to cast it into a promise you're happy with.</p>
 
 <h3>Deconstruction</h3>
 
@@ -13025,10 +13025,10 @@ handleEvent( pr );
 </pre>
 
 <p>Essentially, this approach treates a promise like a single-value 
-event conduit. One part of the app holds the “write end” of the pipe, 
-the <strong>deferred</strong>. Another part of the app holds the “read end”, the promise.</p>
+event conduit. One part of the app holds the "write end" of the pipe, 
+the <strong>deferred</strong>. Another part of the app holds the "read end", the promise.</p>
 
-<p>Though the Promise API doesn’t work like this, it is possible to emulate, by <strong>extracting the resolution capabilities</strong>:</p>
+<p>Though the Promise API doesn't work like this, it is possible to emulate, by <strong>extracting the resolution capabilities</strong>:</p>
 
 <pre>function makePromise() {
   var def = {};
@@ -13044,16 +13044,16 @@ var [ pr, def ] = makePromise();
 
 <p>As you can see, we extract the <code>resolve()</code> and <code>reject()</code> capabilities from the promise initialization function storing them on <code>def</code>, then return both <code>pr</code> and <code>def</code> to the calling code.</p>
 
-<p>Undeniably, there are cases where this is quite convenient. I’ve done this many times myself.</p>
+<p>Undeniably, there are cases where this is quite convenient. I've done this many times myself.</p>
 
-<p>But I will assert that it’s an anti-pattern and that you should try 
+<p>But I will assert that it's an anti-pattern and that you should try 
 to avoid it. At a minimum, if you have to do so, you should be hiding 
 that kind of trick inside the plumbing of a library, not exposing the 
 deferred and promise separately at the top level of logic in your 
 application.</p>
 
 <p>If you agree with me that promise resolution extraction smells a 
-little hackish, it’s because IMO we’re abusing a promise to act like a 
+little hackish, it's because IMO we're abusing a promise to act like a 
 different kind of abstraction (that is already more well understood).</p>
 
 <h4>Abstractions For Value Communication</h4>
@@ -13077,10 +13077,10 @@ handleEvent( evt );
 
 <p>But another way to abstract this problem is with a <strong>pull</strong>
  model. In other words, instead of the producer pushing the value once 
-it’s ready, the consumer pulls the value when it’s ready to handle it.</p>
+it's ready, the consumer pulls the value when it's ready to handle it.</p>
 
 <p>In my <a href="https://github.com/getify/asynquence">asynquence</a> 
-library, I have an abstraction called “iterable sequences”, which is 
+library, I have an abstraction called "iterable sequences", which is 
 basically like an queue. You can add new handlers to the queue by 
 calling <code>then(..)</code>, and then iterate through the queue using the standard <code>next()</code> iterator interface.</p>
 
@@ -13110,7 +13110,7 @@ isq.next();           // { done: true }
 single interface. We pass around that single abstraction wrapper instead
  of splitting up the promise and the deferred.</p>
 
-<p><strong>Note:</strong> By the way, that’s similar in nature to <a href="http://reactivex.io/documentation/subject.html"><em>Observable Subject</em>s</a>.</p>
+<p><strong>Note:</strong> By the way, that's similar in nature to <a href="http://reactivex.io/documentation/subject.html"><em>Observable Subject</em>s</a>.</p>
 
 <p>Aside from custom library abstractions, we can use already built-in parts of JavaScript to create a <strong>pull</strong> abstraction directly. A generator can create a producer iterator:</p>
 
@@ -13124,18 +13124,18 @@ single interface. We pass around that single abstraction wrapper instead
 var producer = setupProducer();
 </pre>
 
-<p>What’s going on here? We want an iterator that when we call <code>next()</code>
- on it, we’ll get back a value. But when we pull it, that value might 
+<p>What's going on here? We want an iterator that when we call <code>next()</code>
+ on it, we'll get back a value. But when we pull it, that value might 
 not be ready yet. So instead, we yield a promise for that single next 
 value that the producer will eventually produce. So the consumer is <strong>pulling</strong> (iterating) out each <strong>push</strong> instance (promise).</p>
 
 <p>Why is that different from the earlier promise capability extraction I
- called an anti-pattern? Because we’re not tracking the promise and its 
-paired deferred separately at the top level of logic; we’ve hidden those
+ called an anti-pattern? Because we're not tracking the promise and its 
+paired deferred separately at the top level of logic; we've hidden those
  as implementation details inside the <code>setupProducer()</code> generator.</p>
 
 <p>What we instead pass around is the wrapper around this capability: <code>producer</code>,
- which is an iterator. That’s a better abstraction that makes code 
+ which is an iterator. That's a better abstraction that makes code 
 easier to reason about. Tracking promises and their deferred 
 capabilities separately is much harder to reason about in complex 
 applications.</p>
@@ -13143,10 +13143,10 @@ applications.</p>
 <p><strong>Note:</strong> The other advantage, though hard to see in 
 this snippet, is that our generator/iterator could produce a new promise
  for each pull request, so we can use this conduit for communicating 
-multiple values, instead of just once when there’s only a single promise
+multiple values, instead of just once when there's only a single promise
  involved. We get a new promise for each value.</p>
 
-<p>Here’s how we later <strong>pull</strong> a value:</p>
+<p>Here's how we later <strong>pull</strong> a value:</p>
 
 <pre>var pr = producer.next();
 
@@ -13157,8 +13157,8 @@ pr.then( function(value){
 
 <p>We call <code>next()</code> on our <code>producer</code> iterator, and we get out a promise, that we can then listen to.</p>
 
-<p>By the way, this notion of a generator that produces promises is not my own invention. There’s currently <a href="https://github.com/tc39/proposal-async-iteration#asynchronous-iterators-for-ecmascript">a proposal to add a new primitive</a>
- to JavaScript called an “async generator”. It basically does what I 
+<p>By the way, this notion of a generator that produces promises is not my own invention. There's currently <a href="https://github.com/tc39/proposal-async-iteration#asynchronous-iterators-for-ecmascript">a proposal to add a new primitive</a>
+ to JavaScript called an "async generator". It basically does what I 
 just sketched out: it gives an iterator that returns a new promise each 
 time it is <code>next()</code> iterated.</p>
 
@@ -13167,7 +13167,7 @@ transmission of a value asynchronously from one part of the application
 to another. Promises have to be twisted and contorted to serve that 
 purpose.</p>
 
-<p>Don’t do it just because you <em>can</em> do it. Promises shouldn’t be used that way, at least not visibly to your main application code.</p>
+<p>Don't do it just because you <em>can</em> do it. Promises shouldn't be used that way, at least not visibly to your main application code.</p>
 
 <h3>Promise Side-Effects</h3>
 
@@ -13178,8 +13178,8 @@ into.</p>
 
 <p>Functional programming practices implore us to rely on value 
 immutability for easier to reason about code, as well as using functions
- without side-effects (aka, pure). But it’s all too common that promises
- are used in very non-FP-friendly ways. Specifically, it’s far too 
+ without side-effects (aka, pure). But it's all too common that promises
+ are used in very non-FP-friendly ways. Specifically, it's far too 
 common to either create or rely on side-effects with the functions 
 passed to promise methods.</p>
 
@@ -13200,12 +13200,12 @@ firstStep()
 </pre>
 
 <p>What order do you think those two console messages are printed? 
-Almost certainly in “one”, “two” order, right? Almost. It’s actually 
-possible that the second invocation of the <code>firstStep()</code> function will produce a promise that isn’t resolved until after the <code>secondStep()</code> promise is finished, resulting in “two”, “one” order.</p>
+Almost certainly in "one", "two" order, right? Almost. It's actually 
+possible that the second invocation of the <code>firstStep()</code> function will produce a promise that isn't resolved until after the <code>secondStep()</code> promise is finished, resulting in "two", "one" order.</p>
 
-<p>If you author code like this, what you’re saying is, “I believe I can
+<p>If you author code like this, what you're saying is, "I believe I can
  predict the relative ordering of asynchronous activity, and rely on 
-that for my application.” Unfortunately, you’re the only one; noone else
+that for my application." Unfortunately, you're the only one; noone else
  who reads your code will be able to do so to the same effective extent.
  <img src="https://s.w.org/images/core/emoji/72x72/1f641.png" alt="??" draggable="false" width="" height="" data-src="../database/uploads/images/article_images/1f641_15_6_2016.png" data-original-src="https://s.w.org/images/core/emoji/72x72/1f641.png"></p>
 
@@ -13218,10 +13218,10 @@ that for my application.” Unfortunately, you’re the only one; noone else
 console.log( "one" );
 </pre>
 
-<p>The console here will always print “one”, “two”, because we’re taking advantage of our knowledge that a <code>then(..)</code> handler will always be run asynchronously.</p>
+<p>The console here will always print "one", "two", because we're taking advantage of our knowledge that a <code>then(..)</code> handler will always be run asynchronously.</p>
 
-<p>By “run asynchronously”, we mean strictly after the current 
-synchronous execution context, but we don’t actually mean on the next 
+<p>By "run asynchronously", we mean strictly after the current 
+synchronous execution context, but we don't actually mean on the next 
 tick of the event loop, like with a <code>setTimeout(..0)</code> type of asynchrony:</p>
 
 <pre>setTimeout( function(){
@@ -13236,11 +13236,11 @@ console.log( "one" );
 </pre>
 
 <p>In a conforming/native implementation, this snippet will always print
- “one”, “two”, “three”, because the “two” console message function is on
+ "one", "two", "three", because the "two" console message function is on
  the microtask queue to be run at the end of the snippet (after the 
-“one” console message), but the <code>setTimeout(..0)</code> schedules the “three” message on the next event loop tick.</p>
+"one" console message), but the <code>setTimeout(..0)</code> schedules the "three" message on the next event loop tick.</p>
 
-<p>As intrictate as this situation is, I’ve seen plenty of code that <strong>relies on</strong> the relative sequencing of these types of actions, even with multiple promises:</p>
+<p>As intrictate as this situation is, I've seen plenty of code that <strong>relies on</strong> the relative sequencing of these types of actions, even with multiple promises:</p>
 
 <pre>Promise.resolve().then( function(){
   console.log( "one" );
@@ -13251,17 +13251,17 @@ Promise.resolve().then( function(){
 } );
 </pre>
 
-<p>The specification doesn’t explicitly require “one”, “two” sequencing 
-here. However, in practice, it’ll probably happen that way, because 
+<p>The specification doesn't explicitly require "one", "two" sequencing 
+here. However, in practice, it'll probably happen that way, because 
 there will probably only be one internal microtask queue that those two 
 separate <code>then(..)</code> actions are scheduled onto, in first-come-first-served order.</p>
 
 <p>While you might be able to rely on this as an implementation detail, I
  think these kinds of tricks are an absolutely terrible idea.</p>
 
-<p>If there’s some dependency between the actions, then express it directly — do <strong>not</strong> rely on perceived behaviors or async microtask processing. Even if the code “works”, you’ve written <strong>entirely un-reason-able code</strong>, as future readers will almost certainly not be able to intuit those same implied sequencing relationships.</p>
+<p>If there's some dependency between the actions, then express it directly — do <strong>not</strong> rely on perceived behaviors or async microtask processing. Even if the code "works", you've written <strong>entirely un-reason-able code</strong>, as future readers will almost certainly not be able to intuit those same implied sequencing relationships.</p>
 
-<p>Inter-promise sequencing may or may not be guaranteed in any given scenario, but one thing that <em>is</em> guaranteed is that relying on this behavior makes your code worse. Don’t do it!</p>
+<p>Inter-promise sequencing may or may not be guaranteed in any given scenario, but one thing that <em>is</em> guaranteed is that relying on this behavior makes your code worse. Don't do it!</p>
 
 <h4>Construction Sequencing</h4>
 
@@ -13284,7 +13284,7 @@ fn( 42 );
 
 <p>We <em>know</em> we can call <code>fn()</code> right away because we know the <code>init(..)</code> function is executed synchronously by the Promise constructor.</p>
 
-<p>I’m asserting that this is a <strong>bad idea</strong> to exploit this sort of semantic in your normal application code alongside other <code>then(..)</code>
+<p>I'm asserting that this is a <strong>bad idea</strong> to exploit this sort of semantic in your normal application code alongside other <code>then(..)</code>
  function calls, since those are always asynchronous. Having both sync 
 and async behaviors mixed together makes the code harder to understand.</p>
 
@@ -13293,7 +13293,7 @@ and async behaviors mixed together makes the code harder to understand.</p>
 <pre>var pr = Promise.resolve( 42 );
 </pre>
 
-<p>I’m not saying to avoid the Promise constructor. But don’t use it as a
+<p>I'm not saying to avoid the Promise constructor. But don't use it as a
  synchronous side-effect producing function — specifically, relying on 
 the sequencing of the side effects — if you can at all avoid it.</p>
 
@@ -13320,16 +13320,16 @@ model/fulfill single values.</p>
 }
 </pre>
 
-<p>What’s going on here? We first make a <code>db.find("orders" ..)</code> call, which gives us the <code>order</code>. We not only need that to get <code>order.customerID</code> for the <code>db.find("customers" ..)</code> call, but we’ll also need <code>order</code> for the final result of our <code>getOrderDetails(..)</code> operation.</p>
+<p>What's going on here? We first make a <code>db.find("orders" ..)</code> call, which gives us the <code>order</code>. We not only need that to get <code>order.customerID</code> for the <code>db.find("customers" ..)</code> call, but we'll also need <code>order</code> for the final result of our <code>getOrderDetails(..)</code> operation.</p>
 
-<p>But the second <code>then(..)</code> will receive the result of the <code>db.find("customers" ..)</code> call, which will not pass along the <code>order</code> value as part of its result. So, it seems we have to save it somewhere, which we choose to do with an outer <code>_order</code> variable that’s shared across scopes. When the second <code>then(..)</code> handler runs, <code>_order</code> will still be available for us to use.</p>
+<p>But the second <code>then(..)</code> will receive the result of the <code>db.find("customers" ..)</code> call, which will not pass along the <code>order</code> value as part of its result. So, it seems we have to save it somewhere, which we choose to do with an outer <code>_order</code> variable that's shared across scopes. When the second <code>then(..)</code> handler runs, <code>_order</code> will still be available for us to use.</p>
 
-<p>Don’t kid yourself: <strong>this is side-effect programming</strong>. <code>_order</code> is a side-effect of the first <code>then(..)</code>.
+<p>Don't kid yourself: <strong>this is side-effect programming</strong>. <code>_order</code> is a side-effect of the first <code>then(..)</code>.
  We are crippled by the limitations of the Promise API mechanics and 
-can’t share the state with the next step, so we just stick that state in
+can't share the state with the next step, so we just stick that state in
  an outer scope to share it.</p>
 
-<p>This is a bad idea. I don’t care how many times you’ve done this or how acceptable you think it is. <strong>It’s an anti-pattern code smell</strong>. Stop programming side-effects with your promises. It makes your code harder to reason about.</p>
+<p>This is a bad idea. I don't care how many times you've done this or how acceptable you think it is. <strong>It's an anti-pattern code smell</strong>. Stop programming side-effects with your promises. It makes your code harder to reason about.</p>
 
 <p>I know how allergic many developers seem to be with respect to 
 nesting, but the more appropriate way to handle this case is to nest the
@@ -13349,21 +13349,21 @@ nesting, but the more appropriate way to handle this case is to nest the
 }
 </pre>
 
-<p>Normally, nesting promise <code>then(..)</code>s is a bad idea, and even goes by the name “promise hell”.</p>
+<p>Normally, nesting promise <code>then(..)</code>s is a bad idea, and even goes by the name "promise hell".</p>
 
 <p>But in these cases where multiple values need to be available (in 
 scope), a flattened vertical promise chain necessitates the worser evil 
 of side-effects. Promise nesting is the better choice.</p>
 
-<h3>Promise Chain’itis</h3>
+<h3>Promise Chain'itis</h3>
 
 <p>A promise models a value that may still be pending. The purpose is to
  factor time out of the picture so that you only have to think about the
- value and what you need to do with it — not the <em>time</em> you have to wait until it’s ready.</p>
+ value and what you need to do with it — not the <em>time</em> you have to wait until it's ready.</p>
 
 <p>The problem is that the mechanics of how promises work in JS means 
 that the finalizing of a value is observable — you can tell when it 
-happens. Though you shouldn’t be thinking about time, promises let you 
+happens. Though you shouldn't be thinking about time, promises let you 
 still think about time if you want to, and many people do it too much.</p>
 
 <p>The most obvious way we use our knowledge of when a promise resolves 
@@ -13374,18 +13374,18 @@ is to use this observation as a step in a flow control. For example:</p>
 .then( thirdStep );
 </pre>
 
-<p>Here, what we’re saying with the promise chain is that we want to delay the execution of the <code>secondStep()</code> function until after <code>firstStep()</code> has finished. You’ll notice that nothing here makes it obvious that we’re using a promise as a placeholder for a <em>future value</em>. Instead, we’re using promises kind of like event handlers to let us know when each step finishes.</p>
+<p>Here, what we're saying with the promise chain is that we want to delay the execution of the <code>secondStep()</code> function until after <code>firstStep()</code> has finished. You'll notice that nothing here makes it obvious that we're using a promise as a placeholder for a <em>future value</em>. Instead, we're using promises kind of like event handlers to let us know when each step finishes.</p>
 
 <p>I used to be enormously excited about promise chains as flow control.
- But the longer I’ve programmed with promises, the more I’ve realized 
-that long promise chains are actually a bad smell. I’ve almost come to 
-the point where I’d say there should only ever be one <code>then(..)</code> in the chain. Using promise chains as a way to express flow control is a poor idea.</p>
+ But the longer I've programmed with promises, the more I've realized 
+that long promise chains are actually a bad smell. I've almost come to 
+the point where I'd say there should only ever be one <code>then(..)</code> in the chain. Using promise chains as a way to express flow control is a poor idea.</p>
 
-<p>Yes, yes, I know that <strong>literally almost everybody is doing this</strong>. Doesn’t matter, they’re all wrong.</p>
+<p>Yes, yes, I know that <strong>literally almost everybody is doing this</strong>. Doesn't matter, they're all wrong.</p>
 
 <p>So, what should we do to express our multi-step flow control? Go back to nested callbacks? No.</p>
 
-<p>Use the <strong>synchronous-async pattern</strong>. If you’re not familiar, I’ve talked about this pattern in detail in several places, including:</p>
+<p>Use the <strong>synchronous-async pattern</strong>. If you're not familiar, I've talked about this pattern in detail in several places, including:</p>
 
 <ul>
 
@@ -13416,7 +13416,7 @@ the point where I’d say there should only ever be one <code>then(..)</code> in t
 synchronous fashion. This sync semantic works not only for success flow 
 control but also error handling (ie, <code>try..catch</code>).</p>
 
-<p>Here’s how the previous promise-chain flow control code should be written:</p>
+<p>Here's how the previous promise-chain flow control code should be written:</p>
 
 <pre>async function main() {
   await firstStep();
@@ -13433,11 +13433,11 @@ function *main() {
 }
 </pre>
 
-<p>We’re still relying on the fact that each step returns a promise, and
- we’re still waiting on each promise to resolve before moving onto the 
+<p>We're still relying on the fact that each step returns a promise, and
+ we're still waiting on each promise to resolve before moving onto the 
 next step.</p>
 
-<p>Unfortunately, with these examples we’re missing not only 
+<p>Unfortunately, with these examples we're missing not only 
 articulation of the result values but also of any error handling. A bit 
 more of a realistic example:</p>
 
@@ -13458,17 +13458,17 @@ more of a realistic example:</p>
 <p>This example clearly illustrates how we are using synchronous code 
 semantics to express the async flow control (success and exception).</p>
 
-<p>Under the covers, something similar to the earlier chain, but not the same, is happening. <code>firstStep()</code> produces a promise, which is then <code>await</code>ed. That means, hidden from view, the engine puts a <code>then(..)</code> on it and waits for it to finish before resuming the paused <code>main()</code> function. It also unwraps the promise’s fulfillment value and gives it back so we can assign it to <code>val1</code>.</p>
+<p>Under the covers, something similar to the earlier chain, but not the same, is happening. <code>firstStep()</code> produces a promise, which is then <code>await</code>ed. That means, hidden from view, the engine puts a <code>then(..)</code> on it and waits for it to finish before resuming the paused <code>main()</code> function. It also unwraps the promise's fulfillment value and gives it back so we can assign it to <code>val1</code>.</p>
 
-<p>When the <code>await</code> is called on the promise from the <code>secondStep(..)</code> call, it’s performing a <code>then(..)</code> against <em>that</em> promise, <strong>not</strong> the one that came from the <code>then(..)</code> called on the first. And so on.</p>
+<p>When the <code>await</code> is called on the promise from the <code>secondStep(..)</code> call, it's performing a <code>then(..)</code> against <em>that</em> promise, <strong>not</strong> the one that came from the <code>then(..)</code> called on the first. And so on.</p>
 
-<p>It may seem like pointless nuance, but that’s not the same thing as chaining one <code>then(..)</code> after another. It’s treating, explicitly, each step as a separate promise/<code>then(..)</code> pair.</p>
+<p>It may seem like pointless nuance, but that's not the same thing as chaining one <code>then(..)</code> after another. It's treating, explicitly, each step as a separate promise/<code>then(..)</code> pair.</p>
 
-<p>Conceptually that’s a much cleaner and easier to understand process 
-than what happens when promises are chained multiple times. If you’ve 
+<p>Conceptually that's a much cleaner and easier to understand process 
+than what happens when promises are chained multiple times. If you've 
 ever tried to understand just how a promise chain is wired up, or 
-explain it to someone else, you’ll know it’s not so simple. I won’t 
-belabor those details here, but I’ve <a href="https://blog.getify.com/promises-part-5/#the-chains-that-bind-us">previously explained it in more detail</a> if you care to dig into it.</p>
+explain it to someone else, you'll know it's not so simple. I won't 
+belabor those details here, but I've <a href="https://blog.getify.com/promises-part-5/#the-chains-that-bind-us">previously explained it in more detail</a> if you care to dig into it.</p>
 
 <p>The sync-async pattern above wipes away any of that unnecessary complexity. It also conveniently hides the <code>then(..)</code> calling altogether, because truthfully, that part is a wart. The <code>then(..)</code> on a promise is an unfortunate but necessary component of the Promise API design that was settled on for JS.</p>
 
@@ -13476,17 +13476,17 @@ belabor those details here, but I’ve <a href="https://blog.getify.com/promises-p
 
 <p>Calling <code>then(..)</code> on a promise is a <strong>code smell and anti-pattern</strong>.</p>
 
-<p>I’m sure you’ve heard the admonition of “use the right tool for the 
-job.” To put a slight twist on that, here the problem is more about 
-using a tool inappropriately. It’s like if you held a hammer in your 
+<p>I'm sure you've heard the admonition of "use the right tool for the 
+job." To put a slight twist on that, here the problem is more about 
+using a tool inappropriately. It's like if you held a hammer in your 
 teeth and tried to drive in a nail. A hammer is better used if held in 
 your hand.</p>
 
 <p>Instead of using the promise API for expressing async flow control, 
-we should only use promises for what they’re good for: modeling future 
-values in a time independent way. Sure, promises <em>can</em> be chained together. No, <strong>you shouldn’t be doing that</strong>. Let libraries and engines do the plumbing for you.</p>
+we should only use promises for what they're good for: modeling future 
+values in a time independent way. Sure, promises <em>can</em> be chained together. No, <strong>you shouldn't be doing that</strong>. Let libraries and engines do the plumbing for you.</p>
 
-<p>There’s a better tool for the job of expressing flow control: the sync-async pattern of generators+promises or <code>async function</code>s.</p>
+<p>There's a better tool for the job of expressing flow control: the sync-async pattern of generators+promises or <code>async function</code>s.</p>
 
 <h3>Summary</h3>
 
@@ -13495,7 +13495,7 @@ future value independent of time is probably wandering towards
 anti-patterns.</p>
 
 <p>Promises are powerful and transformative, but I urge you to take a 
-step back and re-examine how you’re relying on them. They are best as a 
+step back and re-examine how you're relying on them. They are best as a 
 value/composition mechanism. Use them as such and stay away from all the
  wrong ways.</p>
 			
@@ -13931,7 +13931,7 @@ on instances of its subclasses, including any instances that had already been cr
 		<div class="post-wrapper">
 			<p>JavaScript has three different methods that allow you to change&nbsp;the value of <code>this</code> for a given function.</p>
 <p>Those methods are <code>Function.prototype.call()</code>, <code>Function.prototype.apply()</code> and <code>Function.prototype.bind()</code>.</p>
-<p>They are slightly different but sometimes it’s difficult to remember which is which.</p>
+<p>They are slightly different but sometimes it's difficult to remember which is which.</p>
 <h2>TL;DR</h2>
 <ul>
 <li><code>call</code> invokes the function and allows you to pass in arguments one by one.</li>
@@ -14018,10 +14018,10 @@ sayHelloKelly(); // Hello Kelly King</textarea></div>
  
 <p></p>
 <h2>When To Use Each</h2>
-<p>Call and apply are pretty interchangeable. Just decide whether it’s easier to send in an array or a comma separated list of arguments.</p>
+<p>Call and apply are pretty interchangeable. Just decide whether it's easier to send in an array or a comma separated list of arguments.</p>
 <p>I always remember which one is which by remembering that <b>C</b>all&nbsp;is for comma (separated list) and&nbsp;<strong>A</strong>pply is for Array.</p>
 <p>Bind is a bit different. It returns a new function. Call and Apply execute the current function immediately.</p>
-<p>Bind is great for a lot of things. We can use it to curry functions like in the above example. We can take a simple hello function and turn it into a helloJon or helloKelly. We can also use it for events like onClick where we don’t know when they’ll be fired but we know what context we want them to have.</p>
+<p>Bind is great for a lot of things. We can use it to curry functions like in the above example. We can take a simple hello function and turn it into a helloJon or helloKelly. We can also use it for events like onClick where we don't know when they'll be fired but we know what context we want them to have.</p>
 <div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-official sd-sharing"><div class="sd-content"><ul><li class="share-twitter"><iframe data-url="https://codeplanet.io/javascript-apply-vs-call-vs-bind/" src="https://platform.twitter.com/widgets/tweet_button.6e778523ecf0a9c9f1c446083d86ede1.en.html#dnt=false&amp;id=twitter-widget-0&amp;lang=en&amp;original_referer=https%3A%2F%2Fcodeplanet.io%2Fjavascript-apply-vs-call-vs-bind%2F&amp;size=m&amp;text=JavaScript%20apply%20vs.%20call%20vs.%20bind&amp;time=1466091978136&amp;type=share&amp;url=https%3A%2F%2Fcodeplanet.io%2Fjavascript-apply-vs-call-vs-bind%2F&amp;via=thecodeplanet" title="Twitter Tweet Button" style="position: static; visibility: visible; width: 61px; height: 20px;" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" allowtransparency="true" scrolling="no" id="twitter-widget-0" frameborder="0"></iframe></li><li class="share-facebook"><div fb-iframe-plugin-query="app_id=249643311490&amp;container_width=0&amp;href=https%3A%2F%2Fcodeplanet.io%2Fjavascript-apply-vs-call-vs-bind%2F&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey" fb-xfbml-state="rendered" class="fb-share-button fb_iframe_widget" data-href="https://codeplanet.io/javascript-apply-vs-call-vs-bind/" data-layout="button_count"><span style="vertical-align: bottom; width: 88px; height: 20px;"><iframe class="" src="https://www.facebook.com/v2.3/plugins/share_button.php?app_id=249643311490&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D42%23cb%3Df115f183dd8d3f2%26domain%3Dcodeplanet.io%26origin%3Dhttps%253A%252F%252Fcodeplanet.io%252Ff165e184a20557%26relation%3Dparent.parent&amp;container_width=0&amp;href=https%3A%2F%2Fcodeplanet.io%2Fjavascript-apply-vs-call-vs-bind%2F&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey" style="border: medium none; visibility: visible; width: 88px; height: 20px;" title="fb:share_button Facebook Social Plugin" scrolling="no" allowfullscreen="true" allowtransparency="true" name="f2f14e6e9e7f1ae" frameborder="0" height="1000px" width="1000px"></iframe></span></div></li><li class="share-end"></li></ul></div></div></div>
 <div style="display: block;" id="jp-relatedposts" class="jp-relatedposts">
 <h3 class="jp-relatedposts-headline"><em>Related</em></h3>
@@ -14539,7 +14539,7 @@ addEvent.call(button, 'abra-cadabra', function(){
 		<h1>5 nifty JavaScript tricks that you may not know</h1>
 		<div class="post-wrapper">
 			<section class="post-content"><p>Over the years, I have seen several 
-JavaScript techniques that are particularly clever. Here’s a short list 
+JavaScript techniques that are particularly clever. Here's a short list 
 of 5 such techniques that I have been using again and again. I hope it 
 inspires you too to rethink how you write certain piece of code.</p>
 
@@ -14550,13 +14550,13 @@ in your code wherever you think it helps.</p>
 
 <h2 id="a-compact-string-comparision">1. A compact string comparision</h2>
 
-<p>Let’s say you want to check if a string value is present in a set of strings. You obviously go for a <code class="highlighter-rouge">if</code> statement as below.</p>
+<p>Let's say you want to check if a string value is present in a set of strings. You obviously go for a <code class="highlighter-rouge">if</code> statement as below.</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">if</span><span class="p">(</span><span class="nx">fruit</span> <span class="o">===</span> <span class="s1">'apple'</span> <span class="o">||</span> <span class="nx">fruit</span> <span class="o">===</span> <span class="s1">'banana'</span> <span class="o">||</span> <span class="nx">fruit</span> <span class="o">===</span> <span class="s1">'chikoo'</span><span class="p">){</span>
 	<span class="nx">doMagic</span><span class="p">();</span>
 <span class="p">}</span></code></pre>
 
-</figure><p>Here’s a compact version of above code:</p>
+</figure><p>Here's a compact version of above code:</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">if</span><span class="p">({</span><span class="na">apple</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="na">banana</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="na">chikoo</span><span class="p">:</span><span class="mi">1</span><span class="p">}[</span><span class="nx">fruit</span><span class="p">]){</span>
 	<span class="nx">doMagic</span><span class="p">();</span>
@@ -14566,7 +14566,7 @@ in your code wherever you think it helps.</p>
 
 <h2 id="section">2. !!</h2>
 
-<p>Here’s a shortest way to convert any JavaScript value to its truthy / falsy representation - just use <code class="highlighter-rouge">!!val</code>. Very useful if you want to check if a value is a present or not.</p>
+<p>Here's a shortest way to convert any JavaScript value to its truthy / falsy representation - just use <code class="highlighter-rouge">!!val</code>. Very useful if you want to check if a value is a present or not.</p>
 
 <p>For example,</p>
 
@@ -14586,7 +14586,7 @@ in your code wherever you think it helps.</p>
 	<span class="nx">bar</span><span class="p">();</span>
 <span class="p">}</span></code></pre>
 
-</figure><p>Here’s an alternative, short approach:</p>
+</figure><p>Here's an alternative, short approach:</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">param</span> <span class="p">?</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">:</span> <span class="nx">bar</span><span class="p">();</span></code></pre>
 
@@ -14598,7 +14598,7 @@ in your code wherever you think it helps.</p>
  You want to call these functions one after other, but only when a 
 previous function returns a truthy value. For example, if all three 
 functions returns a truthy value, then all will be called. But if the 
-function <code class="highlighter-rouge">two()</code> returns false/null then function <code class="highlighter-rouge">three()</code> won’t be called.</p>
+function <code class="highlighter-rouge">two()</code> returns false/null then function <code class="highlighter-rouge">three()</code> won't be called.</p>
 
 <p>So, you go for <code class="highlighter-rouge">if</code>, obviously.</p>
 
@@ -14608,7 +14608,7 @@ function <code class="highlighter-rouge">two()</code> returns false/null then fu
 	<span class="p">}</span>
 <span class="p">}</span></code></pre>
 
-</figure><p>But let’s rewrite with this one:</p>
+</figure><p>But let's rewrite with this one:</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">one</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="nx">two</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="nx">three</span><span class="p">();</span></code></pre>
 
@@ -14616,14 +14616,14 @@ function <code class="highlighter-rouge">two()</code> returns false/null then fu
 
 <p><strong>IIFE</strong> is short for <strong>Immediately Invoked Function Expression</strong>.
  It means, you define a function and then you call it immediately. IIFE 
-helped me in some usecases where I don’t want to create a new function 
+helped me in some usecases where I don't want to create a new function 
 but I needed the logic to be inside a function block.</p>
 
 <p>For example,
  lets say you are initializing variables and for one variable, the 
 initial value needs to be calculated using some complex logic. If you 
-don’t want to separate this calculation logic to a seperate function, 
-but you still want to wrap it in it’s own block, you can IIFE. Like 
+don't want to separate this calculation logic to a seperate function, 
+but you still want to wrap it in it's own block, you can IIFE. Like 
 below:</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">doMagic</span><span class="p">(){</span>
@@ -14654,10 +14654,10 @@ readability? Feel free to comment your thoughts.</p>
 		<h1>ES6 - Iterator, Generator Example</h1>
 		<div class="post-wrapper">
 			
-			<section><p>ES6 comes with lots of <a href="https://github.com/lukehoban/es6features">new <em>cool</em> features</a>. Out of which, <strong>Iterators</strong> and <strong>Generators</strong> took some time to get used to. Here’s an example that shows how to use ES6 Iterators and Generators.</p>
-<p>Since this is experimental stuff, you need latest version of Chrome/Firefox to run the code. I used <a href="https://developer.chrome.com/devtools/docs/authoring-development-workflow#snippets">Chrome’s Dev tool snippets</a> to author/run the given example code.</p>
-<p>Let’s start with the problem definition.</p>
-<p>Assume that you have a business class <code>Basket</code> that used to hold a list of items and other related methods. Now you need a way to iterate through all the items inside the <code>Basket</code>. Since <code>Basket</code> is a custom class, you can not use JavaScript’s <code>for..in</code>. You need to write your own custom logic that iterates, as shown below.</p>
+			<section><p>ES6 comes with lots of <a href="https://github.com/lukehoban/es6features">new <em>cool</em> features</a>. Out of which, <strong>Iterators</strong> and <strong>Generators</strong> took some time to get used to. Here's an example that shows how to use ES6 Iterators and Generators.</p>
+<p>Since this is experimental stuff, you need latest version of Chrome/Firefox to run the code. I used <a href="https://developer.chrome.com/devtools/docs/authoring-development-workflow#snippets">Chrome's Dev tool snippets</a> to author/run the given example code.</p>
+<p>Let's start with the problem definition.</p>
+<p>Assume that you have a business class <code>Basket</code> that used to hold a list of items and other related methods. Now you need a way to iterate through all the items inside the <code>Basket</code>. Since <code>Basket</code> is a custom class, you can not use JavaScript's <code>for..in</code>. You need to write your own custom logic that iterates, as shown below.</p>
 <h2>Iterating <code>Basket</code> using <code>for</code> loop</h2>
 <figure><pre><code data-lang="javascript"><span>'use strict'</span><span>;</span>
 
@@ -14696,10 +14696,10 @@ readability? Feel free to comment your thoughts.</p>
 <li>The <code>for</code> loop inside the <code>test</code> method is accessing a property <code>container</code> which is supposed to be internal to the <code>fruitBasket</code>
  object. There is no need for the outer world to know the internal of an
  object to iterate it. Of course, there are other ways to fix it, but 
-for this article’s purpose, lets not go there.</li>
-<li>You can’t use <code>for(let fruit in fruitBasket)</code> to iterate through the items. Because, althogh semantically <code>fruitBasket</code> is a list, technically it is not a list or an array. So, you can’t use the elegant way of <code>for..each</code>. So sad!</li>
+for this article's purpose, lets not go there.</li>
+<li>You can't use <code>for(let fruit in fruitBasket)</code> to iterate through the items. Because, althogh semantically <code>fruitBasket</code> is a list, technically it is not a list or an array. So, you can't use the elegant way of <code>for..each</code>. So sad!</li>
 </ol>
-<p>Let’s fix this with the use of Iterators.</p>
+<p>Let's fix this with the use of Iterators.</p>
 <h2>Enter <code>Iterator</code></h2>
 <p>Given the above problem, we need a way to tell JavaScript that our custom object is indeed a <code>list</code> and let it use <code>for..each</code> in our object. How do we do it? With the help of <code>Iterator</code>,
  of course. We need to define a method in our object that JavaScript 
@@ -14710,10 +14710,10 @@ that be?</p>
 knows for sure that the object will have an implementation of all 
 methods defined in that interface. So, without fear, it will invoke that
  method.</p>
-<p>But, JavaScript is not Java and we don’t have Interfaces here. What else we have? <strong>ES6</strong>.</p>
+<p>But, JavaScript is not Java and we don't have Interfaces here. What else we have? <strong>ES6</strong>.</p>
 <p>ES6 defines two new protocols <code>iterator</code> and <code>iterable</code>,
  which in layman terms means that, you can define custom iterator 
-methods in your object and tell JavaScript that that’s our iterator 
+methods in your object and tell JavaScript that that's our iterator 
 method.</p>
 <p>For example, you can say,</p>
 <figure><pre><code data-lang="javascript"><span>var</span> <span>myObj</span> <span>=</span> <span>{};</span>
@@ -14730,7 +14730,7 @@ method.</p>
 </figure><p>and you can use,</p>
 <figure><pre><code data-lang="javascript"><span>for</span><span>(</span><span>let</span> <span>thing</span> <span>of</span> <span>myObj</span><span>)</span> <span>{</span> <span>console</span><span>.</span><span>log</span><span>(</span><span>thing</span><span>);</span> <span>}</span></code></pre>
 </figure><p>All you need to do is from your custom iterator function, return an object that has a method <code>next()</code> defined which inturn will return an object in the format of <code><span>{</span><span>value:</span><span></span><span>'val',</span><span></span><span>done:</span><span></span><span>false</span><span>}</span></code> . JavaScript will use the <em>well-known</em> <code>Symbol.iterator</code> to identify if an object is iterable and has an iterator function defined in it. (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/iterator">More about Symbol.iterator</a>)</p>
-<p>How sweet! Let’s use this concept in our <code>Basket</code> problem.</p>
+<p>How sweet! Let's use this concept in our <code>Basket</code> problem.</p>
 <figure><pre><code data-lang="javascript"><span>'use strict'</span><span>;</span>
 
 <span>function</span> <span>Basket</span><span>()</span> <span>{</span>
@@ -14788,10 +14788,10 @@ method.</p>
 <span>test</span><span>();</span></code></pre>
 </figure><p>Now our code has improved a bit. From our <code>fruitBasket</code>, we are not exposing the internals to the outer world to iterate. And we get to use <code>for..of</code> to iterate <code>fruitBasket</code>.</p>
 <p>But
- still, there’s a problem. If you look at the code inside our custom 
+ still, there's a problem. If you look at the code inside our custom 
 iterator, you will notice that we are maintaining the state manually 
 using the variable <code>_index</code>. We manually update this value as we iterate through the list. Is there an alternative to this?</p>
-<p>Yes and it’s called as <strong>Generator</strong> functions.</p>
+<p>Yes and it's called as <strong>Generator</strong> functions.</p>
 <h2>Enter <code>Generator</code></h2>
 <p>By
  definition, A generator is a special type of function that works as a 
@@ -14801,7 +14801,7 @@ factory for iterators. In English, a generator in a function returns a <code><sp
 <li><code>function* ()</code> syntax</li>
 <li>One or more <code>yield</code> expressions inside the function body. <code>yield</code> is a special keyword that will return a value in the form of <code><span>{</span><span>value:</span><span></span><span>'val',</span><span></span><span>done:</span><span></span><span>false</span><span>}</span></code>. (<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/yield">More about Yield</a>)</li>
 </ol>
-<p>Let’s put this together in our <code>Basket</code> problem.</p>
+<p>Let's put this together in our <code>Basket</code> problem.</p>
 <figure><pre><code data-lang="javascript"><span>'use strict'</span><span>;</span>
 
 <span>function</span> <span>Basket</span><span>()</span> <span>{</span>
@@ -14853,9 +14853,9 @@ factory for iterators. In English, a generator in a function returns a <code><sp
 		=============================-->
 		<h1>Javascript Prototype methods vs Object methods</h1>
 		<div class="post-wrapper">
-			<section class="post-content"><p>In JavaScript, when you define an object, you can attach it’s functions in two different ways.</p>
+			<section class="post-content"><p>In JavaScript, when you define an object, you can attach it's functions in two different ways.</p>
 <ol>
-<li>Inside object’s constructor function, using <code class="highlighter-rouge">this.func = function(){...}</code></li>
+<li>Inside object's constructor function, using <code class="highlighter-rouge">this.func = function(){...}</code></li>
 <li>Using <code class="highlighter-rouge">prototype</code>. i.e. <code class="highlighter-rouge">Obj.prototype.func = function() {...}</code>.</li>
 </ol>
 <p>In both approaches, the function <code class="highlighter-rouge">func()</code> will be accessible to all the instances of your object.</p>
@@ -14867,7 +14867,7 @@ factory for iterators. In English, a generator in a function returns a <code><sp
 logic even after the instances are created. The old and new objects will
  use the updated code. But this may not be possible if you attach the 
 common code to each object instance, using <code class="highlighter-rouge">this.func()</code>.</p>
-<p>Let’s see this with an example.</p>
+<p>Let's see this with an example.</p>
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">Parent</span><span class="p">(</span><span class="nx">gender</span><span class="p">){</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">gender</span> <span class="o">=</span> <span class="nx">gender</span><span class="p">;</span>
 
@@ -14902,7 +14902,7 @@ common code to each object instance, using <code class="highlighter-rouge">this.
  you can see, if you decide to change the common logic, you can not 
 easily update the object methods since they are already created. You 
 need to modify each and every instance of that object which is tedious.</p>
-<p>Let’s see the same example, but this time with <code class="highlighter-rouge">prototype</code>.</p>
+<p>Let's see the same example, but this time with <code class="highlighter-rouge">prototype</code>.</p>
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">Parent</span><span class="p">(</span><span class="nx">gender</span><span class="p">){</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">gender</span> <span class="o">=</span> <span class="nx">gender</span><span class="p">;</span>
 <span class="p">}</span>
@@ -14931,12 +14931,12 @@ need to modify each and every instance of that object which is tedious.</p>
 <h2 id="prototype-is-fast-and-memory-efficient">2. Prototype is fast and memory efficient.</h2>
 <p>When
  you attach methods to object instances, then each instance will have 
-it’s own copy of the method. This involves the system processing time 
+it's own copy of the method. This involves the system processing time 
 and the memory.</p>
-<p>But, when you attach the method to object’s <code class="highlighter-rouge">prototype</code>,
- then only one version of the method exists. This doesn’t need as much 
+<p>But, when you attach the method to object's <code class="highlighter-rouge">prototype</code>,
+ then only one version of the method exists. This doesn't need as much 
 processing time and memory when compared to the above approach.</p>
-<p>Let’s see this with an example.</p>
+<p>Let's see this with an example.</p>
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">Parent</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">yellAtKid</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Somebody gonna get a hurt real bad!'</span><span class="p">);</span>
@@ -15092,7 +15092,7 @@ john.introduceWithDelay();  // After a second: Hi, I am
 <p>When the callback function of <code>setTimeout</code> is called, the context is set to <code>window</code>. As <code>window.name</code> does not exist, the second introduction fails.</p>
 <blockquote>
 <p>
-  This is a typical situation when many developers “solve” the problem by making the <code>self = this</code> assignment and using <code>self</code> inside the callback. I seriously suggest never making the <code>self = this</code>
+  This is a typical situation when many developers "solve" the problem by making the <code>self = this</code> assignment and using <code>self</code> inside the callback. I seriously suggest never making the <code>self = this</code>
  assignment, because it creates maintainability concerns. Suppose you 
 pay full attention on the implementation. One day, one of your peers 
 decides on moving a line of code from the outside to the inside of the 
@@ -15244,7 +15244,7 @@ skillSet['Other'] = 'Usability and accessibility';
     'Other' : 'Usability and accessibility'
 };
 </code></pre>
-<p>Don’t forget to omit the final comma otherwise certain browsers will complain (not naming any names, IE).</p>
+<p>Don't forget to omit the final comma otherwise certain browsers will complain (not naming any names, IE).</p>
 <h2 id="5declaringvariablesshorthand">5. Declaring variables Shorthand</h2>
 <p>It is sometimes good practice to including variable assignments at the beginning of your functions. This shorthand method can save you lots of time and space when declaring multiple variables at the same time.</p>
 <p>longhand:</p>
