@@ -104,6 +104,8 @@ table td { border: 1px solid #999; padding: 5px;}
 		</style>
 	</head>
 	<body>
+		<div class="links"><a href="javascript_part_3.html">Part 3</a> | <a href="javascript_part_4.html">Part 4</a> | <a href="javascript_part_5.html">Part 5</a> | <a href="ES6-javascript_part_6.html">Part 6</a></div>
+	
 		<div class="home-screen tc">
 			<h1>JavaScript Tutorials</h1>
 			<h4>- Part 4 -</h4>
@@ -166,6 +168,9 @@ table td { border: 1px solid #999; padding: 5px;}
 	<a href="#t-54"><h1>54 : Understanding JavaScript Constructors</h1></a>
 	<a href="#t-55"><h1>55 : Functions as First Class Citizens in Javascript</h1></a>
 	<a href="#t-56"><h1>56 : Quick Tip: How JavaScript References Work</h1></a>
+	<a href="#t-57"><h1>57 : JavaScript. The core.</h1></a>
+	<a href="#t-58"><h1>58 : Understanding Scopes</h1></a>	
+	<a href="#t-59"><h1>59 : Monkey-Patching, Overriding, and Decorating Methods in JavaScript</h1></a>
 </div>
 		<!--================= END :: Tutorial Index =================-->
 		
@@ -13704,7 +13709,7 @@ print('Hello',...names);</code></pre>
 <p><span id="more-208618"></span></p>
 <p>Having a good understanding of constructors is crucial to truly understand the JavaScript language. Unlike many other languages, JavaScript doesn't support classes, but it has constructors to bring similar functionality to JavaScript. In this tutorial, we will explore constructors in detail and see how JavaScript utilizes them to make objects.<br>
 Constructors are like regular functions, but we use them with the "new" keyword. There are two types of constructors: native (aka built-in) constructors like <code>Array</code> and <code>Object</code>, which are available automatically in the execution environment at runtime; and custom constructors, which define properties and methods for your own type of object.</p>
-<p>A constructor is useful when you want to create multiple similar objects with the same properties and methods. It’s a convention to capitalize the name of constructors to distinguish them from regular functions. Consider the following code:</p>
+<p>A constructor is useful when you want to create multiple similar objects with the same properties and methods. It's a convention to capitalize the name of constructors to distinguish them from regular functions. Consider the following code:</p>
 <pre><code>function Book() { 
   // unfinished code
 } 
@@ -13714,7 +13719,7 @@ var myBook = new Book();</code></pre>
 <p>To find out whether an object is an instance of another one, we use the instanceof operator:</p>
 <pre><code>myBook instanceof Book    // true
 myBook instanceof String  // false</code></pre>
-<p>Note that if the right side of the instanceof operator isn’t a function, it will throw an error:</p>
+<p>Note that if the right side of the instanceof operator isn't a function, it will throw an error:</p>
 <pre><code>myBook instanceof {};
 // TypeError: invalid 'instanceof' operand ({})</code></pre>
 <p>Another way to find the type of an instance is using the constructor property. All object instances have a constructor property that point to the constructor function that created it.</p>
@@ -13783,7 +13788,7 @@ console.log(myBook.name);    // Book: Single Page Web Applications
 // but we can change the value of the name property
 myBook.name = "Testable JavaScript";
 console.log(myBook.name);    // Book: Testable JavaScript</code></pre>
-<p>In this code we used accessor properties inside the <code>Object.defineProperty()</code>. Accessor properties don’t include any properties or methods, but they define a getter to call when the property is read, and a setter to call when the property is written to.</p>
+<p>In this code we used accessor properties inside the <code>Object.defineProperty()</code>. Accessor properties don't include any properties or methods, but they define a getter to call when the property is read, and a setter to call when the property is written to.</p>
 <p>A getter is expected to return a value, while a setter receives the value being assigned to the property as an argument. This constructor allows us to set or change the name property of instances, but we are not allowed to delete it, and when we get the value of name, the getter prepends the string "Book: " to the name and returns it.</p>
 <h3 id="article-header-id-3" class="has-header-link"><a class="article-headline-link" href="#article-header-id-3">#</a>Object Literal Notations are Preferred to Constructors</h3>
 <p>The JavaScript language has nine built-in constructors: <code>Object()</code>, <code>Array()</code>, <code>String()</code>, <code>Number()</code>, <code>Boolean()</code>, <code>Date()</code>, <code>Function()</code>, <code>Error()</code> and <code>RegExp()</code>. When creating values we are free to use either object literals or constructors, but object literals are not only easier to read but also faster to run because they can be optimize at parse time. Whenever we need simple objects it's best to stick with literals:</p>
@@ -13952,7 +13957,7 @@ This is a line from <a href="https://github.com/cssnext/gulp-cssnext/blob/master
 <pre><code>postcss([ require('cssnext')(), require('cssnano')() ])</code></pre>
 <p>Note the cssnext referred to here is not the gulp-cssnext plugin, but to original <a href="http://cssnext.io/" target="_blank">cssnext</a> package. In this implementation the cssnext package returns a function, that when run, sets itself up to work with postcss.</p>
 <h3 id="partial-application"><a name="user-content-partial-application" href="#partial-application" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Partial application</h3>
-<p>Another common use for returning a function, is for partial application. Partial application is used to set up a function that returns a function. Calling the first function saves the first argument or arguments that were passed in. What?! Let’s look at a simple example.</p>
+<p>Another common use for returning a function, is for partial application. Partial application is used to set up a function that returns a function. Calling the first function saves the first argument or arguments that were passed in. What?! Let's look at a simple example.</p>
 <p>Example:</p>
 <pre><code>function add(a) {
     return function(b) {
@@ -13983,7 +13988,7 @@ add5(8); // 13</code></pre>
 <div class="ArticleCopy language-javascript">
       
 
-<p><strong>TL;DR:</strong> There are NO pointers in JavaScript and references work differently from what we would normally see in most other popular programming languages. In JavaScript, it’s just NOT possible to have a reference from one variable to another variable. And, only compound values (e.g.. Object or Array) can be assigned by reference.</p>
+<p><strong>TL;DR:</strong> There are NO pointers in JavaScript and references work differently from what we would normally see in most other popular programming languages. In JavaScript, it's just NOT possible to have a reference from one variable to another variable. And, only compound values (e.g.. Object or Array) can be assigned by reference.</p>
 
 <blockquote>
 <p>The following terms are used throughout the article:</p>
@@ -13992,7 +13997,7 @@ add5(8); // 13</code></pre>
 <li>compound – comprised of multiple values (e.g. array, object, set)</li>
 <li>primitive – a direct value, as opposed to a reference to something that contains the real value. </li>
 </ul>
-<p>JavaScript’s scalar types are primitives, but some languages, such as Ruby, have scalar reference types. Note that in JavaScript, the scalar primitive values are immutable while compound values are mutable.</p>
+<p>JavaScript's scalar types are primitives, but some languages, such as Ruby, have scalar reference types. Note that in JavaScript, the scalar primitive values are immutable while compound values are mutable.</p>
 </blockquote>
 <h2 id="bottomline">Bottom Line:</h2>
 <ol>
@@ -14083,8 +14088,2074 @@ console.log(flash.speed);   //55
 				
 				
 				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-57" name="t-57"></a><h1>57 : JavaScript. The core.</h1>
+					<span class="ref-site">http://dmitrysoshnikov.com/ecmascript/javascript-the-core/</span>
+					<div class="tutorial__content">
+<div class="entry-content" itemprop="mainContentOfPage">
+		
+<div class="ds-toc"><ol><li><a href="#an-object" title="An object">An object</a></li><li><a href="#a-prototype-chain" title="A prototype chain">A prototype chain</a></li><li><a href="#constructor" title="Constructor">Constructor</a></li><li><a href="#execution-context-stack" title="Execution context stack">Execution context stack</a></li><li><a href="#execution-context" title="Execution context">Execution context</a></li><li><a href="#variable-object" title="Variable object">Variable object</a></li><li><a href="#activation-object" title="Activation object">Activation object</a></li><li><a href="#scope-chain" title="Scope chain">Scope chain</a></li><li><a href="#closures" title="Closures">Closures</a></li><li><a href="#this-value" title="This value">This value</a></li><li><a href="#conclusion" title="Conclusion">Conclusion</a></li></ol></div><p></p>
+<p>This note is an overview and summary of the "<a href="http://dmitrysoshnikov.com/tag/ecma-262-3/">ECMA-262-3 in detail</a>" series. Every section contains references to the appropriate matching chapters so you can read them to get a deeper understanding.<span id="more-1581"></span></p>
+<p>Intended audience: experienced programmers, professionals.</p>
+<p>We start out by considering the concept of an <em>object</em>, which is fundamental to ECMAScript.</p>
+<h2 id="an-object" class="header-link" tabindex="-1"><a href="#an-object">An object</a></h2>
+<p>ECMAScript, being a highly-abstracted object-oriented language, deals with <em>objects</em>. There are also <em>primitives</em>, but they, when needed, are also converted to objects.</p>
+<p class="definition">An object is a <em>collection of properties</em> and has a <em>single prototype object</em>. The prototype may be either an object or the <code>null</code> value.</p>
+<p>Let's take a basic example of an object. A prototype of an object is referenced by the internal <code>[[Prototype]]</code> property. However, in figures we will use <code>__&lt;internal-property&gt;__</code> underscore notation instead of the double brackets, particularly for the prototype object: <code>__proto__</code>.</p>
+<p>For the code:</p>
+<div><pre><code>var foo = {
+&nbsp;&nbsp;x: 10,
+&nbsp;&nbsp;y: 20
+};
+</code></pre></div>
+<p>we have the structure with two explicit <em>own</em> properties and one implicit <code>__proto__</code> property, which is the reference to the prototype of <code>foo</code>:</p>
+<p><img class="aligncenter figure" src="http://dmitrysoshnikov.com/wp-content/uploads/basic-object.png" alt="Figure 1. A basic object with a prototype." title="Figure 1. A basic object with a prototype."></p>
+<p class="figure">Figure 1. A basic object with a prototype.</p>
+<p>What for these prototypes are needed? Let's consider a <em>prototype chain</em> concept to answer this question.</p>
+<h2 id="a-prototype-chain" class="header-link"><a href="#a-prototype-chain">A prototype chain</a></h2>
+<p>Prototype objects are also just simple objects and may have their own prototypes. If a prototype has a non-null reference to its prototype, and so on, this is called the <em>prototype chain</em>.</p>
+<p class="definition">A prototype chain is a <em>finite</em> chain of objects which is used to implement <em>inheritance</em> and <em>shared properties</em>.</p>
+<p>Consider the case when we have two objects which differ only in some small part and all the other part is the same for both objects. Obviously, for a good designed system, we would like to <em>reuse</em> that similar functionality/code without repeating it in every single object. In class-based systems, this <em>code reuse</em> stylistics is called the <em>class-based inheritance</em> — you put similar functionality into the class <code>A</code>, and provide classes <code>B</code> and <code>C</code> which inherit from <code>A</code> and have their own small additional changes.</p>
+<p>ECMAScript has no concept of a class. However, a code reuse stylistics does not differ much (though, in some aspects it's even more flexible than class-based) and achieved via the <em>prototype chain</em>. This kind of inheritance is called a <em>delegation based inheritance</em> (or, closer to ECMAScript, a <em>prototype based inheritance</em>).</p>
+<p>Similarly like in the example with classes <code>A</code>, <code>B</code> and <code>C</code>, in ECMAScript you create objects: <code>a</code>, <code>b</code>, and <code>c</code>. Thus, object <code>a</code> stores this common part of both <code>b</code> and <code>c</code> objects. And <code>b</code> and <code>c</code> store just their own additional properties or methods.</p>
+<div><pre><code>var a = {
+&nbsp;&nbsp;x: 10,
+&nbsp;&nbsp;calculate: function (z) {
+&nbsp;&nbsp;&nbsp;&nbsp;return this.x + this.y + z;
+&nbsp;&nbsp;}
+};
+&nbsp;
+var b = {
+&nbsp;&nbsp;y: 20,
+&nbsp;&nbsp;__proto__: a
+};
+&nbsp;
+var c = {
+&nbsp;&nbsp;y: 30,
+&nbsp;&nbsp;__proto__: a
+};
+&nbsp;
+// call the inherited method
+b.calculate(30); // 60
+c.calculate(40); // 80
+</code></pre></div>
+<p>Easy enough, isn't it? We see that <code>b</code> and <code>c</code> have access to the <code>calculate</code> method which is defined in <code>a</code> object. And this is achieved exactly via this prototype chain.</p>
+<p>The rule is simple: if a property or a method is not found in the object itself (i.e. the object has no such an <em>own</em> property), then there is an attempt to find this property/method in the prototype chain. If the property is not found in the prototype, then a prototype of the prototype is considered, and so on, i.e. the whole prototype chain (absolutely the same is made in class-based inheritance, when resolving an inherited <em>method</em> — there we go through the <em>class chain</em>). The first found property/method with the same name is used. Thus, a found property is called <em>inherited</em> property. If the property is not found after the whole prototype chain lookup, then <code>undefined</code> value is returned.</p>
+<p>Notice, that <code>this</code> value in using an inherited method is set to the <em>original</em> object, but not to the (prototype) object in which the method is found. I.e. in the example above <code>this.y</code> is taken from <code>b</code> and <code>c</code>, but not from <code>a</code>. However, <code>this.x</code> is taken from <code>a</code>, and again via the <em>prototype chain</em> mechanism.</p>
+<p>If a prototype is not specified for an object explicitly, then the default value for <code>__proto__</code> is taken — <code>Object.prototype</code>. Object <code>Object.prototype</code> itself also has a <code>__proto__</code>, which is the <em>final link</em> of a chain and is set to <code>null</code>.</p>
+<p>The next figure shows the inheritance hierarchy of our <code>a</code>, <code>b</code> and <code>c</code> objects:</p>
+<p><img class="aligncenter figure" src="http://dmitrysoshnikov.com/wp-content/uploads/prototype-chain.png" alt="Figure 2. A prototype chain." title="Figure 2. A prototype chain."></p>
+<p class="figure">Figure 2. A prototype chain.</p>
+<div class="note">Notice: <abbr title="ECMAScript 5">ES5</abbr> standardized an alternative way for prototype-based inheritance using <code>Object.create</code> function:<p></p>
+<div><pre><code>var b = Object.create(a, {y: {value: 20}});
+var c = Object.create(a, {y: {value: 30}});
+</code></pre></div>
+<p>You can get more info on new <abbr title="ECMAScript 5">ES5</abbr> APIs in the <a href="http://dmitrysoshnikov.com/ecmascript/es5-chapter-1-properties-and-property-descriptors/#new-api-methods">appropriate chapter</a>.</p>
+<p><abbr title="ECMAScript 6">ES6</abbr> though standardizes the <code>__proto__</code>, and it can be used at initialization of objects.
+</p></div>
+<p>Often it is needed to have objects with the <em>same or similar state structure</em> (i.e. the same set of properties), and with different <em>state values</em>. In this case we may use a <em>constructor function</em> which produces objects by <em>specified pattern</em>.</p>
+<h2 id="constructor" class="header-link"><a href="#constructor">Constructor</a></h2>
+<p>Besides creation of objects by specified pattern, a <em>constructor</em> function does another useful thing — it <em>automatically sets a prototype object</em> for newly created objects. This prototype object is stored in the <code>ConstructorFunction.prototype</code> property.</p>
+<p>E.g., we may rewrite previous example with <code>b</code> and <code>c</code> objects using a constructor function. Thus, the role of the object <code>a</code> (a prototype) <code>Foo.prototype</code> plays:</p>
+<div><pre><code>// a constructor function
+function Foo(y) {
+&nbsp;&nbsp;// which may create objects
+&nbsp;&nbsp;// by specified pattern: they have after
+&nbsp;&nbsp;// creation own "y" property
+&nbsp;&nbsp;this.y = y;
+}
+&nbsp;
+// also "Foo.prototype" stores reference
+// to the prototype of newly created objects,
+// so we may use it to define shared/inherited
+// properties or methods, so the same as in
+// previous example we have:
+&nbsp;
+// inherited property "x"
+Foo.prototype.x = 10;
+&nbsp;
+// and inherited method "calculate"
+Foo.prototype.calculate = function (z) {
+&nbsp;&nbsp;return this.x + this.y + z;
+};
+&nbsp;
+// now create our "b" and "c"
+// objects using "pattern" Foo
+var b = new Foo(20);
+var c = new Foo(30);
+&nbsp;
+// call the inherited method
+b.calculate(30); // 60
+c.calculate(40); // 80
+&nbsp;
+// let's show that we reference
+// properties we expect
+&nbsp;
+console.log(
+&nbsp;
+&nbsp;&nbsp;b.__proto__ === Foo.prototype, // true
+&nbsp;&nbsp;c.__proto__ === Foo.prototype, // true
+&nbsp;
+&nbsp;&nbsp;// also "Foo.prototype" automatically creates
+&nbsp;&nbsp;// a special property "constructor", which is a
+&nbsp;&nbsp;// reference to the constructor function itself;
+&nbsp;&nbsp;// instances "b" and "c" may found it via
+&nbsp;&nbsp;// delegation and use to check their constructor
+&nbsp;
+&nbsp;&nbsp;b.constructor === Foo, // true
+&nbsp;&nbsp;c.constructor === Foo, // true
+&nbsp;&nbsp;Foo.prototype.constructor === Foo, // true
+&nbsp;
+&nbsp;&nbsp;b.calculate === b.__proto__.calculate, // true
+&nbsp;&nbsp;b.__proto__.calculate === Foo.prototype.calculate // true
+&nbsp;
+);
+</code></pre></div>
+<p>This code may be presented as the following relationship:</p>
+<p><img class="aligncenter figure" src="http://dmitrysoshnikov.com/wp-content/uploads/constructor-proto-chain.png" alt="Figure 3. A constructor and objects relationship." title="Figure 3. A constructor and objects relationship."></p>
+<p class="figure">Figure 3. A constructor and objects relationship.</p>
+<p>This figure again shows that every object has a prototype. Constructor function <code>Foo</code> also has its own <code>__proto__</code> which is <code>Function.prototype</code>, and which in turn also references via its <code>__proto__</code> property again to the <code>Object.prototype</code>. Thus, repeat, <code>Foo.prototype</code> is just an explicit property of <code>Foo</code> which refers to the prototype of <code>b</code> and <code>c</code> objects.</p>
+<p>Formally, if to consider a concept of a <em>classification</em> (and we've exactly just now <em>classified</em> the new separated thing — <code>Foo</code>), a combination of the constructor function and the prototype object may be called as a "class". Actually, e.g. Python's <em>first-class</em> dynamic classes have absolutely the same implementation of properties/methods resolution. From this viewpoint, classes of Python are just a syntactic sugar for delegation based inheritance used in ECMAScript.</p>
+<div class="note">Notice: in <abbr title="ECMAScript 6">ES6</abbr> the concept of a "class" is standardized, and is implemented as exactly a syntactic sugar on top of the constructor functions as described above. From this viewpoint prototype chains become as an implementation detail of the class-based inheritance:<p></p>
+<div><pre><code>// ES6
+class Foo {
+&nbsp;&nbsp;constructor(name) {
+&nbsp;&nbsp;&nbsp;&nbsp;this._name = name;
+&nbsp;&nbsp;}
+&nbsp;
+&nbsp;&nbsp;getName() {
+&nbsp;&nbsp;&nbsp;&nbsp;return this._name;
+&nbsp;&nbsp;}
+}
+&nbsp;
+class Bar extends Foo {
+&nbsp;&nbsp;getName() {
+&nbsp;&nbsp;&nbsp;&nbsp;return super.getName() + ' Doe';
+&nbsp;&nbsp;}
+}
+&nbsp;
+var bar = new Bar('John');
+console.log(bar.getName()); // John Doe
+</code></pre></div>
+</div>
+<p>The complete and detailed explanation of this topic may be found in the Chapter 7 of ES3 series. There are two parts: <a href="http://dmitrysoshnikov.com/ecmascript/chapter-7-1-oop-general-theory/">Chapter 7.1. OOP. The general theory</a>, where you will find description of various OOP paradigms and stylistics and also their comparison with ECMAScript, and <a href="http://dmitrysoshnikov.com/ecmascript/chapter-7-2-oop-ecmascript-implementation/">Chapter 7.2. OOP. ECMAScript implementation</a>, devoted exactly to OOP in ECMAScript.</p>
+<p>Now, when we know basic object aspects, let's  see on how the <em>runtime program execution</em> is implemented in ECMAScript. This is what is called an <em>execution context stack</em>, every element of which is abstractly may be represented as also an object. Yes, ECMAScript almost everywhere operates with concept of an object </p>
+<h2 id="execution-context-stack" class="header-link"><a href="#execution-context-stack">Execution context stack</a></h2>
+<p>There are three types of ECMAScript code: <em>global</em> code, <em>function</em> code and <em>eval</em> code. Every code is evaluated in its <em>execution context</em>. There is only one global context and may be many instances of function and <em>eval</em> execution contexts. Every call of a function, enters the function execution context and evaluates the function code type. Every call of <code>eval</code> function, enters the <em>eval</em> execution context and evaluates its code.</p>
+<p>Notice, that one function may generate infinite set of contexts, because every call to a function (even if the function calls itself recursively) produces a new context with a new <em>context state</em>:</p>
+<div><pre><code>function foo(bar) {}
+&nbsp;
+// call the same function,
+// generate three different
+// contexts in each call, with
+// different context state (e.g. value
+// of the "bar" argument)
+&nbsp;
+foo(10);
+foo(20);
+foo(30);
+</code></pre></div>
+<p>An execution context may activate another context, e.g. a function calls another function (or the global context calls a global function), and so on. Logically, this is implemented as a stack, which is called the <em>execution context stack</em>.</p>
+<p>A context which activates another context is called a <em>caller</em>. A context is being activated is called a <em>callee</em>. A callee at the same time may be a caller of some other callee (e.g. a function called from the global context, calls then some inner function).</p>
+<p>When a caller activates (calls) a callee, the caller suspends its execution and passes the control flow to the callee. The callee is pushed onto the the stack and is becoming a <em>running (active)</em> execution context. After the callee's context ends, it returns control to the caller, and the evaluation of the caller's context proceeds (it may activate then other contexts) till the its end, and so on. A callee may simply <em>return</em> or exit with an <em>exception</em>. A thrown but not caught exception may exit (pop from the stack) one or more contexts.</p>
+<p>I.e. all the ECMAScript <em>program runtime</em> is presented as the <em>execution context (<abbr title="Execution context">EC</abbr>) stack</em>, where <em>top</em> of this stack is an <em>active</em> context:</p>
+<p><img class="aligncenter figure" src="http://dmitrysoshnikov.com/wp-content/uploads/ec-stack.png" alt="Figure 4. An execution context stack." title="Figure 4. An execution context stack."></p>
+<p class="figure">Figure 4. An execution context stack.</p>
+<p>When program begins it enters the <em>global execution context</em>, which is the <em>bottom</em> and the <em>first</em> element of the stack. Then the global code provides some initialization, creates needed objects and functions. During the execution of the global context, its code may activate some other (already created) function, which will enter their execution contexts, pushing new elements onto the stack, and so on. After the initialization is done, the runtime system is waiting for some <em>event</em> (e.g. user's mouse click) which will activate some function and which will enter a new execution context.</p>
+<p>In the next figure, having some function context as <code>EC1</code> and the global context as <code>Global EC</code>, we have the following stack modification on entering and exiting <code>EC1</code> from the global context:</p>
+<p><img class="aligncenter figure" src="http://dmitrysoshnikov.com/wp-content/uploads/ec-stack-changes.png" alt="Figure 5. An execution context stack changes." title="Figure 5. An execution context stack changes."></p>
+<p class="figure">Figure 5. An execution context stack changes.</p>
+<p>This is exactly how the runtime system of ECMAScript manages the execution of a code.</p>
+<p>More information on execution context in ECMAScript may be found in the appropriate <a href="http://dmitrysoshnikov.com/ecmascript/chapter-1-execution-contexts/">Chapter 1. Execution context</a>.</p>
+<p>As we said, every execution context in the stack may be presented as an object. Let's see on its structure and what kind of <em>state</em> (which properties) a context is needed to execute its code.</p>
+<h2 id="execution-context" class="header-link"><a href="#execution-context">Execution context</a></h2>
+<p>An execution context abstractly may be represented as a simple object. Every execution context has set of properties (which we may call a <em>context's state</em>) necessary to track the execution progress of its associated code. In the next figure a structure of a context is shown:</p>
+<p><img class="aligncenter figure" src="http://dmitrysoshnikov.com/wp-content/uploads/execution-context.png" alt="Figure 6. An execution context structure." title="Figure 6. An execution context structure."></p>
+<p class="figure">Figure 6. An execution context structure.</p>
+<p>Besides these three needed properties (a <em>variable object</em>, a <em><code>this</code> value</em> and a <em>scope chain</em>), an execution context may have any additional state depending on implementation.</p>
+<p>Let's consider these important properties of a context in detail.</p>
+<h2 id="variable-object" class="header-link" tabindex="-1"><a href="#variable-object">Variable object</a></h2>
+<p class="definition">A <em>variable object</em> is a <em>container of data</em> associated with the execution context. It's a special object that stores <em>variables</em> and <em>function declarations</em> defined in the context.</p>
+<p>Notice, that <em>function expressions</em> (in contrast with <em>function declarations</em>) are <em>not included</em> into the variable object.</p>
+<p>A variable object is an abstract concept. In different context types, physically, it's presented using different object. For example, in the global context the variable object is the <em>global object itself</em> (that's why we have an ability to refer global variables via property names of the global object).</p>
+<p>Let's consider the following example in the global execution context:</p>
+<div><pre><code>var foo = 10;
+&nbsp;
+function bar() {} // function declaration, FD
+(function baz() {}); // function expression, FE
+&nbsp;
+console.log(
+&nbsp;&nbsp;this.foo == foo, // true
+&nbsp;&nbsp;window.bar == bar // true
+);
+&nbsp;
+console.log(baz); // ReferenceError, "baz" is not defined
+</code></pre></div>
+<p>Then the global context's variable object (<abbr title="Variable object">VO</abbr>) will have the following properties:</p>
+<p><img class="aligncenter figure" src="http://dmitrysoshnikov.com/wp-content/uploads/variable-object.png" alt="Figure 7. The global variable object." title="Figure 7. The global variable object."></p>
+<p class="figure">Figure 7. The global variable object.</p>
+<p>See again, that function <code>baz</code> being a <em>function expression</em> is not included into the variable object. That's why we have a <code>ReferenceError</code> when trying to access it outside the function itself.</p>
+<p>Notice, that in contrast with other languages (e.g. C/C++) in ECMAScript <em>only functions</em> create a new scope. Variables and inner functions defined within a scope of a function are not visible directly outside and do not pollute the global variable object.</p>
+<p>Using <code>eval</code> we also enter a new (eval's) execution context. However, <code>eval</code> uses either global's variable object, or a variable object of the caller (e.g. a function from which <code>eval</code> is called).</p>
+<p>And what about functions and their variable objects? In a function context, a variable object is presented as an <em>activation object</em>.</p>
+<h2 id="activation-object" class="header-link"><a href="#activation-object">Activation object</a></h2>
+<p>When a function is <em>activated</em> (called) by the caller, a special object, called an <em>activation object</em> is created. It's filled with <em>formal parameters</em> and the special <code>arguments</code> object (which is a map of formal parameters but with index-properties). The <em>activation object</em> then is used as a <em>variable object</em> of the function context.</p>
+<p>I.e. a function's variable object is the same simple variable object, but besides variables and function declarations, it also stores formal parameters and <code>arguments</code> object and called the <em>activation object</em>.</p>
+<p>Considering the following example:</p>
+<div><pre><code>function foo(x, y) {
+&nbsp;&nbsp;var z = 30;
+&nbsp;&nbsp;function bar() {} // FD
+&nbsp;&nbsp;(function baz() {}); // FE
+}
+&nbsp;
+foo(10, 20);
+</code></pre></div>
+<p>we have the next activation object (<abbr title="Activation object">AO</abbr>) of the <code>foo</code> function context:</p>
+<p><img class="aligncenter figure" src="http://dmitrysoshnikov.com/wp-content/uploads/activation-object.png" alt="Figure 8. An activation object." title="Figure 8. An activation object."></p>
+<p class="figure">Figure 8. An activation object.</p>
+<p>And again the <em>function expression</em> <code>baz</code> is not included into the variable/activate object.</p>
+<p>The complete description with all subtle cases (such as <em>"hoisting"</em> of variables and function declarations) of the topic may be found in the same name <a href="http://dmitrysoshnikov.com/ecmascript/chapter-2-variable-object/">Chapter 2. Variable object</a>.</p>
+<p class="note">Notice, in <abbr title="ECMA-262-5">ES5</abbr> the concepts of <em>variable object</em>, and <em>activation object</em> are combined into the <em>lexical environments</em> model, which detailed description can be found in the <a href="http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-2-lexical-environments-ecmascript-implementation/" title="ECMA-262-5 in detail. Chapter 3.2. Lexical environments: ECMAScript implementation.">appropriate chapter</a>.</p>
+<p>And we are moving forward to the next section. As is known, in ECMAScript we may use <em>inner functions</em> and in these inner functions we may refer to variables of <em>parent</em> functions or variables of the <em>global</em> context. As we named a variable object as a <em>scope object</em> of the context, similarly to the discussed above prototype chain, there is so-called a <em>scope chain</em>.</p>
+<h2 id="scope-chain" class="header-link"><a href="#scope-chain">Scope chain</a></h2>
+<p class="definition">A <em>scope chain</em> is a <em>list of objects</em> that are searched for <em>identifiers</em> appear in the code of the context.</p>
+<p>The rule is again simple and similar to a prototype chain: if a variable is not found in the own scope (in the own variable/activation object), its lookup proceeds in the parent's variable object, and so on.</p>
+<p>Regarding contexts, identifiers are: <em>names</em> of variables, function declarations, formal parameters, etc. When a function refers in its code the identifier which is not a local variable (or a local function or a formal parameter), such variable is called a <em>free variable</em>. And to <em>search these free variables</em> exactly a <em>scope chain</em> is used.</p>
+<p>In general case, a <em>scope chain</em> is a list of all those <em>parent variable objects</em>, <em>plus</em> (in the front of scope chain) the function's <em>own variable/activation object</em>. However, the scope chain may contain also any other object, e.g. objects dynamically added to the scope chain during the execution of the context — such as <em>with-objects</em> or special objects of <em>catch-clauses</em>.</p>
+<p>When <em>resolving</em> (looking up) an identifier, the scope chain is searched starting from the activation object, and then (if the identifier isn't found in the own activation object) up to the top of the scope chain — repeat, the same just like with a prototype chain.</p>
+<div><pre><code>var x = 10;
+&nbsp;
+(function foo() {
+&nbsp;&nbsp;var y = 20;
+&nbsp;&nbsp;(function bar() {
+&nbsp;&nbsp;&nbsp;&nbsp;var z = 30;
+&nbsp;&nbsp;&nbsp;&nbsp;// "x" and "y" are "free variables"
+&nbsp;&nbsp;&nbsp;&nbsp;// and are found in the next (after
+&nbsp;&nbsp;&nbsp;&nbsp;// bar's activation object) object
+&nbsp;&nbsp;&nbsp;&nbsp;// of the bar's scope chain
+&nbsp;&nbsp;&nbsp;&nbsp;console.log(x + y + z);
+&nbsp;&nbsp;})();
+})();
+</code></pre></div>
+<p>We may assume the linkage of the scope chain objects via the implicit <code>__parent__</code> property, which refers to the next object in the chain. This approach may be tested in a <a href="http://dmitrysoshnikov.com/ecmascript/chapter-2-variable-object/#feature-of-implementations-property-__parent__">real Rhino code</a>, and exactly this technique is used in <a href="http://dmitrysoshnikov.com/ecmascript/es5-chapter-3-2-lexical-environments-ecmascript-implementation/"><abbr title="ECMAScript 5th edition">ES5</abbr> <em>lexical environments</em></a> (there it's named an <code>outer</code> link). Another representation of a scope chain may be a simple array. Using a <code>__parent__</code> concept, we may represent the example above with the following figure (thus parent variable objects are saved in the <code>[[Scope]]</code> property of a function):</p>
+<p><img class="aligncenter figure" src="http://dmitrysoshnikov.com/wp-content/uploads/scope-chain.png" alt="Figure 9. A scope chain." title="Figure 9. A scope chain."></p>
+<p class="figure">Figure 9. A scope chain.</p>
+<p>At code execution, a scope chain may be augmented using <code>with</code> statement and <code>catch</code> clause objects. And since these objects are simple objects, they may have prototypes (and prototype chains). This fact leads to that scope chain lookup is <em>two-dimensional</em>: (1) first a scope chain link is considered, and then (2) on every scope chain's link — into the depth of the link's prototype chain (if the link of course has a prototype).</p>
+<p>For this example:</p>
+<div><pre><code>Object.prototype.x = 10;
+&nbsp;
+var w = 20;
+var y = 30;
+&nbsp;
+// in SpiderMonkey global object
+// i.e. variable object of the global
+// context inherits from "Object.prototype",
+// so we may refer "not defined global
+// variable x", which is found in
+// the prototype chain
+&nbsp;
+console.log(x); // 10
+&nbsp;
+(function foo() {
+&nbsp;
+&nbsp;&nbsp;// "foo" local variables
+&nbsp;&nbsp;var w = 40;
+&nbsp;&nbsp;var x = 100;
+&nbsp;
+&nbsp;&nbsp;// "x" is found in the
+&nbsp;&nbsp;// "Object.prototype", because
+&nbsp;&nbsp;// {z: 50} inherits from it
+&nbsp;
+&nbsp;&nbsp;with ({z: 50}) {
+&nbsp;&nbsp;&nbsp;&nbsp;console.log(w, x, y , z); // 40, 10, 30, 50
+&nbsp;&nbsp;}
+&nbsp;
+&nbsp;&nbsp;// after "with" object is removed
+&nbsp;&nbsp;// from the scope chain, "x" is
+&nbsp;&nbsp;// again found in the AO of "foo" context;
+&nbsp;&nbsp;// variable "w" is also local
+&nbsp;&nbsp;console.log(x, w); // 100, 40
+&nbsp;
+&nbsp;&nbsp;// and that's how we may refer
+&nbsp;&nbsp;// shadowed global "w" variable in
+&nbsp;&nbsp;// the browser host environment
+&nbsp;&nbsp;console.log(window.w); // 20
+&nbsp;
+})();
+</code></pre></div>
+<p>we have the following structure (that is, before we go to the <code>__parent__</code> link, first <code>__proto__</code> chain is considered):</p>
+<p><img class="aligncenter figure" src="http://dmitrysoshnikov.com/wp-content/uploads/scope-chain-with.png" alt="Figure 10. A &quot;with-augmented&quot; scope chain." title="Figure 10. A &quot;with-augmented&quot; scope chain."></p>
+<p class="figure">Figure 10. A "with-augmented" scope chain.</p>
+<p>Notice, that not in all implementations the global object inherits from the <code>Object.prototype</code>. The behavior described on the figure (with referencing "non-defined" variable <code>x</code> from the global context) may be tested e.g. in SpiderMonkey.</p>
+<p>Until all parent variable objects exist, there is nothing special in getting parent data from the inner function — we just traverse through the scope chain resolving (searching) needed variable. However, as we mentioned above, after a context ends, all its state and it itself are <em>destroyed</em>. At the same time an <em>inner function</em> may be <em>returned</em> from the parent function. Moreover, this returned function may be later activated from another context. What will be with such an activation if a context of some free variable is already "gone"? In the general theory, a concept which helps to solve this issue is called a <em>(lexical) closure</em>, which in ECMAScript is directly related with a <em>scope chain</em> concept.</p>
+<h2 id="closures" class="header-link"><a href="#closures">Closures</a></h2>
+<p>In ECMAScript, functions are the <em>first-class</em> objects. This term means that functions may be passed as arguments to other functions (in such case they are called <em>"funargs"</em>, short from "functional arguments"). Functions which receive "funargs" are called <em>higher-order functions</em> or, closer to mathematics, <em>operators</em>. Also functions may be returned from other functions. Functions which return other functions are called <em>function valued</em> functions (or functions with <em>functional value</em>).</p>
+<p>There are two conceptual problems related with "funargs" and "functional values". And these two sub-problems are generalized in one which is called a <em>"Funarg problem"</em> (or "A problem of a functional argument"). And exactly to solve the <em>complete "funarg problem"</em>, the concept of <em>closures</em> was invented. Let's describe in more detail these two sub-problems (we'll see that both of them are solved in ECMAScript using a mentioned on figures <code>[[Scope]]</code> property of a function).</p>
+<p>First subtype of the "funarg problem" is an <em>"upward funarg problem"</em>. It appears when a function is returned "up" (to the outside) from another function and uses already mentioned above <em>free variables</em>. To be able access variables of the parent context <em>even after the parent context ends</em>, the inner function <em>at creation moment</em> saves in it's <code>[[Scope]]</code> property parent's <em>scope chain</em>. Then when the function is <em>activated</em>, the scope chain of its context is formed as combination of the activation object and this <code>[[Scope]]</code> property (actually, what we've just seen above on figures):</p>
+<div><pre><code>Scope chain = Activation object + [[Scope]]
+</code></pre></div>
+<p>Notice again the main thing — exactly at <em>creation moment</em> — a function saves <em>parent's</em> scope chain, because exactly this <em>saved scope chain</em> will be used for variables lookup then in further calls of the function.</p>
+<div><pre><code>function foo() {
+&nbsp;&nbsp;var x = 10;
+&nbsp;&nbsp;return function bar() {
+&nbsp;&nbsp;&nbsp;&nbsp;console.log(x);
+&nbsp;&nbsp;};
+}
+&nbsp;
+// "foo" returns also a function
+// and this returned function uses
+// free variable "x"
+&nbsp;
+var returnedFunction = foo();
+&nbsp;
+// global variable "x"
+var x = 20;
+&nbsp;
+// execution of the returned function
+returnedFunction(); // 10, but not 20
+</code></pre></div>
+<p>This style of scope is called the <em>static (or lexical) scope</em>. We see that the variable <code>x</code> is found in the saved <code>[[Scope]]</code> of returned <code>bar</code> function. In general theory, there is also a <em>dynamic scope</em> when the variable <code>x</code> in the example above would be resolved as <code>20</code>, but not <code>10</code>. However, dynamic scope is not used in ECMAScript.</p>
+<p>The second part of the "funarg problem"  is a <em>"downward funarg problem"</em>. In this case a parent context may exist, but may be an ambiguity with resolving an identifier. The problem is: <em>from which scope</em> a value of an identifier should be used — statically saved at a function's creation or dynamically formed at execution (i.e. a scope of a <em>caller</em>)? To avoid this ambiguity and to form a closure, a <em>static scope</em> is decided to be used:</p>
+<div><pre><code>// global "x"
+var x = 10;
+&nbsp;
+// global function
+function foo() {
+&nbsp;&nbsp;console.log(x);
+}
+&nbsp;
+(function (funArg) {
+&nbsp;
+&nbsp;&nbsp;// local "x"
+&nbsp;&nbsp;var x = 20;
+&nbsp;
+&nbsp;&nbsp;// there is no ambiguity,
+&nbsp;&nbsp;// because we use global "x",
+&nbsp;&nbsp;// which was statically saved in
+&nbsp;&nbsp;// [[Scope]] of the "foo" function,
+&nbsp;&nbsp;// but not the "x" of the caller's scope,
+&nbsp;&nbsp;// which activates the "funArg"
+&nbsp;
+&nbsp;&nbsp;funArg(); // 10, but not 20
+&nbsp;
+})(foo); // pass "down" foo as a "funarg"
+</code></pre></div>
+<p>We may conclude that a <em>static scope</em> is an <em>obligatory requirement to have closures</em> in a language. However, some languages may provided combination of dynamic and static scopes, allowing a programmer to choose — what to closure and what do not. Since in ECMAScript only a static scope is used (i.e. we have solutions for both subtypes of the "funarg problem"), the conclusion is: <em>ECMAScript has complete support of closures</em>, which technically are implemented using <code>[[Scope]]</code> property of functions. Now we may give a correct definition of a closure:</p>
+<p class="definition">A <em>closure</em> is a combination of a code block (in ECMAScript this is a function) and statically/lexically saved all parent scopes. Thus, via these saved scopes a function may easily refer free variables.</p>
+<p>Notice, that since <em>every</em> (normal) function saves <code>[[Scope]]</code> at creation, theoretically, <em>all functions</em> in ECMAScript <em>are closures</em>.</p>
+<p>Another important thing to note, that several functions may have <em>the same parent scope</em> (it's quite a normal situation when e.g. we have two inner/global functions). In this case variables stored in the <code>[[Scope]]</code> property are <em>shared between all functions</em> having the same parent scope chain. Changes of variables made by one closure are <em>reflected</em> on reading these variables in another closure:</p>
+<div><pre><code>function baz() {
+&nbsp;&nbsp;var x = 1;
+&nbsp;&nbsp;return {
+&nbsp;&nbsp;&nbsp;&nbsp;foo: function foo() { return ++x; },
+&nbsp;&nbsp;&nbsp;&nbsp;bar: function bar() { return --x; }
+&nbsp;&nbsp;};
+}
+&nbsp;
+var closures = baz();
+&nbsp;
+console.log(
+&nbsp;&nbsp;closures.foo(), // 2
+&nbsp;&nbsp;closures.bar()&nbsp; // 1
+);
+</code></pre></div>
+<p>This code may be illustrated with the following figure:</p>
+<p><img class="aligncenter figure" src="http://dmitrysoshnikov.com/wp-content/uploads/shared-scope.png" alt="Figure 11. A shared [[Scope]]." title="Figure 11. A shared [[Scope]]."></p>
+<p class="figure">Figure 11. A shared [[Scope]].</p>
+<p>Exactly with this feature confusion with creating several functions in a loop is related. Using a loop counter inside created functions, some programmers often get unexpected results when all functions have the <em>same</em> value of a counter inside a function. Now it should be clear why it is so — because all these functions have the same <code>[[Scope]]</code> where the loop counter has the last assigned value.</p>
+<div><pre><code>var data = [];
+&nbsp;
+for (var k = 0; k &lt; 3; k++) {
+&nbsp;&nbsp;data[k] = function () {
+&nbsp;&nbsp;&nbsp;&nbsp;console.log(k);
+&nbsp;&nbsp;};
+}
+&nbsp;
+data[0](); // 3, but not 0
+data[1](); // 3, but not 1
+data[2](); // 3, but not 2
+</code></pre></div>
+<p>There are several techniques which may solve this issue. One of the techniques is to provide an additional object in the scope chain — e.g. using additional function:</p>
+<div><pre><code>var data = [];
+&nbsp;
+for (var k = 0; k &lt; 3; k++) {
+&nbsp;&nbsp;data[k] = (function (x) {
+&nbsp;&nbsp;&nbsp;&nbsp;return function () {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(x);
+&nbsp;&nbsp;&nbsp;&nbsp;};
+&nbsp;&nbsp;})(k); // pass "k" value
+}
+&nbsp;
+// now it is correct
+data[0](); // 0
+data[1](); // 1
+data[2](); // 2
+</code></pre></div>
+<div class="note">NOTE: <abbr title="ECMAScript 6">ES6</abbr> introduced <em>block-scope</em> bindings. This is done via <code>let</code> or <code>const</code> keywords. Example from above can now easily and conveniently rewritten as:<p></p>
+<div><pre><code>let data = [];
+&nbsp;
+for (let k = 0; k &lt; 3; k++) {
+&nbsp;&nbsp;data[k] = function () {
+&nbsp;&nbsp;&nbsp;&nbsp;console.log(k);
+&nbsp;&nbsp;};
+}
+&nbsp;
+data[0](); // 0
+data[1](); // 1
+data[2](); // 2
+</code></pre></div>
+</div>
+<p>Those who interested deeper in theory of closures and their practical application, may find additional information in the <a href="http://dmitrysoshnikov.com/ecmascript/chapter-6-closures/">Chapter 6. Closures</a>. And to get more information about a scope chain, take a look on the same name <a href="http://dmitrysoshnikov.com/ecmascript/chapter-4-scope-chain/">Chapter 4. Scope chain</a>.</p>
+<p>And we're moving to the next section, considering the last property of an execution context. This is concept of a <code>this</code> value.</p>
+<h2 id="this-value" class="header-link"><a href="#this-value">This value</a></h2>
+<p class="definition">A <code>this</code> value is a special object which is related with the execution context. Therefore, it may be named as a <em>context object</em> (i.e. an object in which context the execution context is <em>activated</em>).</p>
+<p><em>Any object</em> can be used as <code>this</code> value of the context. One important note is that the  <code>this</code> value is a <em>property of the execution context</em>, but <em>not</em> a property of the variable object.</p>
+<p>This feature is very important, because in <em>contrast with variables</em>, <em><code>this</code> value never participates in identifier resolution process</em>. I.e. when accessing <code>this</code> in a code, its value is taken <em>directly</em> from the execution context and <em>without any scope chain lookup</em>. The value of <code>this</code> is determined <em>only once</em>, on <em>entering the context</em>.</p>
+<p class="note">NOTE: In <abbr title="ECMAScript 6">ES6</abbr> <code>this</code> actually became a property of a <em>lexical environment</em>, i.e. property of the <em>variable object</em> in ES3 terminology. This is done to support <em>arrow functions</em>, which have <em>lexical <code>this</code></em>, which they inherit from parent contexts.</p>
+<p>By the way, in contrast with ECMAScript, e.g. Python has its <code>self</code> argument of methods as a simple variable which is resolved the same and may be even changed during the execution to another value. In ECMAScript it is <em>not possible</em> to assign a new value to <code>this</code>, because, repeat, it's not a variable and is not placed in the variable object.</p>
+<p>In the global context, a <code>this value</code> is the <em>global object itself</em> (that means, <code>this</code> value here equals to <em>variable object</em>):</p>
+<div><pre><code>var x = 10;
+&nbsp;
+console.log(
+&nbsp;&nbsp;x, // 10
+&nbsp;&nbsp;this.x, // 10
+&nbsp;&nbsp;window.x // 10
+);
+</code></pre></div>
+<p>In case of a function context, <code>this</code> value in <em>every single function call</em> may be <em>different</em>. Here <code>this</code> value is provided by the <em>caller</em> via the <em>form of a call expression</em> (i.e. the way of how a function is activated). For example, the function <code>foo</code> below is a <em>callee</em>, being called from the global context, which is a <em>caller</em>. Let's see on the example, how for the same code of a function, <code>this</code> value in different calls (different ways of the function activation) is provided <em>differently</em> by the caller:</p>
+<div><pre><code>// the code of the "foo" function
+// never changes, but the "this" value
+// differs in every activation
+&nbsp;
+function foo() {
+&nbsp;&nbsp;alert(this);
+}
+&nbsp;
+// caller activates "foo" (callee) and
+// provides "this" for the callee
+&nbsp;
+foo(); // global object
+foo.prototype.constructor(); // foo.prototype
+&nbsp;
+var bar = {
+&nbsp;&nbsp;baz: foo
+};
+&nbsp;
+bar.baz(); // bar
+&nbsp;
+(bar.baz)(); // also bar
+(bar.baz = bar.baz)(); // but here is global object
+(bar.baz, bar.baz)(); // also global object
+(false || bar.baz)(); // also global object
+&nbsp;
+var otherFoo = bar.baz;
+otherFoo(); // again global object
+</code></pre></div>
+<p>To consider deeply why (and that is more essential — <em>how</em>) <code>this</code> value may change in every function call, you may read <a href="http://dmitrysoshnikov.com/ecmascript/chapter-3-this/">Chapter 3. This</a> where all mentioned above cases are discussed in detail.</p>
+<h2 id="conclusion" class="header-link"><a href="#conclusion">Conclusion</a></h2>
+<p>At this step we finish this brief overview. Though, it turned out to not so "brief". However, the whole explanation of all these topics requires a complete book. We though didn't touch two major topics: <em>functions</em> (and the difference between some types of functions, e.g. <em>function declaration</em> and <em>function expression</em>) and the <em>evaluation strategy</em> used in ECMAScript. Both topics may be found in the appropriate chapters of ES3 series: <a href="http://dmitrysoshnikov.com/ecmascript/chapter-5-functions/">Chapter 5. Functions</a> and <a href="http://dmitrysoshnikov.com/ecmascript/chapter-8-evaluation-strategy/">Chapter 8. Evaluation strategy</a>.</p>
+<p>If you have comments, questions or additions, I'll be glad to discuss them in comments.</p>
+<p>Good luck in studying ECMAScript!</p>
+<p><strong>Written by:</strong> Dmitry A. Soshnikov<br>
+<strong>Published on: </strong>2010-09-02</p>
+<p>
+					</p></div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-58" name="t-58"></a><h1>58 : Understanding Scopes</h1>
+					<span class="ref-site">https://github.com/angular/angular.js/wiki/Understanding-Scopes</span>
+					<div class="tutorial__content">
+<div class="markdown-body">
+        <p><strong>Executive Summary:</strong></p>
+<p>In AngularJS, a child scope normally prototypically inherits from its parent scope. One exception to this rule is a directive that uses <code>scope: { ... }</code> -- this creates an "isolate" scope that does not prototypically inherit.（and directive with transclusion） This construct is often used when creating a "reusable component" directive. In directives, the parent scope is used directly by default, which means that whatever you change in your directive that comes from the parent scope will also change in the parent scope. If you set <code>scope:true</code> (instead of <code>scope: { ... }</code>), then prototypical inheritance will be used for that directive.</p>
+<p>Scope inheritance is normally straightforward, and you often don't even need to know it is happening... until you try <strong>2-way data binding</strong> (i.e., form elements, ng-model) <strong>to a primitive</strong> (e.g., number, string, boolean) defined on the parent scope from inside the child scope.  It doesn't work the way most people expect it should work.  What happens is that the child scope gets its own property that hides/shadows the parent property of the same name.  This is not something AngularJS is doing – this is how JavaScript prototypal inheritance works.  New AngularJS developers often do not realize that ng-repeat, ng-switch, ng-view, ng-include and ng-if all create new child scopes, so the problem often shows up when these directives are involved. (See <a href="http://plnkr.co/edit/zZfUQN?p=preview">this example</a> for a quick illustration of the problem.)</p>
+<p>This issue with primitives can be easily avoided by following the "best practice" of <a href="http://www.youtube.com/watch?v=ZhfUv0spHCY&amp;feature=youtu.be&amp;t=30m">always have a '.' in your ng-models</a> –  watch 3 minutes worth.  Misko demonstrates the primitive binding issue with ng-switch.</p>
+<p>Having a '.' in your models will ensure that prototypal inheritance is in play.  So, use <br>
+<code>&lt;input type="text" ng-model="someObj.prop1"&gt;</code> rather than <br>
+<code>&lt;input type="text" ng-model="prop1"&gt;</code>.</p>
+<p>If you really want/need to use a primitive, there are two workarounds:</p>
+<ol>
+<li>Use <code>$parent.parentScopeProperty</code> in the child scope.  This will prevent the child scope from creating its own property.</li>
+<li>Define a function on the parent scope, and call it from the child, passing the primitive value up to the parent (not always possible)</li>
+</ol>
+<p><strong>The Details:</strong></p>
+<ul>
+<li><a href="#javascript-prototypal-inheritance">JavaScript Prototypal Inheritance</a></li>
+<li>
+<a href="#angular-scope-inheritance">Angular Scope Inheritance</a>
+<ul>
+<li><a href="#ng-include">ng-include</a></li>
+<li><a href="#ng-switch">ng-switch</a></li>
+<li><a href="#ng-repeat">ng-repeat</a></li>
+<li><a href="#ng-view">ng-view</a></li>
+<li><a href="#ng-controller">ng-controller</a></li>
+<li><a href="#directives">directives</a></li>
+</ul>
+</li>
+</ul>
+<p>##JavaScript Prototypal Inheritance</p>
+<p>It is important to first have a solid understanding of JavaScript prototypal inheritance, especially if you are coming from a server-side background and you are more familiar with classical inheritance. So let's review that first.</p>
+<p>Suppose parentScope has properties aString, aNumber, anArray, anObject, and aFunction. If childScope prototypically inherits from parentScope, we have:</p>
+<p><img src="https://camo.githubusercontent.com/85ec776a0dd4acbe687f3db6367fa56872abb87f/687474703a2f2f692e737461636b2e696d6775722e636f6d2f61544147672e706e67" alt="normal prototypal inheritance" data-canonical-src="http://i.stack.imgur.com/aTAGg.png"></p>
+<p>(Note that to save space, I show the <code>anArray</code> object as a single blue object with its three values, rather than an single blue object with three separate gray literals.)</p>
+<p>If we try to access a property defined on the parentScope from the child scope, JavaScript will first look in the child scope, not find the property, then look in the inherited scope, and find the property. (If it didn't find the property in the parentScope, it would continue up the prototype chain... all the way up to the root scope). So, these are all true:</p>
+<pre><code>childScope.aString === 'parent string'
+childScope.anArray[1] === 20
+childScope.anObject.property1 === 'parent prop1'
+childScope.aFunction() === 'parent output'
+</code></pre>
+<p>Suppose we then do this:</p>
+<pre><code>childScope.aString = 'child string'
+</code></pre>
+<p>The prototype chain is not consulted, and a new aString property is added to the childScope. <strong>This new property hides/shadows the parentScope property with the same name</strong>. This will become very important when we discuss ng-repeat and ng-include below.</p>
+<p><img src="https://camo.githubusercontent.com/be4cd25951780638cf181b743b723ba6fb6ddb47/687474703a2f2f692e737461636b2e696d6775722e636f6d2f4f795650572e706e67" alt="shadowing" data-canonical-src="http://i.stack.imgur.com/OyVPW.png"></p>
+<p>Suppose we then do this:</p>
+<pre><code>childScope.anArray[1] = 22
+childScope.anObject.property1 = 'child prop1'
+</code></pre>
+<p>The prototype chain is consulted because the objects (anArray and anObject) are not found in the childScope. The objects are found in the parentScope, and the property values are updated on the original objects. No new properties are added to the childScope; no new objects are created. (Note that in JavaScript arrays and functions are also objects.)</p>
+<p><img src="https://camo.githubusercontent.com/57f1938d241122bf49583ed64ee093e45e5dd012/687474703a2f2f692e737461636b2e696d6775722e636f6d2f32516365552e706e67" alt="follow the chain" data-canonical-src="http://i.stack.imgur.com/2QceU.png"></p>
+<p>Suppose we then do this:</p>
+<pre><code>childScope.anArray = [100, 555]
+childScope.anObject = { name: 'Mark', country: 'USA' }
+</code></pre>
+<p>The prototype chain is not consulted, and child scope gets two new object properties that hide/shadow the parentScope object properties with the same names.</p>
+<p><img src="https://camo.githubusercontent.com/4679189c134e25e7dd7fcee18bc676cf9ec6b295/687474703a2f2f692e737461636b2e696d6775722e636f6d2f684b6574482e706e67" alt="not following the chain" data-canonical-src="http://i.stack.imgur.com/hKetH.png"></p>
+<p>Takeaways:</p>
+<ul>
+<li>If we read childScope.propertyX, and childScope has propertyX, then the prototype chain is not consulted.</li>
+<li>If we set childScope.propertyX, the prototype chain is not consulted.</li>
+</ul>
+<p>One last scenario:</p>
+<pre><code>delete childScope.anArray
+childScope.anArray[1] === 22  // true
+</code></pre>
+<p>We deleted the childScope property first, then when we try to access the property again, the prototype chain is consulted.</p>
+<p><img src="https://camo.githubusercontent.com/7f2d4d76e472463fa2980802a08cb3bedca7e0cd/687474703a2f2f692e737461636b2e696d6775722e636f6d2f3536756f652e706e67" alt="after deleting a property" data-canonical-src="http://i.stack.imgur.com/56uoe.png"></p>
+<p>Here is a <a href="http://jsfiddle.net/5qjLd/">jsfiddle</a> where you can see the above javascript prototypical inheritance examples being modified and their result (open up your browser's console to see the output. The console output can be viewed as what the 'RootScope' would see).</p>
+<p>##Angular Scope Inheritance</p>
+<p>The contenders:</p>
+<ul>
+<li>The following create new scopes, and inherit prototypically: ng-repeat, ng-include, ng-switch, ng-view, ng-controller, directive with <code>scope: true</code>, directive with <code>transclude: true</code>.</li>
+<li>The following creates a new scope which does not inherit prototypically: directive with <code>scope: { ... }</code>. This creates an "isolate" scope instead.</li>
+</ul>
+<p>Note, by default, directives do not create new scope -- i.e., the default is <code>scope: false</code>.</p>
+<p>###ng-include</p>
+<p>Suppose we have in our controller:</p>
+<pre><code>$scope.myPrimitive = 50;
+$scope.myObject    = {aNumber: 11};
+</code></pre>
+<p>And in our HTML:</p>
+<pre><code>&lt;script type="text/ng-template" id="/tpl1.html"&gt;
+    &lt;input ng-model="myPrimitive"&gt;
+&lt;/script&gt;
+&lt;div ng-include src="'/tpl1.html'"&gt;&lt;/div&gt;
+
+&lt;script type="text/ng-template" id="/tpl2.html"&gt;
+    &lt;input ng-model="myObject.aNumber"&gt;
+&lt;/script&gt;
+&lt;div ng-include src="'/tpl2.html'"&gt;&lt;/div&gt;
+</code></pre>
+<p>Each ng-include generates a new child scope, which prototypically inherits from the parent scope.</p>
+<p><img src="https://camo.githubusercontent.com/67fc2d40487725fde10b669426c8b6b74213e6c6/687474703a2f2f692e737461636b2e696d6775722e636f6d2f7a694466782e706e67" alt="ng-include" data-canonical-src="http://i.stack.imgur.com/ziDfx.png"></p>
+<p>Typing (say, "77") into the first input textbox causes the child scope to get a new myPrimitive scope property that hides/shadows the parent scope property of the same name. This is probably not what you want/expect.</p>
+<p><img src="https://camo.githubusercontent.com/f1c9d54bd5b13d1e479b41ca6062b4b9fecc8fe2/687474703a2f2f692e737461636b2e696d6775722e636f6d2f376c3864672e706e67" alt="ng-include primitive" data-canonical-src="http://i.stack.imgur.com/7l8dg.png"></p>
+<p>Typing (say, "99") into the second input textbox does not result in a new child property. Because tpl2.html binds the model to an object property, prototypal inheritance kicks in when the ngModel looks for object myObject -- it finds it in the parent scope.</p>
+<p><img src="https://camo.githubusercontent.com/5a6ff2644b1b7a15621c2a20928abfce0a2018bb/687474703a2f2f692e696d6775722e636f6d2f6f764a6547706f2e706e67" alt="ng-include object" data-canonical-src="http://i.imgur.com/ovJeGpo.png"></p>
+<p>We can rewrite the first template to use $parent, if we don't want to change our model from a primitive to an object:</p>
+<pre><code>&lt;input ng-model="$parent.myPrimitive"&gt;
+</code></pre>
+<p>Typing (say, "22") into this input textbox does not result in a new child property. The model is now bound to a property of the parent scope (because $parent is a child scope property that references the parent scope).</p>
+<p><img src="https://camo.githubusercontent.com/40767f9e9cc824e5c9ef178e385c9daa40ade6ba/687474703a2f2f692e737461636b2e696d6775722e636f6d2f6b6438706a2e706e67" alt="ng-include $parent" data-canonical-src="http://i.stack.imgur.com/kd8pj.png"></p>
+<p>For all scopes (prototypal or not), Angular always tracks a parent-child relationship (i.e., a hierarchy), via scope properties $parent, $$childHead and $$childTail. I normally don't show these scope properties in the diagrams.</p>
+<p>For scenarios where form elements are not involved, another solution is to define a function on the parent scope to modify the primitive. Then ensure the child always calls this function, which will be available to the child scope due to prototypal inheritance. E.g.,</p>
+<pre><code>// in the parent scope
+$scope.setMyPrimitive = function(value) {
+    $scope.myPrimitive = value;
+}
+</code></pre>
+<p>Here is a <a href="http://jsfiddle.net/mrajcok/jNxyE/">sample fiddle</a> that uses this "parent function" approach.  (This was part of a <a href="http://stackoverflow.com/a/14104318/215945">Stack Overflow post</a>.)</p>
+<p>See also <a href="http://stackoverflow.com/a/13782671/215945">http://stackoverflow.com/a/13782671/215945</a> and<br> <a href="https://github.com/angular/angular.js/issues/1267">https://github.com/angular/angular.js/issues/1267</a>.</p>
+<p>###ng-switch</p>
+<p>ng-switch scope inheritance works just like ng-include. So if you need 2-way data binding to a primitive in the parent scope, use $parent, or change the model to be an object and then bind to a property of that object. This will avoid child scope hiding/shadowing of parent scope properties.</p>
+<p>See also <a href="http://stackoverflow.com/questions/12405005/angularjs-bind-scope-of-a-switch-case/12414410">AngularJS, bind scope of a switch-case?</a></p>
+<p>###ng-repeat</p>
+<p>Ng-repeat works a little differently. Suppose we have in our controller:</p>
+<pre><code>$scope.myArrayOfPrimitives = [ 11, 22 ];
+$scope.myArrayOfObjects    = [{num: 101}, {num: 202}]
+</code></pre>
+<p>And in our HTML:</p>
+<pre><code>&lt;ul&gt;&lt;li ng-repeat="num in myArrayOfPrimitives"&gt;
+       &lt;input ng-model="num"&gt;&lt;/input&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;&lt;li ng-repeat="obj in myArrayOfObjects"&gt;
+       &lt;input ng-model="obj.num"&gt;&lt;/input&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<p>For each item/iteration, ng-repeat creates a new scope, which prototypically inherits from the parent scope, <strong>but it also assigns the item's value to a new property on the new child scope</strong>. (The name of the new property is the loop variable's name.) Here's what the Angular source code for ng-repeat actually is:</p>
+<pre><code>childScope = scope.$new(); // child scope prototypically inherits from parent scope ...     
+childScope[valueIdent] = value; // creates a new childScope property
+</code></pre>
+<p>If item is a primitive (as in myArrayOfPrimitives), essentially a copy of the value is assigned to the new child scope property. Changing the child scope property's value (i.e., using ng-model, hence child scope property <code>num</code>) does <strong>not</strong> change the array the parent scope references. So in the first ng-repeat above, each child scope gets a <code>num</code> property that is independent of the myArrayOfPrimitives array:</p>
+<p><img src="https://camo.githubusercontent.com/3254baf91afdd969e6f167eeeb59950a0399a8f1/687474703a2f2f692e737461636b2e696d6775722e636f6d2f6e4c6f69572e706e67" alt="ng-repeat primitive" data-canonical-src="http://i.stack.imgur.com/nLoiW.png"></p>
+<p>This ng-repeat will not work (like you want/expect it to).  In Angular 1.0.2 or earlier, typing into the textboxes changes the values in the gray boxes, which are only visible in the child scopes.  In Angular 1.0.3+, typing into the text boxes has no effect.  (See Artem's explanation as to why on <a href="http://stackoverflow.com/a/13723990/215945">StackOverflow</a>.) What we want is for the inputs to affect the myArrayOfPrimitives array, not a child scope primitive property. To accomplish this, we need to change the model to be an array of objects.</p>
+<p>So, if item is an object, a reference to the original object (not a copy) is assigned to the new child scope property. Changing the child scope property's value (i.e., using ng-model, hence <code>obj.num</code>) <strong>does</strong> change the object the parent scope references. So in the second ng-repeat above, we have:</p>
+<p><img src="https://camo.githubusercontent.com/881318ad2d70364cf61d50faf536a7ce08f39777/687474703a2f2f692e737461636b2e696d6775722e636f6d2f51536a544a2e706e67" alt="ng-repeat object" data-canonical-src="http://i.stack.imgur.com/QSjTJ.png"></p>
+<p>(I colored one line gray just so that it is clear where it is going.)</p>
+<p>This works as expected. Typing into the textboxes changes the values in the gray boxes, which are visible to both the child and parent scopes.</p>
+<p>See also <a href="http://stackoverflow.com/questions/13714884/difficulty-with-ng-model-ng-repeat-and-inputs">Difficulty with ng-model, ng-repeat, and inputs</a> and<br> <a href="http://stackoverflow.com/a/13782671/215945">ng-repeat and databinding</a></p>
+<p>###ng-view</p>
+<p>TBD, but I think it acts just like ng-include.</p>
+<p>###ng-controller</p>
+<p>Nesting controllers using ng-controller results in normal prototypal inheritance, just like ng-include and ng-switch, so the same techniques apply. However, "it is considered bad form for two controllers to share information via $scope inheritance" -- <a href="http://onehungrymind.com/angularjs-sticky-notes-pt-1-architecture/">http://onehungrymind.com/angularjs-sticky-notes-pt-1-architecture/</a> A service should be used to share data between controllers instead.</p>
+<p>(If you really want to share data via controllers scope inheritance, there is nothing you need to do. The child scope will have access to all of the parent scope properties. See also <a href="http://stackoverflow.com/questions/13825419/controller-load-order-differs-when-loading-or-navigating/13843771#13843771">Controller load order differs when loading or navigating</a>)</p>
+<p>###directives</p>
+<ol>
+<li>default (<code>scope: false</code>) - the directive does not create a new scope, so there is no inheritance here. This is easy, but also dangerous because, e.g., a directive might think it is creating a new property on the scope, when in fact it is clobbering an existing property. This is not a good choice for writing directives that are intended as reusable components.</li>
+<li>
+<code>scope: true</code> - the directive creates a new child scope that prototypically inherits from the parent scope. If more than one directive (on the same DOM element) requests a new scope, only one new child scope is created. Since we have "normal" prototypal inheritance, this is like ng-include and ng-switch, so be wary of 2-way data binding to parent scope primitives, and child scope hiding/shadowing of parent scope properties.</li>
+<li>
+<code>scope: { ... }</code> - the directive creates a new isolate/isolated scope. It does not prototypically inherit. This is usually your best choice when creating reusable components, since the directive cannot accidentally read or modify the parent scope. However, such directives often need access to a few parent scope properties. The object hash is used to set up two-way binding (using '=') or one-way binding (using '@') between the parent scope and the isolate scope. There is also '&amp;' to bind to parent scope expressions. So, these all create local scope properties that are derived from the parent scope. Note that attributes are used to help set up the binding -- you can't just reference parent scope property names in the object hash, you have to use an attribute. E.g., this won't work if you want to bind to parent property <code>parentProp</code> in the isolated scope: <code>&lt;div my-directive&gt;</code> and <code>scope: { localProp: '@parentProp' }</code>. An attribute must be used to specify each parent property that the directive wants to bind to: <code>&lt;div my-directive the-Parent-Prop=parentProp&gt;</code> and <code>scope: { localProp: '@theParentProp' }</code>.
+<br>Isolate scope's <code>__proto__</code> references a <a href="http://docs.angularjs.org/api/ng.%24rootScope.Scope">Scope</a> object. Isolate scope's $parent references the parent scope, so although it is isolated and doesn't inherit prototypically from the parent scope, it is still a child scope.
+<br>For the picture below we have
+<br><code>&lt;my-directive interpolated="{{parentProp1}}" twowayBinding="parentProp2"&gt;</code> and
+<br> <code>scope: { interpolatedProp: '@interpolated', twowayBindingProp: '=twowayBinding' }</code>
+<br>Also, assume the directive does this in its linking function: <code>scope.someIsolateProp = "I'm isolated"</code>
+<br><img src="https://camo.githubusercontent.com/0c650e5b62347beec5ebbb4990673a523a80968c/687474703a2f2f692e737461636b2e696d6775722e636f6d2f45586a5a712e706e67" alt="isolate scope" data-canonical-src="http://i.stack.imgur.com/EXjZq.png">
+<br>One final note: use <code>attrs.$observe('attr_name', function(value) { ... })</code> in the linking function to get the interpolated value of isolate scope properties that use the '@' notation.  E.g., if we have this in the linking function -- <code>attrs.$observe('interpolated', function(value) { ... })</code> -- <code>value</code> would be set to 11.  (<code>scope.interpolatedProp</code> is undefined in the linking function.  In contrast, <code>scope.twowayBindingProp</code> is defined in the linking function, since it uses the '=' notation.)
+<br>For more information on isolate scopes see <a href="http://onehungrymind.com/angularjs-sticky-notes-pt-2-isolated-scope/">http://onehungrymind.com/angularjs-sticky-notes-pt-2-isolated-scope/</a>
+</li>
+<li>
+<code>transclude: true</code> - the directive creates a new "transcluded" child scope, which prototypically inherits from the parent scope.  <del>So if your transcluded content (i.e., the stuff that ng-transclude will be replaced with) requires 2-way data binding to a primitive in the parent scope, use $parent, or change the model to be an object and then bind to a property of that object. This will avoid child scope hiding/shadowing of parent scope properties.<br>The transcluded and the isolated scope (if any) are siblings -- the $parent property of each scope references the same parent scope. When a transcluded and an isolate scope both exist, isolate scope property $$nextSibling will reference the transcluded scope.
+<br>For more information on transcluded scopes, see <a href="http://stackoverflow.com/a/14484903/215945">AngularJS two way binding not working in directive with transcluded scope</a>
+<br>For the picture below, assume the same directive as above with this addition: <code>transclude: true</code>
+<br><img src="https://camo.githubusercontent.com/4d9a7cbb029bb29d66cbbef0f0527b2d40202d90/687474703a2f2f692e737461636b2e696d6775722e636f6d2f41684f47482e706e67" alt="transcluded scope" data-canonical-src="http://i.stack.imgur.com/AhOGH.png"></del>. The former information is outdated since v1.3. Isolated scope is the $parent of transcluded scope now. See <a href="http://stackoverflow.com/questions/17788289/why-ng-transcludes-scope-is-not-a-child-of-its-directives-scope-if-the-direc">Why ng-transclude's scope is not a child of its directive's scope - if the directive has an isolated scope?</a> for more detail.</li>
+</ol>
+<p>This <a href="http://jsfiddle.net/mrajcok/7g3QM/">fiddle</a> has a <code>showScope()</code> function that can be used to examine an isolate scope and its associated transcluded scope. See the instructions in the comments in the fiddle.</p>
+
+<p>There are four types of scopes:</p>
+<ol>
+<li>normal prototypal scope inheritance -- ng-include, ng-switch, ng-controller, directive with <code>scope: true</code>
+</li>
+<li>normal prototypal scope inheritance with a copy/assignment -- ng-repeat. Each iteration of ng-repeat creates a new child scope, and that new child scope always gets a new property.</li>
+<li>isolate scope -- directive with <code>scope: {...}</code>. This one is not prototypal, but '=', '@', and '&amp;' provide a mechanism to access parent scope properties, via attributes.</li>
+<li>transcluded scope -- directive with <code>transclude: true</code>. This one is also normal prototypal scope inheritance, but it is also a sibling of any isolate scope.</li>
+</ol>
+<p>For all scopes (prototypal or not), Angular always tracks a parent-child relationship (i.e., a hierarchy), via properties $parent and $$childHead and $$childTail.</p>
+
+<p>The above was originally posted on <a href="http://stackoverflow.com/questions/14049480/what-are-the-nuances-of-scope-prototypal-prototypical-inheritance-in-angularjs">StackOverflow</a>.</p>
+
+      </div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-59" name="t-59"></a><h1>59 : Monkey-Patching, Overriding, and Decorating Methods in JavaScript</h1>
+					<span class="ref-site">http://me.dt.in.th/page/JavaScript-override/</span>
+					<div class="tutorial__content">
+
+<div class="me-content-data">
+	
+  <p>While working on a <a href="http://casperjs.org/">CasperJS</a> <a href="http://docs.casperjs.org/en/latest/modules/tester.html">test suite</a>,
+I wanted to make it generate another file after the test result file was generated,
+so I had to monkey-patch their test framework
+(see the section after this article for why I had to do it).</p>
+
+<p><a href="http://en.wikipedia.org/wiki/Monkey_patch">Monkey-patching</a> is a way to override or extend the behaviour of a method without changing its original source code.
+This article shows you how you can do it in a beautiful way in JavaScript.</p>
+
+  
+  <h2>Original Code</h2>
+
+<p>Let's take this class as an example.
+The <code>Tester</code> class has a method <code>saveResults</code> that saves the test result to a file specified by <code>filepath</code>.</p>
+<pre><code>function Tester() {
+}
+
+Tester.prototype.saveResults = function(filepath) {
+  console.log('Save test result to ' + filepath)
+}
+
+Tester.prototype.run = function() {
+  console.log('Running tests...')
+  this.saveResults('test.xml')
+}
+</code></pre>
+<p>And it'd be used like this…</p>
+<pre><code>var test = new Tester()
+test.run()
+</code></pre>
+<p>Let's say that the <code>Tester</code> class is written by a third-party,
+so I don't want to modify its source code.</p>
+
+<p>However, I wanted my Tester to also generate and save a test plan file after the test result is saved.
+This is where monkey-patching comes in.</p>
+
+<h2>Stupid Monkey Patching</h2>
+
+<p>This is the simplest way to do monkey patching.
+Just copy the source code and modify it to your needs,
+replacing the original function.</p>
+<pre><code>var test = new Tester()
+
+test.saveResults = function(filepath) {
+  console.log('Save test result to ' + filepath)        // old code
+  var planpath = filepath.replace('.xml', '_plan.xml')  // new code
+  console.log('Save test plan to ' + planpath)          // new code
+}
+
+test.run()
+</code></pre>
+<p>It works but you have to duplicate some code from the source code.</p>
+
+<p>There has to be a better way…</p>
+
+<h2>Store a Reference to the Original Function</h2>
+
+<p>We can store a reference to the original function,
+and call it in our new function.</p>
+<pre><code>var test = new Tester()
+
+var originalSaveResults = test.saveResults
+test.saveResults = function(filepath) {
+  originalSaveResults.apply(this, arguments)
+  var planpath = filepath.replace('.xml', '_plan.xml')
+  console.log('Save test plan to ' + planpath)
+}
+
+test.run()
+</code></pre>
+<p>But how could you be sure that the function that calls <code>saveResults</code> doesn't use its return value?
+We can save the return value from the original function and return it to preserve its return value, whatever it might be:</p>
+<pre><code>var test = new Tester()
+
+var originalSaveResults = test.saveResults
+test.saveResults = function(filepath) {
+  var returnValue = originalSaveResults.apply(this, arguments)
+  var planpath = filepath.replace('.xml', '_plan.xml')
+  console.log('Save test plan to ' + planpath)
+  return returnValue
+}
+
+test.run()
+</code></pre>
+<p>Having to do this every time we monkey-patch a function seems to me like a lot of work.</p>
+
+<p>There has to be a better way…</p>
+
+<h2>Meet the <code>override</code> function</h2>
+
+<p>When we override a method, we</p>
+
+<ol>
+<li>save the original function in a variable, and</li>
+<li>replace that method with the function we desire to use.</li>
+</ol>
+
+<p>So I factored it out. Here's our override function:</p>
+<pre><code>function override(object, methodName, callback) {
+  object[methodName] = callback(object[methodName])
+}
+</code></pre>
+<p>What it does is this:
+it sends the original function into the <code>callback</code> function,
+and whatever that <code>callback</code> function returns,
+we replace the object's method with it.</p>
+
+<p>Here's how we can use it:</p>
+<pre><code>var test = new Tester()
+
+override(test, 'saveResults', function(original) {
+  return function(filepath) {
+    var returnValue = original.apply(this, arguments)
+    var planpath = filepath.replace('.xml', '_plan.xml')
+    console.log('Save test plan to ' + planpath)
+    return returnValue
+  }
+})
+
+test.run()
+</code></pre>
+<p>Now it's very clear that we are overriding a function,
+and no more do we have save the original function in a variable—it gets passed into the callback function.
+Also,
+instead of having to write the name of the method to monkey-patch twice,
+we only have to write it once.</p>
+
+<p>However,
+having to call the original function,
+and save its return value,
+and return it myself does not look ideal…</p>
+
+<p>There has to be a better way…</p>
+
+<h2>Meet the <code>after</code> decorator</h2>
+
+<p>You see the pattern:
+in the function we want to replace,
+we</p>
+
+<ol>
+<li>call the original function,</li>
+<li>save its return value,</li>
+<li>do our work, and</li>
+<li>return the saved return value.</li>
+</ol>
+
+<p>We can factor that out too. Meet the <code>after</code> function:</p>
+<pre><code>function after(extraBehavior) {
+  return function(original) {
+    return function() {
+      var returnValue = original.apply(this, arguments)
+      extraBehavior.apply(this, arguments)
+      return returnValue
+    }
+  }
+}
+</code></pre>
+<p>It's a <a href="http://javascript.info/tutorial/decorators">decorator</a>.
+It takes a function <code>extraBehavior</code>,
+and return a function suitable for passing to <code>override</code>—a function that takes the original function and return the altered behavior.
+We can use it like this.</p>
+<pre><code>override(test, 'saveResults', after(function(filepath) {
+  var planpath = filepath.replace('.xml', '_plan.xml')
+  console.log('Save test plan to ' + planpath)
+}))
+</code></pre>
+<hr>
+
+<h2>Meet the Other Decorators</h2>
+
+<p>Here are some other decorators,
+just to give you some idea how far you can go with it.</p>
+
+<h3><code>before</code></h3>
+<pre><code>function before(extraBehavior) {
+  return function(original) {
+    return function() {
+      extraBehavior.apply(this, arguments)
+      return original.apply(this, arguments)
+    }
+  }
+}
+</code></pre>
+<h3><code>compose</code></h3>
+<pre><code>function compose(extraBehavior) {
+  return function(original) {
+    return function() {
+      return extraBehavior.call(this, original.apply(this, arguments))
+    }
+  }
+}
+</code></pre>
+<p>Let's say you want to make <code>getName</code> always return the name uppercased:</p>
+<pre><code>override(person, 'getName', compose(function(name) {
+  return name.toUpperCase()
+}))
+</code></pre>
+<h3><code>benchmark</code></h3>
+<pre><code>function benchmark(original) {
+  return function() {
+    var startTime = new Date().getTime()
+    var returnValue = original.apply(this, arguments)
+    var finishTime = new Date().getTime()
+    console.log('Took', finishTime - startTime, 'ms.')
+    return returnValue
+  }
+}
+</code></pre>
+<h3><code>memoize</code></h3>
+<pre><code>// XXX: Work only with functions with 1 argument.
+function memoize(original) {
+  var memo = { }
+  return function(x) {
+    if (Object.prototype.hasOwnProperty.call(memo, x)) return memo[x]
+    memo[x] = original.call(this, x)
+    return memo[x]
+  }
+}
+</code></pre>
+<p>Well, maybe we might want to memoize a recursive function.</p>
+<pre><code>var fibonacci = {
+  fib: function(x) {
+    return x &lt;= 1 ? x : this.fib(x - 1) + this.fib(x - 2)
+  }
+}
+override(fibonacci, 'fib', memoize)
+console.log(fibonacci.fib(42)) // ~6111ms without memoize,
+                               //     0ms with memoize.
+</code></pre>
+<h2>Using These Decorators on Their Own</h2>
+
+<p>Of course, it's possible to use these decorators on their own.
+Here's how I measured the speed of the above benchmark of <code>memoize</code> decorator:</p>
+<pre><code>benchmark(fibonacci.fib.bind(fibonacci))(42)
+override(fibonacci, 'fib', memoize)
+benchmark(fibonacci.fib.bind(fibonacci))(42)
+</code></pre>
+<h2>Afterthoughts</h2>
+
+<p>Monkey-patching is extremely useful when you want to modify the behavior of some methods,
+but you don't want to alter its source code.
+For example,
+when attaching some extra behavior or when working around an issue in a third-party library.</p>
+
+<p>However,
+I don't recommend using it in your own code
+because when you read the original function,
+it will be hard to predict if some extra behavior will run
+because it's been monkey-patched somewhere else in your application or not.</p>
+
+<p>Here's a case study:</p>
+
+<p>My Twitter client, thaiWitter,
+has a lot of base functionalities hard-coded.
+Additional functionalities are added by monkey-patching these classes on top of one another.</p>
+
+<p>Soon the code became a big mess.
+It's hard to test and debug.</p>
+
+<p>The lessons I learned is this:
+it's better to make an object extensible explicitly
+(using hooks, events, or whatever)
+than implicitly (monkey patches on top of monkey patches).</p>
+
+<hr>
+
+<h2>Why I had to do monkey-patch CasperJS</h2>
+
+<h3>Capturing Screenshot when Test Failed</h3>
+
+<p>CasperJS's <a href="http://docs.casperjs.org/en/latest/modules/tester.html"><code>tester</code></a> module fires the <code>fail</code> event when an assertion failure occurs. We could have used that instead.</p>
+
+<p>However, when we tell CasperJS to abort the test suite on first failure (don't keep going on) with the <code>--fail-fast</code> flag turned on,
+CasperJS doesn't call the registered event handler!</p>
+
+<p>So we had to work around by monkey-patching the function that gets called when an error or an assertion failure occurs:</p>
+<pre><code>override(test.currentSuite, 'addFailure', after(handleFailure))
+override(test.currentSuite, 'addError',   after(handleFailure))
+</code></pre>
+<h3>Generating Test Plans</h3>
+
+<p>Furthermore, we want to be able to generate a test plan document in addition to the test result,
+and that's just what we did in the article:</p>
+<pre><code>override(test, 'saveResults', after(savePlan))
+</code></pre>
+</div>
+					
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-60" name="t-60"></a><h1>60 : Functional Programming in JavaScript</h1>
+					<span class="ref-site">http://dealwithjs.io/functional-programming-in-javascript/</span>
+					<div class="tutorial__content">
+<section class="post-content">
+            <p><a name="top"></a>  </p>
+
+<h3 id="tldr">TL; DR</h3>
+
+<p>Functional programming needs a different mindset than most of the developers/software engineers/programmers are used to. In this blog post I explain the main concepts of functional programming with examples written in JavaScript. Additional articles will follow with more in-depth details of Functional Programming in JS.</p>
+
+<p>Source code can be found on <a href="https://github.com/gergob">GitHub</a>, in the <a href="https://github.com/gergob/jsFunctionalProgramming">jsFunctionalProgramming</a> repo.</p>
+
+<blockquote>
+  <p>I would like to thank <a href="http://dealwithjs.io/author/csaba/">Csaba Hellinger</a> for the support and input he offered for writing this article.</p>
+</blockquote>
+
+<hr>
+
+<h1 id="part1">PART 1</h1>
+
+<h4 id="tableofcontents">Table of Contents</h4>
+
+<ol>
+<li><a href="#whyFunctionalProgramming">Why Functional Programming</a></li>
+<li><a href="#functionalJS">f(x) = = = J(s)</a></li>
+<li><a href="#firstClassFunctions">First Class Functions</a></li>
+<li><a href="#tailCallOptimization">Tail Call Optimization</a></li>
+<li><a href="#testingRecursiveCalls">Testing Recursive Calls</a></li>
+</ol>
+
+<p>Functional programming evolves from the <a href="https://en.wikipedia.org/wiki/Lambda_calculus">Lambda Calculus</a> which (on a very high level) is a Mathematical Abstraction of function representation and how these representations should be evaluated.</p>
+
+<blockquote>
+  <p>Functional programming is a declarative programming paradigm.</p>
+</blockquote>
+
+<h4 id="anamewhyfunctionalprogrammingawhyfunctionalprogrammingtop"><a name="whyFunctionalProgramming"></a>Why Functional Programming ? <a href="#top">^</a></h4>
+
+<p>Using functional programming has some specific characteristics: </p>
+
+<ol>
+<li><strong>Avoiding State Change (and mutable data)</strong> - one of the characteristics of functional programming is that functions do not change the state of the application, they rather create a new state from the old one.  </li>
+<li><strong>Declarations vs statements</strong> - in functional programming as in Mathematics a declarative approach is used for defining/describing functions.  </li>
+<li><strong>Idempotence</strong> - it means when invoking a function (any number of times) using the same arguments will always have the same result, this also goes hand in hand with avoiding state change.</li>
+</ol>
+
+<p>These three reasons do not seem to mean much at first glance, but if we analyze this more in depth we figure out that because of the three characteristics the following use cases are good candidates for functional programming:</p>
+
+<ol>
+<li><strong>Parallel code execution</strong> - because of the <strong>Idempotence</strong> and <strong>Avoiding State Change</strong> properties of functional programming, the code written in a functional manner can be parallelized easier since there will not be synchronization issues.  </li>
+<li><strong>Concise/Compact Code</strong> - since functional programming has a declarative approach the code does not have additional algorithmic steps like there is in procedural programming.  </li>
+<li><strong>Different mindset</strong> - once you coded in a real functional programming language you will develop a new mindset and a new way of thinking when writing applications.</li>
+</ol>
+
+<h4 id="anamefunctionaljsafxjstop"><a name="functionalJS"></a> f(x) === J(s) <a href="#top">^</a></h4>
+
+<p><strong>Is JavaScript a real (purely) functional programming language?</strong></p>
+
+<blockquote>
+  <p>NO! JavaScript is not a pure functional programming language...</p>
+</blockquote>
+
+<h5 id="anamefirstclassfunctionsafirstclassfunctionstop"><a name="firstClassFunctions"></a>First-class Functions <a href="#top">^</a></h5>
+
+<p><strong>BUT</strong> it can be used well for functional programming because it has <strong>first-class</strong> functions. By definition a programming language has <strong>first-class</strong> functions, if it handles functions as any other type within the language. For example functions can be passed as arguments to other functions or can be assigned to variables. </p>
+
+<p>We will examine some first class function, but first lets start with building blocks which we need to have in order to use JS as a real functional programming language. </p>
+
+<p>In most of the pure functional programming languages (Haskell, Clean, Erlang) there are no <code>for</code> or <code>while</code> loops, so iterating over lists needs to be done using recursive functions. Pure functional programming languages have language support and are optimized for list comprehension and list concatenation.</p>
+
+<p>Here is an implementation of a functional <code>for</code> loop, we will use this in our code later on, but you will see this has limitations in JS since <a href="http://www.2ality.com/2015/06/tail-call-optimization.html">tail call optimization</a> is not widely supported (yet), but more on this later. </p>
+
+<pre><code>function funcFor(first, last, step, callback) {
+
+    //
+    // recursive inner function
+    //
+    function inner(index) {
+        if ((step &gt; 0 &amp;&amp; index &gt;= last) || (step &lt; 0 &amp;&amp; index &lt; last)) {
+            return;
+        }
+
+        callback(index);
+
+        //
+        // next (proper tail call)
+        //
+        inner(index + step);
+    }
+
+    //
+    // start with the first
+    //
+    inner(first);
+}
+</code></pre>
+
+<p>The <code>inner</code> function contains the stop condition handling, it invokes the <code>callback</code> with the <code>index</code> value and the recursive call <code>inner(index + step)</code> ensures the loop passes on to the next step.</p>
+
+<blockquote>
+  <p>Recursion is an important aspect of functional programming.</p>
+</blockquote>
+
+<p>Now lets see some real first class functions:</p>
+
+<pre><code>function applyIfAllNumbers(items, fn) {  
+    if(areNumbers(items)) {
+        return funcMap(items, fn);
+    }
+    return [];
+}
+</code></pre>
+
+<p>The purpose of the <code>applyIfAllNumbers</code> function is, to invoke the <code>fn</code> function for each number in the <code>items</code> parameter, but ONLY if all the elements in the <code>items</code> array are numbers. </p>
+
+<p>Below are the validator functions:</p>
+
+<pre><code>function areNumbers(numbers) {  
+    if (numbers.length === 0) {
+        return true;
+    }
+    else {
+        return isNumber(numbers[0]) &amp;&amp;
+               areNumbers(numbers.slice(1));
+    }
+}
+
+function isNumber(n) {  
+    return isFinite(n) &amp;&amp; +n === n;
+}
+</code></pre>
+
+<p>The code is straightforward, the <code>isNumber</code> returns <code>true</code> if the parameter is a number, otherwise <code>false</code>. The <code>areNumbers</code> reuses the <code>isNumber</code> to determine if all the elements in the <code>numbers</code> array are numbers or not(<strong>again, recursion was used to implement the logic</strong>).</p>
+
+<p>Another example is <code>applyForNumbersOnly</code>:  </p>
+
+<pre><code>function applyForNumbersOnly(items, fn) {  
+    let numbers = filter(items, isNumber);
+    return funcMap(numbers, fn);
+}
+</code></pre>
+
+<p>Which can be simplified even more:</p>
+
+<pre><code>function applyForNumbersOnly(items, fn) {  
+    return funcMap(filter(items, isNumber), fn);
+}
+</code></pre>
+
+<p><code>applyForNumbersOnly</code> invokes the <code>fn</code> method only for numbers in the <code>items</code> collection.</p>
+
+<p>The <code>funcMap</code> function is the re-implementation of the well known <code>map</code> function from functional programming, but here I used the <code>funcForEach</code> implementation to create it:</p>
+
+<pre><code>function funcForEach(items, fn) {  
+    return funcFor(0, items.length, 1, function(idx) {
+        fn(items[idx]);
+    });
+}
+
+function funcMap(items, fn) {  
+    let result = [];
+    funcForEach(items, function(item) {
+        result.push(fn(item));
+    });
+    return result;
+}
+</code></pre>
+
+<p>Last we have the <code>filter</code> function which, again, uses recursion to apply the filter logic.</p>
+
+<pre><code>function filter(input, callback) {  
+    function inner(input, callback, index, output) {
+        if (index === input.length) {
+            return output;
+        }
+        return inner(input, 
+                     callback, 
+                     index + 1, 
+                     callback(input[index]) ? output.concat(input[index]) : output);
+    }
+    return inner(input, callback, 0, []);
+}
+</code></pre>
+
+<h4 id="anametailcalloptimizationatailcalloptimizationtcoinjstop"><a name="tailCallOptimization"></a>Tail call optimization (TCO) in JS <a href="#top">^</a></h4>
+
+<p>In the <a href="http://www.ecma-international.org/ecma-262/6.0/#sec-tail-position-calls">EcmaScript 2015 TCO</a> specs there are some use-cases defined when the language should support tail call optimization. One of the most important requirements is to <code>"use strict"</code> mode in your code, otherwise JS cannot apply the TCO.</p>
+
+<p>There is no built in method to detect if a browser supports TCO or not, this has to be done through code:</p>
+
+<pre><code>"use strict";
+
+function isTCOSupported() {  
+    const outerStackLen = new Error().stack.length;
+    // name of the inner function mustn't be longer than the outer!
+    return (function inner() {
+        const innerStackLen = new Error().stack.length;
+        return innerStackLen &lt;= outerStackLen;
+    }());
+}
+
+console.log(isTCOSupported() ? "TCO Available" : "TCO N/A");  
+</code></pre>
+
+<p>Here is an example of the functional re-implementation of <code>Math.pow</code> function, which can benefit from the TCO in EcmaScript 2015.</p>
+
+<blockquote>
+  <p>This <code>pow</code> implementation uses <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters">ES6 default parameters</a> to simplify implementation.</p>
+</blockquote>
+
+<pre><code>function powES6(base, power, result=base) {  
+    if (power === 0) {
+        return 1;
+    }
+
+    if (power === 1) {
+        return result;
+    }
+
+    return powES6(base, power - 1, result * base);
+}
+</code></pre>
+
+<p>First thing to note is that we have three arguments instead of two. The third parameter holds the result of the calculation. We have to carry the <code>result</code> around in order to have an implementation where our recursive call is really a tail call and JS can use his TCO technique. </p>
+
+<p>In case we cannot use ES6 features, besides that I do not recommend using recursive implementation because the language will not offer support for optimization, the implementation is more complex:</p>
+
+<pre><code>function recursivePow(base, power, result) {  
+    if (power === 0) {
+        return 1;
+    }
+    else if(power === 1) {
+        return result;
+    }
+
+    return recursivePow(base, power - 1, result * base);
+}
+
+function pow(base, power) {  
+    return recursivePow(base, power, base);
+}
+</code></pre>
+
+<p>We separated the recursive calculation to another function <code>recursivePow</code>, this takes three arguments as the <code>powES6</code> did. Using a new function and passing the <code>base</code> parameter to it we implemented the default parameter initialization logic from ES6.</p>
+
+<p>On <a href="https://kangax.github.io/compat-table/es6/#test-proper_tail_calls_" title="tail_call_optimisation">this page</a> you can check how widely is the TCO implemented by different browsers and platforms.</p>
+
+<p>Since <strong>Safari 10</strong> is the browser which fully supports TCO (at the time of writing this article) I will run some tests with the <code>pow</code> function to see how well does it perform.</p>
+
+<h4 id="anametestingrecursivecallsatestingrecursivecallstop"><a name="testingRecursiveCalls"></a>Testing Recursive Calls <a href="#top">^</a></h4>
+
+<p>I used the <code>powES6</code> and <code>pow</code> functions with the following test code:</p>
+
+<pre><code>"use strict";
+
+function stressPow(n) {  
+    var result = [];
+    for (var i=0; i&lt;n; ++i) {
+        result.push(
+          pow(2, 0),
+          pow(2, 1),
+          pow(2, 2),
+          pow(2, 3),
+          pow(2, 4),
+          pow(2, 5),
+          pow(2, 10),
+          pow(2, 20),
+          pow(2, 30),
+          pow(1, 10000),
+          pow(2, 40),
+          pow(3, 10),
+          pow(4, 15),
+          pow(1, 11000),
+          pow(3.22, 125),
+          pow(3.1415, 89),
+          pow(7, 2500),
+          pow(2, 13000)
+        );
+    }
+
+    return result;
+}
+
+var start = performance.now();  
+var result_standard = stressPow(2500);  
+var duration = performance.now() - start;  
+console.log(result_standard);  
+console.log(`Duration: ${duration} ms.`);
+</code></pre>
+
+<p>I executed this JS code on Chrome v55, Firefox v50,  Safari v9.2 and Safari v10.  </p>
+
+<table style="border: 1px solid #efefef;" border="1">  
+  <thead>
+    <tr>
+      <th style="text-align:center; width:60px">Nr. </th>
+      <th style="text-align:center">Chrome v55 (ms)</th>
+      <th style="text-align:center">FF v50 (ms)</th>
+      <th style="text-align:center">Safari 9.2 (ms)</th>
+      <th style="text-align:center">Safari 10 (ms)</th>
+    </tr>
+  </thead>
+  <tbody>
+   <tr>
+      <td style="text-align:right">1</td>
+      <td style="text-align:right">1076.12</td>
+      <td style="text-align:right">499.1</td>
+      <td style="text-align:right">431.94</td>
+      <td style="text-align:right">398.51</td>
+    </tr>
+
+<tr>  
+      <td style="text-align:right">2</td>
+      <td style="text-align:right">1061.20</td>
+      <td style="text-align:right">499.36</td>
+      <td style="text-align:right">479.20</td>
+      <td style="text-align:right">373.59</td>
+    </tr>
+
+<tr>  
+      <td style="text-align:right">3</td>
+      <td style="text-align:right">1069.27</td>
+      <td style="text-align:right">518.75</td>
+      <td style="text-align:right">415.98</td>
+      <td style="text-align:right">368.53</td>
+    </tr>
+
+<tr>  
+      <td style="text-align:right">4</td>
+      <td style="text-align:right">1056.84</td>
+      <td style="text-align:right">499.98</td>
+      <td style="text-align:right">423.72</td>
+      <td style="text-align:right">373.79</td>
+    </tr>
+
+<tr>  
+      <td style="text-align:right">5</td>
+      <td style="text-align:right">1043.06</td>
+      <td style="text-align:right">511.05</td>
+      <td style="text-align:right">429.64</td>
+      <td style="text-align:right">361.37</td>
+    </tr>
+
+<tr>  
+      <td style="text-align:right">6</td>
+      <td style="text-align:right">1056.72</td>
+      <td style="text-align:right">505.59</td>
+      <td style="text-align:right">424.78</td>
+      <td style="text-align:right">361.26</td>
+    </tr>
+
+<tr>  
+      <td style="text-align:right">7</td>
+      <td style="text-align:right">1096.32</td>
+      <td style="text-align:right">507.68</td>
+      <td style="text-align:right">427.83</td>
+      <td style="text-align:right">358.30</td>
+    </tr>
+
+<tr>  
+      <td style="text-align:right">8</td>
+      <td style="text-align:right">1099.12</td>
+      <td style="text-align:right">515.85</td>
+      <td style="text-align:right">436.83</td>
+      <td style="text-align:right">356.68</td>
+    </tr>
+<tr>  
+      <td style="text-align:right">9</td>
+      <td style="text-align:right">1016.51</td>
+      <td style="text-align:right">504.91</td>
+      <td style="text-align:right">425.74</td>
+      <td style="text-align:right">362.77</td>
+    </tr>
+<tr>  
+      <td style="text-align:right">10</td>
+      <td style="text-align:right">1056.65</td>
+      <td style="text-align:right">530.31</td>
+      <td style="text-align:right">430.95</td>
+      <td style="text-align:right">368.32</td>
+    </tr>
+<tr>  
+      <td style="text-align:right; font-weight:bold">AVG</td>
+      <td style="text-align:right; font-weight:bold">1063.18</td>
+      <td style="text-align:right; font-weight:bold">509.25</td>
+      <td style="text-align:right; font-weight:bold">432.66</td>
+      <td style="text-align:right; font-weight:bold">368.33</td>
+    </tr>
+  
+</tbody></table>
+
+<h5 id="conclusion">Conclusion</h5>
+
+<p>Looking at the measurements it can be seen that Safari is the best performer if it comes to recursive function execution. Safari 10 with his TCO optimization support for JavaScript is the fastest, around ~2.8 times faster than running the code inside Chrome. Firefox performs almost as good as Safari 9.2 which was a surprise for me.</p>
+
+<p>If you enjoyed reading this blog post, please share it or like the <a href="https://www.facebook.com/dealwithjs">Facebook page</a> of the website to get regular updates. You can also follow us <a href="https://twitter.com/dealwithjs">@dealwithjs</a>.</p>
+
+<p>Lets stay functional!</p>
+
+<blockquote>
+  <p>PART 2 will come shortly with high order functions and samples how to implement procedural code in functional style. </p>
+</blockquote>
+        </section>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-61" name="t-61"></a><h1>61 : Design Patterns - The Adapter Pattern in JavaScript</h1>
+					<span class="ref-site"></span>
+					<div class="tutorial__content">
+
+<section class="post-content">
+	<p><a name="top"></a>  </p>
+
+<h3 id="tldr">TL; DR</h3>
+
+<p>Source code can be found on <a href="https://github.com/gergob">GitHub</a>, <a href="https://github.com/gergob/jsAdapter">jsAdapter repo</a></p>
+
+<hr>
+
+<h3 id="designpatternstheadapter">Design Patterns - The Adapter</h3>
+
+<p><a href="https://en.wikipedia.org/wiki/A_picture_is_worth_a_thousand_words">A picture is worth a thousand words</a>, this is for sure true once the Adapter design pattern needs to be explained.</p>
+
+<p>Most of us has seen something like this:</p>
+
+
+
+<p>This is a travel plug sometimes it is called plug adaptor. The plug adapter adapts (transforms) one electrical interface to another. In this case the EU standard to the US standard.</p>
+
+<p>It is important to highlight without the adapter the two interfaces cannot communicate with each other. Another important aspect of using/creating adapters is, that adapters are always created for existing components, which need to interact.</p>
+
+<blockquote>
+  <p>There are only minor differences between the Adapter, Decorator, Facade and Bridge design patterns, we will cover these in a future blog post.</p>
+</blockquote>
+
+<p>Lets assume there is a project, which has a logger library. This was written by the initial project team and is not the most developer friendly to use. Since this project specific logger library was developed, new logger libraries appeared on the market and the project should be able to use these. <br>
+One way to solve this is to write adapter(s) for the logger libraries and use those.</p>
+
+<p>The current logger in our imagined app is this:</p>
+
+<pre><code>function BadLogger(name) {  
+    this.name = name;
+    var LOG_HEADER = '[' + name + ']:';
+    var self = this;
+
+    return {
+        getName: function getName() {
+            return self.name;
+        },
+        getType: function getType() {
+            return 'BadLogger';
+        },
+        information: function information(message) {
+            console.info(LOG_HEADER + message + '- INFORMATION' );
+        },
+        debg: function debg(message) {
+            console.log(LOG_HEADER + message + '- DEBG');
+        },
+        w: function w(message) {
+            console.warn(LOG_HEADER + message + '- W' );
+        },
+        err: function err(message) {
+            console.error(LOG_HEADER + message+ '- ERR' );
+        }
+    }
+}
+
+module.exports = {  
+    getLogger: BadLogger
+}
+</code></pre>
+
+<p>
+I don't want to go into details why this is a bad logger (module named as <code>BadLogger</code> too), but it can be seen that the function names are not quite intuitive and don't really respect any naming convention.</p>
+
+<p>There is another logger which we might want to use:</p>
+
+<pre><code>function ShortLogger(name) {  
+    this.name = name;
+    var LOG_HEADER = '[' + name + ']';
+    var self = this;
+    var getTime = function() {
+        return '[' + new Date().toISOString() + ']';
+    }
+    return {
+        getName: function getName() {
+            return self.name;
+        },
+        getType: function getType() {
+            return 'ShortLogger';
+        },
+        i: function i(message) {
+            console.info(LOG_HEADER + getTime() + '[I]: ' + message);
+        },
+        d: function d(message) {
+            console.log(LOG_HEADER + getTime() + '[D]: ' + message);
+        },
+        w: function w(message) {
+            console.warn(LOG_HEADER + getTime() + '[W]: ' + message);
+        },
+        e: function e(message) {
+            console.error(LOG_HEADER + getTime() + '[E]: ' + message);
+        }
+    }
+}
+
+module.exports = {  
+    getLogger: ShortLogger
+}
+</code></pre>
+
+<p>As we can see this applies the Android Logger like standard, where the name of the log method is the first letter of the log message type, for example <code>w</code> stands for <code>warning</code>. </p>
+
+<p>In this case the role of the adapter is to give the possibility to the development team to use any kind of logger what they want. </p>
+
+<p>When building adapters there are two approaches:</p>
+
+<ol>
+<li><p>Build adapters for every component which have to interact with each other. In this case it means to build two adapters, one for <code>ShortLogger</code> and one for <code>BadLogger</code>.</p></li>
+<li><p>Build one adapter which can adapt any of the same type component. In this case it means to build one Adapter which should handle any logger type.</p></li>
+</ol>
+
+<p>Lets stick to the second approach, below is the code for the <code>LoggerAdapter</code> module:</p>
+
+<pre><code>var ShortLogger = require('./ShortLogger');  
+var BadLogger = require('./BadLogger');
+
+function LoggerAdapter(loggerObj) {  
+    if (!loggerObj) {
+        throw Error('Parameter [loggerObj] is not defined.');
+    }
+    console.log('[LoggerAdapter] is using Logger with name: ' + loggerObj.getName());
+    var CONSTANTS = {
+        DEBUG: 'DEBUG',
+        WARNING: 'WARNING',
+        INFORMATION: 'INFORMATION',
+        ERROR: 'ERROR',
+        BAD_LOGGER: 'BadLogger',
+        SHORT_LOGGER: 'ShortLogger'
+    };
+    var loggerFunctionMapper = {};
+
+    if(loggerObj.getType() === CONSTANTS.BAD_LOGGER) {
+        loggerFunctionMapper[CONSTANTS.DEBUG] = loggerObj.debg;
+        loggerFunctionMapper[CONSTANTS.INFORMATION] = loggerObj.information;
+        loggerFunctionMapper[CONSTANTS.WARNING] = loggerObj.w;
+        loggerFunctionMapper[CONSTANTS.ERROR] = loggerObj.err;
+    }
+    else if (loggerObj.getType() === CONSTANTS.SHORT_LOGGER) {
+        loggerFunctionMapper[CONSTANTS.DEBUG] = loggerObj.d;
+        loggerFunctionMapper[CONSTANTS.INFORMATION] = loggerObj.i;
+        loggerFunctionMapper[CONSTANTS.WARNING] = loggerObj.w;
+        loggerFunctionMapper[CONSTANTS.ERROR] = loggerObj.e;
+    }
+
+    function information(message) {
+        try {
+          loggerFunctionMapper[CONSTANTS.INFORMATION](message);
+        }
+        catch(err) {
+            throw Error('No implementation for Logger: ' + loggerObj.toString());
+        }
+    };
+
+    function debug(message) {
+        try {
+          loggerFunctionMapper[CONSTANTS.DEBUG](message);
+        }
+        catch(err) {
+            throw Error('No implementation for Logger: ' + loggerObj.toString());
+        }
+    };
+...
+    return {
+        debug: debug,
+        information: information,
+        warning: warning,
+        error: error
+    }
+}
+
+module.exports = {  
+    LoggerAdapter: LoggerAdapter
+}
+</code></pre>
+
+<p>When creating the adapter, a <code>loggerObj</code> has to be passed in, this is used for the real logging.</p>
+
+<p>Once the project is refactored to use the <code>LoggerAdapter</code> for logging, the underlying logger can be changed much easier. </p>
+
+<p>All the magic in the adapter is the <code>if/else</code> part at the beginning:</p>
+
+<pre><code>if(loggerObj.getType() === CONSTANTS.BAD_LOGGER) {  
+        loggerFunctionMapper[CONSTANTS.DEBUG] = loggerObj.debg;
+        loggerFunctionMapper[CONSTANTS.INFORMATION] = loggerObj.information;
+        loggerFunctionMapper[CONSTANTS.WARNING] = loggerObj.w;
+        loggerFunctionMapper[CONSTANTS.ERROR] = loggerObj.err;
+    }
+    else if (loggerObj.getType() === CONSTANTS.SHORT_LOGGER) {
+        loggerFunctionMapper[CONSTANTS.DEBUG] = loggerObj.d;
+        loggerFunctionMapper[CONSTANTS.INFORMATION] = loggerObj.i;
+        loggerFunctionMapper[CONSTANTS.WARNING] = loggerObj.w;
+        loggerFunctionMapper[CONSTANTS.ERROR] = loggerObj.e;
+    }
+</code></pre>
+
+<p>This is where we adapt the interfaces, depending on the type of log message and <code>loggerObj</code> we map the correct function to the log message type.</p>
+
+<p>In case a new logger library needs to be supported, lets say a remote logger library which logs to a RESTful API, only this mapping needs to be adjusted and the new logger library can be used. </p>
+
+<p>Below is a use case of the <code>LoggerAdapter</code>:</p>
+
+<pre><code>var ShortLogger = require('./ShortLogger');  
+var BadLogger = require('./BadLogger');  
+var LoggerAdapter = require('./LoggerAdapter');  
+var shortLog = ShortLogger.getLogger('ShortLoger');  
+var badLogger = BadLogger.getLogger('BadLogger');
+
+var loggerAdapter = LoggerAdapter.LoggerAdapter(badLogger);  
+loggerAdapter.information('This is logged through LoggerAdapter');  
+loggerAdapter.debug('This is logged through LoggerAdapter');  
+loggerAdapter.warning('This is logged through LoggerAdapter');  
+loggerAdapter.error('This is logged through LoggerAdapter');
+
+console.log();
+
+var loggerAdapter2 = LoggerAdapter.LoggerAdapter(shortLog);  
+loggerAdapter2.information('Now This is logged through LoggerAdapter');  
+loggerAdapter2.debug('Now This is logged through LoggerAdapter');  
+loggerAdapter2.warning('Now This is logged through LoggerAdapter');  
+loggerAdapter2.error('Now This is logged through LoggerAdapter');
+</code></pre>
+
+<p>Once this finished, the output was the following:</p>
+
+<pre><code>[LoggerAdapter] is using Logger with name: BadLogger
+[BadLogger]:This is logged through LoggerAdapter- INFORMATION
+[BadLogger]:This is logged through LoggerAdapter- DEBG
+[BadLogger]:This is logged through LoggerAdapter- W
+[BadLogger]:This is logged through LoggerAdapter- ERR
+
+[LoggerAdapter] is using Logger with name: ShortLoger
+[ShortLoger][2016-11-23T21:10:59.729Z][I]: Now This is logged through LoggerAdapter
+[ShortLoger][2016-11-23T21:10:59.729Z][D]: Now This is logged through LoggerAdapter
+[ShortLoger][2016-11-23T21:10:59.730Z][W]: Now This is logged through LoggerAdapter
+[ShortLoger][2016-11-23T21:10:59.730Z][E]: Now This is logged through LoggerAdapter
+</code></pre>
+
+<hr>
+
+<p>If you enjoyed reading this post, please share it or like the <a href="https://www.facebook.com/dealwithjs">Facebook page</a> of the website to get regular updates. You can also follow us <a href="https://twitter.com/dealwithjs">@dealwithjs</a>.</p>
+        </section>
+					
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-62" name="t-62"></a><h1>62 : Design Patterns - The Factory Pattern in JavaScript</h1>
+					<span class="ref-site">http://dealwithjs.io/design-patterns-the-factory-pattern-in-javascript/</span>
+					<div class="tutorial__content">
+<section class="post-content">
+            <p><a name="top"></a>  </p>
+
+<h3 id="tldr">TL; DR</h3>
+
+<p>Source code can be found on <a href="https://github.com/gergob">GitHub</a>, <a href="https://github.com/gergob/jsFactory">jsFactory repo</a></p>
+
+
+
+<h3 id="designpatternsthefactory">Design Patterns - The Factory</h3>
+
+<h4 id="tableofcontents">Table of Contents</h4>
+
+<ol>
+<li><a href="#designPatterns">Design Patterns</a></li>
+<li><a href="#factoryPattern">The Factory Pattern</a> </li>
+<li><a href="#factoryPatternJS">Factory Pattern in JS</a> </li>
+<li><a href="#simpleFactory">Simple Factory</a></li>
+<li><a href="#configurableFactory">Configurable Factory</a></li>
+<li><a href="#demo">Demo</a></li>
+</ol>
+
+<h4 id="anamedesignpatternsadesignpatternstop"><a name="designPatterns"></a>Design Patterns <a href="#top">^</a></h4>
+
+<p>A design pattern is the re-usable form of a solution to a design problem. <sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup></p>
+
+<blockquote>
+  <p>In 1977 <a href="https://en.wikipedia.org/wiki/Christopher_Alexander">Christopher Alexander</a>, at that time a well-known architect, published a book, titled <a href="https://en.wikipedia.org/wiki/A_Pattern_Language">A Pattern Language</a>. He explained his ideas about incremental and organic design and laid the foundations of Design Patterns.</p>
+</blockquote>
+
+<p>In 1994 was released <strong>the Design Pattern book</strong>, the book which is the symbol of the Design Pattern topic, the classic written by the <a href="http://wiki.c2.com/?GangOfFour">Gang of Four</a>: <strong>Design Patterns: Elements of Reusable Object-Oriented Software</strong>. All the examples in this book were written in C++ and presented using C++’s language features. Understanding this book and the examples in this book is not a trivial task.</p>
+
+<p>You may ask why do we need design patterns? The answer is simple, first of all design patterns offer solutions to problems which might appear in our apps. Of course, there are multiple solutions for these issues... <strong>BUT</strong> the solutions which design patterns offer have been proven and tested by thousands of engineers so we can rely on these. </p>
+
+<h4 id="anamefactorypatternathefactorypatterntop"><a name="factoryPattern"></a>The Factory Pattern <a href="#top">^</a></h4>
+
+<p>The Factory design pattern is one of the most simple design patterns. The main idea of this pattern is to have a common place (function, object, class, module) which is used to initialize (create) objects within the application. Imagine, if you want to update an existing type/object, lets say you want to add two more properties to an <code>Employee</code> type. This <code>Employee</code> type is used all over the modules inside your app (login, products and services, salary module, employee tracking, career management and so on).</p>
+
+<p>Just imagine if the creation of objects is spread over hundreds of files within an application, maintaining and handling that large amount of files is very error-prone when the object creation logic needs to be updated. Missing to adjust some of the places where the objects are created can cause misbehavior, crash, data corruption in the application.</p>
+
+<p>If the creation of the objects (in our case of type <code>Employee</code> but not only) is not controlled by a single component (a factory) then, you would need to change the code everywhere in the application where a new <code>Employee</code> is created. Once the creation of the objects is centralized, the number of affected code files, classes, modules is much smaller when this type of change is needed.</p>
+
+<p><strong>The Factory design pattern is a creational design pattern</strong>. </p>
+
+<p>Creational Design patterns are the ones which usually everyone knows about, mostly because during development most of us faced situations when there was need to create multiple objects and everyone knew (or felt) these objects should be created in the same place or at least in the same manner. Some of the commonly known design patterns are Factory, Abstract Factory, Builder and of course Singleton.</p>
+
+<h4 id="anamefactorypatternjsafactorypatterninjstop"><a name="factoryPatternJS"></a>Factory Pattern in JS <a href="#top">^</a></h4>
+
+<p>There are multiple ways to implement the Factory pattern within JavaScript, I implemented two factories, <code>SimpleFactory</code> and <code>ConfigurableFactory</code>. Both of these will serve the same purpose, creating different type of <code>Employee</code> objects.</p>
+
+<h5 id="anamesimplefactoryasimplefactorytop"><a name="simpleFactory"></a>Simple Factory <a href="#top">^</a></h5>
+
+<p>The <code>SimpleFactory</code> is a <a href="https://nodejs.org/en/">node</a> module. Inside the constructor function, I defined three methods <code>getSalesEmployee</code>, <code>getEngineerEmployee</code>, <code>getName</code>. The first two return <code>JSON</code> objects with different properties (based on the type of <code>Employee</code>), the last returns the name of the factory object.</p>
+
+<pre><code>function SimpleFactory(name) {  
+    var factoryName = name;
+
+    var getSalesEmployee = function(firstName, lastName) {
+        return {
+            firstName: firstName,
+            lastName: lastName,
+            comission: 0,
+            salary: 100,
+            projects: [],
+            type: 'sales'
+        };
+    }
+
+    var getEngineerEmployee = function(firstName, lastName) {
+        return {
+            firstName: firstName,
+            lastName: lastName,
+            salary: 150,
+            manager: '',
+            technologies: [],
+            projects: [],
+            type: 'engineer'
+        }
+    }
+
+    var getName = function() {
+        return factoryName;
+    }
+
+    return {
+        getSales: getSalesEmployee,
+        getEngineer: getEngineerEmployee,
+        getName: getName
+    }
+}
+
+module.exports = {  
+    getInstance: SimpleFactory
+}
+</code></pre>
+
+<h5 id="anameconfigurablefactoryaconfigurablefactorytop"><a name="configurableFactory"></a>Configurable Factory <a href="#top">^</a></h5>
+
+<p>The <code>ConfigurableFactory</code> can be used in a different way, since this can be extended with object creation logic dynamically and the implementation of the factory does not need to be changed.</p>
+
+<pre><code>function ConfigurableFactory(name) {  
+    var typeMapper = {};
+    var factoryName = name;
+
+    var addTypeSupport = function(typeName, buildFunc) {
+        if (!typeName || (!buildFunc &amp;&amp; typeof(buildFunc) !== 'function')) {
+            throw Error('typeName parameter needs to be defined and buildFunc paramter has to be a function');
+        }
+        var lcTypeName = typeName.toLowerCase();
+        if (typeMapper[lcTypeName]) {
+            throw Error('There is already a [' + typeName + '] type defined');
+        }
+        typeMapper[lcTypeName] = buildFunc;
+    }
+
+    var getObject = function(typeName) {
+        var lcTypeName = typeName.toLowerCase();
+        var builder = typeMapper[lcTypeName];
+
+        if (builder !== undefined) {
+            return builder();
+        }
+
+        throw Error('Cannot build type:[' + typeName + '], does not know how to...');
+    }
+
+    var getName = function() {
+        return factoryName;
+    }
+
+    return {
+        addTypeSupport: addTypeSupport,
+        get: getObject,
+        getName: getName
+    }
+}
+
+module.exports = {  
+    getInstance: ConfigurableFactory
+}
+</code></pre>
+
+<p>The implementation is more complex than in the case of <code>SimpleFactory</code>. In this case there are also three methods, <code>addTypeSupport</code>, <code>getObject</code>, <code>getName</code>, but the logic within <code>addTypeSupport</code> and <code>getObject</code> is more complex.</p>
+
+<p>When <code>addTypeSupport</code> is invoked a new property is added to the <code>typeMapper</code> object, the property name is the <code>typeName</code> parameter and the value is the <code>buildFunc</code> parameter.</p>
+
+<p>The <code>buildFunc</code> parameter has to be a <code>function</code>, this contains the object creation logic for the type.</p>
+
+<h5 id="anamedemoademotop"><a name="demo"></a>Demo <a href="#top">^</a></h5>
+
+<h6 id="howtousesimplefactory">How to use <code>SimpleFactory</code>?</h6>
+
+<p>In <a href="https://github.com/gergob/jsFactory/blob/master/FactoryDemo.js"><code>FactoryDemo</code></a> there is the <code>demoSimpleFactory</code> function, where I created <code>janeDoe</code> and <code>billDoe</code> using the <code>getSales</code> and <code>getEngineer</code> functions.</p>
+
+<pre><code>demoSimpleFactory: function() {  
+    var simpleFactory = SimpleFactory.getInstance('SimpleEmployeeFactory');
+
+    console.log(SEPARATOR);
+    console.log(HEADER_PREFIX, 'SimpleFactory sample')
+    console.log(SEPARATOR);
+
+    console.log('The factory is called: [' + simpleFactory.getName() + ']');
+
+    console.log('We have a new sales colleague:');
+    var janeDoe = simpleFactory.getSales('Jane', 'Doe');
+    console.log(JSON.stringify(janeDoe, null, 2));
+
+    console.log();
+    console.log('We have a new engineer colleague:');
+    var billDoe = simpleFactory.getEngineer('Bill', 'Doe');
+    console.log(JSON.stringify(billDoe, null, 2));
+}
+</code></pre>
+
+<p>The console output of this demo code is:</p>
+
+<pre><code>========================================================
+           SimpleFactory sample
+========================================================
+The factory is called: [SimpleEmployeeFactory]  
+We have a new sales colleague:  
+{
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "comission": 0,
+  "salary": 100,
+  "projects": [],
+  "type": "sales"
+}
+
+We have a new engineer colleague:  
+{
+  "firstName": "Bill",
+  "lastName": "Doe",
+  "salary": 150,
+  "manager": "",
+  "technologies": [],
+  "projects": [],
+  "type": "engineer"
+}
+</code></pre>
+
+<h6 id="howtouseconfigurablefactory">How to use <code>ConfigurableFactory</code>?</h6>
+
+<p>In the same <a href="https://github.com/gergob/jsFactory/blob/master/FactoryDemo.js"><code>FactoryDemo</code></a> file, there is the <code>demoConfigurableFactory</code> function:</p>
+
+<pre><code>demoConfigurableFactory: function() {  
+    console.log(SEPARATOR);
+    console.log(HEADER_PREFIX, 'ConfigurableFactory sample')
+    console.log(SEPARATOR);
+
+    var employeeFactory = ConfigurableFactory.getInstance('EmployeeFactory');
+
+    employeeFactory.addTypeSupport('sales', function createSales() {
+        return {
+            firstName: '',
+            lastName: '',
+            comission: 0,
+            projects: [],
+            type: 'sales'
+        };
+    });
+
+    employeeFactory.addTypeSupport('engineer', function createEngineer() {
+        return {
+            firstName: '',
+            lastName: '',
+            salary: 150,
+            manager: '',
+            technologies: [],
+            projects: [],
+            type: 'engineer'
+        };
+    });
+
+    console.log('The factory is called: [' + employeeFactory.getName() + ']');
+
+    var johnDoe = employeeFactory.get('sales');
+    console.log('John Doe is:');
+    console.log(JSON.stringify(johnDoe, null, 2));
+
+    try {
+        console.log('Trying to build CEO...');
+        var dannyDoe = employeeFactory.get('ceo');
+    } catch (e) {
+        console.error(e.message);
+    }
+}
+</code></pre>
+
+<p>I used the <code>addTypeSupport</code> function to extend the factory's functionality so this can create <code>sales</code> and <code>engineer</code> employees.</p>
+
+<p>The console content after running the <code>demoConfigurableFactory</code> is:</p>
+
+<pre><code>========================================================
+           ConfigurableFactory sample
+========================================================
+The factory is called: [EmployeeFactory]  
+John Doe is:  
+{
+  "firstName": "",
+  "lastName": "",
+  "comission": 0,
+  "projects": [],
+  "type": "sales"
+}
+Trying to build CEO...  
+Cannot build type:[ceo], does not know how to...  
+</code></pre>
+
+<p>I hope you enjoyed this blog post, if you think this has useful information and it can help others to learn, please share it.</p>
+
+<p>If you want to get notifications about my upcoming articles please follow me on <a href="https://twitter.com/GergoB">@gergob</a>.</p>
+
+<div class="footnotes"><ol><li class="footnote" id="fn:1"><p>Source: <a href="https://en.wikipedia.org/wiki/Design_pattern">https://en.wikipedia.org/wiki/Design_pattern</a> <a href="#fnref:1" title="return to article">↩</a></p></li></ol></div>
+        </section>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-63" name="t-63"></a><h1>63 : Demystifying JavaScript Variable Scope and Hoisting</h1>
+					<span class="ref-site">https://www.sitepoint.com/demystifying-javascript-variable-scope-hoisting/</span>
+					<div class="tutorial__content">
+
+ <p>Every building needs strong foundation to build on. Understanding variable scope in JavaScript is one of the keys to building a solid foundation. This article will explain how JavaScript&#8217;s scoping system works. We&#8217;ll also cover a related topic known as <a href="http://www.sitepoint.com/back-to-basics-javascript-hoisting/">hoisting</a>.</p>
+<h2 id="variable-scope">Variable Scope</h2>
+<p>To work with JavaScript efficiently, one of the first things you need to understand is the concept of variable scope. The scope of a variable is controlled by the location of the variable declaration, and defines the part of the program where a particular variable is accessible.</p>
+<p>Scoping rules vary from language to language. JavaScript has two scopes &#8211; <em>global</em> and <em>local</em>. Any variable declared outside of a function belongs to the global scope, and is therefore accessible from anywhere in your code. Each function has its own scope, and any variable declared within that function is only accessible from that function and any nested functions. Because local scope in JavaScript is created by functions, it&#8217;s also called function scope. When we put a function inside another function, then we create nested scope.</p>
+<p>Currently, JavaScript, unlike many other languages, does not support block level scoping. This means that declaring a variable inside of a block structure like a <code>for</code> loop, does not restrict that variable to the loop. Instead, the variable will be accessible from the entire function. It&#8217;s worth noting that the upcoming <a href="http://www.sitepoint.com/preparing-ecmascript-6-let-const/">ECMAScript 6 will support block level scopes via the <code>let</code> keyword</a>.</p>
+<p>To make things clear let&#8217;s use a simple metaphor. Every country in our world has frontiers. Everything inside these frontiers belongs to the country&#8217;s scope. In every country there are many cities, and each one of them has its own city&#8217;s scope. The countries and cities are just like JavaScript functions &#8211; they have their local scopes. The same is true for the continents. Although they are huge in size they also can be defined as locales. On the other hand, the world&#8217;s oceans can&#8217;t be defined as having local scope, because it actually wraps all local objects &#8211; continents, countries, and cities &#8211; and thus, its scope is defined as global. Let&#8217;s visualize this in the next example:</p>
+<pre><code class='language-javascript'>var locales = {
+  europe: function() {          // The Europe continent's local scope
+    var myFriend = &quot;Monique&quot;;
+
+    var france = function() {   // The France country's local scope
+      var paris = function() {  // The Paris city's local scope
+        console.log(myFriend);
+      };
+
+      paris();
+    };
+
+    france();
+  }
+};
+
+locales.europe();</code></pre>
+<p><a href="http://jsbin.com/lewufuroqi/1/edit?js,console,output">Try out the example in JS Bin</a></p>
+<p>Now that we understand what local and global scopes are, and how they are created, it&#8217;s time to learn how the JavaScript interpreter uses them to find a particular variable.</p>
+<p>Back to the given metaphor, let&#8217;s say I want to find a friend of mine whose name is Monique. I know that she lives in Paris, so I start my searching from there. When I can&#8217;t find her in Paris I go one level up and expand my searching in all of France. But again, she is not there. Next, I expand my searching again by going another level up. Finally, I found her in Italy, which in our case is the local scope of Europe. </p>
+<p>In the previous example my friend Monique is represented by the variable <code>myFriend</code>. In the last line we call the <code>europe()</code> function, which calls <code>france()</code>, and finally when the <code>paris()</code> function is called, the searching begins. The JavaScript interpreter works from the currently executing scope and works it way out until it finds the variable in question. If the variable is not found in any scope, then an exception is thrown.</p>
+<p>This type of look up is called <a href="http://en.wikipedia.org/wiki/Lexical_scoping#Lexical_scoping">lexical (static) scope</a>. The static structure of a program determines the variable scope. The scope of a variable is defined by its location within the source code, and nested functions have access to variables declared in their outer scope. No matter where a function is called from, or even how it&#8217;s called, its lexical scope depends only by where the function was declared.</p>
+<p>In JavaScript, variables with the same name can be specified at multiple layers of nested scope. In such case local variables gain priority over global variables. If you declare a local variable and a global variable with the same name, the local variable will take precedence when you use it inside a function. This type of behavior is called <em>shadowing</em>. Simply put, the inner variable shadows the outer.</p>
+<p>That&#8217;s the exact mechanism used when a JavaScript interpreter is trying to find a particular variable. It starts at the innermost scope being executed at the time, and continue until the first match is found, no matter whether there are other variables with the same name in the outer levels or not. Let&#8217;s see an example:</p>
+<pre><code class='language-javascript'>var test = &quot;I'm global&quot;;
+
+function testScope() {
+  var test = &quot;I'm local&quot;;
+
+  console.log (test);     
+}
+
+testScope();           // output: I'm local
+
+console.log(test);     // output: I'm global</code></pre>
+<p><a href="http://jsbin.com/lewufuroqi/2/edit?js,console,output">Try out the example in JS Bin</a></p>
+<p>As we can see even with the same name the local variable doesn&#8217;t overwrite the global one after the execution of <code>testScope()</code> function. But this is not always the truth. Let&#8217;s consider this:</p>
+<pre><code class='language-javascript'>var test = &quot;I'm global&quot;;
+
+function testScope() {
+  test = &quot;I'm local&quot;;
+
+  console.log(test);     
+}
+
+console.log(test);     // output: I'm global
+
+testScope();           // output: I'm local
+
+console.log(test);     // output: I'm local (the global variable is reassigned)</code></pre>
+<p><a href="http://jsbin.com/lewufuroqi/3/edit?js,console,output">Try out the example in JS Bin</a></p>
+<p>This time the local variable <code>test</code> overwrites the global variable with the same name. When we run the code inside <code>testScope()</code> function the global variable is reassigned. If a local variable is assigned without first being declared with the <code>var</code> keyword, it becomes a global variable. To avoid such unwanted behavior you should always declare your local variables before you use them. Any variable declared with the <code>var</code> keyword inside of a function is a local variable. It&#8217;s considered best practice to declare your variables.</p>
+<p>Note &#8211; In <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode">strict mode</a>, it is an error, if you assign value to variable without first declaring the variable.</p>
+<h2 id="hoisting">Hoisting</h2>
+<p>A JavaScript interpreter performs many things behind the scene, and one of them is called hoisting. If you are not aware of this &#8220;hidden&#8221; behavior, it can cause a lot of confusion. The best way of thinking about the behavior of JavaScript variables is to always visualize them as consisting of two parts: a declaration and an assignment:</p>
+<pre><code class='language-javascript'>var state;             // variable declaration
+state = &quot;ready&quot;;       // variable definition (assignment)
+
+var state = &quot;ready&quot;;   // declaration plus definition</code></pre>
+<p>In the above code we first declare variable <code>state</code>, and then we assign the value &#8220;ready&#8221; to it. And in the last line of code we see that these two steps can be combined. But what you need to bear in mind is, even though they seem like one statement, in practice, the JavaScript engine treats that single statement as two separate statements, just like in the first two lines in the example.</p>
+<p>We already know that any variable declared within a scope belongs to that scope. But what we don&#8217;t know yet, is that no matter where variables are declared within a particular scope, all variable declarations are moved to the top of their scope (global or local). This is called <em>hoisting</em>, as the variable declarations are hoisted to the top of the scope. Note that hoisting only moves the declaration. Any assignments are left in place. Let&#8217;s see an example:</p>
+<pre><code class='language-javascript'>console.log(state);   // output: undefined
+var state = &quot;ready&quot;;</code></pre>
+<p><a href="http://jsbin.com/lewufuroqi/4/edit?js,console,output">Try out the example in JS Bin</a></p>
+<p>As you can see when we log the value of <code>state</code>, the output is <code>undefined</code>, because we reference it before the actual assignment. You may have expected a ReferenceError to be thrown because <code>state</code> is not declared yet. But what you don&#8217;t know is that the variable <em>is</em> declared behind the scene. Here is how the code is interpreted by a JavaScript engine:</p>
+<pre><code class='language-javascript'>var state;           // moved to the top
+console.log(state);   
+state = &quot;ready&quot;;     // left in place</code></pre>
+<p>Hoisting also affects function declarations. But before we see some examples, let&#8217;s first learn the difference between function declaration and function expression.</p>
+<pre><code class='language-javascript'>function showState() {}          // function declaration
+var showState = function() {};   // function expression</code></pre>
+<p>The easiest way to distinguish a function declaration from a function expression is to check the position of the word <code>function</code> in the statement. If <code>function</code> is the very first thing in the statement, then it&#8217;s a function declaration. Otherwise, it&#8217;s a function expression.</p>
+<p>Function declarations are hoisted completely. This means that the entire function&#8217;s body is moved to the top. This allows you to call a function before it has been declared:</p>
+<pre><code class='language-javascript'>showState();            // output: Ready
+
+function showState() {
+  console.log(&quot;Ready&quot;);
+} 
+
+var showState = function() {
+  console.log(&quot;Idle&quot;);
+};</code></pre>
+<p><a href="http://jsbin.com/lewufuroqi/5/edit?js,console,output">Try out the example in JS Bin</a></p>
+<p>The reason the preceding code works is that JavaScript engine moves the declaration of <code>showState()</code> function, and all its content, to the beginning of the scope. The code is interpreted like this:</p>
+<pre><code class='language-javascript'>function showState() {     // moved to the top (function declaration)
+  console.log(&quot;Ready&quot;);
+} 
+
+var showState;            // moved to the top (variable declaration)
+
+showState();  
+
+showState = function() {   // left in place (variable assignment)
+  console.log(&quot;Idle&quot;);
+};</code></pre>
+<p>As you may have noticed, only the function declaration is hoisted, but the function expression is not. When a function is assigned to a variable, the rules are the same as for variable hoisting (only the declaration is moved, while the assignment is left in place).</p>
+<p>In the code above we saw that the function declaration takes precedence over the variable declaration. And in the next example we&#8217;ll see that when we have function declaration versus variable assignment, the last takes priority.</p>
+<pre><code class='language-javascript'>var showState = function() {
+  console.log(&quot;Idle&quot;);
+};
+
+function showState() {
+  console.log(&quot;Ready&quot;);
+} 
+
+showState();            // output: Idle</code></pre>
+<p><a href="http://jsbin.com/lewufuroqi/6/edit?js,console,output">Try out the example in JS Bin</a></p>
+<p>This time we call <code>showState()</code> function in the last line of code which change the situation. Now we get output &#8220;Idle&#8221;. Here is how it looks when interpreted by JavaScript engine:</p>
+<pre><code class='language-javascript'>function showState(){        // moved to the top (function declaration)
+  console.log(&quot;Ready&quot;);
+} 
+
+var showState;               // moved to the top (variable declaration)
+
+showState = function(){      // left in place (variable assignment)
+  console.log(&quot;Idle&quot;);
+};
+
+showState();</code></pre>
+<h2 id="things-to-remember">Things to Remember</h2>
+<ul>
+<li>All declarations, both functions and variables, are hoisted to the top of the containing scope, before any part of your code is executed. </li>
+<li>Functions are hoisted first, and then variables. </li>
+<li>Function declarations have priority over variable declarations, but not over variable assignments.</li>
+</ul>
+					
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
 				<article style="display:none;">
-					<a id="t1" name="t1"></a><h1>Index</h1>
+					<a id="t-00" name="t-00"></a><h1>Index</h1>
+					<span class="ref-site"></span>
+					<div class="tutorial__content">
+						
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article style="display:none;">
+					<a id="t-00" name="t-00"></a><h1>Index</h1>
 					<span class="ref-site"></span>
 					<div class="tutorial__content">
 						

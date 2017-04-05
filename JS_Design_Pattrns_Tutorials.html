@@ -1986,7 +1986,7 @@
         Singleton</h3>
 </div>
 <a name="articlecontentAdobe_text_0" style="visibility:hidden"></a><div class="text parbase section"><div class="Semantic LayoutCellSides LayoutBreakAfter TextMedium TextBreak">
-						<p>The singleton pattern is what you use when you want to ensure that only one instance of an object is ever created. In classical object-oriented programming languages, the concepts behind creating a singleton was a bit tricky to wrap your mind around because it involved a class that has both static and non-static properties and methods. I’m talking about JavaScript here though, so with JavaScript being a dynamic language without true classes, the JavaScript version of a singleton is excessively simple.</p>
+						<p>The singleton pattern is what you use when you want to ensure that only one instance of an object is ever created. In classical object-oriented programming languages, the concepts behind creating a singleton was a bit tricky to wrap your mind around because it involved a class that has both static and non-static properties and methods. I'm talking about JavaScript here though, so with JavaScript being a dynamic language without true classes, the JavaScript version of a singleton is excessively simple.</p>
 <h4>Why do you need the singleton?</h4>
 <p>Before I get into implementation details, I should discuss why the singleton pattern is useful for your applications. The ability to ensure you have only one instance of an object can actually come in quite handy. In server-side languages, you might use a singleton for handling a connection to a database because it's just a waste of resources to create more than one database connection for each request. Similarly, in front-end JavaScript, you might want to have an object that handles all AJAX requests be a singleton. A simple rule could be: if it has the exact same functionality every time you create a new instance, then make it a singleton.</p>
 <p>This isn't the only reason to make a singleton, though. At least in JavaScript, the singleton allows you to namespace objects and functions to keep them organized and keep them from cluttering the global namespace, which as you probably know is a horrible idea, especially if you use third party code. Using the singleton for name-spacing is also referred to as the module design pattern.</p>
@@ -2063,7 +2063,7 @@ Namespace.some_method();
         Composite</h3>
 </div>
 <a name="articlecontentAdobe_text_4" style="visibility:hidden"></a><div class="text parbase section"><div class="Semantic LayoutCellSides LayoutBreakAfter TextMedium TextBreak">
-						<p>If you read through the section about the singleton pattern and thought, "well, that was simple," don't worry, I have some more complicated patterns to discuss, one of which is the composite pattern. Composites, as the word implies, are objects composed of multiple parts that create a single entity. This single entity serves as the access point for all the parts, which, while simplifying things greatly, can also be deceiving because there’s no implicit way to tell just how many parts the composite contains.</p>
+						<p>If you read through the section about the singleton pattern and thought, "well, that was simple," don't worry, I have some more complicated patterns to discuss, one of which is the composite pattern. Composites, as the word implies, are objects composed of multiple parts that create a single entity. This single entity serves as the access point for all the parts, which, while simplifying things greatly, can also be deceiving because there's no implicit way to tell just how many parts the composite contains.</p>
 <h4>Structure of the composite</h4>
 <p>The composite is explained best using an illustration. In Figure 1, you can see two different types of objects: containers and galleries are the composites and images are the leaves. A composite can hold children and generally doesn't implement much behavior. A leaf contains most of the behavior, but it cannot hold any children, at least not in the classical composite example.</p>
 </div>
@@ -2074,7 +2074,7 @@ Namespace.some_method();
         Figure 1. The structure of a composite</div>
 </div>
 <a name="articlecontentAdobe_text_16" style="visibility:hidden"></a><div class="text parbase section"><div class="Semantic LayoutCellSides LayoutBreakAfter TextMedium TextBreak">
-						<p>As another example, I'm 100% certain you’ve seen the composite pattern in action before but never really thought about it. The file structure in computers is an example of the composite pattern. If you delete a folder, all of its contents get deleted too, right? That's essentially how the composite pattern works. You can call a method on a composite object higher up on the tree and the message will be delivered down through the hierarchy.</p>
+						<p>As another example, I'm 100% certain you've seen the composite pattern in action before but never really thought about it. The file structure in computers is an example of the composite pattern. If you delete a folder, all of its contents get deleted too, right? That's essentially how the composite pattern works. You can call a method on a composite object higher up on the tree and the message will be delivered down through the hierarchy.</p>
 <h4>Composite coding example</h4>
 <p>This example creates an image gallery as an example of the composite pattern. You will have just three levels: album, gallery, and image. The album and galleries will be composites and the images will be the leaves, just like in Figure 1. This is a more defined structure than a composite needs to have, but for this example, it makes sense to limit the levels to only being composites or leaves. A standard composite doesn't limit which levels of the hierarchy that leaves can be on, nor do they limit the number of levels.</p>
 <p>To start things off, you create the <code>GalleryComposite</code> "class" used for both the album and the galleries. Please note that I am using jQuery for the DOM manipulation to simplify things.</p>
@@ -2218,7 +2218,7 @@ container.show();
 						<p>The façade pattern is the final design pattern in this article, which is just a function or other piece of code that simplifies a more complex interface. This is actually quite common, and, one could argue, most functions are actually made for this very purpose. The goal of a façade is to simplify a larger piece of logic into one simple function call.</p>
 <h4>Examples of the façade</h4>
 <p>You just might be using the&nbsp;façade&nbsp;pattern all the time without realizing that you're using any design pattern at all. Just about every single library that you use in any programming language uses the facade pattern to some degreebecause generally their purpose is to make complex things simpler.</p>
-<p>Let’s look at jQuery for an example. jQuery has a single function (<code>jquery()</code>) to do so many things; It can query the DOM, create elements, or just convert DOM elements into jQuery objects. If you just look at querying the DOM, and take a peek at the number of lines of code used to create that capability, you'd probably say to yourself, "I'm glad I didn't have to write this," because it is very long and complex code. They have successfully used the<br>
+<p>Let's look at jQuery for an example. jQuery has a single function (<code>jquery()</code>) to do so many things; It can query the DOM, create elements, or just convert DOM elements into jQuery objects. If you just look at querying the DOM, and take a peek at the number of lines of code used to create that capability, you'd probably say to yourself, "I'm glad I didn't have to write this," because it is very long and complex code. They have successfully used the<br>
 <span style="font-size: 13px; background-color: rgb(255, 255, 255);">façade&nbsp;</span>pattern to convert hundreds of lines of complex code into a single, short function call for your convenience.</p>
 <h4>Finishing up</h4>
 <p>The façade pattern is pretty easy to understand but if you are interested you can learn more from the <a href="http://www.joezimjs.com/javascript/javascript-design-patterns-facade/" target="_blank" onclick="s_objectID=&quot;http://www.joezimjs.com/javascript/javascript-design-patterns-facade/_1&quot;;return this.s_oc?this.s_oc(e):true">JavaScript Design Patterns: Façade</a> post on my personal blog.<br>
@@ -2601,7 +2601,7 @@ container.show();
 		<div class="sect1" title="The Constructor Pattern"><div class="titlepage"><div><div><h1 class="title"><a id="the-constructor-pattern"></a>The Constructor Pattern</h1></div></div></div><p><a id="index-702D513KM6P" class="indexterm"></a>In classical object-oriented programming languages, a
     constructor is a special method used to initialize a newly created object
     once memory has been allocated for it. In JavaScript, as almost everything
-    is an object, we’re most often interested in
+    is an object, we're most often interested in
     <span class="emphasis"><em>object</em></span><a id="I_indexterm9_d1e1551" class="indexterm"></a> constructors.</p><p>Object constructors are used to create specific types of
     objects—both preparing the object for use and accepting arguments a
     constructor can use to set the values of member properties and methods
@@ -2700,13 +2700,13 @@ container.show();
 
 <code class="c1">// Get the property we set (100mph)</code>
 <code class="nx">console</code><code class="p">.</code><code class="nx">log</code><code class="p">(</code> <code class="nx">driver</code><code class="p">.</code><code class="nx">topSpeed</code> <code class="p">);</code>
-</pre></div><div class="sect2" title="Basic Constructors"><div class="titlepage"><div><div><h2 class="title"><a id="basic-constructors"></a>Basic Constructors</h2></div></div></div><p><a id="index-770U674VD8M" class="indexterm"></a>As we saw earlier, JavaScript doesn’t support the concept
+</pre></div><div class="sect2" title="Basic Constructors"><div class="titlepage"><div><div><h2 class="title"><a id="basic-constructors"></a>Basic Constructors</h2></div></div></div><p><a id="index-770U674VD8M" class="indexterm"></a>As we saw earlier, JavaScript doesn't support the concept
       of classes, <a id="I_indexterm9_d1e1615" class="indexterm"></a><a id="I_indexterm9_d1e1620" class="indexterm"></a>but it does support special constructor functions that
       work with objects. By simply prefixing a call to a constructor function
       with the keyword <code class="literal">new</code>, we can tell JavaScript we would
       like the function to behave like a constructor and instantiate a new
       object with the members defined by that function.</p><p>Inside a constructor, the keyword
-      <code class="literal">this</code><a id="I_indexterm9_d1e1633" class="indexterm"></a><a id="I_indexterm9_d1e1636" class="indexterm"></a> references the new object that’s being created.
+      <code class="literal">this</code><a id="I_indexterm9_d1e1633" class="indexterm"></a><a id="I_indexterm9_d1e1636" class="indexterm"></a> references the new object that's being created.
       Revisiting object creation, a basic constructor may look as
       follows:</p><a id="I_programlisting9_d1e1640"></a><pre class="programlisting_javascript"><code class="kd">function</code> <code class="nx">Car</code><code class="p">(</code> <code class="nx">model</code><code class="p">,</code> <code class="nx">year</code><code class="p">,</code> <code class="nx">miles</code> <code class="p">)</code> <code class="p">{</code>
 
@@ -2733,13 +2733,13 @@ container.show();
 </pre><p>The above is a simple version of the constructor pattern, but it
       does suffer from some problems. One is that it makes inheritance
       difficult and the other is that functions such as <code class="literal">toString()</code> are redefined for each of new
-      object created using the <code class="literal">Car</code> constructor. This isn’t
+      object created using the <code class="literal">Car</code> constructor. This isn't
       optimal, as the function should ideally be shared between all instances
       of the <code class="literal">Car</code> type.</p><p>Thankfully, as there are a number of both ES3- and ES5-compatible
-      alternatives to constructing objects, it’s trivial to work around this
+      alternatives to constructing objects, it's trivial to work around this
       limitation.</p></div><div class="sect2" title="Constructors with Prototypes"><div class="titlepage"><div><div><h2 class="title"><a id="constructors-with-prototypes"></a>Constructors with Prototypes</h2></div></div></div><p><a id="I_indexterm9_d1e1661" class="indexterm"></a><a id="I_indexterm9_d1e1664" class="indexterm"></a>Functions in JavaScript have a property <a id="I_indexterm9_d1e1670" class="indexterm"></a>called a <em class="firstterm">prototype</em>. When we call a
       JavaScript constructor to create an object, all the properties of the
-      constructor’s prototype are then made available to the new object. In
+      constructor's prototype are then made available to the new object. In
       this fashion, multiple <code class="literal">Car</code> objects can be created
       that access the same prototype. We can thus extend the original example
       as follows:</p><a id="I_programlisting9_d1e1682"></a><pre class="programlisting_javascript"><code class="kd">function</code> <code class="nx">Car</code><code class="p">(</code> <code class="nx">model</code><code class="p">,</code> <code class="nx">year</code><code class="p">,</code> <code class="nx">miles</code> <code class="p">)</code> <code class="p">{</code>
@@ -2773,7 +2773,7 @@ container.show();
 			START : POST
 		=============================-->
 		<div class="post-wrapper">
-<div class="sect1" title="The Module Pattern"><div class="titlepage"><div><div><h1 class="title"><a id="the-module-pattern"></a>The Module Pattern</h1></div></div></div><p><a id="I_indexterm9_d1e1699" class="indexterm"></a><a id="index-653D847TP4R" class="indexterm"></a>Modules are an integral piece of any robust application’s
+<div class="sect1" title="The Module Pattern"><div class="titlepage"><div><div><h1 class="title"><a id="the-module-pattern"></a>The Module Pattern</h1></div></div></div><p><a id="I_indexterm9_d1e1699" class="indexterm"></a><a id="index-653D847TP4R" class="indexterm"></a>Modules are an integral piece of any robust application's
     architecture and typically help in keeping the units of code for a project
     both cleanly separated and organized.</p><p>In JavaScript, there are several options for implementing modules.
     These include:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem"><p>Object literal notation</p></li><li class="listitem"><p>The Module pattern</p></li><li class="listitem"><p>AMD modules</p></li><li class="listitem"><p>CommonJS modules</p></li><li class="listitem"><p>ECMAScript Harmony modules</p></li></ul></div><p>We will be exploring the latter three of these options later on in
@@ -2791,7 +2791,7 @@ container.show();
       <code class="c1">// ...</code>
     <code class="p">};</code>
 <code class="p">};</code>
-</pre><p>Object literals don’t require instantiation using the <code class="literal">new</code> operator, but shouldn’t be used at the
+</pre><p>Object literals don't require instantiation using the <code class="literal">new</code> operator, but shouldn't be used at the
       start of a statement, as the opening <code class="literal">{</code> may be interpreted as the beginning of a
       block. Outside of an object, new members may be added to the object
       literal using assignment as follows: <code class="literal">myModule.property = "someValue";</code></p><p>Below, we can see a more complete example of a module defined
@@ -2840,27 +2840,27 @@ container.show();
 </pre><p>Using object literals can assist in encapsulating and organizing
       your code. Rebecca Murphey has previously written about this topic in
       <a class="ulink" href="http://rmurphey.com/blog/2009/10/15/using-objects-to-organize-your-code/">depth</a>,
-      should you wish to read into object literals further.</p><p>That said, if we’re opting for this technique, we may be equally
+      should you wish to read into object literals further.</p><p>That said, if we're opting for this technique, we may be equally
       as interested in the Module pattern. It still uses object literals but
       only as the return value from a scoping function.</p></div><div class="sect2" title="The Module Pattern"><div class="titlepage"><div><div><h2 class="title"><a id="id451169"></a>The Module Pattern</h2></div></div></div><p>The Module pattern was originally defined as a way to provide both
       private and public encapsulation for classes in conventional software
       engineering.</p><p>In JavaScript, the Module pattern is used to further
-      <span class="emphasis"><em>emulate</em></span> the concept of classes <a id="I_indexterm9_d1e1798" class="indexterm"></a>in such a way that we’re able to include both
+      <span class="emphasis"><em>emulate</em></span> the concept of classes <a id="I_indexterm9_d1e1798" class="indexterm"></a>in such a way that we're able to include both
       public/private methods and variables inside a single object, thus
       shielding particular parts from the global scope. What this results in
       is a reduction in the likelihood of our function names conflicting with
-      other functions defined in additional scripts on the page (<a class="xref" href="ch09s02.html#module" title="Figure&nbsp;9-2.&nbsp;Module pattern">Figure&nbsp;9-2</a>).</p><div class="figure-float"><div class="figure"><a id="module"></a><div class="figure-contents"><div class="mediaobject"><a id="I_mediaobject9_d1e1809"></a><img src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326918.png" alt="Module pattern" width="390" height="185" data-mfp-src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326918.png"></div></div><p class="title">Figure&nbsp;9-2.&nbsp;Module pattern</p></div></div><div class="sect3" title="Privacy"><div class="titlepage"><div><div><h3 class="title"><a id="id463501"></a>Privacy</h3></div></div></div><p><a id="I_indexterm9_d1e1818" class="indexterm"></a><a id="I_indexterm9_d1e1821" class="indexterm"></a>The Module pattern encapsulates “privacy” state and
+      other functions defined in additional scripts on the page (<a class="xref" href="ch09s02.html#module" title="Figure&nbsp;9-2.&nbsp;Module pattern">Figure&nbsp;9-2</a>).</p><div class="figure-float"><div class="figure"><a id="module"></a><div class="figure-contents"><div class="mediaobject"><a id="I_mediaobject9_d1e1809"></a><img src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326918.png" alt="Module pattern" width="390" height="185" data-mfp-src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326918.png"></div></div><p class="title">Figure&nbsp;9-2.&nbsp;Module pattern</p></div></div><div class="sect3" title="Privacy"><div class="titlepage"><div><div><h3 class="title"><a id="id463501"></a>Privacy</h3></div></div></div><p><a id="I_indexterm9_d1e1818" class="indexterm"></a><a id="I_indexterm9_d1e1821" class="indexterm"></a>The Module pattern encapsulates "privacy" state and
         organization using closures. It provides a way of wrapping a mix of
         public and private methods and variables, protecting pieces from
         leaking into the global scope and accidentally colliding with another
-        developer’s interface. With this pattern, only a public API is
+        developer's interface. With this pattern, only a public API is
         returned, keeping everything else within the closure private.</p><p>This gives us a clean solution for shielding logic doing the
         heavy lifting while only exposing an interface we would like other
         parts of our application to use. The pattern is quite similar to an
         immediately-invoked functional expression<sup>[<a id="iife_footnote" href="#ftn.iife_footnote" class="footnote totri-footnote">1</a>]</sup> , except that an object is returned rather than a
-        function.</p><p>It should be noted that there isn’t really an explicitly true
-        sense of “privacy” inside JavaScript because unlike some traditional
-        languages, it doesn’t have access modifiers. Variables can’t
+        function.</p><p>It should be noted that there isn't really an explicitly true
+        sense of "privacy" inside JavaScript because unlike some traditional
+        languages, it doesn't have access modifiers. Variables can't
         technically be declared as being public nor private, and so we use
         function scope to simulate this concept. Within the Module pattern,
         variables or methods declared are only available inside the module
@@ -2868,10 +2868,10 @@ container.show();
         returning object, however, are available to everyone.</p></div><div class="sect3" title="History"><div class="titlepage"><div><div><h3 class="title"><a id="id647442"></a>History</h3></div></div></div><p><a id="I_indexterm9_d1e1845" class="indexterm"></a><a id="I_indexterm9_d1e1848" class="indexterm"></a>From a historical perspective, the Module pattern was
         originally developed by a number of people, including <a class="ulink" href="http://groups.google.com/group/comp.lang.javascript/msg/9f58bd11bd67d937">Richard
         Cornford</a> in 2003. It was later popularized by Douglas
-        Crockford in his lectures. In addition, if you’ve ever played with
-        Yahoo’s YUI library,<a id="I_indexterm9_d1e1859" class="indexterm"></a> some of its features may appear quite familiar, because
+        Crockford in his lectures. In addition, if you've ever played with
+        Yahoo's YUI library,<a id="I_indexterm9_d1e1859" class="indexterm"></a> some of its features may appear quite familiar, because
         the Module pattern was a strong influence for YUI when creating their
-        components.</p></div><div class="sect3" title="Examples"><div class="titlepage"><div><div><h3 class="title"><a id="id417132"></a>Examples</h3></div></div></div><p><a id="index-405D673DO6R" class="indexterm"></a>Let’s begin looking at an implementation of the Module
+        components.</p></div><div class="sect3" title="Examples"><div class="titlepage"><div><div><h3 class="title"><a id="id417132"></a>Examples</h3></div></div></div><p><a id="index-405D673DO6R" class="indexterm"></a>Let's begin looking at an implementation of the Module
         pattern by creating a module that is self-contained.</p><a id="I_programlisting9_d1e1875"></a><pre class="programlisting_javascript"><code class="kd">var</code> <code class="nx">testModule</code> <code class="o">=</code> <code class="p">(</code><code class="kd">function</code> <code class="p">()</code> <code class="p">{</code>
 
   <code class="kd">var</code> <code class="nx">counter</code> <code class="o">=</code> <code class="mi">0</code><code class="p">;</code>
@@ -2903,12 +2903,12 @@ container.show();
         <code class="literal">resetCounter()</code>. The
         <code class="literal">counter</code> variable is actually fully shielded from
         our global scope so it acts just like a private variable would—its
-        existence is limited to within the module’s closure so that the only
+        existence is limited to within the module's closure so that the only
         code able to access its scope, are our two functions. Our methods are
         effectively namespaced so in the test section of our code, we need to
         prefix any calls with the name of the module (e.g.,
         <code class="literal">testModule</code>).</p><p>When working with the Module pattern, we may find it useful to
-        define a simple template for getting started with it. Here’s one that
+        define a simple template for getting started with it. Here's one that
         covers namespacing, public, and private variables:</p><a id="I_programlisting9_d1e1893"></a><pre class="programlisting_javascript"><code class="kd">var</code> <code class="nx">myNamespace</code> <code class="o">=</code> <code class="p">(</code><code class="kd">function</code> <code class="p">()</code> <code class="p">{</code>
 
 
@@ -2942,7 +2942,7 @@ container.show();
         implemented using this pattern. The module itself is completely
         self-contained in a global variable called <code class="literal">basketModule</code>. The <code class="literal">basket</code> array in the module is kept private,
         so other parts of our application are unable to directly read it. It
-        only exists with the module’s closure, so the only methods able to
+        only exists with the module's closure, so the only methods able to
         access it are those with access to its scope (i.e., <code class="literal">addItem()</code>, <code class="literal">getItem()</code>, etc.).</p><a id="I_programlisting9_d1e1909"></a><pre class="programlisting_javascript"><code class="kd">var</code> <code class="nx">basketModule</code> <code class="o">=</code> <code class="p">(</code><code class="kd">function</code> <code class="p">()</code> <code class="p">{</code>
 
   <code class="c1">// privates</code>
@@ -3022,18 +3022,18 @@ container.show();
         wrapped around all of our functions, which we then call and
         immediately store the return value of. This has a number of advantages
         including:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem"><p>The freedom to have private functions <a id="I_indexterm9_d1e1933" class="indexterm"></a><a id="I_indexterm9_d1e1938" class="indexterm"></a>that can only be consumed by our module. As they
-            aren’t exposed to the rest of the page (only our exported API is),
-            they’re considered truly private.</p></li><li class="listitem"><p>Given that functions are declared normally and are named, it
-            can be easier to show call stacks in a debugger when we’re
+            aren't exposed to the rest of the page (only our exported API is),
+            they're considered truly private.</p></li><li class="listitem"><p>Given that functions are declared normally and are named, it
+            can be easier to show call stacks in a debugger when we're
             attempting to discover what function(s) threw exceptions.</p></li><li class="listitem"><p>As T.J. Crowder has pointed out in the past, it also enables
             us to return different functions depending on the environment. In
-            the past, I’ve seen developers use this to perform UA testing to
+            the past, I've seen developers use this to perform UA testing to
             provide a codepath in their module specific to IE, but we can
             easily opt for feature detection these days to achieve a similar
             goal.<a id="I_indexterm9_d1e1950" class="indexterm"></a></p></li></ul></div></div></div><div class="sect2" title="Module Pattern Variations"><div class="titlepage"><div><div><h2 class="title"><a id="id620561"></a>Module Pattern Variations</h2></div></div></div><div class="sect3" title="Import mixins"><div class="titlepage"><div><div><h3 class="title"><a id="id529910"></a>Import mixins</h3></div></div></div><p><a id="index-620Q214EG5A" class="indexterm"></a>This variation of the pattern demonstrates how globals
         <a id="I_indexterm9_d1e1966" class="indexterm"></a>(e.g., <code class="literal">jQuery</code>,
         <code class="literal">Underscore</code>) can be passed in as arguments to our
-        module’s anonymous function. This effectively allows us to
+        module's anonymous function. This effectively allows us to
         <span class="emphasis"><em>import</em></span> them and locally alias them as we
         wish.</p><a id="I_programlisting9_d1e1981"></a><pre class="programlisting_javascript"><code class="c1">// Global module</code>
 <code class="kd">var</code> <code class="nx">myModule</code> <code class="o">=</code> <code class="p">(</code><code class="kd">function</code> <code class="p">(</code> <code class="nx">jQ</code><code class="p">,</code> <code class="nx">_</code> <code class="p">)</code> <code class="p">{</code>
@@ -3085,7 +3085,7 @@ container.show();
           <code class="literal">parent</code> defined inside <code class="literal">myObj</code>.
           Using <code class="literal">setObject()</code> allows us to
           set the value of children, creating any of the intermediate objects
-          in the rest of the path passed if they don’t already exist.</p><p>For example, if we wanted to declare <code class="literal">basket.core</code> as an object of the <code class="literal">store</code> namespace, this could be achieved as
+          in the rest of the path passed if they don't already exist.</p><p>For example, if we wanted to declare <code class="literal">basket.core</code> as an object of the <code class="literal">store</code> namespace, this could be achieved as
           follows using the traditional way:</p><a id="I_programlisting9_d1e2037"></a><pre class="programlisting_javascript"><code class="kd">var</code> <code class="nx">store</code> <code class="o">=</code> <code class="nb">window</code><code class="p">.</code><code class="nx">store</code> <code class="o">||</code> <code class="p">{};</code>
 
 <code class="k">if</code> <code class="p">(</code> <code class="o">!</code><code class="nx">store</code><code class="p">[</code><code class="s2">"basket"</code><code class="p">]</code> <code class="p">)</code> <code class="p">{</code>
@@ -3120,13 +3120,13 @@ container.show();
   <code class="p">}()));</code>
 
 <code class="p">});</code>
-</pre><p>For more information on <code class="literal">dojo.setObject()</code>, see the official <a class="ulink" href="http://dojotoolkit.org/reference-guide/1.7/dojo/setObject.html">documentation</a>.</p></div><div class="sect4" title="ExtJS"><div class="titlepage"><div><div><h4 class="title"><a id="id428464"></a>ExtJS</h4></div></div></div><p><a id="I_indexterm9_d1e2055" class="indexterm"></a>For those using Sencha’s ExtJS, you’re in for some
+</pre><p>For more information on <code class="literal">dojo.setObject()</code>, see the official <a class="ulink" href="http://dojotoolkit.org/reference-guide/1.7/dojo/setObject.html">documentation</a>.</p></div><div class="sect4" title="ExtJS"><div class="titlepage"><div><div><h4 class="title"><a id="id428464"></a>ExtJS</h4></div></div></div><p><a id="I_indexterm9_d1e2055" class="indexterm"></a>For those using Sencha's ExtJS, you're in for some
           luck, as the official documentation incorporates <a class="ulink" href="http://www.sencha.com/learn/legacy/Tutorial:Application_Layout_for_Beginners">examples</a>
           that demonstrate how to correctly use the Module pattern with the
           framework.</p><p>Here we can see an example of how to define a namespace
           <a id="I_indexterm9_d1e2064" class="indexterm"></a>that can then be populated with a module containing
           both a private and public API. With the exception of some semantic
-          differences, it’s quite close to how the Module pattern is
+          differences, it's quite close to how the Module pattern is
           implemented in vanilla JavaScript:</p><p><a id="I_programlisting9_d1e2071"></a></p><pre class="programlisting_javascript"><code class="c1">// create namespace</code>
 <code class="nx">Ext</code><code class="p">.</code><code class="nx">namespace</code><code class="p">(</code><code class="s2">"myNameSpace"</code><code class="p">);</code>
 
@@ -3175,7 +3175,7 @@ container.show();
 </pre></div><div class="sect4" title="YUI"><div class="titlepage"><div><div><h4 class="title"><a id="id611757"></a>YUI</h4></div></div></div><p>Similarly, we can implement the Module pattern when building
           applications using YUI3.<a id="I_indexterm9_d1e2078" class="indexterm"></a> The following example is heavily based on the
           original YUI Module pattern implementation by Eric Miraglia, but
-          again, isn’t vastly different from the vanilla JavaScript
+          again, isn't vastly different from the vanilla JavaScript
           version:</p><a id="I_programlisting9_d1e2082"></a><pre class="programlisting_javascript"><code class="nx">Y</code><code class="p">.</code><code class="nx">namespace</code><code class="p">(</code> <code class="s2">"store.basket"</code> <code class="p">)</code> <code class="o">=</code> <code class="p">(</code><code class="kd">function</code> <code class="p">()</code> <code class="p">{</code>
 
     <code class="kd">var</code> <code class="nx">myPrivateVar</code><code class="p">,</code> <code class="nx">myPrivateMethod</code><code class="p">;</code>
@@ -3231,26 +3231,26 @@ container.show();
     <code class="p">}</code>
   <code class="p">};</code>
 <code class="p">}());</code>
-</pre></div></div><div class="sect3" title="Advantages"><div class="titlepage"><div><div><h3 class="title"><a id="id446175"></a>Advantages</h3></div></div></div><p><a id="I_indexterm9_d1e2124" class="indexterm"></a>We’ve seen why the Singleton pattern can be useful, but
-        why is the Module pattern a good choice? For starters, it’s a lot
+</pre></div></div><div class="sect3" title="Advantages"><div class="titlepage"><div><div><h3 class="title"><a id="id446175"></a>Advantages</h3></div></div></div><p><a id="I_indexterm9_d1e2124" class="indexterm"></a>We've seen why the Singleton pattern can be useful, but
+        why is the Module pattern a good choice? For starters, it's a lot
         cleaner for developers coming from an object-oriented background than
         the idea of true encapsulation, at least from a JavaScript
         perspective.</p><p>Second, it supports private data—so, in the Module pattern,
         public parts of our code are able to touch the private parts, however
-        the outside world is unable to touch the class’s private parts (thanks
+        the outside world is unable to touch the class's private parts (thanks
         to David Engfer for the joke).</p></div><div class="sect3" title="Disadvantages"><div class="titlepage"><div><div><h3 class="title"><a id="id613119"></a>Disadvantages</h3></div></div></div><p><a id="I_indexterm9_d1e2138" class="indexterm"></a>The disadvantages of the Module pattern are that, as we
         access both public and private members differently, when we wish to
         change visibility, we actually have to make changes to each place the
-        member was used.</p><p>We also can’t access private members in methods that are added
+        member was used.</p><p>We also can't access private members in methods that are added
         to the object at a later point. That said, in many cases, the Module
         pattern is still quite useful and, when used correctly, certainly has
         the potential to improve the structure of our application.</p><p>Other disadvantages include the inability to create automated
         unit tests for private members and additional complexity when bugs
-        require hot fixes. It’s simply not possible to patch privates.
+        require hot fixes. It's simply not possible to patch privates.
         Instead, one must override all public methods that interact with the
-        buggy privates. Developers can’t easily extend privates either, so
-        it’s worth remembering privates are not as flexible as they may
-        initially appear.</p><p>For further reading on the Module pattern, see Ben Cherry’s
+        buggy privates. Developers can't easily extend privates either, so
+        it's worth remembering privates are not as flexible as they may
+        initially appear.</p><p>For further reading on the Module pattern, see Ben Cherry's
         excellent in-depth <a class="ulink" href="http://www.adequatelygood.com/2010/3/JavaScript-Module-Pattern-In-Depth">article</a>.<a id="I_indexterm9_d1e2155" class="indexterm"></a></p></div></div><div class="footnotes"><br><hr><div class="footnote"><p><sup>[<a id="ftn.iife_footnote" href="#iife_footnote" class="para totri-footnote">1</a>] </sup><a class="ulink" href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a>.
             See <a class="xref" href="ch13s14.html" title="Namespacing Patterns">Namespacing Patterns</a> for more on
             this.</p></div></div></div>
@@ -3261,12 +3261,12 @@ container.show();
 			START : POST
 		=============================-->
 		<div class="post-wrapper">
-<div class="sect1" title="The Revealing Module Pattern"><div class="titlepage"><div><div><h1 class="title"><a id="the-revealing-module-pattern"></a>The Revealing Module Pattern</h1></div></div></div><p><a id="I_indexterm9_d1e2160" class="indexterm"></a><a id="I_indexterm9_d1e2163" class="indexterm"></a>Now that we’re a little more familiar with the Module
-    pattern, let’s take a look at a slightly improved version—Christian
-    Heilmann’s Revealing Module pattern<a id="I_indexterm9_d1e2169" class="indexterm"></a>.</p><p>The Revealing Module pattern came about as Heilmann was frustrated
+<div class="sect1" title="The Revealing Module Pattern"><div class="titlepage"><div><div><h1 class="title"><a id="the-revealing-module-pattern"></a>The Revealing Module Pattern</h1></div></div></div><p><a id="I_indexterm9_d1e2160" class="indexterm"></a><a id="I_indexterm9_d1e2163" class="indexterm"></a>Now that we're a little more familiar with the Module
+    pattern, let's take a look at a slightly improved version—Christian
+    Heilmann's Revealing Module pattern<a id="I_indexterm9_d1e2169" class="indexterm"></a>.</p><p>The Revealing Module pattern came about as Heilmann was frustrated
     with the fact that he had to repeat the name of the main object when he
     wanted to call one public method from another or access public variables.
-    He also disliked the Module pattern’s requirement of having to switch to
+    He also disliked the Module pattern's requirement of having to switch to
     object literal notation for the things he wished to make public.</p><p>The result of his efforts was an updated pattern in which he could
     simply define all functions and variables in the private scope and return
     an anonymous object with pointers to the private functionality he wished
@@ -3338,9 +3338,9 @@ container.show();
       consistent. It also makes it easier to tell at the end of the module
       which of our functions and variables may be accessed publicly, which
       eases readability.</p></div><div class="sect2" title="Disadvantages"><div class="titlepage"><div><div><h2 class="title"><a id="id573218"></a>Disadvantages</h2></div></div></div><p>A disadvantage of this pattern is that if a private function
-      refers to a public function,<a id="I_indexterm9_d1e2206" class="indexterm"></a><a id="I_indexterm9_d1e2209" class="indexterm"></a> that public function can’t be overridden if a patch is
+      refers to a public function,<a id="I_indexterm9_d1e2206" class="indexterm"></a><a id="I_indexterm9_d1e2209" class="indexterm"></a> that public function can't be overridden if a patch is
       necessary. This is because the private function will continue to refer
-      to the private implementation, and the pattern doesn’t apply to public
+      to the private implementation, and the pattern doesn't apply to public
       members, only to functions.</p><p>Public object members that refer to private variables are also
       subject to the no-patch rule.</p><p>As a result of this, modules created with the Revealing Module
       pattern may be more fragile than those created with the original Module
@@ -3353,10 +3353,10 @@ container.show();
 		=============================-->
 		<div class="post-wrapper">
 		<div class="sect1" title="Namespacing Fundamentals"><div class="titlepage"><div><div><h1 class="title"><a id="namespacing-fundamentals"></a>Namespacing Fundamentals</h1></div></div></div><p>Namespaces can be found in almost any serious JavaScript
-    application. Unless we’re working with a simple code snippet, it’s
-    imperative that we do our best to ensure that we’re implementing
-    namespacing correctly, as it’s not just simple to pick up, it’ll also
-    avoid third-party code clobbering our own. The patterns we’ll be examining
+    application. Unless we're working with a simple code snippet, it's
+    imperative that we do our best to ensure that we're implementing
+    namespacing correctly, as it's not just simple to pick up, it'll also
+    avoid third-party code clobbering our own. The patterns we'll be examining
     in this section are:</p><div class="orderedlist"><ol class="orderedlist"><li class="listitem"><p>Single global variables</p></li><li class="listitem"><p>Prefix namespacing</p></li><li class="listitem"><p>Object literal notation</p></li><li class="listitem"><p>Nested namespacing</p></li><li class="listitem"><p>Immediately-invoked Function</p></li><li class="listitem"><p>Expressions</p></li><li class="listitem"><p>Namespace injection</p></li></ol></div><div class="sect2" title="Single Global Variables"><div class="titlepage"><div><div><h2 class="title"><a id="single-global-variables"></a>Single Global Variables</h2></div></div></div><p><a id="I_indexterm13_d1e8743" class="indexterm"></a><a id="I_indexterm13_d1e8750" class="indexterm"></a><a id="I_indexterm13_d1e8755" class="indexterm"></a>One popular pattern for namespacing in JavaScript is
       opting for a single global variable as our primary object of reference.
       A skeleton implementation of this where we return an object with
@@ -3371,7 +3371,7 @@ container.show();
 </pre><p>Although this works for certain situations, the biggest challenge
       with the single global variable pattern is ensuring that no one else has
       used the same global variable name as we have in the page.</p></div><div class="sect2" title="Prefix Namespacing"><div class="titlepage"><div><div><h2 class="title"><a id="prefix-namespacing"></a>Prefix Namespacing</h2></div></div></div><p><a id="I_indexterm13_d1e8769" class="indexterm"></a><a id="I_indexterm13_d1e8776" class="indexterm"></a><a id="I_indexterm13_d1e8781" class="indexterm"></a>One solution to the above problem, as mentioned by <a class="ulink" href="http://michaux.ca/articles/javascript-namespacing">Peter
-      Michaux</a>, is to use prefix namespacing. It’s a simple concept at
+      Michaux</a>, is to use prefix namespacing. It's a simple concept at
       heart, but the idea is we select a unique prefix namespace we wish to
       use (in this example, <code class="literal">myApplication_</code>)
       and then define any methods, variables, or other objects after the
@@ -3386,7 +3386,7 @@ container.show();
       result in a large number of global objects once our application starts
       to grow. There is also quite a heavy reliance on our prefix not being
       used by any other developers in the global namespace, so be careful if
-      opting to use this.</p><p>For more on Peter’s views about the single global variable
+      opting to use this.</p><p>For more on Peter's views about the single global variable
       pattern, read his excellent post on them: <a class="ulink" href="http://michaux.ca/articles/javascript-namespacing">http://michaux.ca/articles/javascript-namespacing</a>.</p></div><div class="sect2" title="Object Literal Notation"><div class="titlepage"><div><div><h2 class="title"><a id="object-literal-notation"></a>Object Literal Notation</h2></div></div></div><p><a id="index-837J624QT1M" class="indexterm"></a><a id="index-343V563PF0Q" class="indexterm"></a><a id="index-702F878FM3P" class="indexterm"></a>Object literal notation, which we also cover in the Module
       pattern section, can be thought of as an object containing a collection
       of key-value pairs with a colon separating each pair of keys and values,
@@ -3428,7 +3428,7 @@ container.show();
       variable by the same name, so the chances of collision occurring are
       significantly reduced.</p><p>The next sample demonstrates a number of different ways in which
       you can check to see if an object namespace already exists, defining it
-      if it doesn’t.</p><a id="I_programlisting13_d1e8842"></a><pre class="programlisting_javascript"><code class="c1">// This doesn't check for existence of "myApplication" in</code>
+      if it doesn't.</p><a id="I_programlisting13_d1e8842"></a><pre class="programlisting_javascript"><code class="c1">// This doesn't check for existence of "myApplication" in</code>
 <code class="c1">// the global namespace. Bad practice as we can easily</code>
 <code class="c1">// clobber an existing variable/namespace with the same name</code>
 <code class="kd">var</code> <code class="nx">myApplication</code> <code class="o">=</code> <code class="p">{};</code>
@@ -3442,12 +3442,12 @@ container.show();
 <code class="c1">// Option 3: window.myApplication || ( window.myApplication = {} );</code>
 <code class="c1">// Option 4: var myApplication = $.fn.myApplication = function() {};</code>
 <code class="c1">// Option 5: var myApplication = myApplication === undefined ? {} : myApplication;</code>
-</pre><p>You’ll often see developers opting for Option 1 or Option 2—they
+</pre><p>You'll often see developers opting for Option 1 or Option 2—they
       are both straightforward and are equivalent in terms of their end
-      result.</p><p>Option 3 assumes that you’re working in the global namespace, but
+      result.</p><p>Option 3 assumes that you're working in the global namespace, but
       it can also be written as:</p><a id="I_programlisting13_d1e8848"></a><pre class="programlisting_javascript"><code class="nx">myApplication</code> <code class="o">||</code> <code class="p">(</code><code class="nx">myApplication</code> <code class="o">=</code> <code class="p">{});</code>
 </pre><p>This variation assumes that <code class="literal">myApplication</code> has
-      already been initialized, so it’s only really useful for a
+      already been initialized, so it's only really useful for a
       parameter/argument scenario, as in the following example:</p><p><a id="I_programlisting13_d1e8857"></a></p><pre class="programlisting">function foo() {
   myApplication || ( myApplication = {} );
 }
@@ -3477,7 +3477,7 @@ $.fn.myPlugin.defaults = {};
 myPlugin.defaults = {};</pre><p>This results in better compression (minification) and can save on
       scope lookups.</p><p>Option 5 is a little similar to Option 4, but is a long form that
       evaluates whether <code class="literal">myApplication</code> is
-      <code class="literal">undefined</code> inline—such that it’s defined as an object
+      <code class="literal">undefined</code> inline—such that it's defined as an object
       if not—and set to an existing value for <code class="literal">myApplication</code>
       if so.</p><p>It is shown just for the sake of being thorough, but in most
       situations, Options 1–4 will more than suffice for most needs.</p><p>There is, of course, a great deal of variance in how and where
@@ -3511,7 +3511,7 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
         ...
     }
 })();</pre><p>The benefit of using object literals here is that they
-      offer us a very elegant key/value syntax to work with; one where we’re
+      offer us a very elegant key/value syntax to work with; one where we're
       able to easily encapsulate any distinct logic or functionality for our
       application in a way that clearly separates it from others and provides
       a solid foundation for extending our code.</p><a id="I_programlisting13_d1e8884"></a><pre class="programlisting_javascript"><code class="kd">var</code> <code class="nx">myConfig</code> <code class="o">=</code> <code class="p">{</code>
@@ -3539,13 +3539,13 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
       any reason, one wishes to use JSON for storing configuration
       data instead (e.g., for simpler storage when sending to the backend),
       feel free to. For more on the object literal pattern, I recommend
-      reading Rebecca Murphey’s excellent <a class="ulink" href="http://rmurphey.com/blog/2009/10/15/using-objects-to-organize-your-code/">article
-      on the topic</a>, as she covers a few areas we didn’t touch
+      reading Rebecca Murphey's excellent <a class="ulink" href="http://rmurphey.com/blog/2009/10/15/using-objects-to-organize-your-code/">article
+      on the topic</a>, as she covers a few areas we didn't touch
       upon.<a id="I_indexterm13_d1e8903" class="indexterm"></a><a id="I_indexterm13_d1e8904" class="indexterm"></a><a id="I_indexterm13_d1e8905" class="indexterm"></a></p></div><div class="sect2" title="Nested Namespacing"><div class="titlepage"><div><div><h2 class="title"><a id="nested-namespacing"></a>Nested Namespacing</h2></div></div></div><p><a id="I_indexterm13_d1e8910" class="indexterm"></a><a id="I_indexterm13_d1e8917" class="indexterm"></a><a id="I_indexterm13_d1e8922" class="indexterm"></a>An extension of the object literal pattern is nested
-      namespacing. It’s another common pattern used that offers a lower risk
+      namespacing. It's another common pattern used that offers a lower risk
       of collision <a id="I_indexterm13_d1e8930" class="indexterm"></a>due to the fact that even if a namespace already exists,
-      it’s unlikely the same nested children do.</p><p>Does this look familiar?</p><a id="I_programlisting13_d1e8936"></a><pre class="programlisting_javascript"><code class="nx">YAHOO</code><code class="p">.</code><code class="nx">util</code><code class="p">.</code><code class="nx">Dom</code><code class="p">.</code><code class="nx">getElementsByClassName</code><code class="p">(</code><code class="s2">"test"</code><code class="p">);</code>
-</pre><p>Older versions of Yahoo!’s YUI library use the nested object
+      it's unlikely the same nested children do.</p><p>Does this look familiar?</p><a id="I_programlisting13_d1e8936"></a><pre class="programlisting_javascript"><code class="nx">YAHOO</code><code class="p">.</code><code class="nx">util</code><code class="p">.</code><code class="nx">Dom</code><code class="p">.</code><code class="nx">getElementsByClassName</code><code class="p">(</code><code class="s2">"test"</code><code class="p">);</code>
+</pre><p>Older versions of Yahoo!'s YUI library use the nested object
       namespacing pattern regularly. During my time as an engineer at AOL, we
       also used this pattern in many of our larger applications. A sample
       implementation of nested namespacing may look like this:</p><a id="I_programlisting13_d1e8940"></a><pre class="programlisting_javascript"><code class="kd">var</code> <code class="nx">myApp</code> <code class="o">=</code>  <code class="nx">myApp</code> <code class="o">||</code> <code class="p">{};</code>
@@ -3569,18 +3569,18 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
 </pre><p>Both options are readable, organized, and offer a relatively safe
       way of namespacing our application in a similar fashion to what we may
       be used to in other languages. The only real caveat, however, is that it
-      requires our browser’s JavaScript engine first locating the
+      requires our browser's JavaScript engine first locating the
       <code class="literal">myApp</code> object and then digging down until it gets to
       the function we actually wish to use.</p><p>This can mean an increased amount of work to perform lookups;
       however, developers such as <a class="ulink" href="http://twitter.com/kangax">Juriy
       Zaytsev</a> have previously tested and found the performance
-      differences between single object namespacing versus the “nested”
+      differences between single object namespacing versus the "nested"
       approach to be quite negligible.</p></div><div class="sect2" title="Immediately Invoked Function Expressions (IIFE)s"><div class="titlepage"><div><div><h2 class="title"><a id="immediately-invoked-function-expressions-iifes"></a>Immediately Invoked Function Expressions (IIFE)s</h2></div></div></div><p><a id="index-413O758IG0T" class="indexterm"></a><a id="index-577L526KF8N" class="indexterm"></a><a id="index-254V705DW5O" class="indexterm"></a>Earlier in the book, we briefly covered the concept of an
       immediately invoked function expression; <a class="ulink" href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE</a>,
-      which is effectively an unnamed function, immediately invoked after it’s
-      been defined. If it sounds familiar it’s because you may have previous
+      which is effectively an unnamed function, immediately invoked after it's
+      been defined. If it sounds familiar it's because you may have previous
       come across it referred to as a self-executing (or self-invoked)
-      anonymous function, however I personally feel Ben Alman’s IIFE naming is
+      anonymous function, however I personally feel Ben Alman's IIFE naming is
       more accurate. In JavaScript, because both variables and functions
       explicitly defined within such a context may only be accessed inside of
       it, function invocation provides an easy means to achieving
@@ -3611,7 +3611,7 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
 </pre><p>Whilst readable, this example could be significantly expanded on
       to address common development concerns such as defined levels of privacy
       (public/private functions and variables) as well as convenient namespace
-      extension. Let’s go through some more code:</p><a id="I_programlisting13_d1e8995"></a><pre class="programlisting_javascript"><code class="c1">// namespace (our namespace name) and undefined are passed here </code>
+      extension. Let's go through some more code:</p><a id="I_programlisting13_d1e8995"></a><pre class="programlisting_javascript"><code class="c1">// namespace (our namespace name) and undefined are passed here </code>
 <code class="c1">// to ensure 1. namespace can be modified locally and isn't </code>
 <code class="c1">// overwritten outside of our function context</code>
 <code class="c1">// 2. the value of undefined is guaranteed as being truly </code>
@@ -3659,7 +3659,7 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
 <code class="nx">console</code><code class="p">.</code><code class="nx">log</code><code class="p">(</code> <code class="nx">namespace</code><code class="p">.</code><code class="nx">foobar2</code> <code class="p">);</code>
 </pre><p>Extensibility is of course key to any scalable namespacing pattern
       and IIFEs can be used to achieve this quite easily. In the below
-      example, our “namespace” is once again passed as an argument to our
+      example, our "namespace" is once again passed as an argument to our
       anonymous function and is then extended (or decorated) with further
       functionality:</p><a id="I_programlisting13_d1e8999"></a><pre class="programlisting_javascript"><code class="c1">// let's extend the namespace with new functionality</code>
 <code class="p">(</code><code class="kd">function</code><code class="p">(</code> <code class="nx">namespace</code><code class="p">,</code> <code class="kc">undefined</code> <code class="p">){</code>
@@ -3674,9 +3674,9 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
 
 <code class="nx">namespace</code><code class="p">.</code><code class="nx">sayGoodbye</code><code class="p">();</code> <code class="c1">// goodbye</code>
 </pre><p>If you would like to find out more about this pattern, I recommend
-      reading Ben’s <a class="ulink" href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE
+      reading Ben's <a class="ulink" href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/">IIFE
       post</a> for more information.<a id="I_indexterm13_d1e9007" class="indexterm"></a><a id="I_indexterm13_d1e9008" class="indexterm"></a><a id="I_indexterm13_d1e9009" class="indexterm"></a></p></div><div class="sect2" title="Namespace Injection"><div class="titlepage"><div><div><h2 class="title"><a id="namespace-injection"></a>Namespace Injection</h2></div></div></div><p><a id="I_indexterm13_d1e9014" class="indexterm"></a><a id="I_indexterm13_d1e9021" class="indexterm"></a><a id="I_indexterm13_d1e9026" class="indexterm"></a>Namespace injection is another variation on the IIFE in
-      which we “inject” the methods and properties for a specific namespace
+      which we "inject" the methods and properties for a specific namespace
       from within a function wrapper using <code class="literal">this</code> as a
       namespace proxy. The benefit this pattern offers is easy application of
       functional behavior to multiple objects or namespaces and can come in
@@ -3738,7 +3738,7 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
 </pre><p>Angus Croll has also suggested the idea of using the call API to
       provide a natural separation between contexts and arguments <a class="ulink" href="http://msdn.microsoft.com/en-us/scriptjunkie/gg578608">previously</a>.
       This pattern can feel a lot more like a module creator, but as modules
-      still offer an encapsulation solution, we’ll briefly cover it for the
+      still offer an encapsulation solution, we'll briefly cover it for the
       sake of thoroughness:</p><a id="I_programlisting13_d1e9053"></a><pre class="programlisting_javascript"><code class="c1">// define a namespace we can use later</code>
 <code class="kd">var</code> <code class="nx">ns</code> <code class="o">=</code> <code class="nx">ns</code> <code class="o">||</code> <code class="p">{},</code> 
     <code class="nx">ns2</code> <code class="o">=</code> <code class="nx">ns2</code> <code class="o">||</code> <code class="p">{};</code>
@@ -3768,7 +3768,7 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
 </pre><p>As mentioned, this type of pattern is useful for assigning a
       similar base set of functionality to multiple modules or namespaces. I
       would however only really suggest using it where explicitly declaring
-      functionality within an object/closure for direct access doesn’t make
+      functionality within an object/closure for direct access doesn't make
       sense.</p></div></div>
 		</div>
 		<!--=========================
@@ -3777,12 +3777,12 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
 			START : POST
 		=============================-->
 		<div class="post-wrapper">
-<div class="sect1" title="Advanced Namespacing Patterns"><div class="titlepage"><div><div><h1 class="title"><a id="advanced-namespacing-patterns"></a>Advanced Namespacing Patterns</h1></div></div></div><p>We’ll now explore some advanced patterns and utilities that I have
+<div class="sect1" title="Advanced Namespacing Patterns"><div class="titlepage"><div><div><h1 class="title"><a id="advanced-namespacing-patterns"></a>Advanced Namespacing Patterns</h1></div></div></div><p>We'll now explore some advanced patterns and utilities that I have
     found invaluable when working on larger applications, some of which have
     required a rethink of traditional approaches to application namespacing.
-    I’ll note that I am not advocating any of the following as
+    I'll note that I am not advocating any of the following as
     <span class="emphasis"><em>the</em></span> way to namespace, but rather ways that I have
-    found work in practice.</p><div class="sect2" title="Automating Nested Namespacing"><div class="titlepage"><div><div><h2 class="title"><a id="automating-nested-namespacing"></a>Automating Nested Namespacing</h2></div></div></div><p><a id="I_indexterm13_d1e9069" class="indexterm"></a><a id="I_indexterm13_d1e9076" class="indexterm"></a><a id="I_indexterm13_d1e9083" class="indexterm"></a>As we’ve reviewed, nested namespaces can provide an
+    found work in practice.</p><div class="sect2" title="Automating Nested Namespacing"><div class="titlepage"><div><div><h2 class="title"><a id="automating-nested-namespacing"></a>Automating Nested Namespacing</h2></div></div></div><p><a id="I_indexterm13_d1e9069" class="indexterm"></a><a id="I_indexterm13_d1e9076" class="indexterm"></a><a id="I_indexterm13_d1e9083" class="indexterm"></a>As we've reviewed, nested namespaces can provide an
       organized hierarchy of structure for a unit of code. An example of such
       a namespace could be the following:
       <em class="replaceable"><code>application.utilities.drawing.canvas.2d</code></em>. This
@@ -3807,7 +3807,7 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
       defining nested namespaces under an existing global variable. He
       suggests a convenience method that takes a single string argument for a
       nest, parses this, and automatically populates our base namespace with
-      the objects required.</p><p>The method he suggests using is the following, which I’ve updated
+      the objects required.</p><p>The method he suggests using is the following, which I've updated
       it to be a generic function for easier reuse with multiple
       namespaces:</p><a id="I_programlisting13_d1e9107"></a><pre class="programlisting_javascript"><code class="c1">// top-level namespace being assigned an object literal</code>
 <code class="kd">var</code> <code class="nx">myApp</code> <code class="o">=</code> <code class="nx">myApp</code> <code class="o">||</code> <code class="p">{};</code>
@@ -3855,10 +3855,10 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
 </pre><p><a class="xref" href="ch13s16.html#web_inspector_output" title="Figure&nbsp;13-1.&nbsp;Chrome Developer Tools output">Figure&nbsp;13-1</a> shows the Chrome Developer
       Tools output:</p><div class="figure-float"><div class="figure"><a id="web_inspector_output"></a><div class="figure-contents"><div class="mediaobject"><a id="I_mediaobject13_d1e9115"></a><img src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326892.png" alt="Chrome Developer Tools output" width="573" height="421" data-mfp-src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326892.png"></div></div><p class="title">Figure&nbsp;13-1.&nbsp;Chrome Developer Tools output</p></div></div><p>Where one would previously have had to explicitly declare the
       various nests for their namespace as objects, this can now be easily
-      achieved using a single, cleaner line of code.</p></div><div class="sect2" title="Dependency Declaration Pattern"><div class="titlepage"><div><div><h2 class="title"><a id="dependency-declaration-pattern"></a>Dependency Declaration Pattern</h2></div></div></div><p><a id="I_indexterm13_d1e9126" class="indexterm"></a><a id="I_indexterm13_d1e9133" class="indexterm"></a><a id="I_indexterm13_d1e9138" class="indexterm"></a>We’re now going to explore a minor augmentation to the
-      Nested Namespacing pattern which we’ll refer to as the Dependency
+      achieved using a single, cleaner line of code.</p></div><div class="sect2" title="Dependency Declaration Pattern"><div class="titlepage"><div><div><h2 class="title"><a id="dependency-declaration-pattern"></a>Dependency Declaration Pattern</h2></div></div></div><p><a id="I_indexterm13_d1e9126" class="indexterm"></a><a id="I_indexterm13_d1e9133" class="indexterm"></a><a id="I_indexterm13_d1e9138" class="indexterm"></a>We're now going to explore a minor augmentation to the
+      Nested Namespacing pattern which we'll refer to as the Dependency
       Declaration pattern. We all know that local references to objects can
-      decrease overall lookup times, but let’s apply this to namespacing to
+      decrease overall lookup times, but let's apply this to namespacing to
       see how it might look in practice:</p><a id="I_programlisting13_d1e9144"></a><pre class="programlisting_javascript"><code class="c1">// common approach to accessing nested namespaces</code>
 <code class="nx">myApp</code><code class="p">.</code><code class="nx">utilities</code><code class="p">.</code><code class="nx">math</code><code class="p">.</code><code class="nx">fibonacci</code><code class="p">(</code> <code class="mi">25</code> <code class="p">);</code>
 <code class="nx">myApp</code><code class="p">.</code><code class="nx">utilities</code><code class="p">.</code><code class="nx">math</code><code class="p">.</code><code class="nx">sin</code><code class="p">(</code> <code class="mi">56</code> <code class="p">);</code>
@@ -3878,7 +3878,7 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
 <code class="c1">// compared to hundreds or thousands of calls to nested </code>
 <code class="c1">// namespaces vs. a local reference to the namespace</code>
 </pre><p>Working with a <a id="I_indexterm13_d1e9148" class="indexterm"></a>local variable here is almost always faster than working
-      with a top-level global (e.g., <code class="literal">myApp</code>). It’s also both
+      with a top-level global (e.g., <code class="literal">myApp</code>). It's also both
       more convenient and more performant than accessing nested
       properties/subnamespaces on every subsequent line and can improve
       readability in more complex applications.</p><p>Stoyan recommends declaring localized namespaces required by a
@@ -3896,8 +3896,8 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
       object extension. Namespaces defined using object literal notation may
       be easily extended (or merged) with other objects (or namespaces) such
       that the properties and functions of both namespaces can be accessible
-      under the same namespace post-merge.</p><p>This is something that’s been made fairly easy to accomplish with
-      modern JavaScript frameworks (e.g., see jQuery’s <a class="ulink" href="http://api.jquery.com/jQuery.extend/">$.extend</a>); however,
+      under the same namespace post-merge.</p><p>This is something that's been made fairly easy to accomplish with
+      modern JavaScript frameworks (e.g., see jQuery's <a class="ulink" href="http://api.jquery.com/jQuery.extend/">$.extend</a>); however,
       if looking to extend objects (namespaces) using vanilla JS, the
       following routine may be of assistance.</p><a id="I_programlisting13_d1e9186"></a><pre class="programlisting_javascript"><code class="c1">// extend.js</code>
 <code class="c1">// Written by Andrew Dupont, optimized by Addy Osmani</code>
@@ -4017,7 +4017,7 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
 <code class="c1">// nothing has been overwritten which is what we're hoping for.</code>
 </pre><p>For the sake of thoroughness, please see <a class="ulink" href="https://gist.github.com/1221980">here</a> for jQuery
       <code class="literal">$.extend</code> equivalents to the rest of the namespacing
-      experiments found in this section.</p></div><div class="sect2" title="Recommendation"><div class="titlepage"><div><div><h2 class="title"><a id="recommendation"></a>Recommendation</h2></div></div></div><p>Reviewing the namespace patterns we’ve explored in this section,
+      experiments found in this section.</p></div><div class="sect2" title="Recommendation"><div class="titlepage"><div><div><h2 class="title"><a id="recommendation"></a>Recommendation</h2></div></div></div><p>Reviewing the namespace patterns we've explored in this section,
       the option that I would personally use for most larger applications is
       nested object namespacing with the Object Literal pattern. Where
       possible, I would implement this using automated nested namespacing,
@@ -4046,8 +4046,8 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
     information that may not be available during initialization time. For code
     that is unaware of a previous reference to them, they do not provide a
     method for easy retrieval. This is because it is neither the object nor
-    “class” that’s returned by a Singleton; it’s a structure. Think of how
-    closured variables aren’t actually closures—the function scope that
+    "class" that's returned by a Singleton; it's a structure. Think of how
+    closured variables aren't actually closures—the function scope that
     provides the closure is the closure. In JavaScript, Singletons serve as a
     shared resource namespace which isolate implementation code from the
     global namespace so as to provide a single point of access for functions.
@@ -4102,7 +4102,7 @@ var singleA = mySingleton;
 var singleB = mySingleton;
 console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is the global access to the instance
     (generally through <code class="literal">MySingleton.getInstance()</code>) as we
-    don’t (at least in static languages) call a new
+    don't (at least in static languages) call a new
     <code class="literal">MySingleton()</code> directly. This is, however, possible in
     JavaScript. In the GoF book, the <span class="emphasis"><em>applicability</em></span> of the
     Singleton pattern is described as follows:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem"><p>There must be exactly one instance of a class, and it must be
@@ -4120,7 +4120,7 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
   <code class="k">return</code> <code class="k">this</code><code class="p">.</code><code class="nx">_instance</code><code class="p">;</code>
 <code class="p">};</code>
 </pre><p>Here, <code class="literal">getInstance</code> becomes a little like a Factory
-    method and we don’t need to update each point in our code when accessing
+    method and we don't need to update each point in our code when accessing
     it. <code class="literal">FooSingleton</code> (above) would be a subclass of
     <code class="literal">BasicSingleton</code> and would implement the same
     interface.</p><p>Why is deferring execution considered important for a
@@ -4132,9 +4132,9 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
     resources or memory, until the static instance is needed.</p><p>If we have a static object that can be initialized directly, we need
     to ensure the code is always executed in the same order (e.g., in case
     <code class="literal">objCar</code> needs <code class="literal">objWheel</code> during its
-    initialization), and this doesn’t scale when you have a large number of
-    source files.</p><p>Both Singletons and static objects are useful, but they shouldn’t be
-    overused in the same way that we shouldn’t overuse other patterns.</p><p>In practice, the Singleton pattern is useful when exactly one object
+    initialization), and this doesn't scale when you have a large number of
+    source files.</p><p>Both Singletons and static objects are useful, but they shouldn't be
+    overused in the same way that we shouldn't overuse other patterns.</p><p>In practice, the Singleton pattern is useful when exactly one object
     is needed to coordinate others across a system. Here, you can see the
     pattern being used in this context:</p><a id="I_programlisting9_d1e2293"></a><pre class="programlisting_javascript"><code class="kd">var</code> <code class="nx">SingletonTester</code> <code class="o">=</code> <code class="p">(</code><code class="kd">function</code> <code class="p">()</code> <code class="p">{</code>
 
@@ -4187,7 +4187,7 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
 <code class="c1">// Outputs: 5</code>
 <code class="nx">console</code><code class="p">.</code><code class="nx">log</code><code class="p">(</code> <code class="nx">singletonTest</code><code class="p">.</code><code class="nx">pointX</code> <code class="p">);</code> 
 </pre><p>While the Singleton has valid uses, often when we find ourselves
-    needing it in JavaScript, it’s a sign that we may need to reevaluate our
+    needing it in JavaScript, it's a sign that we may need to reevaluate our
     design.</p><p>The presence of the Singleton is often an indication that modules in
     a system are either tightly coupled or that logic is overly spread across
     multiple parts of a code base. Singletons can be more difficult to test
@@ -4195,7 +4195,7 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
     multiple instances, difficulty in stubbing dependencies, etc.</p><p>Miller Medeiros has previously recommended this excellent <a class="ulink" href="http://www.ibm.com/developerworks/webservices/library/co-single/index.html">article</a>
     for further reading on the Singleton and its various issues. Also
     recommended reading are the comments to this <a class="ulink" href="http://misko.hevery.com/2008/10/21/dependency-injection-myth-reference-passing/">article</a>,
-    discussing how Singletons can increase tight coupling. I’m happy to second
+    discussing how Singletons can increase tight coupling. I'm happy to second
     these recommendations, as both pieces raise many important points about
     this pattern.<a id="I_indexterm9_d1e2307" class="indexterm"></a></p></div>
 		</div>
@@ -4213,7 +4213,7 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
     happening, it broadcasts a notification to the observers (which can
     include specific data related to the topic of the notification).</p><p>When we no longer wish for a particular observer to be notified of
     changes by the subject it is registered with, the subject can remove it
-    from the list of observers.</p><p>It’s often useful to refer back to published definitions of design
+    from the list of observers.</p><p>It's often useful to refer back to published definitions of design
     patterns that are language agnostic to get a broader sense of their usage
     and advantages over time. The definition of the Observer pattern provided
     in the GoF book, <span class="emphasis"><em>Design Patterns: Elements of Reusable
@@ -4222,14 +4222,14 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
         When something changes in our subject that the observer may be
         interested in, a notify message is sent which calls the update method
         in each observer. When the observer is no longer interested in the
-        subject’s state, they can simply detach themselves.</p></blockquote></div><p>We can now expand on what we’ve learned to implement the
+        subject's state, they can simply detach themselves.</p></blockquote></div><p>We can now expand on what we've learned to implement the
     Observer pattern with the following components:</p><div class="variablelist"><dl><dt><span class="term"><span class="emphasis"><em>Subject</em></span><a id="I_indexterm9_d1e2356" class="indexterm"></a></span></dt><dd><p>Maintains a list of observers, facilitates adding or
             removing observers</p></dd><dt><span class="term">Observer</span></dt><dd><p>Provides an update interface for objects that need to be
-            notified of a Subject’s changes of state</p></dd><dt><span class="term"><code class="literal">ConcreteSubject</code><a id="I_indexterm9_d1e2372" class="indexterm"></a></span></dt><dd><p>Broadcasts notifications to Observers on changes of state,
+            notified of a Subject's changes of state</p></dd><dt><span class="term"><code class="literal">ConcreteSubject</code><a id="I_indexterm9_d1e2372" class="indexterm"></a></span></dt><dd><p>Broadcasts notifications to Observers on changes of state,
             stores the state of <code class="literal">ConcreteObservers</code></p></dd><dt><span class="term"><code class="literal">ConcreteObserver</code><a id="I_indexterm9_d1e2384" class="indexterm"></a></span></dt><dd><p>Stores a reference to the
             <code class="literal">ConcreteSubject</code>, implements an update interface
             for the Observer to ensure state is consistent with the
-            Subject’s</p></dd></dl></div><p>First, let’s model the list of dependent Observers a subject may
+            Subject's</p></dd></dl></div><p>First, let's model the list of dependent Observers a subject may
     have:</p><a id="I_programlisting9_d1e2395"></a><pre class="programlisting_javascript"><code class="kd">function</code> <code class="nx">ObserverList</code><code class="p">(){</code>
   <code class="k">this</code><code class="p">.</code><code class="nx">observerList</code> <code class="o">=</code> <code class="p">[];</code>
 <code class="p">}</code>
@@ -4306,7 +4306,7 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
     <code class="nx">extension</code><code class="p">[</code><code class="nx">key</code><code class="p">]</code> <code class="o">=</code> <code class="nx">obj</code><code class="p">[</code><code class="nx">key</code><code class="p">];</code>
   <code class="p">}</code>
 <code class="p">}</code>
-</pre><p>Next, let’s model the Subject and the ability to add, remove, or
+</pre><p>Next, let's model the Subject and the ability to add, remove, or
     notify observers on the observer list.</p><a id="I_programlisting9_d1e2399"></a><pre class="programlisting_javascript"><code class="kd">function</code> <code class="nx">Subject</code><code class="p">(){</code>
   <code class="k">this</code><code class="p">.</code><code class="nx">observers</code> <code class="o">=</code> <code class="k">new</code> <code class="nx">ObserverList</code><code class="p">();</code>
 <code class="p">}</code>
@@ -4386,7 +4386,7 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
     <code class="literal">ConcreteSubject</code>, and
     <code class="literal">ConcreteObserver</code>.</p><div class="sect2" title="Differences Between the Observer and Publish/Subscribe Pattern"><div class="titlepage"><div><div><h2 class="title"><a id="differences-between-the-observer-and-publishsubscribe-pattern"></a>Differences Between the Observer and Publish/Subscribe
       Pattern</h2></div></div></div><p><a id="I_indexterm9_d1e2449" class="indexterm"></a><a id="I_indexterm9_d1e2456" class="indexterm"></a>While the Observer pattern is useful to be aware of, quite
-      often in the JavaScript world, we’ll find it commonly implemented using
+      often in the JavaScript world, we'll find it commonly implemented using
       a variation known as the Publish/Subscribe pattern. While very similar,
       there are differences between these patterns worth noting.</p><p>The Observer pattern requires that the observer (or object)
       wishing to receive topic notifications must subscribe this interest to
@@ -4459,15 +4459,15 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
       coupled.</p><p>While it may not always be the best solution to every problem,
       these patterns remain one of the best tools for designing decoupled
       systems and should be considered an important tool in any JavaScript
-      developer’s utility belt.</p></div><div class="sect2" title="Disadvantages"><div class="titlepage"><div><div><h2 class="title"><a id="disadvantages-1"></a>Disadvantages</h2></div></div></div><p><a id="I_indexterm9_d1e2531" class="indexterm"></a>Consequently, some of the issues with these patterns
+      developer's utility belt.</p></div><div class="sect2" title="Disadvantages"><div class="titlepage"><div><div><h2 class="title"><a id="disadvantages-1"></a>Disadvantages</h2></div></div></div><p><a id="I_indexterm9_d1e2531" class="indexterm"></a>Consequently, some of the issues with these patterns
       actually stem from their main benefits. In Publish/Subscribe, by
       decoupling publishers from subscribers, it can sometimes become
       difficult to obtain guarantees that particular parts of our applications
       are functioning as we may expect.</p><p>For example, publishers may make an assumption that one or more
-      subscribers are listening to them. Say that we’re using such an
+      subscribers are listening to them. Say that we're using such an
       assumption to log or output errors regarding some application process.
       If the subscriber performing the logging crashes (or for some reason
-      fails to function), the publisher won’t have a way of seeing this due to
+      fails to function), the publisher won't have a way of seeing this due to
       the decoupled nature of the system.</p><p>Another drawback of the pattern is that subscribers are quite
       ignorant to the existence of each other and are blind to the cost of
       switching publishers. Due to the dynamic relationship between
@@ -4521,14 +4521,14 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
       by Peter Higgins (<a class="ulink" href="https://github.com/phiggins42/bloody-jquery-plugins/blob/">https://github.com/phiggins42/bloody-jquery-plugins/blob/</a>)
       are similar alternatives worth checking out.</p><p>jQuery developers in particular have quite a few other options and
       can opt to use one of the many well-developed implementations ranging
-      from Peter Higgins’s jQuery plug-in to Ben Alman’s (optimized) Pub/Sub
-      jQuery gist on GitHub.<a id="I_indexterm9_d1e2593" class="indexterm"></a> Links to just a few of these can be found below.</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem"><p>Ben Alman’s Pub/Sub gist</p><p><a class="ulink" href="https://gist.github.com/661855">https://gist.github.com/661855</a>
-          (recommended)</p></li><li class="listitem"><p>Rick Waldron’s jQuery-core style take on the above</p><p><a class="ulink" href="https://gist.github.com/705311">https://gist.github.com/705311</a></p></li><li class="listitem"><p>Peter Higgins’ plug-in <a class="ulink" href="http://github.com/phiggins42/bloody-jquery-plugins/blob/master/pubsub.js">http://github.com/phiggins42/bloody-jquery-plugins/blob/master/pubsub.js</a>.</p></li><li class="listitem"><p>AppendTo’s Pub/Sub in AmplifyJS</p><p><a class="ulink" href="http://amplifyjs.com">http://amplifyjs.com</a></p></li><li class="listitem"><p>Ben Truyman’s gist</p><p><a class="ulink" href="https://gist.github.com/826794">https://gist.github.com/826794</a></p></li></ul></div><p>So that we are able to get an appreciation for how many of the
+      from Peter Higgins's jQuery plug-in to Ben Alman's (optimized) Pub/Sub
+      jQuery gist on GitHub.<a id="I_indexterm9_d1e2593" class="indexterm"></a> Links to just a few of these can be found below.</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem"><p>Ben Alman's Pub/Sub gist</p><p><a class="ulink" href="https://gist.github.com/661855">https://gist.github.com/661855</a>
+          (recommended)</p></li><li class="listitem"><p>Rick Waldron's jQuery-core style take on the above</p><p><a class="ulink" href="https://gist.github.com/705311">https://gist.github.com/705311</a></p></li><li class="listitem"><p>Peter Higgins' plug-in <a class="ulink" href="http://github.com/phiggins42/bloody-jquery-plugins/blob/master/pubsub.js">http://github.com/phiggins42/bloody-jquery-plugins/blob/master/pubsub.js</a>.</p></li><li class="listitem"><p>AppendTo's Pub/Sub in AmplifyJS</p><p><a class="ulink" href="http://amplifyjs.com">http://amplifyjs.com</a></p></li><li class="listitem"><p>Ben Truyman's gist</p><p><a class="ulink" href="https://gist.github.com/826794">https://gist.github.com/826794</a></p></li></ul></div><p>So that we are able to get an appreciation for how many of the
       vanilla JavaScript implementations of the Observer pattern might work,
-      let’s take a walkthrough of a minimalist version of Publish/Subscribe I
+      let's take a walkthrough of a minimalist version of Publish/Subscribe I
       released on GitHub under a project called <a class="ulink" href="http://github.com/addyosmani/pubsubz">pubsubz</a>. This
       demonstrates the core concepts of subscribe, and publish, as well as the
-      concept of unsubscribing.</p><p>I’ve opted to base our examples on this code as it sticks closely
+      concept of unsubscribing.</p><p>I've opted to base our examples on this code as it sticks closely
       to both the method signatures and approach of implementation I would
       expect to see in a JavaScript version of the classic Observer
       pattern.</p><div class="sect3" title="A Publish/Subscribe implementation"><div class="titlepage"><div><div><h3 class="title"><a id="a-publishsubscribe-implementation"></a>A Publish/Subscribe implementation</h3></div></div></div><a id="I_programlisting9_d1e2634"></a><pre class="programlisting_javascript"><code class="kd">var</code> <code class="nx">pubsub</code> <code class="o">=</code> <code class="p">{};</code>
@@ -4628,7 +4628,7 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
 <code class="c1">// messageLogger being executed as the subscriber is</code>
 <code class="c1">// no longer listening</code>
 <code class="nx">pubsub</code><code class="p">.</code><code class="nx">publish</code><code class="p">(</code> <code class="s2">"inbox/newMessage"</code><code class="p">,</code> <code class="s2">"Hello! are you still there?"</code> <code class="p">);</code>
-</pre></div></div></div><div class="sect3" title="User-interface notifications"><div class="titlepage"><div><div><h3 class="title"><a id="example-user-interface-notifications"></a>User-interface notifications</h3></div></div></div><p><a id="I_indexterm9_d1e2654" class="indexterm"></a><a id="I_indexterm9_d1e2659" class="indexterm"></a><a id="I_indexterm9_d1e2664" class="indexterm"></a>Next, let’s imagine we have a web application
+</pre></div></div></div><div class="sect3" title="User-interface notifications"><div class="titlepage"><div><div><h3 class="title"><a id="example-user-interface-notifications"></a>User-interface notifications</h3></div></div></div><p><a id="I_indexterm9_d1e2654" class="indexterm"></a><a id="I_indexterm9_d1e2659" class="indexterm"></a><a id="I_indexterm9_d1e2664" class="indexterm"></a>Next, let's imagine we have a web application
         responsible for displaying real-time stock information.</p><p>The application might have a grid for displaying the stock stats
         and a counter for displaying the last point of update. When the data
         model changes, the application will need to update the grid and
@@ -4699,15 +4699,15 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
   <code class="nx">identifier</code><code class="o">:</code> <code class="s2">"MSFT"</code><code class="p">,</code>
   <code class="nx">stockPrice</code><code class="o">:</code> <code class="mf">30.85</code>
 <code class="p">});</code>
-</pre></div></div></div><div class="sect3" title="Decoupling applications using Ben Alman’s Pub/Sub implementation"><div class="titlepage"><div><div><h3 class="title"><a id="example-decoupling-applications-using-ben-almans-pubsub-implementation"></a>Decoupling applications using Ben Alman’s Pub/Sub
-        implementation</h3></div></div></div><p><a id="I_indexterm9_d1e2697" class="indexterm"></a><a id="I_indexterm9_d1e2702" class="indexterm"></a><a id="I_indexterm9_d1e2705" class="indexterm"></a><a id="index-737Q328RH1O" class="indexterm"></a><a id="I_indexterm9_d1e2711" class="indexterm"></a>In the following movie ratings example, we’ll be using
-        Ben Alman’s jQuery implementation of Publish/Subscribe to demonstrate
+</pre></div></div></div><div class="sect3" title="Decoupling applications using Ben Alman's Pub/Sub implementation"><div class="titlepage"><div><div><h3 class="title"><a id="example-decoupling-applications-using-ben-almans-pubsub-implementation"></a>Decoupling applications using Ben Alman's Pub/Sub
+        implementation</h3></div></div></div><p><a id="I_indexterm9_d1e2697" class="indexterm"></a><a id="I_indexterm9_d1e2702" class="indexterm"></a><a id="I_indexterm9_d1e2705" class="indexterm"></a><a id="index-737Q328RH1O" class="indexterm"></a><a id="I_indexterm9_d1e2711" class="indexterm"></a>In the following movie ratings example, we'll be using
+        Ben Alman's jQuery implementation of Publish/Subscribe to demonstrate
         how we can decouple a user interface. Notice how submitting a rating only has
         the effect of publishing the fact that new user and rating data is
-        available.</p><p>It’s left up to the subscribers to those topics to then delegate
-        what happens with that data. In our case, we’re pushing that new data
+        available.</p><p>It's left up to the subscribers to those topics to then delegate
+        what happens with that data. In our case, we're pushing that new data
         into existing arrays and then rendering them using the Underscore
-        library’s<a id="I_indexterm9_d1e2722" class="indexterm"></a> <code class="literal">.template()</code> method
+        library's<a id="I_indexterm9_d1e2722" class="indexterm"></a> <code class="literal">.template()</code> method
         for templating.</p><p>Here is the HTML/Templates code (<a class="xref" href="ch09s05.html#html-templates-code" title="Example&nbsp;9-3.&nbsp;HTML/Templates code for Pub/Sub">Example&nbsp;9-3</a>):</p><div class="example"><a id="html-templates-code"></a><p class="title">Example&nbsp;9-3.&nbsp;HTML/Templates code for Pub/Sub</p><div class="example-contents"><p><a id="I_programlisting9_d1e2737"></a></p><pre class="programlisting_javascript"><code class="o">&lt;</code><code class="nx">script</code> <code class="nx">id</code><code class="o">=</code><code class="s2">"userTemplate"</code> <code class="nx">type</code><code class="o">=</code><code class="s2">"text/html"</code><code class="o">&gt;</code>
    <code class="o">&lt;</code><code class="nx">li</code><code class="o">&gt;&lt;%=</code> <code class="nx">name</code> <code class="o">%&gt;&lt;</code><code class="err">/li&gt;</code>
 <code class="o">&lt;</code><code class="err">/script&gt;</code>
@@ -4809,32 +4809,32 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
     <code class="p">});</code>
 
 <code class="p">})(</code> <code class="nx">jQuery</code> <code class="p">);</code>
-</pre></div></div></div><div class="sect3" title="Decoupling an Ajax-based jQuery application"><div class="titlepage"><div><div><h3 class="title"><a id="example-decoupling-an-ajax-based-jquery-application"></a>Decoupling an Ajax-based jQuery application</h3></div></div></div><p><a id="I_indexterm9_d1e2753" class="indexterm"></a><a id="I_indexterm9_d1e2758" class="indexterm"></a><a id="I_indexterm9_d1e2763" class="indexterm"></a>In our final example, we’re going to take a practical
+</pre></div></div></div><div class="sect3" title="Decoupling an Ajax-based jQuery application"><div class="titlepage"><div><div><h3 class="title"><a id="example-decoupling-an-ajax-based-jquery-application"></a>Decoupling an Ajax-based jQuery application</h3></div></div></div><p><a id="I_indexterm9_d1e2753" class="indexterm"></a><a id="I_indexterm9_d1e2758" class="indexterm"></a><a id="I_indexterm9_d1e2763" class="indexterm"></a>In our final example, we're going to take a practical
         look at how decoupling our code using Pub/Sub early on in the
         development process can save us some potentially painful refactoring
-        later on.</p><p>Quite often in Ajax-heavy applications, once we’ve received a
+        later on.</p><p>Quite often in Ajax-heavy applications, once we've received a
         response to a request, we want to achieve more than just one unique
         action. We could simply add all of the post-request logic into a
         success callback, but there are drawbacks to this approach.</p><p>Highly coupled applications sometimes increase the effort
         required to reuse functionality due to the increased
         inter-function/code dependency. What this means is that, although
         keeping our post-request logic hardcoded in a callback might be fine
-        if we’re just trying to grab a result set once, it’s not as
+        if we're just trying to grab a result set once, it's not as
         appropriate when we want to make further Ajax calls to the same data
         source (and different end behavior) without rewriting parts of the
         code multiple times. Rather than having to go back through each layer
         that calls the same data source and generalize them later on, we can
         use pub/sub from the start and save time.</p><p>Using Observers,<a id="I_indexterm9_d1e2773" class="indexterm"></a><a id="I_indexterm9_d1e2778" class="indexterm"></a> we can also easily separate application-wide
         notifications regarding different events down to whatever level of
-        granularity we’re comfortable with—something that can be less
+        granularity we're comfortable with—something that can be less
         elegantly done using other patterns.</p><p>Notice how in our sample below, one topic notification is made
         when a user indicates that he wants to make a search query and another
         is made when the request returns and actual data is available for
-        consumption. It’s left up to the subscribers to then decide how to use
+        consumption. It's left up to the subscribers to then decide how to use
         knowledge of these events (or the data returned). The benefits of this
         are that, if we wanted, we could have 10 different subscribers using
         the data returned in different ways, but as far as the Ajax-layer is
-        concerned, it doesn’t care. Its sole duty is to request and return
+        concerned, it doesn't care. Its sole duty is to request and return
         data, then pass it on to whoever wants to use it. This separation of
         concerns can make the overall design of our code a little
         cleaner.</p><p>Here is the HTML/Templates code (<a class="xref" href="ch09s05.html#html-templates-ajax" title="Example&nbsp;9-5.&nbsp;HTML/Templates code for Ajax">Example&nbsp;9-5</a>):</p><div class="example"><a id="html-templates-ajax"></a><p class="title">Example&nbsp;9-5.&nbsp;HTML/Templates code for Ajax</p><div class="example-contents"><p><a id="I_programlisting9_d1e2794"></a></p><pre class="programlisting_javascript"><code class="o">&lt;</code><code class="nx">form</code> <code class="nx">id</code><code class="o">=</code><code class="s2">"flickrSearch"</code><code class="o">&gt;</code>
@@ -4920,9 +4920,9 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
 
 <code class="p">})();</code>
 </pre></div></div><p>The Observer pattern is useful for decoupling a number of
-        different scenarios in application design, and if you haven’t been
+        different scenarios in application design, and if you haven't been
         using it, I recommend picking up one of the prewritten implementations
-        mentioned here and giving it a try. It’s one of the easier design
+        mentioned here and giving it a try. It's one of the easier design
         patterns to get started with but also one of the most
         powerful.<a id="I_indexterm9_d1e2810" class="indexterm"></a><a id="I_indexterm9_d1e2811" class="indexterm"></a><a id="I_indexterm9_d1e2812" class="indexterm"></a><a id="I_indexterm9_d1e2813" class="indexterm"></a></p></div></div></div>
 		</div>
@@ -4933,8 +4933,8 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
 			START : POST
 		=============================-->
 		<div class="post-wrapper">
-<div class="sect1" title="The Mediator Pattern"><div class="titlepage"><div><div><h1 class="title"><a id="the-mediator-pattern"></a>The Mediator Pattern</h1></div></div></div><p><a id="index-656M632EO0H" class="indexterm"></a>The dictionary refers to a mediator as “a neutral party that
-    assists in negotiations and conflict resolution.”<sup>[<a id="id685811" href="#ftn.id685811" class="footnote totri-footnote">2</a>]</sup> In our world, a mediator is a behavioral design pattern that
+<div class="sect1" title="The Mediator Pattern"><div class="titlepage"><div><div><h1 class="title"><a id="the-mediator-pattern"></a>The Mediator Pattern</h1></div></div></div><p><a id="index-656M632EO0H" class="indexterm"></a>The dictionary refers to a mediator as "a neutral party that
+    assists in negotiations and conflict resolution."<sup>[<a id="id685811" href="#ftn.id685811" class="footnote totri-footnote">2</a>]</sup> In our world, a mediator is a behavioral design pattern that
     allows us to expose a unified interface through which the different parts
     of a system may communicate.</p><p>If it appears a system has too many direct relationships between
     components, it may be time to have a central point of control that
@@ -4947,7 +4947,7 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
     land, because all communications (notifications being listened for or
     broadcast) are performed from the planes to the control tower, rather than
     from plane to plane. A centralized controller is key to the success of
-    this system, and that’s really the role that the Mediator plays in
+    this system, and that's really the role that the Mediator plays in
     software design (<a class="xref" href="ch09s06.html#mediator" title="Figure&nbsp;9-5.&nbsp;Mediator pattern">Figure&nbsp;9-5</a>).</p><div class="figure-float"><div class="figure"><a id="mediator"></a><div class="figure-contents"><div class="mediaobject"><a id="I_mediaobject9_d1e2845"></a><img src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326898.png" alt="Mediator pattern" width="520" height="314" data-mfp-src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326898.png"></div></div><p class="title">Figure&nbsp;9-5.&nbsp;Mediator pattern</p></div></div><p>In implementation terms, the Mediator pattern is essentially a
     shared subject in the Observer pattern. This might assume that a direction
     Publish/Subscribe relationship between objects or modules in such systems
@@ -5008,13 +5008,13 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
 
 <code class="p">}());</code>
 </pre></div><div class="sect2" title="Advanced Implementation"><div class="titlepage"><div><div><h2 class="title"><a id="advanced-implementation"></a>Advanced Implementation</h2></div></div></div><p>For those interested in a more advanced implementation, read on
-      for a walkthrough of my trimmed-down version of Jack Lawson’s excellent
+      for a walkthrough of my trimmed-down version of Jack Lawson's excellent
       <a class="ulink" href="http://thejacklawson.com/Mediator.js/">Mediator.js</a>.
       Among other improvements, this version supports topic namespaces,
       subscriber removal, and a much more robust Publish/Subscribe system for
       our Mediator. If however, you wish to skip this walkthrough, you can go
-      directly to the next example to continue reading.<sup>[<a id="thanks_jake" href="#ftn.thanks_jake" class="footnote totri-footnote">3</a>]</sup></p><p>To start, let’s implement the notion of a subscriber, which we can
-      consider an instance of a Mediator’s topic registration.</p><p>By generating object instances, we can easily update subscribers
+      directly to the next example to continue reading.<sup>[<a id="thanks_jake" href="#ftn.thanks_jake" class="footnote totri-footnote">3</a>]</sup></p><p>To start, let's implement the notion of a subscriber, which we can
+      consider an instance of a Mediator's topic registration.</p><p>By generating object instances, we can easily update subscribers
       later without the need to unregister and re-register them. Subscribers
       can be written as constructors that take a function <code class="literal">fn</code> to be called, an <code class="literal">options</code> object, and a <code class="literal">context</code>.</p><a id="I_programlisting9_d1e2909"></a><pre class="programlisting_javascript"><code class="c1">// Pass in a context to attach our Mediator to. </code>
 <code class="c1">// By default this will be the window object</code>
@@ -5209,7 +5209,7 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
       topic namespace,<a id="I_indexterm9_d1e2985" class="indexterm"></a> a function <code class="literal">fn</code> to be
       executed, <code class="literal">options</code>, and once again a
       <code class="literal">context</code> to call the function into
-      <code class="literal">Subscribe</code>. This creates a topic if one doesn’t
+      <code class="literal">Subscribe</code>. This creates a topic if one doesn't
       exist.</p><a id="I_programlisting9_d1e3005"></a><pre class="programlisting_javascript">    <code class="nx">Subscribe</code><code class="o">:</code> <code class="kd">function</code><code class="p">(</code> <code class="nx">topiclName</code><code class="p">,</code> <code class="nx">fn</code><code class="p">,</code> <code class="nx">options</code><code class="p">,</code> <code class="nx">context</code> <code class="p">){</code>
       <code class="kd">var</code> <code class="nx">options</code> <code class="o">=</code> <code class="nx">options</code> <code class="o">||</code> <code class="p">{},</code>
           <code class="nx">context</code> <code class="o">=</code> <code class="nx">context</code> <code class="o">||</code> <code class="p">{},</code>
@@ -5323,8 +5323,8 @@ function iAmClearlyCrazy( data ) {
       relatively easy due to the level of decoupling present.</p><p>Perhaps the biggest downside of using the pattern is that it can
       introduce a single point of failure. Placing a Mediator between modules
       can cause a performance hit as they are always communicating indirectly.
-      Because of the nature of loose coupling, it’s difficult to establish how
-      a system might react by only looking at the broadcasts.</p><p>That said, it’s useful to remind ourselves that decoupled systems
+      Because of the nature of loose coupling, it's difficult to establish how
+      a system might react by only looking at the broadcasts.</p><p>That said, it's useful to remind ourselves that decoupled systems
       have a number of other benefits: if our modules communicated with each
       other directly, changes to modules (e.g., another module throwing an
       exception) could easily have a domino effect on the rest of our
@@ -5333,7 +5333,7 @@ function iAmClearlyCrazy( data ) {
       headaches, and this is just another alternative solution, but one that
       can work very well if implemented correctly.</p></div><div class="sect2" title="Mediator Versus Observer"><div class="titlepage"><div><div><h2 class="title"><a id="mediator-vs.-observer"></a>Mediator Versus Observer</h2></div></div></div><p><a id="I_indexterm9_d1e3080" class="indexterm"></a><a id="I_indexterm9_d1e3087" class="indexterm"></a>Developers often wonder what the differences are between
       the Mediator pattern and the Observer pattern. Admittedly, there is a
-      bit of overlap, but let’s refer back to the GoF for an
+      bit of overlap, but let's refer back to the GoF for an
       explanation:</p><div class="blockquote"><blockquote class="blockquote"><p>In the Observer pattern, there is no single object that
           encapsulates a constraint. Instead, the Observer and the Subject
           must cooperate to maintain the constraint. Communication patterns
@@ -5348,10 +5348,10 @@ function iAmClearlyCrazy( data ) {
       similarities between the Mediator and Facade patterns. They do both
       abstract the functionality of existing modules, but there are some
       subtle differences.</p><p>The Mediator pattern centralizes communication between modules
-      where it’s explicitly referenced by these modules. In a sense, this is
+      where it's explicitly referenced by these modules. In a sense, this is
       multidirectional. The Facade pattern, on the other hand, just defines a
-      simpler interface to a module or system but doesn’t add any additional
-      functionality. Other modules in the system aren’t directly aware of the
+      simpler interface to a module or system but doesn't add any additional
+      functionality. Other modules in the system aren't directly aware of the
       concept of a facade and could be considered unidirectional.<a id="I_indexterm9_d1e3118" class="indexterm"></a></p></div><div class="footnotes"><br><hr><div class="footnote"><p><sup>[<a id="ftn.id685811" href="#id685811" class="para totri-footnote">2</a>] </sup><a class="ulink" href="http://en.wikipedia.org/wiki/Mediation">Wikipedia</a>; <a class="ulink" href="http://dictionary.reference.com/browse/mediator">Dictionary.com</a></p></div><div class="footnote"><p><sup>[<a id="ftn.thanks_jake" href="#thanks_jake" class="para totri-footnote">3</a>] </sup>Thanks to Jack for his excellent code comments which assisted
           with this section.</p></div></div></div>
 		</div>
@@ -5373,14 +5373,14 @@ function iAmClearlyCrazy( data ) {
     will also have this same property (<a class="xref" href="ch09s07.html#prototype" title="Figure&nbsp;9-6.&nbsp;Prototype pattern">Figure&nbsp;9-6</a>).</p><div class="figure-float"><div class="figure"><a id="prototype"></a><div class="figure-contents"><div class="mediaobject"><a id="I_mediaobject9_d1e3148"></a><img src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326888.png" alt="Prototype pattern" width="397" height="272" data-mfp-src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326888.png"></div></div><p class="title">Figure&nbsp;9-6.&nbsp;Prototype pattern</p></div></div><p>Reviewing the definitions for this pattern in existing
     (non-JavaScript) literature, we <span class="emphasis"><em>may</em></span> find references
     to classes once again. The reality is that prototypal inheritance avoids
-    using classes altogether. There isn’t a “definition” object nor a core
-    object in theory; we’re simply creating copies of existing functional
-    objects.</p><p>One of the benefits of using the Prototype pattern is that we’re
+    using classes altogether. There isn't a "definition" object nor a core
+    object in theory; we're simply creating copies of existing functional
+    objects.</p><p>One of the benefits of using the Prototype pattern is that we're
     working with the prototypal strengths JavaScript has to offer natively
     rather than attempting to imitate features of other languages. With other
-    design patterns, this isn’t always the case.</p><p>Not only is the pattern an easy way to implement inheritance, but it
+    design patterns, this isn't always the case.</p><p>Not only is the pattern an easy way to implement inheritance, but it
     can come with a performance boost as well: when defining functions in an
-    object, they’re all created by reference (so all child objects point to
+    object, they're all created by reference (so all child objects point to
     the same function), instead of creating their own individual
     copies.</p><p>For those interested, real prototypal inheritance, as defined in the
     ECMAScript 5 standard<a id="I_indexterm9_d1e3164" class="indexterm"></a>, requires the use of <code class="literal">Object.create</code> (which we previously looked at
@@ -5489,30 +5489,30 @@ function iAmClearlyCrazy( data ) {
 		<div class="post-wrapper">
 <div class="sect1" title="The Facade Pattern"><div class="titlepage"><div><div><h1 class="title"><a id="the-facade-pattern"></a>The Facade Pattern</h1></div></div></div><p><a id="I_indexterm9_d1e3355" class="indexterm"></a>When we put up a facade, we present an outward appearance to
     the world that may conceal a very different reality. This was the
-    inspiration for the name behind the next pattern we’re going to review:
+    inspiration for the name behind the next pattern we're going to review:
     the Facade pattern. This pattern provides a convenient higher-level
     interface to a larger body of code, hiding its true underlying complexity.
     Think of it as simplifying the API being presented to other developers,
     something that almost always improves usability (<a class="xref" href="ch09s09.html#facade" title="Figure&nbsp;9-8.&nbsp;Facade pattern">Figure&nbsp;9-8</a>).</p><div class="figure-float"><div class="figure"><a id="facade"></a><div class="figure-contents"><div class="mediaobject"><a id="I_mediaobject9_d1e3366"></a><img src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326914.png" alt="Facade pattern" width="478" height="411" data-mfp-src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326914.png"></div></div><p class="title">Figure&nbsp;9-8.&nbsp;Facade pattern</p></div></div><p>Facades are a structural pattern that can often be seen in
     JavaScript libraries such as jQuery where, although an implementation may
-    support methods with a wide range of behaviors, only a “facade,” or
+    support methods with a wide range of behaviors, only a "facade," or
     limited abstraction of these methods, is presented to the public for
     use.</p><p>This allows us to interact with the Facade directly rather than the
-    subsystem behind the scenes. Whenever we use jQuery’s <code class="literal">$(el).css()</code> or <code class="literal">$(el).animate()</code> methods, we’re actually using a
+    subsystem behind the scenes. Whenever we use jQuery's <code class="literal">$(el).css()</code> or <code class="literal">$(el).animate()</code> methods, we're actually using a
     Facade: the simpler public interface that lets us avoid having to manually
     call the many internal methods in jQuery<a id="I_indexterm9_d1e3381" class="indexterm"></a> core required to get some behavior working. This also
     circumvents the need to manually interact with DOM APIs and maintain state
     variables.</p><p>The jQuery core methods should be considered intermediate
     abstractions. The more immediate burden to developers is the DOM API, and
-    facades are what make the jQuery library so easy to use.</p><p>To build on what we’ve learned, the Facade pattern both simplifies
+    facades are what make the jQuery library so easy to use.</p><p>To build on what we've learned, the Facade pattern both simplifies
     the interface of a class and decouples the class from the code that uses
     it. This gives us the ability to indirectly interact with subsystems in a
     way that can sometimes be less prone to error than accessing the subsystem
-    directly. A Facade’s advantages include ease of use and often a
-    small-sized footprint in implementing the pattern.</p><p>Let’s take a look at the pattern in action. This is an unoptimized
-    code example, but here we’re using a Facade to simplify an interface for
+    directly. A Facade's advantages include ease of use and often a
+    small-sized footprint in implementing the pattern.</p><p>Let's take a look at the pattern in action. This is an unoptimized
+    code example, but here we're using a Facade to simplify an interface for
     listening to events across browsers.<a id="I_indexterm9_d1e3393" class="indexterm"></a> We do this by creating a common method that can be used in
-    one’s code which does the task of checking for the existence of features
+    one's code which does the task of checking for the existence of features
     so that it can provide a safe and cross-browser compatible
     solution.</p><a id="I_programlisting9_d1e3399"></a><pre class="programlisting_javascript"><code class="kd">var</code> <code class="nx">addMyEvent</code> <code class="o">=</code> <code class="kd">function</code><code class="p">(</code> <code class="nx">el</code><code class="p">,</code><code class="nx">ev</code><code class="p">,</code><code class="nx">fn</code> <code class="p">){</code>
 
@@ -5525,7 +5525,7 @@ function iAmClearlyCrazy( data ) {
     <code class="p">}</code>
 
 <code class="p">};</code>
-</pre><p>In a similar manner, we’re all familiar with jQuery’s <code class="literal">$(document).ready(..)</code>. Internally, this is
+</pre><p>In a similar manner, we're all familiar with jQuery's <code class="literal">$(document).ready(..)</code>. Internally, this is
     actually powered by a method called <code class="literal">bindReady()</code>, which is doing this:</p><a id="I_programlisting9_d1e3409"></a><pre class="programlisting_javascript"><code class="nx">bindReady</code><code class="o">:</code> <code class="kd">function</code><code class="p">()</code> <code class="p">{</code>
     <code class="p">...</code>
     <code class="k">if</code> <code class="p">(</code> <code class="nb">document</code><code class="p">.</code><code class="nx">addEventListener</code> <code class="p">)</code> <code class="p">{</code>
@@ -5545,7 +5545,7 @@ function iAmClearlyCrazy( data ) {
                <code class="p">...</code>
 </pre><p>This is another example of a Facade, in which the rest of the world
     simply uses the limited interface exposed by <code class="literal">$(document).ready(..)</code> and the more complex
-    implementation powering it is kept hidden from sight.</p><p>Facades don’t just have to be used on their own, however. They can
+    implementation powering it is kept hidden from sight.</p><p>Facades don't just have to be used on their own, however. They can
     also be integrated with other patterns, such as the Module pattern. As we
     can see below, our instance of the Module pattern contains a number of
     methods that have been privately defined. A Facade is then used to supply
@@ -5583,8 +5583,8 @@ function iAmClearlyCrazy( data ) {
 <code class="c1">// Outputs: "running", 10</code>
 <code class="nx">module</code><code class="p">.</code><code class="nx">facade</code><code class="p">(</code> <code class="p">{</code><code class="nx">run</code><code class="o">:</code> <code class="kc">true</code><code class="p">,</code> <code class="nx">val</code><code class="o">:</code><code class="mi">10</code><code class="p">}</code> <code class="p">);</code>
 </pre><p>In this example, calling <code class="literal">module.facade()</code> will actually trigger a set of
-    private behavior within the module, but again, the users aren’t concerned
-    with this. We’ve made it much easier for them to consume a feature without
+    private behavior within the module, but again, the users aren't concerned
+    with this. We've made it much easier for them to consume a feature without
     needing to worry about implementation-level details.</p><div class="sect2" title="Notes on Abstraction"><div class="titlepage"><div><div><h2 class="title"><a id="notes-on-abstraction"></a>Notes on Abstraction</h2></div></div></div><p><a id="I_indexterm9_d1e3430" class="indexterm"></a>Facades generally have few disadvantages, but one concern
       worth noting is performance. Namely, one must determine whether there is
       an implicit cost to the abstraction a Facade offers to our
@@ -5598,7 +5598,7 @@ function iAmClearlyCrazy( data ) {
       (and that a jQuery object, not just a DOM node is returned).</p><p>The challenge with this particular Facade is that in order to
       provide an elegant selector function capable of accepting and parsing
       multiple types of queries, there is an implicit cost of abstraction. The
-      user isn’t required to access <code class="literal">jQuery.getById("identifier")</code> or <code class="literal">jQuery.getbyClass("identifier")</code> and so on.
+      user isn't required to access <code class="literal">jQuery.getById("identifier")</code> or <code class="literal">jQuery.getbyClass("identifier")</code> and so on.
       That said, the trade-off in performance has been tested in practice over
       the years and, given the success of jQuery, a simple Facade actually
       worked out very well for the team.</p><p>When using the Facade pattern, try to be aware of any performance
@@ -5614,7 +5614,7 @@ function iAmClearlyCrazy( data ) {
 		<div class="post-wrapper">
 <div class="sect1" title="The Factory Pattern"><div class="titlepage"><div><div><h1 class="title"><a id="the-factory-pattern"></a>The Factory Pattern</h1></div></div></div><p><a id="index-507G534TE3T" class="indexterm"></a>The Factory pattern is another creational pattern concerned
     with the notion of creating objects. Where it differs from the other
-    patterns in its category is that it doesn’t explicitly require the use of
+    patterns in its category is that it doesn't explicitly require the use of
     a constructor. Instead, a Factory can provide a generic interface for
     creating objects, where we can specify the type of factory object we wish
     to be created (<a class="xref" href="ch09s10.html#factory" title="Figure&nbsp;9-9.&nbsp;Factory pattern">Figure&nbsp;9-9</a>).</p><div class="figure-float"><div class="figure"><a id="factory"></a><div class="figure-contents"><div class="mediaobject"><a id="I_mediaobject9_d1e3483"></a><img src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326896.png" alt="Factory pattern" width="360" height="255" data-mfp-src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326896.png"></div></div><p class="title">Figure&nbsp;9-9.&nbsp;Factory pattern</p></div></div><p>Imagine that we have a UI factory where we are asked to create a
@@ -5622,7 +5622,7 @@ function iAmClearlyCrazy( data ) {
     the <code class="literal">new</code> operator or via another
     creational constructor, we ask a Factory object for a new component
     instead. We inform the Factory what
-    type of object is required (e.g., “Button”, “Panel”) and it instantiates
+    type of object is required (e.g., "Button", "Panel") and it instantiates
     this, returning it to us for use.</p><p>This is particularly useful if the object creation process is
     relatively complex—e.g., if it strongly depends on dynamic factors or
     application configuration.</p><p>Examples of this pattern can be found in UI libraries such as ExtJS,
@@ -5724,7 +5724,7 @@ function iAmClearlyCrazy( data ) {
 </pre><div class="sect2" title="When to Use the Factory Pattern"><div class="titlepage"><div><div><h2 class="title"><a id="when-to-use-the-factory-pattern"></a>When to Use the Factory Pattern</h2></div></div></div><p><a id="I_indexterm9_d1e3532" class="indexterm"></a>The Factory pattern can be especially useful when applied
       to the following situations:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem"><p>When our object or component setup involves a high level of
           complexity.</p></li><li class="listitem"><p>When we need to easily generate different instances of objects
-          depending on the environment we are in.</p></li><li class="listitem"><p>When we’re working with many small objects or components that
+          depending on the environment we are in.</p></li><li class="listitem"><p>When we're working with many small objects or components that
           share the same properties.</p></li><li class="listitem"><p>When composing objects with instances of other objects that
           need only satisfy an API contract (a.k.a., duck typing) to work.
           This is useful for decoupling.</p></li></ul></div></div><div class="sect2" title="When Not to Use the Factory Pattern"><div class="titlepage"><div><div><h2 class="title"><a id="when-not-to-use-the-factory-pattern"></a>When Not to Use the Factory Pattern</h2></div></div></div><p><a id="I_indexterm9_d1e3555" class="indexterm"></a>When applied to the wrong type of problem, this pattern
@@ -5795,7 +5795,7 @@ function iAmClearlyCrazy( data ) {
 		=============================-->
 		<div class="post-wrapper">
 <div class="sect1" title="Subclassing"><div class="titlepage"><div><div><h1 class="title"><a id="sub-classing"></a>Subclassing</h1></div></div></div><p><a id="I_indexterm9_d1e3611" class="indexterm"></a><a id="I_indexterm9_d1e3616" class="indexterm"></a><a id="I_indexterm9_d1e3619" class="indexterm"></a>For developers unfamiliar with subclassing, we will go
-    through a brief beginners’ primer before diving into Mixins and Decorators
+    through a brief beginners' primer before diving into Mixins and Decorators
     further.</p><p><span class="emphasis"><em>Subclassing</em></span> is a term that refers to inheriting
     properties for a new object from a base or <span class="emphasis"><em>superclass</em></span>
     object. In traditional object-oriented programming, a class <code class="literal">B</code> is able to extend another class <code class="literal">A</code>. Here we consider <code class="literal">A</code> a superclass and <code class="literal">B</code> a subclass of <code class="literal">A</code>. As such, all instances of <code class="literal">B</code> inherit the methods from <code class="literal">A</code>. <code class="literal">B</code> is
@@ -5805,7 +5805,7 @@ function iAmClearlyCrazy( data ) {
     to this as method chaining. Should <code class="literal">B</code>
     need to invoke the constructor <code class="literal">A</code> (the
     superclass), we call this constructor chaining.</p><p>To demonstrate subclassing, we first need a base object that can
-    have new instances of itself created. Let’s model this around the concept
+    have new instances of itself created. Let's model this around the concept
     of a person.</p><a id="I_programlisting9_d1e3678"></a><pre class="programlisting_javascript"><code class="kd">var</code> <code class="nx">Person</code> <code class="o">=</code>  <code class="kd">function</code><code class="p">(</code> <code class="nx">firstName</code> <code class="p">,</code> <code class="nx">lastName</code> <code class="p">){</code>
 
   <code class="k">this</code><code class="p">.</code><code class="nx">firstName</code> <code class="o">=</code> <code class="nx">firstName</code><code class="p">;</code>
@@ -5813,7 +5813,7 @@ function iAmClearlyCrazy( data ) {
   <code class="k">this</code><code class="p">.</code><code class="nx">gender</code> <code class="o">=</code> <code class="s2">"male"</code><code class="p">;</code>
 
 <code class="p">};</code>
-</pre><p>Next, we’ll want to specify a new class (object) that’s a subclass
+</pre><p>Next, we'll want to specify a new class (object) that's a subclass
     of the existing <code class="literal">Person</code> object. Let us
     imagine we want to add distinct properties to distinguish a <code class="literal">Person</code> from a <code class="literal">Superhero</code> while inheriting the properties of the
     <code class="literal">Person</code> superclass. As superheroes share
