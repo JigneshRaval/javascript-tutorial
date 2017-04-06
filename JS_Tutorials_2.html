@@ -14035,7 +14035,7 @@ foo( <span class="pl-c1">10</span>, <span class="pl-c1">20</span> );      <span 
 <p>A delegate prototype is an object that serves as a base for another object. When you inherit from a delegate prototype, the new object gets a reference to the prototype. When you try to access a property on the new object, it checks the object's own properties first. If it doesn't find it there, it checks the prototype, and so on up the chain until it gets back to Object.prototype. </p>
 <p>Method delegation is a fantastic way to preserve memory resources, because you only need one copy of each method to be shared by all instances. It's also a great way to add capabilities at runtime to all objects which share a particular prototype.</p>
 <p>There are a couple of ways to set up that relationship in JavaScript. The one you're likely to see in a lot of books goes something like this:</p>
-<p></p> 
+ 
 <div id="crayon-5322c785749f8355214122" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; z-index: 0; overflow: hidden;">function Greeter(name) {
   this.name = name || 'John Doe';
@@ -14058,10 +14058,10 @@ var george = new Greeter('George');</textarea></div>
 </div>
 </div>
  
-<p></p>
+
 <p>See <a href="http://ericleads.com/2013/01/javascript-constructor-functions-vs-factory-functions/">JavaScript Constructor Functions vs Factory Functions</a> and <a href="http://ericleads.com/2012/09/stop-using-constructor-functions-in-javascript/">Stop Using Constructor Functions in JavaScript</a> for my thoughts on why you should ignore this technique. I present it here only because it's likely to be a familiar point of reference.</p>
 <p>I prefer this:</p>
-<p></p> 
+ 
 <div id="crayon-5322c78574a06113052588" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; z-index: 0; overflow: hidden;">var proto = {
   hello: function hello() {
@@ -14081,11 +14081,11 @@ george.name = 'George';</textarea></div>
 </div>
 </div>
  
-<p></p>
+
 <p>The one major drawback to delegation is that it's not very good at storing state. In particular, if you try to store state as objects or arrays, mutating any member of the object or array will mutate the member for every instance that shares the prototype. In order to preserve instance safety, you need to make a copy of the state for each object.</p>
 <h3>Cloning / Concatenative Inheritance / Mixins</h3>
 <p>Prototype cloning is the process of copying the properties from one object to another, without retaining a reference between the two objects. Cloning a great way to store default state for objects. This process is commonly achieved by methods like Underscore's <code>.extend()</code>, or jQuery's <code>.extend()</code>:</p>
-<p></p> 
+ 
 <div id="crayon-5322c78574a0d996602988" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; z-index: 0; overflow: hidden;">var proto = {
   hello: function hello() {
@@ -14104,9 +14104,9 @@ var george = _.extend({}, proto, {name: 'George'});</textarea></div>
 </div>
 </div>
  
-<p></p>
+
 <p>It's common to see this style used for mixins. For example, Backbone users can make any object an event emitter by extending from Backbone.Events:</p>
-<p></p> 
+ 
 <div id="crayon-5322c78574a14444106027" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; z-index: 0; overflow: hidden;">var foo = _.extend({
   attrs: {},
@@ -14131,11 +14131,11 @@ var george = _.extend({}, proto, {name: 'George'});</textarea></div>
 </div>
 </div>
  
-<p></p>
+
 <h3>Closure Prototypes / Functional Inheritance</h3>
 <p>I'm cheating on the name for this one. It's not really functional, and it's not an <em>object prototype</em>. It's a <em>function prototype</em>. Think of it as an alternative to a constructor / init function. It can be copied (inherited) from one factory to another, and combined with other functions like it to completely replace the need for <code>super()</code> (which is a <a href="http://martinfowler.com/bliki/CallSuper.html">code smell</a>, and should be avoided).</p>
 <p>Closure prototypes are functions that can be run against a target object in order to extend it. The primary advantage of this style is that it allows for encapsulation. In other words, you can enforce private state. Douglas Crockford called this style "functional inheritance" in his book, "JavaScript: The Good Parts". It looks something like this (Foo, like above, with private attributes):</p>
-<p></p> 
+ 
 <div id="crayon-5322c78574a33794530363" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; z-index: 0; overflow: hidden;">var model = function () {
   var attrs = {};
@@ -14170,7 +14170,7 @@ george.set('name', 'Sam'); // Object {name: "name", value: "Sam"}</textarea></di
 </div>
 </div>
  
-<p></p>
+
 <p>This is all well and good, but there's an awful lot of jumping through hoops if you want to combine the techniques — so I wrote a little library to jump through the hoops for you. It's called <a href="https://github.com/dilvie/stampit">Stampit</a>.</p>
 <h2>Stampit</h2>
 <p>Create objects from reusable, composable behaviors.</p>
@@ -14191,7 +14191,7 @@ george.set('name', 'Sam'); // Object {name: "name", value: "Sam"}</textarea></di
 <p>Prototypal OO is great, and JavaScript's capabilities give us some really powerful tools to explore it, but it could be easier to use.</p>
 <p>Basic questions like "how do I inherit privileged methods and private data?" and "what are some good alternatives to inheritance hierarchies?" are stumpers for many JavaScript users.</p>
 <p>Let's answer both of these questions at the same time. First, we'll use a closure to create data privacy:</p>
-<p></p> 
+ 
 <div id="crayon-5322c78574a3b731499236" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; overflow: hidden; z-index: 0;">var a = stampit().enclose(function () {
   var a = 'a';
@@ -14209,10 +14209,10 @@ george.set('name', 'Sam'); // Object {name: "name", value: "Sam"}</textarea></di
 </div>
 </div>
  
-<p></p>
+
 <p>It uses function scope to encapsulate private data. Note that the getter must be defined inside the function in order to access the closure variables.</p>
 <p>Let's see if that worked:</p>
-<p></p> 
+ 
 <div id="crayon-5322c78574a42452072635" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; overflow: hidden; z-index: 0;">a(); // Object -- so far so good.
 a().getA(); // "a"</textarea></div>
@@ -14228,10 +14228,10 @@ a().getA(); // "a"</textarea></div>
 </div>
 </div>
  
-<p></p>
+
 <p>Yes. Got it. In both of these instances, we actually created a brand new object, and then immediately threw it away, because we didn't assign it to anything. Don't worry about that.</p>
 <p>Here's another:</p>
-<p></p> 
+ 
 <div id="crayon-5322c78574a48751223046" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; overflow: hidden; z-index: 0;">var b = stampit().enclose(function () {
   var a = 'b';
@@ -14249,10 +14249,10 @@ a().getA(); // "a"</textarea></div>
 </div>
 </div>
  
-<p></p>
+
 <p>Those <code>a</code>‘s are not a typo. The point is to demonstrate that <code>a</code> and <code>b</code>‘s private variables won't clash.</p>
 <p>But here's the real treat:</p>
-<p></p> 
+ 
 <div id="crayon-5322c78574a4e053417393" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; opacity: 0; overflow: hidden; z-index: 0;">var c = stampit.compose(a, b);
 
@@ -14272,10 +14272,10 @@ foo.getB(); // "b"</textarea></div>
 </div>
 </div>
  
-<p></p>
+
 <p>WAT? Yeah. You just inherited privileged methods and private data from two sources at the same time.</p>
 <p>But that's boring. Let's see what else is on tap:</p>
-<p></p> 
+ 
 <div id="crayon-5322c78574a54721715260" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important; height: auto;">
 <div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 2; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">// Some more privileged methods, with some private data.
 // Use stampit.extend() to make this feel declarative:
@@ -14336,7 +14336,7 @@ myBar.add({name: 'Homer' }).open().getMember('Homer'); </textarea></div>
 </div>
 </div>
  
-<p></p>
+
 </div>
 		</div>
 		<!--=========================

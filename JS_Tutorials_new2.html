@@ -4319,8 +4319,8 @@ car.getBrand();   // output: Nissan</code></pre>
 </div>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <hr>
 <p>JavaScript functions are also different in the sense that each function, regardless of how it is defined, has dynamic
   arguments and a dynamic context.</p>
@@ -4422,8 +4422,8 @@ car.getBrand();   // output: Nissan</code></pre>
 </div>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>Notice how <code>functionName.apply()</code> allows us to explicitly set the context and pass arguments.</p>
 <hr>
 <p>I must point out that JavaScript presents us with <strong>functional scoping</strong> instead of <strong>block
@@ -4508,8 +4508,8 @@ car.getBrand();   // output: Nissan</code></pre>
 </div>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <hr>
 <h2>Higher Order Functions</h2>
 <p>We know functions in JavaScript are nothing but objects. Does this mean functions can be passed around as arguments
@@ -4623,8 +4623,8 @@ car.getBrand();   // output: Nissan</code></pre>
 </div>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>The simple example above shows how a named function <code>logItem</code> and an <code>anonymous function</code> are
   being passed as arguments to the higher order function <code>forEach</code>.</p>
 <hr>
@@ -4754,8 +4754,8 @@ car.getBrand();   // output: Nissan</code></pre>
 </div>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>Notice we reuse the <code>forEach</code> function from the previous example. Our <code>map</code> function takes in
   two arguments, the first one being the <code>mappingFunction</code> that is to be applied on every item of the second
   argument <code>list</code>.</p>
@@ -4892,8 +4892,8 @@ car.getBrand();   // output: Nissan</code></pre>
 </div>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>This solution again makes use of the previous create <code>forEach</code> function. Our <code>reduce</code> function
   is simple, it iterates through the <code>list</code>, applies <code>combine</code> on <code>base</code> and each list
   item, stores the result in base and returns it after completion.</p>
@@ -5052,8 +5052,8 @@ car.getBrand();   // output: Nissan</code></pre>
 </div>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>Notice how <code>getAreaFunction</code> returns an anonymous function. This returned function contains a switch case
   on shape which is available in the <em>environment</em>.</p>
 <p>Finally, of course, we see how to use the closure as a <em>function factory</em> to get area functions for different
@@ -5236,8 +5236,8 @@ car.getBrand();   // output: Nissan</code></pre>
 </div>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>I'll not explain Object Oriented Programming implementations in JavaScript as part of this post. They aren't complex
   but are different, surely worthy of a dedicated post.</p>
 <p>If you're already familiar with OOP concepts and their implementations in JavaScript, note how the class
@@ -5384,8 +5384,8 @@ car.getBrand();   // output: Nissan</code></pre>
 </div>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>In the for loop, we first assign an <code>onclick</code> handler to all the red boxes. However, thanks to functional
   scoping, all three red boxes have onclick handlers with <code>redBoxId</code> value 3.</p>
 <p>However for green boxes we assign <code>onclick</code> handlers in a slightly different manner. We have a self
@@ -13940,7 +13940,7 @@ on instances of its subclasses, including any instances that had already been cr
 </ul>
 <h2>Some Quick Examples</h2>
 <h3>Call</h3>
-<p></p> 
+ 
 <div id="crayon-5762b5ff4ca10251694979" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" touchscreen minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 14px ! important; line-height: 25px ! important; height: auto;">
 <div class="crayon-plain-wrap"><textarea class="crayon-plain print-no" data-settings="dblclick" style="-moz-tab-size: 4; font-size: 14px ! important; line-height: 25px ! important; z-index: 0; opacity: 0;" wrap="soft">var person1 = {firstName: 'Jon', lastName: 'Kuperman'};
 var person2 = {firstName: 'Kelly', lastName: 'King'};
@@ -13963,9 +13963,9 @@ say.call(person2, 'Hello'); // Hello Kelly King</textarea></div>
 </div>
 </div>
  
-<p></p>
+
 <h3>Apply</h3>
-<p></p> 
+ 
 <div id="crayon-5762b5ff4ca23381820127" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" touchscreen minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 14px ! important; line-height: 25px ! important; height: auto;">
 <div class="crayon-plain-wrap"><textarea class="crayon-plain print-no" data-settings="dblclick" style="-moz-tab-size: 4; font-size: 14px ! important; line-height: 25px ! important; z-index: 0; opacity: 0;" wrap="soft">var person1 = {firstName: 'Jon', lastName: 'Kuperman'};
 var person2 = {firstName: 'Kelly', lastName: 'King'};
@@ -13988,9 +13988,9 @@ say.apply(person2, ['Hello']); // Hello Kelly King</textarea></div>
 </div>
 </div>
  
-<p></p>
+
 <h3>Bind</h3>
-<p></p> 
+ 
 <div id="crayon-5762b5ff4ca29812840800" class="crayon-syntax crayon-theme-sublime-text crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" touchscreen minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 14px ! important; line-height: 25px ! important; height: auto;">
 <div class="crayon-plain-wrap"><textarea class="crayon-plain print-no" data-settings="dblclick" style="-moz-tab-size: 4; font-size: 14px ! important; line-height: 25px ! important; z-index: 0; opacity: 0;" wrap="soft">var person1 = {firstName: 'Jon', lastName: 'Kuperman'};
 var person2 = {firstName: 'Kelly', lastName: 'King'};
@@ -14016,7 +14016,7 @@ sayHelloKelly(); // Hello Kelly King</textarea></div>
 </div>
 </div>
  
-<p></p>
+
 <h2>When To Use Each</h2>
 <p>Call and apply are pretty interchangeable. Just decide whether it's easier to send in an array or a comma separated list of arguments.</p>
 <p>I always remember which one is which by remembering that <b>C</b>all&nbsp;is for comma (separated list) and&nbsp;<strong>A</strong>pply is for Array.</p>
@@ -14998,7 +14998,7 @@ scope, all your building blocks can be tested in isolation.</p>
 <h3>Examples for functional programming utilities</h3>
 <p>The <code>map</code> function is applied on arrays. It accepts one function argument. This function is applied on each element of the array.</p>
 <p>For instance, suppose that you have a shopping basket containing arrays of objects.</p>
-<p></p>
+
 <div id="crayon-576bff9509dbe024840336" class="crayon-syntax crayon-theme-sublime-text crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px ! important; line-height: 15px ! important; height: auto;"><pre>var basket = [
     { name: 'How to Draw Comic Books', price: 10 },
     { name: 'Programming in Basic', price: 5 },
@@ -15008,11 +15008,11 @@ scope, all your building blocks can be tested in isolation.</p>
 ];
 </pre>
 </div>
-<p></p>
+
 <p>Suppose that a coupon code is applied on the basket, giving you 20% 
 discount on the price of the items. How can we adjust the price of the 
 items in the basket?</p>
-<p></p>
+
 <div id="crayon-576bff9509dca003201979" class="crayon-syntax crayon-theme-sublime-text crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px ! important; line-height: 15px ! important; height: auto;"><pre>var discount = 0.2;
 var discountedBasket = basket.map( function( item ) {
     item.price *= (1 - discount);
@@ -15020,12 +15020,12 @@ var discountedBasket = basket.map( function( item ) {
 });
 </pre>
 </div>
-<p></p>
+
 <p>The above implementation is flawed, because it mutates the original 
 basket. Although the value of the original basket is not used anywhere, 
 in functional programming, we are supposed to treat data as immutable. 
 Therefore, it is advised to create the mapping like this:</p>
-<p></p>
+
 <div id="crayon-576bff9509dce528080245" class="crayon-syntax crayon-theme-sublime-text crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px ! important; line-height: 15px ! important; height: auto;"><pre>var discount = 0.2;
 var discountedBasket = basket.map( function( item ) {
         return {
@@ -15035,24 +15035,24 @@ var discountedBasket = basket.map( function( item ) {
 });
 </pre>
 </div>
-<p></p>
+
 <p>Another option is to <a href="http://www.zsoltnagy.eu/cloning-objects-in-javascript/" target="_blank">clone</a> the item on the first line of the mapper function.</p>
 <p>In the second example, we will search for items that are not more expensive than <code>5</code> units.</p>
-<p></p>
+
 <div id="crayon-576bff9509dd1094108298" class="crayon-syntax crayon-theme-sublime-text crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px ! important; line-height: 15px ! important; height: auto;"><pre>var cheapItemsInBasket = basket.filter( function( item ) {
     return item.price &lt;= 5;
 } );
 </pre>
 </div>
-<p></p>
+
 <p>Calculating the total basket value can be done using a simple <code>for</code> loop or using the <code>reduce</code> function.</p>
-<p></p>
+
 <div id="crayon-576bff9509dd4510609449" class="crayon-syntax crayon-theme-sublime-text crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px ! important; line-height: 15px ! important; height: auto;"><pre>basket.reduce( function( intermediateValue, item ) {
     return intermediateValue + item.price;
 }, 0 );
 </pre>
 </div>
-<p></p>
+
 <p>Higher order functions are quite common. They are not limited to the 
 typical functions you would learn at a functional programming course. 
 Just think about the jQuery deferred object, promises in general, or 
@@ -15071,7 +15071,7 @@ at the cost of <a href="http://www.zsoltnagy.eu/cloning-objects-in-javascript/" 
 because this is our first example where a function returns another 
 function.</p>
 <p>Why is context binding important? Let me illustrate it using an example:</p>
-<p></p>
+
 <div id="crayon-576bff9509dd8869579591" class="crayon-syntax crayon-theme-sublime-text crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px ! important; line-height: 15px ! important; height: auto;"><pre>var Person = function( name, delay ) {
     this.name = name;
     this.delay = delay;
@@ -15088,7 +15088,7 @@ john.introduce();           // Hi, I am John
 john.introduceWithDelay();  // After a second: Hi, I am 
 </pre>
 </div>
-<p></p>
+
 <p>When the callback function of <code>setTimeout</code> is called, the context is set to <code>window</code>. As <code>window.name</code> does not exist, the second introduction fails.</p>
 <blockquote>
 <p>
@@ -15100,7 +15100,7 @@ callback. If the moved line contains <code>this</code> and the reference is not 
 </p>
 </blockquote>
 <p>The proper solution is context binding.</p>
-<p></p>
+
 <div id="crayon-576bff9509ddc334960002" class="crayon-syntax crayon-theme-sublime-text crayon-font-monospace crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px ! important; line-height: 15px ! important; height: auto;"><pre>var Person = function( name, delay ) {
     this.name = name;
     this.delay = delay;
@@ -15117,7 +15117,7 @@ john.introduce();           // Hi, I am John
 john.introduceWithDelay();  // After a second: Hi, I am John
 </pre>
 </div>
-<p></p>
+
 <ul>
 
 <li><code>this.introduce</code> is a function</li>

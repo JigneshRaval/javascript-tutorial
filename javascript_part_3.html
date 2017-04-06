@@ -7,27 +7,35 @@
 		<!--<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 		<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i|PT+Serif:400,700" rel="stylesheet">-->
 		<style>
-			* { box-sizing: border-box; }
-			body { 
-			font-family: 'Open Sans', Arial, sans-serif;
-			font-size: 14px;
-			line-height: 1.7;
-			padding: 0.5em;
-			font-family: 'PT Sans', Arial, sans-serif;
-			
-			}
-			img { display: block; margin: 0 auto; max-width: 100%; }
-			pre { 
-			border: 1px dashed #333; 
-			padding: 1em 2em; 
-			font-family: Consolas,monospace; 
-			background-color: #EEE; 
-			overflow-x: scroll; 
-			font-size: 14px;  
-			white-space: pre-wrap; 
-			word-wrap: break-word; 
-			}
-			pre {
+* { box-sizing: border-box; }
+body { 
+	font-family: 'Open Sans', Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.7;
+	padding: 0.5em;
+	font-family: 'PT Sans', Arial, sans-serif;
+	
+}
+em, strong { font-weight: bold; }
+h1 { font-size: 1.6em; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
+h2, h3, h6 { 
+	font-size: 1.3em;
+	font-family: 'PT Serif', Arial, serif;
+	padding-left: 1em;
+	border-left: 2px solid #868686; 
+}
+img { display: block; margin: 0 auto; max-width: 100%; }
+pre { 
+	border: 1px dashed #333; 
+	padding: 1em 2em; 
+	font-family: Consolas,monospace; 
+	background-color: #EEE; 
+	overflow-x: scroll; 
+	font-size: 14px;  
+	white-space: pre-wrap; 
+	word-wrap: break-word; 
+}
+pre {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     margin: 1em auto;
@@ -42,45 +50,56 @@
     border-radius: 3px;
 	position:relative;
 }
-			code { background-color: #EEE; padding: 3px; font-family: Consolas,monospace; }
-			pre code { background-color: transparent; padding: 0; display: block; }
-			pre:after {
-				content: "<CODE>";
-				position: absolute;
-				top:0;
-				right: 0;
-				padding: 5px 15px;
-				background: #999;
-				color: #FFF;
-			}
-			.tutorial-index {
-			counter-reset: section;
-			}
-			.tutorial-index h1:before {
+code { 
+	background-color: #EEE;
+    font-family: Consolas,monospace;
+    border: solid 1px #CCC;
+    padding: 3px;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 14px;
+}
+pre code { background-color: transparent; padding: 0; display: block; border: 0px solid; }
+pre:after {
+	content: "<CODE>";
+	position: absolute;
+	top:0;
+	right: 0;
+	padding: 5px 15px;
+	background: #999;
+	color: #FFF;
+}
+
+.home-screen { border: 1px solid #777; padding: 4em 0; }
+.home-screen * { font-family: 'PT Sans', Arial, sans-serif; font-size: 3em; font-weight: normal; }
+
+/* = Index
+-------------------------------*/
+.tutorial-index {
+	counter-reset: section;
+}
+.tutorial-index h1:before {
     counter-increment: section;
     content: counter(section) " : ";
 }
 .tutorial-index h1 {font-size: 1.2em; padding: 5px 0; font-family: 'Open Sans', Arial, sans-serif; line-height: normal;}
 .tutorial-index a { display: block; float: left; width: 50%;}
-			.tutorial-index a { text-decoration: none; }
-			h1 { font-size: 1.6em; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
-			
-			.main { counter-reset: mainsection; }
-			.main h1 { font-size: 1.6em; border-bottom: 2px solid #000; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
-			/*.main h1:before {
-    counter-increment: mainsection;
+.tutorial-index a { text-decoration: none; }
+
+
+/* = Main
+-------------------------------*/
+.main { counter-reset: mainsection; }
+.main h1 { font-size: 1.6em; border-bottom: 2px solid #000; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
+.main h1:before {
+    /*counter-increment: mainsection;
     content: counter(mainsection) " : ";
-}*/
-			
-			
-			
-			h2, h3, h6 { 
-			font-size: 1.2em;
-			font-family: 'PT Serif', Arial, serif;
-			padding-left: 1em;
-			border-left: 2px solid #868686; 
-			}
-			.cf:before,
+	*/
+}
+
+/* = ClearFix
+-------------------------------*/
+.cf:before,
 .cf:after {
     content: " ";
     display: table;
@@ -88,28 +107,35 @@
 .cf:after {
     clear: both;
 }
-table { border-collapse: collapse;}
-table td { border: 1px solid #999; padding: 5px;}
-
-@media print {
-    .main h1 {page-break-before: always;}
-}
 .tc { text-align: center}
-.home-screen { border: 1px solid #777; padding: 4em 0; }
-.home-screen * {    font-family: 'PT Sans', Arial, sans-serif;
-    font-size: 3em;
-    font-weight: normal;}
-	
+
+/* = TABLE
+-------------------------------*/
+table { width: 100%; max-width: 100%; margin: 1em 0; border-collapse: collapse;}
+table td, table th { border: 1px solid #cdcfd0; padding: 10px;}
+table th { border-bottom-width: 2px; background-color: #e8e9ea; }
+table tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+@media print {
+    .main article h1 { 
+		page-break-before: always; 
+	}
+	pre, code, pre code, pre span, code span, pre code span {
+		/*page-break-inside: avoid;
+		-webkit-column-break-inside : avoid;*/
+	}
+}
 		</style>
 	</head>
 	<body>
 	<div class="links"><a href="javascript_part_3.html">Part 3</a> | <a href="javascript_part_4.html">Part 4</a> | <a href="javascript_part_5.html">Part 5</a> | <a href="ES6-javascript_part_6.html">Part 6</a></div>
-		<div class="home-screen tc">
+		<div class="home-screen tc cf">
 			<h1>JavaScript Tutorials</h1>
 			<h4>- Part 3 -</h4>
 		</div>
 		<!--================= START :: Tutorial Index =================-->
-<div class="tutorial-index">
+<div class="tutorial-index cf">
 	<a href="#t-01"><h1>Dealing with Design Patterns</h1></a>
 	<a href="#t-02"><h1>Index</h1></a>
 	<a href="#t-03"><h1>Seven JavaScript Quirks I Wish I'd Known About</h1></a>
@@ -184,7 +210,7 @@ table td { border: 1px solid #999; padding: 5px;}
 </div>
 		<!--================= END :: Tutorial Index =================-->
 		
-		<main class="main">
+		<main class="main cf">
 			
 			<section class="section__one">
 			
@@ -2888,7 +2914,7 @@ TaskController.prototype = {
 <p>The good thing about design patterns is that they are robust and generally accepted solutions, so you are in good hands if you decide to use a certain pattern. It's important to remember though, that when you have a hammer everything looks like a nail, you must know when to use it and when not to; in order to do this you need to clearly understand the advantages and disadvantages of the pattern you plan to use.</p>
 <p>The PubSub design pattern stands for Publish/Subscribe, and might also be called Observer pattern. This is one of the most popular design patterns in modern Javascript, and for a good reason! The general idea of this pattern is to promote loose coupling, instead of objects calling other object's methods directly, they subscribe to an event and they get notified whenever that event occurs.</p>
 <p>Let's get our feet wet with some code, as this is all quite abstract! A nice thing about PubSub is that it's not a complex design pattern at all, in fact, the idea is pretty simple as we just want to be notified when something happens, so if we had a pubsub implementation, our code would look something like this:</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>function myCallback() {
 &nbsp;&nbsp;&nbsp;&nbsp;console.log('Event 1 triggered!');
@@ -2898,7 +2924,7 @@ pubsub.publish('event1');
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0008 seconds] -->
-<p></p>
+
 <p>As you can see the <code>pubsub</code> object exposes two methods, <code>subscribe</code> and <code>publish</code>, when we want to know whenever an event occurs we <strong>subscribe</strong> to that event, later on we can <strong>publish</strong> that event whenever in our code.</p>
 <p>The pattern also exposes an <code>unsubscribe</code> method which simply removes a listener for a given event name.</p>
 <h3>Advantages of the PubSub Pattern</h3>
@@ -2912,7 +2938,7 @@ pubsub.publish('event1');
 Also, as the dependencies are dynamic they can get hard to track.</p>
 <h3>Implementing the PubSub Pattern</h3>
 <p>Now that you have an idea of the pattern, let's implement it! This is actually quite easy, one simplistic implementation could be as follows:</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>var subs = {};
 var pubsub = {
@@ -2935,9 +2961,9 @@ var pubsub = {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0036 seconds] -->
-<p></p>
+
 <p>We can use this implementation as follows:</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>pubsub.subscribe('greet', function (name) {
 &nbsp;&nbsp;&nbsp;&nbsp;console.log('Hello ' + name + '!');
@@ -2946,11 +2972,11 @@ pubsub.publish('greet', 'Federico');
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0009 seconds] -->
-<p></p>
+
 <p>That would produce a message in the developer console <code>Hello Federico!</code>, as you can see it's pretty easy to implement and use.</p>
 <h3>Other PubSub Implementations</h3>
 <p>There are a bunch of PubSub implementations, the one I like the most is <a href="https://gist.github.com/661855">Ben Alman's Gist</a>, which is really solid and succinct. Other alternatives include <a href="http://amplifyjs.com/">AmplifyJS</a> and <a href="https://github.com/mroderick/PubSubJS">PubSubJS</a>.</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>/* jQuery Tiny Pub/Sub - v0.7 - 10/27/2011
 * http://benalman.com/
@@ -2976,7 +3002,7 @@ pubsub.publish('greet', 'Federico');
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0024 seconds] -->
-<p></p>
+
 <h3>Using PubSub with AJAX</h3>
 <p>A very popular use for PubSub is whenever we are working with AJAX and async code, in the following example I illustrate a case where an user wants to search for posts, whenever the user clicks the <code>#btn-search</code> button our app should:</p>
 <ul>
@@ -2984,7 +3010,7 @@ pubsub.publish('greet', 'Federico');
 <li>Update the search history with the new keyword</li>
 </ul>
 <p>We could just do everything in one function, but let's keep everything organized and decouple each task we need to perform:</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>// USING BEN ALMAN'S PUBSUB IMPLEMENTATION
 // Subscribers
@@ -3003,13 +3029,13 @@ $('#btn-search').click(function () {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0025 seconds] -->
-<p></p>
+
 <p>As you can see we don't need to wait for the AJAX request to finish to draw the search history, we can do it as soon as the button is clicked, on the other hand we do have to wait in order to draw the results. This somehow complex behaviour is easily and clearly implemented using the PubSub pattern. This scenario is pretty common in MV* frameworks such as <a href="http://backbonejs.org/">Backbone</a> which are getting increasingly popular, PubSub allows Backbone to easily decouple it's different layers/actors from each other.</p>
 <h3>A Real World Example</h3>
 <p>Not too long ago I faced this issue and I was glad how easily PubSub solved it. Consider you are working in a quite big WordPress plugin which is divided into modules, each module must be independant of each other, meaning it's possible to swap those modules anytime and their tests must not have any hard dependency, to archieve this this modules must able to "talk" to each other indirectly. How can we do this? Well we know that PubSub excels at decoupling so let's try it out!</p>
 <p>Out of all our modules, we are interested in two: <code>favs</code> and <code>images</code>. They both have a JS file: <code>favs.js</code> and <code>images.js</code> respectively.</p>
 <p>We are given the task to implement "adding an image to favorites"; <code>favs.js</code> is in charge of favs, so without using pubsub a very bare-bones implementation of <code>images.js</code> might look similar to this:</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>(function ($) {
 &nbsp;&nbsp;&nbsp;&nbsp;'use strict';
@@ -3025,10 +3051,10 @@ $('#btn-search').click(function () {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0017 seconds] -->
-<p></p>
+
 <p>There are some issues with that code, one is that we have to make some kind of global variable to be able to use the <code>favs</code> API from <code>favs.js</code>, we also assume that the <code>favs.js</code> file will be loaded <strong>before</strong> <code>images.js</code>; this isn't a very big deal as we could fix it by using something like <code>requirejs</code> but still, what if we want to test that code? Testing the <code>addToFavs</code> function would depend on the <code>window.favs</code> object.</p>
 <p>Using <strong>PubSub</strong> we can rewrite our code as follows:</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>(function ($) {
 &nbsp;&nbsp;&nbsp;&nbsp;'use strict';
@@ -3045,7 +3071,7 @@ $('#btn-search').click(function () {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0020 seconds] -->
-<p></p>
+
 <p>Where did <code>window.favs</code> go? We don't need it anymore! We just <strong>publish</strong> a <code>favs/add</code> event (note that it is a good practice to namespace your event names), the <code>favs.js</code> file will be listening and will react accordingly, triggering the <code>favs/added</code> and <code>favs/failed</code> events as needed. We have <strong>decoupled</strong> our little module, as a result we no longer need to use a global variable, have more flexibility on the loading order of the scripts, and more importantly we can now easily test our code by simply publishing events as needed; as a bonus this allows our tests to be more behaviour-driven rather than feature-driven, which is also a good practice :)</p>
 <h3>Promises: Another solution for async code</h3>
 <p>Promises are another tool we can use to deal with async code, they are gaining popularity and for a good reason! They can be quite helpful so it's important to know what they are and when they should be used, they also plays nice with the PubSub design pattern.</p>
@@ -3055,7 +3081,7 @@ $('#btn-search').click(function () {
   A pending promise can become either fulfilled with a value, or rejected with a reason. When either of these happens, the associated handlers queued up by a promise's then method are called.
 </p></blockquote>
 <p>That definition might be a bit hard to swallow, but it's in fact pretty simple. Promises represent an entity which still doesn't have a value, but it's guaranteed that it will eventually either have a value (<strong>succeed</strong>) or <strong>fail</strong>.</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>// A simple promise
 var promise = new MyPromise();
@@ -3063,10 +3089,10 @@ promise.then(onPromiseFinished, onPromiseFailed, onProgress);
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0007 seconds] -->
-<p></p>
+
 <p>A Promise <strong>must</strong> have a <code>then</code> function which accepts 3 callbacks, the first two are for success and failure respectively, the third one is to notify the consumer on progress, useful for very long operations but seldom used.</p>
 <p>Something nice about promises is that they are <strong>chainable</strong>.</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>var promise = new MyPromise();
 promise.then(function () {
@@ -3077,9 +3103,9 @@ promise.then(function () {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0011 seconds] -->
-<p></p>
+
 <p>This code will print <code>First callback</code> and then <code>Second callback</code>. Something important to not is that if one callback fails, the following won't get executed.</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>var promise = new MyPromise();
 promise.then(function () {
@@ -3091,11 +3117,11 @@ promise.then(function () {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0013 seconds] -->
-<p></p>
+
 <p>This allows us to execute async code in a synchronous manner, as we are used to. Also, if one of your callbacks returns a promise, the subsequent <code>then</code> call will be evaluated on that promise you returned, this makes chaining Promises easy as pie.</p>
 <h3>Common Promise Scenario #1</h3>
 <p>So by now you've read quite a lot on abstract promises, let's get down to a real use case! I'll illustrate two, the first one is for caching AJAX requests. First let's write an implementation <strong>without</strong> promises:</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>var cache = {};
 function loadSong(id, callback) {
@@ -3115,9 +3141,9 @@ function loadSong(id, callback) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0025 seconds] -->
-<p></p>
+
 <p>The code above simply loads a song by <code>id</code> only once and then executes a <code>callback</code>. Not too bad, a lot of Javascript code looks like that, but we can do better! Let's use Promises! Because Promises only get resolved once, if <code>then</code> is called when a Promise is already resolved, the callback will be executed <strong>immediatly</strong>, because of this and also taking advantage of jQuery's promises implementation we can easily cache AJAX requests as jQuery AJAX functions actually return promises:</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>var cache = {};
 function loadSong(id, callback) {
@@ -3129,12 +3155,12 @@ function loadSong(id, callback) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0017 seconds] -->
-<p></p>
+
 <p>Much better! You might notice the use of <code>.promise()</code>, this is because jQuery uses <a href="http://api.jquery.com/category/deferred-object/">Deferred</a>, which is a superset of Promise. In this case we just want to return a Promise object which can be resolved only once, so we use <code>.promise()</code>. The code would also work if we returned a <code>Deferred</code> but it's a good jQuery practice to always return Promises.</p>
 <p><strong>Note on jQuery's Promises</strong>: There is a catch with jQuery Promises, they aren't fully compatible with the Promises specification as you can see in <a href="http://domenic.me/2012/10/14/youre-missing-the-point-of-promises/">Domenic Denicola's article</a> so there are some edge cases, but I find it convenient to use jQuery's implementation to demonstrate the concept as it's used by a wide variety of developers. If you want a more loyal implementation you can try other libraries such as <a href="https://github.com/kriskowal/q">Q</a>, <a href="https://github.com/tildeio/rsvp.js">rsvp</a> or <a href="https://github.com/cujojs/when">when.js</a> as Domenic suggests.</p>
 <h3>Common Promise Scenario #2</h3>
 <p>This situation it's also quite common, it happens whenever we have to wait for several async actions to finish before proceeding, for example:</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>// Get latest comments based on user and latest posts
 $.post('/user/get_current_user', function (user) {
@@ -3148,9 +3174,9 @@ $.post('/user/get_current_user', function (user) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0020 seconds] -->
-<p></p>
+
 <p>Now <strong>that's ugly</strong>, callback spaghetti should always be avoided! Luckly a lot of libraries which implement Promises also provide method called <code>when</code> which resolves when all it's arguments (which are promises) are resolved, knowing this we can simply code:</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>$.when(
 &nbsp;&nbsp;&nbsp;&nbsp;$.post('/user/get_current_user'),
@@ -3161,9 +3187,9 @@ $.post('/user/get_current_user', function (user) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0010 seconds] -->
-<p></p>
+
 <p>That's much better, now the first two AJAX requests are executed at the same time, so it will be considerably faster. Moreover, the code is much cleaner, but we can still improve! Remember that we can chain <code>then</code> calls? Let's try that:</p>
-<p></p><!-- Crayon Syntax Highlighter v2.7.1 -->
+
 
 		<pre>$.when(
 &nbsp;&nbsp;&nbsp;&nbsp;$.post('/user/get_current_user'),
@@ -3174,7 +3200,7 @@ $.post('/user/get_current_user', function (user) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0011 seconds] -->
-<p></p>
+
 <p>Looking good! Promises are awesome, don't be afraid to use them and try them out. If you want to know more about Promises I highly reccommend watching <a href="https://www.youtube.com/watch?v=juRtEEsHI9E">this <strong>great</strong> jQuery conference talk</a> by Alex McPherson. I also <a href="http://gosukiwi.svbtle.com/the-right-way-of-caching-ajax-requests-with-jquery">wrote a brief article on the subject</a>.</p>
 <h3>Conclusion</h3>
 <p>PubSub as well as all design patterns has known advantages and disadvantages which you should know very well. It's main strength is highly decoupling the different parts of your application, but it also helps us work with async code and is pretty easy to use and get started, so don't hesitate to try it out in your next project!</p>
@@ -5147,8 +5173,6 @@ const newBaz = baz.slice().sort(); // new instance of baz array is created and s
 console.log(baz); // "hello world", 31, 5, 9, 12]
 console.log(newBaz); // [12, 31, 5, 9, "hello world"]
 </code></pre>
-<h3 id="tryitout">Try it out</h3>
-<p><iframe class="" id="" data-url="https://jsbin.com/baferob/embed?js,console" src="https://jsbin.com/embed-holding" style="border: 1px solid rgb(170, 170, 170); width: 100%; min-height: 300px;"></iframe><script src="https://static.jsbin.com/js/embed.min.js?3.41.3"></script></p>
 <p>Using <code>Array.sort</code> alone would not be very useful for sorting an array of objects, thankfully the function takes an optional <code>compareFunction</code> parameter which causes the array elements to be sorted according to the return value of the compare function.</p>
 <h2 id="usingcomparefunctionstosort">Using Compare Functions to Sort</h2>
 <p>Lets say that <code>a</code> and <code>b</code> are the two elements being compared by the compare function. If the return value of the compare function is:</p>
@@ -5220,8 +5244,7 @@ bands.sort(compare);
   return comparison * -1; 
 }
 </code></pre>
-<h3 id="tryitout-1">Try it out</h3>
-<p><iframe class="" id="" data-url="https://jsbin.com/jubiras/embed?js,console&amp;height=450px" src="https://jsbin.com/embed-holding" style="border: 1px solid rgb(170, 170, 170); width: 100%; min-height: 450px; max-height: 450px;"></iframe><script src="https://static.jsbin.com/js/embed.min.js?3.41.3"></script></p>
+
 <h2 id="creatingadynamicsortingfunction">Creating a Dynamic Sorting Function</h2>
 <p>Let's finish up by making this more dynamic. Let's create a sorting function, which you can use to sort an array of objects, whose values are either strings or numbers. This function has two parameters — the key we want to sort by and the order of the results (i.e. ascending or descending).</p>
 <pre><code class="javascript language-javascript">const bands = [ 
@@ -5265,8 +5288,6 @@ bands.sort(compareValues('band', 'desc'));
 // array is sorted by albums in ascending order
 bands.sort(compareValues('albums')); 
 </code></pre>
-<h3 id="tryitout-2">Try it out</h3>
-<p><iframe class="" id="" data-url="https://jsbin.com/pixatib/embed?js,console&amp;height=650px" src="https://jsbin.com/embed-holding" style="border: 1px solid rgb(170, 170, 170); width: 100%; min-height: 650px; max-height: 650px;"></iframe><script src="https://static.jsbin.com/js/embed.min.js?3.41.3"></script></p>
 
 <p>In the code above, the <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty">hasOwnProperty method</a> is used to check if the specified property is defined on each object and has not been <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty#Direct_versus_inherited_properties">inherited via the prototype chain</a>. If it is not defined on the objects, the function returns <code>0</code>, which causes the sort order to remain as is (i.e the objects remain unchanged with respect to each other).</p>
 <p>The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof operator</a> is also used to check the data type of the value of the property. This allows the function to determine the proper way to sort the array. For example, if the value of the specified property is a <code>string</code>, a <code>toUpperCase</code>  method is used to convert all its characters to uppercase, so character casing is ignored when sorting.</p>
@@ -6496,9 +6517,9 @@ shout( 'hello', function( shouted ) {
 				<!--================= START :: Tutorial =================-->
 				<article>
 					<a id="t28" name="t28"></a><h1>28 : A 10 minute primer to JavaScript modules, module formats, module loaders and module bundlers</h1>
+					<span class="ref-site">http://www.jvandemo.com/a-10-minute-primer-to-javascript-modules-module-formats-module-loaders-and-module-bundlers/</span>
 					<div class="tutorial__content">
 <section class="postbody">
-            <p><img src="/content/images/2017/Feb/john-cobb-mountains.jpg" alt="featureimage"></p>
 
 <p>Modern JavaScript development can be overwhelming.</p>
 
@@ -7191,7 +7212,7 @@ greetHello("Eddie"); //"Hello, Eddie."
 <pre><code>var greetGoodbye = curryIt(greeter, "Goodbye", ", ");
 greetGoodbye(".", "Joe"); //"Goodbye, Joe."
 </code></pre>
-<p><iframe class="" id="" data-url="https://jsbin.com/hayaka/embed?js,console&amp;height=475px" src="https://jsbin.com/embed-holding" style="border: 1px solid rgb(170, 170, 170); width: 100%; min-height: 475px; max-height: 475px;"></iframe><script src="https://static.jsbin.com/js/embed.min.js?3.35.0"></script></p>
+
 <h2 id="getting-serious-about-currying">Getting Serious about Currying</h2>
 <p>Our little currying function may not handle all of the edge cases, such as missing or optional parameters, but it does a reasonable job as long as we stay strict about the syntax for passing arguments. </p>
 <p>Some functional JavaScript libraries such as <a href="http://ramdajs.com/">Ramda</a> have more flexible currying functions that can break out the parameters required for a function, and allow you to pass them individually or in groups to create custom curried variations. If you want to use currying extensively, this is probably the way to go.</p>
@@ -9825,14 +9846,7 @@ displayData.apply(obj); //Hello World
 <h1 id="conclusion">Conclusion<a href="#conclusion" title="Permanent link" class="headerlink"></a></h1>
 <p>For better or worse, JavaScript is about to take over the world. It is therefore very important that the peculiarities of the language be known and avoided. Learning how the four function invocation methods differ and how to avoid their pitfalls is fundamental to anyone who wants to use JavaScript. I hope this post has helped people when it comes to invoking functions.</p>
 <h2 id="update">Update<a href="#update" title="Permanent link" class="headerlink"></a></h2>
-<ul>
-<li>Wow, this has <a href="http://doctrina.org/static/images/TopOfHackerNews.png" target="_blank">reached top of Hacker News</a><sup class="print">L8</sup>. Thanks for upvoting it everybody.</li>
-<li>Now its also gonna be <a href="http://hackermonthly.com/issue-32.html" target="_blank">published</a><sup class="print">L9</sup> :)</li>
-</ul><h2 class="print">Links</h2><div style="margin-left: 2.0em;" class="print"><ol class="print-links"><li>http://doctrina.org/JavaScript:Why-Understanding-Scope-And-Closures-Matter.html</li><li>http://doctrina.org/JavaScript:Why-Understanding-Scope-And-Closures-Matter.html#closures</li><li>http://doctrina.org/Javascript-Objects-Prototypes.html#cofl</li><li>http://doctrina.org/Javascript-Objects-Prototypes.html</li><li>http://doctrina.org/Javascript-Objects-Prototypes.html#pcip</li><li>http://doctrina.org/Javascript-Objects-Prototypes.html#remedy</li><li>http://doctrina.org/Javascript-Objects-Prototypes.html#cfo</li><li>http://doctrina.org/static/images/TopOfHackerNews.png</li><li>http://hackermonthly.com/issue-32.html</li></ol></div>
 
-		<div class="print text-center" style="margin: 1.5em 0.5em 0.1em 0.5em; padding: 0.2em; border: 1px solid #000; page-break-inside: avoid;">
-			Thank you for printing this article. Please do not forget to come back to http://doctrina.org for fresh articles.
-		</div>
 	</div>
 					</div>
 				</article>
@@ -10031,11 +10045,8 @@ var objectFromFunction = new functionObject();
             </td>
         </tr>
     </tbody></table>
-</center><p></p><h2 class="print">Links</h2><div style="margin-left: 2.0em;" class="print"><ol class="print-links"><li>http://en.wikipedia.org/wiki/Douglas_Crockford</li><li>http://www.amazon.com/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742/ref=sr_1_1?ie=UTF8&amp;qid=1346978272&amp;sr=8-1&amp;keywords=javascript+the+good+parts</li><li>http://en.wikipedia.org/wiki/First-class_citizen</li><li>http://en.wikipedia.org/wiki/Prototype-based_programming</li><li>http://doctrina.org/Javascript-Function-Invocation-Patterns.html#ci</li></ol></div>
+</center>
 
-		<div class="print text-center" style="margin: 1.5em 0.5em 0.1em 0.5em; padding: 0.2em; border: 1px solid #000; page-break-inside: avoid;">
-			Thank you for printing this article. Please do not forget to come back to http://doctrina.org for fresh articles.
-		</div>
 	</div>
 					</div>
 				</article>
@@ -10729,7 +10740,7 @@ for (button of document.querySelectorAll("button")) {
 <h3>Iterables and Iterators</h3>
 <p>ES6 comes with the <em>iterable</em> protocol. The protocol defines iterating behavior of JavaScript objects.</p>
 <p>An <em>iterable object</em> has an iterator method with the key <code>Symbol.iterator</code>. This method returns an <em>iterator object</em>.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let iterableObject = {
@@ -10738,11 +10749,11 @@ let iterableObject = {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0059 seconds] -->
-<p></p>
+
 <p><code>Symbol.iterator</code> is a <em>well known symbol</em>. If you don't know what well known symbols are, <a href="http://www.zsoltnagy.eu/es6-symbols-and-its-use-cases/">read the lesson about symbols</a>.</p>
 <p>We will now use <code>Symbol.iterator</code> to describe an iterable object. Note that we are using this construct for the sake of understanding how iterators work. Technically, you will hardly ever need <code>Symbol.iterator</code> in your code. You will soon learn another way to define iterables.</p>
 <p>An <em>iterator object</em> is a data structure that has a <code>next</code> method. When calling this method on the iterator, it returns the next element, and a boolean signalling whether we reached the end of the iteration.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 // Place this before iterableObject
@@ -10757,14 +10768,14 @@ let iteratorObject = {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0011 seconds] -->
-<p></p>
+
 <p>The return value of the <code>next</code> function is an object with two keys:</p>
 <ul>
 <li><code>done</code> is treated as a boolean. When <code>done</code> is truthy, the iteration ends, and <code>value</code> is not considered in the iteration</li>
 <li><code>value</code> is the upcoming value of the iteration. It is considered in the iteration if and only if <code>done</code> is falsy. When <code>done</code> is truthy, <code>value</code> becomes the return value of the iterator</li>
 </ul>
 <p>Let's create a countdown object as an example:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let countdownIterator = {
@@ -10794,10 +10805,10 @@ iterator.next();
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0059 seconds] -->
-<p></p>
+
 <p>Note that the state of the iteration is preserved.</p>
 <p>The role of <code>Object.assign</code> is that we create a shallow copy of the iterator object each time the iterable returns an iterator. This allows us to have multiple iterators on the same iterable object, storing their own internal state. Without <code>Object.assign</code>, we would just have multiple references to the same iterator object:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let secondIterator = countdownIterable[Symbol.iterator]();
@@ -10814,11 +10825,11 @@ console.log( secondIterator.next() );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0047 seconds] -->
-<p></p>
+
 <p>We will now learn how to make use of iterators and iterable objects.</p>
 <h3>Consuming iterables</h3>
 <p>Both the <code>for-of</code> loop and the spread operator can be used to perform the iteration on an iterable object.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 for ( let element of iterableObject ) {
@@ -10829,9 +10840,9 @@ console.log( [...iterableObject] );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0017 seconds] -->
-<p></p>
+
 <p>Using the countdown example, we can print out the result of the countdown in an array:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 [...countdownIterable]
@@ -10839,7 +10850,7 @@ console.log( [...iterableObject] );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0015 seconds] -->
-<p></p>
+
 <p>Language constructs that consume iterable data are called <em>data consumers</em>. We will learn about other data consumers soon.</p>
 <h3>Built-in Iterables</h3>
 <p>Some JavaScript types are iterables:</p>
@@ -10850,7 +10861,7 @@ console.log( [...iterableObject] );
 <li>Maps and Sets are iterables. See the next section for more details</li>
 </ul>
 <p>Let's experiment with built-in iterables a bit.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let message = 'ok';
@@ -10875,11 +10886,11 @@ secondStringIterator.next();
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0056 seconds] -->
-<p></p>
+
 <p>Before you think how cool it is to use <code>Symbol.iterator</code> to get the iterator of built-in datatypes, I would like to emphasize that using <code>Symbol.iterator</code> is generally not cool. There is an easier way to get the iterator of built-in data structures using the public interface of built-in iterables.</p>
 <p>You can create an <code>ArrayIterator</code> by calling the <code>entries</code> method of an array. <code>ArrayIterator</code> objects yield an array of <code>[key, value]</code> in each iteration.</p>
 <p>Strings can be handled as arrays using the spread operator:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let message = [...'ok'];
@@ -10895,10 +10906,10 @@ for( let pair of pairs ) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0014 seconds] -->
-<p></p>
+
 <h3>Iterables with Sets and Maps</h3>
 <p>The <code>entries</code> method is defined on sets and maps. You can also use the <code>keys</code> and <code>values</code> method on a set or map to create an iterator/iterable of the keys or values. Example:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let colors = new Set( [ 'red', 'yellow', 'green' ] );
@@ -10924,12 +10935,12 @@ console.log( horses.values() );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0054 seconds] -->
-<p></p>
+
 <p>You don't need these iterators though to perform the iteration. Sets and maps are iterable themselves, therfore, they can be used in for-of loops.</p>
 <blockquote><p>
   A common destructuring pattern is to iterate the keys and values of a map using destructuring in a for-of loop:
 </p></blockquote>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 for ( let [key, value] of horses ) {
@@ -10941,9 +10952,9 @@ for ( let [key, value] of horses ) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0015 seconds] -->
-<p></p>
+
 <p>When creating a set or a map, you can pass any iterable as an argument, provided that the results of the iteration can form a set or a map:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let s = new Set( countdownIterable );
@@ -10951,7 +10962,7 @@ let s = new Set( countdownIterable );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0010 seconds] -->
-<p></p>
+
 <h3>The role of the iterable interface</h3>
 <p>We can understand iterables a bit better by concentrating on data flow:</p>
 <ul>
@@ -10962,14 +10973,14 @@ let s = new Set( countdownIterable );
 </ul>
 <p>We can create independent iterator objects on the same iterable. Each iterator acts like a pointer to the upcoming element the linked data source can consume.</p>
 <p>In the lesson on sets and maps, we have learned that it is possible to convert sets to arrays using the spread operator:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let arr = [...set];
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0004 seconds] -->
-<p></p>
+
 <p>You now know that a set is an iterable object, and the spread operator is a data consumer. The formation of the array is based on the iterable interface. ES6 makes a lot of sense once you start connecting the dots.</p>
 <h3>Generators</h3>
 <p>There is a relationship between <em>iterators</em> and <em>generators</em>: a generator is a special function that returns an iterator. There are some differences between generator functions and regular functions:</p>
@@ -10981,7 +10992,7 @@ let arr = [...set];
 <li>The yielded result is the next value of the iteration process. Execution of the generator function is stopped at the point of yielding. Once a data consumer asks for another value, execution of the generator function is resumed, by executing the statement after the last yield</li>
 </ul>
 <p>Example:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 function *getLampIterator() {
@@ -11004,7 +11015,7 @@ console.log( lampIterator.next() );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0046 seconds] -->
-<p></p>
+
 <p>When we reach the end of a function, it automatically returns <code>undefined</code>. In the above example, we never reached the end, as we returned <code>'lastValue'</code> instead.</p>
 <p>If the return value was missing, the function would return <code>{value: undefined, done: true}</code>.</p>
 <blockquote><p>
@@ -11012,7 +11023,7 @@ console.log( lampIterator.next() );
 </p></blockquote>
 <h3>Generators return iterators that are also iterables</h3>
 <p>Recall our string iterator example to refresh what iterable objects and iterators are:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let message = 'ok';
@@ -11021,9 +11032,9 @@ let stringIterator = message[Symbol.iterator]();
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0005 seconds] -->
-<p></p>
+
 <p>We call the <code>next</code> method of <code>stringIterator</code> to get the next element:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 console.log( stringIterator.next() );
@@ -11031,9 +11042,9 @@ console.log( stringIterator.next() );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0006 seconds] -->
-<p></p>
+
 <p>However, in a <code>for-of</code> loop, we normally use the <em>iterable object</em>, not the iterator:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 for ( let ch of message ) {
@@ -11044,7 +11055,7 @@ for ( let ch of message ) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0006 seconds] -->
-<p></p>
+
 <p>Iterable objects have a <code>[Symbol.iterator]</code> method that returns an iterator.</p>
 <p>Iterator objects have a <code>next</code> method that returns an object with keys <code>value</code> and <code>done</code>.</p>
 <p>Generator functions return an object that is both an iterable and an iterator. Generator functions have:</p>
@@ -11053,7 +11064,7 @@ for ( let ch of message ) {
 <li>a <code>next</code> method to perform the iteration</li>
 </ul>
 <p>As a consequence, the return value of generator functions can be used in <code>for-of</code> loops, after the spread operator, and in all places where iterables are consumed.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 function *getLampIterator() {
@@ -11073,11 +11084,11 @@ console.log( [...lampIterator] );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0014 seconds] -->
-<p></p>
+
 <p>In the above example, <code>[...lampIterator]</code> contains the remaining values of the iteration in an array.</p>
 <h3>Iterators and destructuring</h3>
 <p>When equating an array to an iterable, iteration takes place.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let lampIterator = getLampIterator();
@@ -11089,7 +11100,7 @@ console.log( head, [...lampIterator] );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0009 seconds] -->
-<p></p>
+
 <p>The destructuring assignment is executed as follows:</p>
 <ul>
 <li>first, <code>lampIterator</code> is substituted by an array of form <code>[...lampIterator]</code></li>
@@ -11099,7 +11110,7 @@ console.log( head, [...lampIterator] );
 </ul>
 <h3>Combining generators</h3>
 <p>It is possible to combine two sequences in one iterable. All you need to do is use  <code>yield *</code> to include an iterable, which will enumerate all of its values one by one.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let countdownGenerator = function *() {
@@ -11122,10 +11133,10 @@ console.log( [...countdownThenLampGenerator()] );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0023 seconds] -->
-<p></p>
+
 <h3>Passing parameters to iterables</h3>
 <p>The <code>next</code> method of iterators can be used to pass a value that becomes the value of the previous yield statement.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let greetings = function *() {
@@ -11143,9 +11154,9 @@ console.log( greetingIterator.next( 'Lewis' ) );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0019 seconds] -->
-<p></p>
+
 <p>The return value of a generator becomes the value of a <code>yield *</code> expression:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let sumSequence = function *( num ) {
@@ -11172,7 +11183,7 @@ for ( let elem of wrapSumSequence( 3 ) ) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0026 seconds] -->
-<p></p>
+
 <h3>Practical applications</h3>
 <p>You now know everything to be able to write generator functions. This is one of the hardest topics in ES6, so you will get a chance to solve more exercises than usual.</p>
 <p>After practicing the foundations, you will find out how to use generators in practice to:</p>
@@ -11188,7 +11199,7 @@ for ( let elem of wrapSumSequence( 3 ) ) {
 </i><p><i>If you liked this lesson, check out the course by clicking the book below, or <a href="https://leanpub.com/es6-in-practice" target="_blank">visiting this link</a>.</i></p>
 <p><a href="https://leanpub.com/es6-in-practice" target="_blank"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="https://i2.wp.com/www.zsoltnagy.eu/wp-content/uploads/2016/11/es6_3d_grey.png?resize=298%2C345" class="grouped_elements" rel="tc-fancybox-group392" alt="es6_3d_grey" data-srcset="https://i2.wp.com/www.zsoltnagy.eu/wp-content/uploads/2016/11/es6_3d_grey.png?w=298 298w, https://i2.wp.com/www.zsoltnagy.eu/wp-content/uploads/2016/11/es6_3d_grey.png?resize=259%2C300 259w" sizes="(max-width: 298px) 100vw, 298px" data-tcjp-recalc-dims="1"></a></p>
 <p><strong>Exercise 1.</strong> What happens if we use a string iterator in a <code>for-of</code> loop?</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let message = 'ok';
@@ -11202,10 +11213,10 @@ for ( let item of messageIterator ) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0009 seconds] -->
-<p></p>
+
 <hr>
 <p><strong>Exercise 2.</strong> Create a countdown iterator that counts from 9 to 1. Use generator functions!</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let getCountdownIterator = // Your code comes here
@@ -11215,10 +11226,10 @@ console.log( [ ...getCountdownIterator() ] );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0010 seconds] -->
-<p></p>
+
 <hr>
 <p><strong>Exercise 3.</strong> Make the following object iterable:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let todoList = {
@@ -11248,10 +11259,10 @@ for ( let item of iterableTodoList ) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0025 seconds] -->
-<p></p>
+
 <hr>
 <p><strong>Exercise 4.</strong> Determine the values logged to the console without running the code. Instead of just writing down the values, formulate your thought process and explain to yourself how the code runs line by line.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let errorDemo = function *() {
@@ -11277,7 +11288,7 @@ for ( let element of errorDemo() ) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0018 seconds] -->
-<p></p>
+
 <hr>
 <p><strong>Exercise 5.</strong> Create an infinite sequence that generates the next value of the Fibonacci sequence.</p>
 <p>The Fibonacci sequence is defined as follows:</p>
@@ -11288,7 +11299,7 @@ for ( let element of errorDemo() ) {
 </ul>
 <hr>
 <p><strong>Exercise 6.</strong> Create a lazy <code>filter</code> generator function. Filter the elements of the Fibonacci sequence by keeping the even values only.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 function *filter( iterable, filterFunction ) {
@@ -11312,7 +11323,7 @@ function *filter( iterable, filterFunction ) {
 </i><p><i>If you like this article, check out the course <a href="https://leanpub.com/es6-in-practice" target="_blank">here</a>.</i></p>
 <p>In my <a href="http://www.zsoltnagy.eu/es6-iterators-and-generators-in-practice/">last article</a>, I gave you six exercises. In this article, you can check the reference solutions.</p>
 <p><strong>Exercise 1.</strong> What happens if we use a string iterator instead of an iterable object in a <code>for-of</code> loop?</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let message = 'ok';
@@ -11326,13 +11337,13 @@ for ( let item of messageIterator ) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0068 seconds] -->
-<p></p>
+
 <hr>
 <p><strong>Solution:</strong> Similarly to generators, in case of strings, arrays, DOM elements, sets, and maps, an iterator object is also an iterable.</p>
 <p>Therefore, in the <code>for-of</code> loop, the remaining <code>k</code> letter is printed out.</p>
 <hr>
 <p><strong>Exercise 2.</strong> Create a countdown iterator that counts from 9 to 1. Use generator functions!</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let getCountdownIterator = // Your code comes here
@@ -11342,10 +11353,10 @@ console.log( [ ...getCountdownIterator() ] );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0014 seconds] -->
-<p></p>
+
 <hr>
 <p><strong>Solution:</strong></p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let getCountdownIterator = function *() {
@@ -11360,11 +11371,11 @@ console.log( [ ...getCountdownIterator() ] );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0019 seconds] -->
-<p></p>
+
 <p>The generator function yields the numbers <code>9</code> to <code>1</code>. The spread (<code>...</code>) operator consumes all values. Then the generator function returns <code>undefined</code>, ending the iteration process.</p>
 <hr>
 <p><strong>Exercise 3.</strong> Make the following object iterable:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let todoList = {
@@ -11394,11 +11405,11 @@ for ( let item of iterableTodoList ) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0032 seconds] -->
-<p></p>
+
 <hr>
 <p><strong>First Solution (well known symbol):</strong></p>
 <p>We could use well known symbols to make <em>todoList</em> iterable. We can add a <code>*[Symbol.iterator]</code> generator function that yields the elements of the array. This will make the <code>todoList</code> object iterable, yielding the elements of <code>todoItems</code> one by one.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let todoList = {
@@ -11422,10 +11433,10 @@ let iterableTodoList = todoList;
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0028 seconds] -->
-<p></p>
+
 <hr>
 <p><strong>Second solution (generator function)</strong>: If you prefer staying away from well known symbols, it is possible to make your code more semantic:</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let todoList = {
@@ -11452,11 +11463,11 @@ let iterableTodoList = todoListGenerator();
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0032 seconds] -->
-<p></p>
+
 <p>The first solution reads a bit like a hack. The second solution looks cleaner even if you have to type more characters.</p>
 <hr>
 <p><strong>Exercise 4.</strong> Determine the values logged to the console without running the code. Instead of just writing down the values, formulate your thought process and explain to yourself how the code runs line by line.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 let errorDemo = function *() {
@@ -11482,10 +11493,10 @@ for ( let element of errorDemo() ) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0024 seconds] -->
-<p></p>
+
 <hr>
 <p><strong>Solution:</strong></p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 console.log( it.next() );
@@ -11505,7 +11516,7 @@ for ( let element of errorDemo() ) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0025 seconds] -->
-<p></p>
+
 <p>We created three iterables in total: <code>it</code>, one in the statement in the spread operator, and one in the <code>for-of</code> loop.</p>
 <p>In the example with the <code>next</code> calls, the second call results in a thrown error.</p>
 <p>In the spread operator example, the expression cannot be evaluated, because an error is thrown.</p>
@@ -11520,7 +11531,7 @@ for ( let element of errorDemo() ) {
 </ul>
 <hr>
 <p><strong>Solution:</strong></p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 function *fibonacci() {
@@ -11535,11 +11546,11 @@ function *fibonacci() {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0017 seconds] -->
-<p></p>
+
 <p>Note that you only want to get the <code>next()</code> element of an infinite sequence. Executing <code>[...fibonacci()]</code> will skyrocket your CPU usage, speed up your CPU fan, and then crash your browser.</p>
 <hr>
 <p><strong>Exercise 6.</strong> Create a lazy <code>filter</code> generator function. Filter the elements of the Fibonacci sequence by keeping the even values only.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 function *filter( iterable, filterFunction ) {
@@ -11548,10 +11559,10 @@ function *filter( iterable, filterFunction ) {
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0005 seconds] -->
-<p></p>
+
 <hr>
 <p><strong>Solution:</strong></p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 function *filter( iterable, filterFunction ) {
@@ -11564,9 +11575,9 @@ let evenFibonacci = filter( fibonacci(), x =&gt; x%2 === 0 );
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0017 seconds] -->
-<p></p>
+
 <p>Notice how easy it is to combine generators and lazily evaluate them.</p>
-<p></p><!-- Crayon Syntax Highlighter v_2.7.2_beta -->
+<!-- Crayon Syntax Highlighter v_2.7.2_beta -->
 
 		<pre>&nbsp;
 evenFibonacci.next()
@@ -11582,7 +11593,7 @@ evenFibonacci.next()
 &nbsp;
 </pre>
 <!-- [Format Time: 0.0022 seconds] -->
-<p></p>
+
 <p>Lazy evaluation is essential when we work on a large set of data. For instance, if you have 1000 accounts, chances are that you don't want to transform all of them if you just want to render the first ten on screen. This is when lazy evaluation comes into play.</p>
 <p><i>If you would like to get five more chapters of this book, click <code>YES</code> below, and sign up.</i></p>
 	
@@ -13819,7 +13830,7 @@ isPrimeMemoLog(num);
 
 <p>UML diagram<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> with the Builder pattern:</p>
 
-<p><img src="/http://dealwithjs.io/content/images/2016/11/Builder_UML_class_diagram.svg" alt="Builder Pattern with UML diagram"></p>
+<p><img src="http://dealwithjs.io/content/images/2016/11/Builder_UML_class_diagram.svg" alt="Builder Pattern with UML diagram"></p>
 
 <p>This pattern has three components, the <strong>Director</strong> which uses the Builder to create objects, the role of the Director is to coordinate the object creation in case there are multiple Builders involved. The Director also provides an extra abstraction layer when implementing this pattern. <br>
 The <strong>Builder</strong> is an abstraction layer above all the Concrete Builders which create the objects. In JavaScript the <strong>Builder</strong> is not separated clearly and in some case it can be left out completely (<em>although I forced it to be in the sample code</em>). <br>
@@ -15189,7 +15200,7 @@ console.log(typeof justAFunctionThatWillBeHoisted);
 function justAFunctionThatWillBeHoisted() {
   console.log("Function declarations are automatically hoisted to the top");
 }</code></pre>
-<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><p></p><pre><code>function justAFunction() {
+<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><pre><code>function justAFunction() {
   console.log("functions can be declared");
 }
 
@@ -15210,8 +15221,8 @@ function justAFunctionThatWillBeHoisted() {
 }</code></pre>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <hr>
 <p>JavaScript functions are also different in the sense that each function, regardless of how it is defined, has dynamic
   arguments and a dynamic context.</p>
@@ -15237,7 +15248,7 @@ var logThis = function () {
 console.log("All functions can have dynamic contexts / 'this' objects");
 logThis();
 logThis.apply({yo:"baby!"});</code></pre>
-<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><p></p><pre><code>var logArguments = function () {
+<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><pre><code>var logArguments = function () {
   console.log(arguments);
 };
 
@@ -15254,8 +15265,8 @@ logThis();
 logThis.apply({yo:"baby!"});</code></pre>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>Notice how <code>functionName.apply()</code> allows us to explicitly set the context and pass arguments.</p>
 <hr>
 <p>I must point out that JavaScript presents us with <strong>functional scoping</strong> instead of <strong>block
@@ -15290,8 +15301,8 @@ console.log("JavaScript provides functional scoping instead of block scoping");
 })();</code></pre>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <hr>
 <h2>Higher Order Functions</h2>
 <p>We know functions in JavaScript are nothing but objects. Does this mean functions can be passed around as arguments
@@ -15319,7 +15330,7 @@ forEach(listOfThings, logItem);
 forEach(anotherListOfThings, function (item) {
   console.log(item + "'s length is " + item.length);
 });</code></pre>
-<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><p></p><pre><code>var forEach = function (list, action) {
+<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><pre><code>var forEach = function (list, action) {
   for (var i = 0; i &lt; list.length; i++) {
     action(list[i]);
   }
@@ -15339,8 +15350,8 @@ forEach(anotherListOfThings, function (item) {
 });</code></pre>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>The simple example above shows how a named function <code>logItem</code> and an <code>anonymous function</code> are
   being passed as arguments to the higher order function <code>forEach</code>.</p>
 <hr>
@@ -15376,7 +15387,7 @@ var doubleIt = function (item) {
 };
 
 console.log(map(doubleIt, [1, 2, 3, 4, "WTF"]));</code></pre>
-<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><p></p><pre><code>var forEach = function (list, action) {
+<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><pre><code>var forEach = function (list, action) {
   for (var i = 0; i &lt; list.length; i++) {
     action(list[i]);
   }
@@ -15399,8 +15410,8 @@ var doubleIt = function (item) {
 console.log(map(doubleIt, [1, 2, 3, 4, "WTF"]));</code></pre>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>Notice we reuse the <code>forEach</code> function from the previous example. Our <code>map</code> function takes in
   two arguments, the first one being the <code>mappingFunction</code> that is to be applied on every item of the second
   argument <code>list</code>.</p>
@@ -15436,7 +15447,7 @@ var countNegativeNumbers = function (negativeNumbersTillNow, currentNumber) {
 var initialCount = 0;
 
 console.log(reduce(countNegativeNumbers, initialCount, [1, -1, 0, 45, "-42", -42]));</code></pre>
-<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><p></p><pre><code>var forEach = function (list, action) {
+<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><pre><code>var forEach = function (list, action) {
   for (var i = 0; i &lt; list.length; i++) {
     action(list[i]);
   }
@@ -15461,8 +15472,8 @@ var initialCount = 0;
 console.log(reduce(countNegativeNumbers, initialCount, [1, -1, 0, 45, "-42", -42]));</code></pre>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>This solution again makes use of the previous create <code>forEach</code> function. Our <code>reduce</code> function
   is simple, it iterates through the <code>list</code>, applies <code>combine</code> on <code>base</code> and each list
   item, stores the result in base and returns it after completion.</p>
@@ -15509,7 +15520,7 @@ var getAreaOfRectangle = getAreaFunction(RECTANGLE);
 console.log(getAreaOfCircle(50));
 console.log(getAreaOfSquare(50));
 console.log(getAreaOfRectangle(50, 20));</code></pre>
-<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><p></p><pre><code>const CIRCLE = "circle";
+<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><pre><code>const CIRCLE = "circle";
 const SQUARE = "square";
 const RECTANGLE = "rectangle";
 
@@ -15538,8 +15549,8 @@ console.log(getAreaOfSquare(50));
 console.log(getAreaOfRectangle(50, 20));</code></pre>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>Notice how <code>getAreaFunction</code> returns an anonymous function. This returned function contains a switch case
   on shape which is available in the <em>environment</em>.</p>
 <p>Finally, of course, we see how to use the closure as a <em>function factory</em> to get area functions for different
@@ -15582,7 +15593,7 @@ var aRectangle = new Shape(RECTANGLE);
 console.log(aCircle.getArea(50));
 console.log(aSquare.getArea(50));
 console.log(aRectangle.getArea(50, 20));</code></pre>
-<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><p></p><pre><code>const CIRCLE = "circle";
+<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><pre><code>const CIRCLE = "circle";
 const SQUARE = "square";
 const RECTANGLE = "rectangle";
 
@@ -15620,8 +15631,8 @@ console.log(aSquare.getArea(50));
 console.log(aRectangle.getArea(50, 20));</code></pre>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>I'll not explain Object Oriented Programming implementations in JavaScript as part of this post. They aren't complex
   but are different, surely worthy of a dedicated post.</p>
 <p>If you're already familiar with OOP concepts and their implementations in JavaScript, note how the class
@@ -15658,7 +15669,7 @@ console.log(aRectangle.getArea(50, 20));</code></pre>
     }
   })();
 &lt;/script></code></pre>
-<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><p></p><pre><code>&lt;div id="redBox1" class="redBox"&gt;&lt;/div&gt;
+<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><pre><code>&lt;div id="redBox1" class="redBox"&gt;&lt;/div&gt;
 &lt;div id="redBox2" class="redBox"&gt;&lt;/div&gt;
 &lt;div id="redBox3" class="redBox"&gt;&lt;/div&gt;
 
@@ -15684,8 +15695,8 @@ console.log(aRectangle.getArea(50, 20));</code></pre>
 &lt;/script&gt;</code></pre>
 
   <link rel="stylesheet" href="https://gist.github.com/stylesheets/gist/embed.css">
-<p></p>
-<p></p>
+
+
 <p>In the for loop, we first assign an <code>onclick</code> handler to all the red boxes. However, thanks to functional
   scoping, all three red boxes have onclick handlers with <code>redBoxId</code> value 3.</p>
 <p>However for green boxes we assign <code>onclick</code> handlers in a slightly different manner. We have a self
@@ -16423,7 +16434,7 @@ console.log(JSON.stringify(extended));&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
     &amp;amp;quot;values&amp;amp;quot;: [1,3,6,10],
     &amp;amp;quot;name&amp;amp;quot;: &amp;amp;quot;Los Techies&amp;amp;quot;
 }&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;p&amp;gt;</noscript><p></p>
+&amp;lt;p&amp;gt;</noscript>
 <p>In this example, the first object contains a key named "values" and the third object also contains a key named "values". When the extend method is called, the last one in wins. This means that the "values" from the third object end up being the values on the final target object.</p>
 <p>So, what happens if we want to mix two behavioral sets in to one target object, but both of those behavior sets use the same underlying "values", or "config", or "bindings" (as reported in <a href="https://github.com/marionettejs/backbone.marionette/issues/269">this Marionette issue</a>)? One or both of them will break, and that's definitely not a good thing.</p>
 <h2>A Problem Of Context</h2>
@@ -16454,7 +16465,7 @@ bar.doSomething = foo.doSomething;</code></pre>
 
 var bar = {};
 bar.doSomething = foo.doSomething;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;p&amp;gt;</noscript><p></p>
+&amp;lt;p&amp;gt;</noscript>
 <p>But this poses it's own challenge: the source of the behavior likely calls "this.config" and "this._whatever()" and other context-based methods and attributes to do it's work. Simply copying the "doSomething" function from one object to another won't work because the context of the function will change and the support methods / data won't be found.</p>
 <p>[Note: For more detail on context and how it changes, check out my <a href="http://www.watchmecode.net/javascript-context">JavaScript Context screencast</a>.]</p>
 <h2>Solving The Mixin Problem</h2>
@@ -16484,7 +16495,7 @@ bar.baz = foo.baz.bind(foo);
 bar.baz = _.bind(foo.baz, foo);
 
 // ... many more options</code></pre>
-<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><p></p><pre><code>var foo = {
+<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><pre><code>var foo = {
   baz: function(){ 
     // ...
   },
@@ -16523,7 +16534,7 @@ bar.baz = foo.baz.bind(foo);
 bar.baz = _.bind(foo.baz, foo);
 
 // ... many more options&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;p&amp;gt;</noscript><p></p>
+&amp;lt;p&amp;gt;</noscript>
 <p>In this example, both the source object and the target object have a "config" attribute. Each object needs to use that config attribute to store and retrieve certain bits of data without clobbering each the other one, but I still want the "baz" function to be available directly on the "foo" object. To make this all work, I assign a bound version of the "baz" function to foo where the binding is set to to the bar object. That way whenever the baz function is called from foo, it will always run in the context of the original source -- bar.&nbsp;</p>
 <h2>A Real Example</h2>
 <p>Ok, enough "foo, bar, baz" nonsense. Let's look at a real example of where I'm doing this: Marionette's use of Backbone.EventBinder. I want to bring the "bindTo", "unbindFrom" and "unbindAll" methods from the EventBinder in to Marionette's Application object, as one example. To do this while allowing the EventBinder to manage it's own internal state and implementation details, I use the above technique of assigning the methods as bound functions:</p>
@@ -16543,7 +16554,7 @@ bar.baz = _.bind(foo.baz, foo);
 // use the mixin method
 var myApp = new Marionette.Application();
 Marionette.addEventBinder(myApp);</code></pre>
-<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><p></p><pre><code>Marionette.addEventBinder = function(target){
+<link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist-embed-9f0a4ad9c85ca776e669003688baa9d55f9db315562ce4d231d37dab2714c70a.css"><pre><code>Marionette.addEventBinder = function(target){
 
   // create the "source" of the functionality i need
   var eventBinder = new Marionette.EventBinder();
@@ -16576,7 +16587,7 @@ Marionette.addEventBinder(myApp);</code></pre>
 // use the mixin method
 var myApp = new Marionette.Application();
 Marionette.addEventBinder(myApp);&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;p&amp;gt;</noscript><p></p>
+&amp;lt;p&amp;gt;</noscript>
 <p>Now when I call any of those three methods from my application instance, they still run in the context of my eventBinder object instance and they can access all of their internal state, configuration and behavior. But at the same time, I can worry less about whether or not the implementation details of the EventBinder are going to clobber the implementation details of the Application object. Since I'm being very explicit about which methods and attributes are brought over from the EventBinder, I can spend the small amount of cognitive energy that I need to determine whether or not the method I'm creating on the Application instance already exists. I don't have to worry about the internal details like "_eventBindings" and other bits because they are not going to be copied over.</p>
 <h2>Simplifying Mixins</h2>
 <p>Given the repetition of creating mixins like this, it should be pretty easy to create a function that can handle the grunt work for you. All you need to supply is a target object, a source object and a list of methods to copy. The mixin function can handle the rest:</p>
@@ -16640,7 +16651,7 @@ function mixInto(target, source, methodNames){
 // make use of the mixin function
 var myApp = new Marionette.Application();
 mixInto(myApp, Marionette.EventBinder, &amp;amp;quot;bindTo&amp;amp;quot;, &amp;amp;quot;unbindFrom&amp;amp;quot;, &amp;amp;quot;unbindAll&amp;amp;quot;);&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;p&amp;gt;</noscript><p></p>
+&amp;lt;p&amp;gt;</noscript>
 <p>This should be functionally equivalent to the previous code that was manually binding and assigning the methods. But keep in mind that this code is not robust at all. Bad things will happen if you get the source's method names wrong, for example. These little details should be handled in a more complete mixin function.</p>
 <h2>An Alternate Implementation: Closures</h2>
 <p>An alternate implementation for this can be facilitated without the use of a "bind" function. Instead, a simple closure can be set up around the source object, with a wrapper function that simply forwards calls to the source:</p>
@@ -16713,7 +16724,7 @@ function mixInto(target, source, methodNames){
 // make use of the mixin function
 var myApp = new Marionette.Application();
 mixInto(myApp, Marionette.EventBinder, &amp;amp;quot;bindTo&amp;amp;quot;, &amp;amp;quot;unbindFrom&amp;amp;quot;, &amp;amp;quot;unbindAll&amp;amp;quot;);&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
-&amp;lt;p&amp;gt;</noscript><p></p>
+&amp;lt;p&amp;gt;</noscript>
 <p>I'm not sure if this version is really "better" or not, but it would at least provide more backward compatibility support and fewer requirements. You wouldn't need to patch ‘Function.prototype.bind' or use a third party shim or library for older browsers. It should work with any browser that supports JavaScript, though I'm not sure how far back it would go. Chances are, though, that any browser people are still using would be able to handle this, including -- dare I say it? -- IE6 (maybe… I think… I'm not going to test that, though :P )</p>
 <h2>Potential Drawbacks</h2>
 <p>As great as all this looks and sounds, there are some limitations and drawbacks -- and probably more than I'm even aware of right now.&nbsp;</p>

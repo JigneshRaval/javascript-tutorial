@@ -2,76 +2,129 @@
 	<head>
 	<title>JS Design Patterns : 1</title>
 		<style>
-			@font-face {
-			font-family: 'pt_sansregular';
-			src: url('fonts/PTS55F-webfont.eot');
-			src: url('fonts/PTS55F-webfont.eot?#iefix') format('embedded-opentype'),
-			url('fonts/PTS55F-webfont.woff') format('woff'),
-			url('fonts/PTS55F-webfont.ttf') format('truetype'),
-			url('fonts/PTS55F-webfont.svg#pt_sansregular') format('svg');
-			font-weight: normal;
-			font-style: normal;
-			}
-			body { font-family: 'pt_sansregular', Arial, Tahoma, Helvetica, FreeSans, sans-serif; line-height: 1.7; font-size: 14px; }
-			pre {
-			border: 1px dashed #888;
-			padding: 15px;
-			word-break: normal;
-			word-break: break-all;
-			word-wrap: break-word;
-			font-size: 13px;
-			line-height: 1.42857143;
-			white-space: pre-wrap;       /* css-3 */
-			white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-			white-space: -pre-wrap;      /* Opera 4-6 */
-			white-space: -o-pre-wrap;    /* Opera 7 */
-			word-wrap: break-word;       /* Internet Explorer 5.5+ */
-			position: relative;
-			}
-			pre:after {
-			content: "CODE";
-			position: absolute;
-			right: 0;
-			top: 0;
-			padding: 5px 10px;
-			border-left: 1px dashed #888;
-			border-bottom: 1px dashed #888;
-			}
-			h1{ border-top: 1px solid #666; border-bottom: 2px solid #888; padding: 10px 0; font-size: 20px; text-align: center; }
-			h2, h3 { font-size: 16px; border-left: 6px solid #666; padding: 5px 15px; }
-			code, kbd, pre, samp {
-			font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
-			}
-			code {
-			padding: 2px 4px;
-			font-size: 90%;
-			background-color: #f9f2f4;
-			border-radius: 4px;
-			}
-			blockquote {
-			letter-spacing: .01rem;
-			font-weight: 400;
-			font-style: italic;
-			border-left: 3px solid rgba(0,0,0,0.8);
-			padding-left: 20px;
-			margin-left: -0;
-			margin-bottom: 30px;
-			padding-bottom: 3px;
-			}
-			@media print {
-			img {
-			display: block;
-			page-break-inside: avoid;
-			-webkit-column-break-inside : avoid;
-			}
-			pre, code, pre code, pre span, code span, pre code span {
-			page-break-inside: avoid;
-			-webkit-column-break-inside : avoid;
-			}
-			}
+* { box-sizing: border-box; }
+body { 
+	font-family: 'Open Sans', Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.7;
+	padding: 0.5em;
+	font-family: 'PT Sans', Arial, sans-serif;
+	
+}
+h1 { font-size: 1.6em; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
+h2, h3, h6 { 
+	font-size: 1.3em;
+	font-family: 'PT Serif', Arial, serif;
+	padding-left: 1em;
+	border-left: 2px solid #868686; 
+}
+img { display: block; margin: 0 auto; max-width: 100%; }
+pre { 
+	border: 1px dashed #333; 
+	padding: 1em 2em; 
+	font-family: Consolas,monospace; 
+	background-color: #EEE; 
+	overflow-x: scroll; 
+	font-size: 14px;  
+	white-space: pre-wrap; 
+	word-wrap: break-word; 
+}
+pre {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 1em auto;
+    border: 1px dashed #333;
+    width: 100%;
+    padding: 1em 1.5em;
+    font-family: Inconsolata, Consolas, monospace, sans-serif;
+    font-size: 1em;
+	line-height: 1.5;
+    overflow: auto;
+    background: #F7FAFB;
+    border-radius: 3px;
+	position:relative;
+}
+code { 
+	background-color: #EEE;
+    font-family: Consolas,monospace;
+    border: solid 1px #CCC;
+    padding: 3px;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 14px;
+}
+pre code { background-color: transparent; padding: 0; display: block; border: 0px solid; }
+pre:after {
+	content: "<CODE>";
+	position: absolute;
+	top:0;
+	right: 0;
+	padding: 5px 15px;
+	background: #999;
+	color: #FFF;
+}
+
+.home-screen { border: 1px solid #777; padding: 4em 0; }
+.home-screen * { font-family: 'PT Sans', Arial, sans-serif; font-size: 3em; font-weight: normal; }
+
+/* = Index
+-------------------------------*/
+.tutorial-index {
+	counter-reset: section;
+}
+.tutorial-index h1:before {
+    counter-increment: section;
+    content: counter(section) " : ";
+}
+.tutorial-index h1 {font-size: 1.2em; padding: 5px 0; font-family: 'Open Sans', Arial, sans-serif; line-height: normal;}
+.tutorial-index a { display: block; float: left; width: 50%;}
+.tutorial-index a { text-decoration: none; }
+
+
+/* = Main
+-------------------------------*/
+.main { counter-reset: mainsection; }
+.main h1 { font-size: 1.6em; border-bottom: 2px solid #000; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
+.main h1:before {
+    /*counter-increment: mainsection;
+    content: counter(mainsection) " : ";
+	*/
+}
+
+/* = ClearFix
+-------------------------------*/
+.cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
+.cf:after {
+    clear: both;
+}
+.tc { text-align: center}
+
+/* = TABLE
+-------------------------------*/
+table { width: 100%; max-width: 100%; margin: 1em 0; border-collapse: collapse;}
+table td, table th { border: 1px solid #cdcfd0; padding: 10px;}
+table th { border-bottom-width: 2px; background-color: #e8e9ea; }
+table tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+@media print {
+    .main article h1 { 
+		page-break-before: always; 
+	}
+	pre, code, pre code, pre span, code span, pre code span {
+		/*page-break-inside: avoid;
+		-webkit-column-break-inside : avoid;*/
+	}
+}
 		</style>
 	</head>
-	<body>
+	
+	
+<body>
 			<!--=========================
 			START : POST
 		=============================-->
@@ -97,21 +150,21 @@
 <p>There are numerous ways we can categorize all of the design patterns but for the sake of brevity, the three most popular are: <a href="#creational-design-patterns">creational</a>, <a href="#structural-design-patterns">structural</a> &amp; <a href="behavioral-design-patterns">behavioral</a>. Creational focuses on object creation (imagine that). Structural focuses on object composition. Behavioral focuses on communication between objects. While no single implementation of these types of design patterns are perfect, it's important to understand that being familiar with all of them can educate you to make an informed decision based on the needs of your application. Take some time to review the following tables as they summarize the methods that each design pattern implements.</p>
 <h3 id="creational-design-patterns"><a href="#creational-design-patterns">#</a> Creational Design Patterns</h3>
 <p>Creational design patterns deal directly with object initialization procedures focusing on the creation of situation-specific objects. Without thinking about how objects are created, a level of complexity can be added to the design of an application. Creational design patterns work to solve this problem by adding a layer to the object creation process.</p>
-<p></p><center> <br>
+<center> <br>
 <img src="/content/images/2015/03/creational-pattern-types.jpg" alt="">
-</center><p></p>
+</center>
 <p><small style="padding: 0 0 0 10px;"><i>Image Credit: <a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#summarytabledesignpatterns">http://addyosmani.com/resources/essentialjsdesignpatterns/book/#summarytabledesignpatterns</a></i></small></p>
 <h3 id="structural-design-patterns"><a href="#structural-design-patterns">#</a> Structural Design Patterns</h3>
 <p>Structural design patterns are ones that focus on easing the relationship between different components of an application. They help to provide stability by ensuring that if one part of the app changes, the entire thing doesn't need to as well.</p>
-<p></p><center> <br>
+<center> <br>
 <img src="/content/images/2015/03/structural-pattern-types.jpg" alt="">
-</center><p></p>
+</center>
 <p><small style="padding: 0 0 0 10px;"><i>Image Credit: <a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#summarytabledesignpatterns">http://addyosmani.com/resources/essentialjsdesignpatterns/book/#summarytabledesignpatterns</a></i></small></p>
 <h3 id="behavioral-design-patterns"><a href="#behavioral-design-patterns">#</a> Behavioral Design Patterns</h3>
 <p>Behavioral design patterns emphasize flexibility through the identification of common communication patterns between various objects.</p>
-<p></p><center> <br>
+<center> <br>
 <img src="/content/images/2015/03/behavioral-pattern-types.jpg" alt="">
-</center><p></p>
+</center>
 <p><small style="padding: 0 0 0 10px;"><i>Image Credit: <a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#summarytabledesignpatterns">http://addyosmani.com/resources/essentialjsdesignpatterns/book/#summarytabledesignpatterns</a></i></small></p>
 <p>If you've made it this far, you should have a pretty basic understanding of the different design patterns and what they do. Please feel free to refer back to these tables at any time as a point of reference; they're perfect for jogging your memory on a slow Monday morning.</p>
 <h2>Modern Day JavaScript Design Patterns</h2>
@@ -156,258 +209,63 @@
 <li>Private methods and functions lose extendability since they are unaccessible (see my comment in the previous bullet point).</li>  
 </ul>
 <h2>Example</h2>
-<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/5da969fbbe2ba3f060da.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><div id="gist6298988" class="gist">
-    <div class="gist-file">
-      <div class="gist-data">
-        <div class="js-gist-file-update-container js-task-list-container file-box">
-  <div id="file-module-pattern-example-1-js" class="file">
-  <div class="blob-wrapper data type-javascript">
-      <table class="highlight tab-size js-file-line-container" data-tab-size="8">
-      <tbody><tr>
-        <td id="file-module-pattern-example-1-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
-        <td id="file-module-pattern-example-1-js-LC1" class="blob-code blob-code-inner js-file-line">( <span class="pl-k">function</span>( <span class="pl-smi">window</span>, <span class="pl-smi">undefined</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
-        <td id="file-module-pattern-example-1-js-LC2" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="file-module-pattern-example-1-js-LC3" class="blob-code blob-code-inner js-file-line">  <span class="pl-c">// normally variables &amp; functions start with a lowercase letter but with modules, that is not the case.</span></td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
-        <td id="file-module-pattern-example-1-js-LC4" class="blob-code blob-code-inner js-file-line">  <span class="pl-c">// The general tradition is to start them with a capital letter instead.</span></td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="file-module-pattern-example-1-js-LC5" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">function</span> <span class="pl-en">MyModule</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
-        <td id="file-module-pattern-example-1-js-LC6" class="blob-code blob-code-inner js-file-line">    </td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
-        <td id="file-module-pattern-example-1-js-LC7" class="blob-code blob-code-inner js-file-line">    <span class="pl-c">// `this` refers to the instance of `MyModule` when created</span></td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="file-module-pattern-example-1-js-LC8" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">this</span>.<span class="pl-en">myMethod</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">myMethod</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
-        <td id="file-module-pattern-example-1-js-LC9" class="blob-code blob-code-inner js-file-line">      <span class="pl-c1">alert</span>( <span class="pl-s"><span class="pl-pds">'</span>my method<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="file-module-pattern-example-1-js-LC10" class="blob-code blob-code-inner js-file-line">    };</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="file-module-pattern-example-1-js-LC11" class="blob-code blob-code-inner js-file-line">    </td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="file-module-pattern-example-1-js-LC12" class="blob-code blob-code-inner js-file-line">    <span class="pl-c">// note that we still use a function declaration even when using a function expression.</span></td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="file-module-pattern-example-1-js-LC13" class="blob-code blob-code-inner js-file-line">    <span class="pl-c">// for more information on why, check out: http://kangax.github.io/nfe/</span></td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
-        <td id="file-module-pattern-example-1-js-LC14" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">this</span>.<span class="pl-en">myOtherMethod</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">myOtherMethod</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="file-module-pattern-example-1-js-LC15" class="blob-code blob-code-inner js-file-line">      <span class="pl-c1">alert</span>( <span class="pl-s"><span class="pl-pds">'</span>my other method<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
-        <td id="file-module-pattern-example-1-js-LC16" class="blob-code blob-code-inner js-file-line">    };</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
-        <td id="file-module-pattern-example-1-js-LC17" class="blob-code blob-code-inner js-file-line">    </td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L18" class="blob-num js-line-number" data-line-number="18"></td>
-        <td id="file-module-pattern-example-1-js-LC18" class="blob-code blob-code-inner js-file-line">  }</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L19" class="blob-num js-line-number" data-line-number="19"></td>
-        <td id="file-module-pattern-example-1-js-LC19" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L20" class="blob-num js-line-number" data-line-number="20"></td>
-        <td id="file-module-pattern-example-1-js-LC20" class="blob-code blob-code-inner js-file-line">  <span class="pl-c">// expose access to the constructor</span></td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L21" class="blob-num js-line-number" data-line-number="21"></td>
-        <td id="file-module-pattern-example-1-js-LC21" class="blob-code blob-code-inner js-file-line">  <span class="pl-c1">window</span>.MyModule <span class="pl-k">=</span> MyModule;</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L22" class="blob-num js-line-number" data-line-number="22"></td>
-        <td id="file-module-pattern-example-1-js-LC22" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L23" class="blob-num js-line-number" data-line-number="23"></td>
-        <td id="file-module-pattern-example-1-js-LC23" class="blob-code blob-code-inner js-file-line">} )( <span class="pl-c1">window</span> );</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L24" class="blob-num js-line-number" data-line-number="24"></td>
-        <td id="file-module-pattern-example-1-js-LC24" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L25" class="blob-num js-line-number" data-line-number="25"></td>
-        <td id="file-module-pattern-example-1-js-LC25" class="blob-code blob-code-inner js-file-line"><span class="pl-c">// example usage</span></td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L26" class="blob-num js-line-number" data-line-number="26"></td>
-        <td id="file-module-pattern-example-1-js-LC26" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> myModule <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">MyModule</span>();</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L27" class="blob-num js-line-number" data-line-number="27"></td>
-        <td id="file-module-pattern-example-1-js-LC27" class="blob-code blob-code-inner js-file-line">myModule.myMethod(); <span class="pl-c">// alerts "my method"</span></td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-1-js-L28" class="blob-num js-line-number" data-line-number="28"></td>
-        <td id="file-module-pattern-example-1-js-LC28" class="blob-code blob-code-inner js-file-line">myModule.myOtherMethod(); <span class="pl-c">// alerts "my other method"</span></td>
-      </tr>
-</tbody></table>
-  </div>
-  </div>
-</div>
-      </div>
-      <div class="gist-meta">
-        <a href="https://gist.github.com/carldanley/5da969fbbe2ba3f060da/raw/66f4b3af91683dbee661e9bc98394daa3b7cb4e8/module-pattern-example-1.js" style="float:right">view raw</a>
-        <a href="https://gist.github.com/carldanley/5da969fbbe2ba3f060da#file-module-pattern-example-1-js">module-pattern-example-1.js</a>
-        hosted with ❤ by <a href="https://github.com">GitHub</a>
-      </div>
-    </div>
-</div>
+<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/5da969fbbe2ba3f060da.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><pre><code>( function( window, undefined ) {
+  
+  // normally variables &amp; functions start with a lowercase letter but with modules, that is not the case.
+  // The general tradition is to start them with a capital letter instead.
+  function MyModule() {
+    
+    // `this` refers to the instance of `MyModule` when created
+    this.myMethod = function myMethod() {
+      alert( 'my method' );
+    };
+    
+    // note that we still use a function declaration even when using a function expression.
+    // for more information on why, check out: http://kangax.github.io/nfe/
+    this.myOtherMethod = function myOtherMethod() {
+      alert( 'my other method' );
+    };
+    
+  }
+  
+  // expose access to the constructor
+  window.MyModule = MyModule;
+  
+} )( window );
+
+// example usage
+var myModule = new MyModule();
+myModule.myMethod(); // alerts "my method"
+myModule.myOtherMethod(); // alerts "my other method"
+view rawmodule-pattern-example-1.js hosted with â¤ by GitHub
+</code></pre>
 <p>Another example of the module pattern that exposes the module a little differently and makes use of a shared private cache. This method encourages more of an object creation approach where we can optimize performance by being efficient with shared storage.</p>
-<script src="https://gist.github.com/carldanley/8453d2d1f910daa1b3dc.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><div id="gist6309325" class="gist">
-    <div class="gist-file">
-      <div class="gist-data">
-        <div class="js-gist-file-update-container js-task-list-container file-box">
-  <div id="file-module-pattern-example-2-js" class="file">
-  <div class="blob-wrapper data type-javascript">
-      <table class="highlight tab-size js-file-line-container" data-tab-size="8">
-      <tbody><tr>
-        <td id="file-module-pattern-example-2-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
-        <td id="file-module-pattern-example-2-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> MyModule <span class="pl-k">=</span> ( <span class="pl-k">function</span>( <span class="pl-smi">window</span>, <span class="pl-smi">undefined</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
-        <td id="file-module-pattern-example-2-js-LC2" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="file-module-pattern-example-2-js-LC3" class="blob-code blob-code-inner js-file-line">  <span class="pl-c">// this object is used to store private variables and methods across multiple instantiations</span></td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
-        <td id="file-module-pattern-example-2-js-LC4" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">var</span> privates <span class="pl-k">=</span> {};</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="file-module-pattern-example-2-js-LC5" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
-        <td id="file-module-pattern-example-2-js-LC6" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">function</span> <span class="pl-en">MyModule</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
-        <td id="file-module-pattern-example-2-js-LC7" class="blob-code blob-code-inner js-file-line">    </td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="file-module-pattern-example-2-js-LC8" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">this</span>.<span class="pl-en">myMethod</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">myMethod</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
-        <td id="file-module-pattern-example-2-js-LC9" class="blob-code blob-code-inner js-file-line">      <span class="pl-c1">alert</span>( <span class="pl-s"><span class="pl-pds">'</span>my method<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="file-module-pattern-example-2-js-LC10" class="blob-code blob-code-inner js-file-line">    };</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="file-module-pattern-example-2-js-LC11" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="file-module-pattern-example-2-js-LC12" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">this</span>.<span class="pl-en">myOtherMethod</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">myOtherMethod</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="file-module-pattern-example-2-js-LC13" class="blob-code blob-code-inner js-file-line">      <span class="pl-c1">alert</span>( <span class="pl-s"><span class="pl-pds">'</span>my other method<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
-        <td id="file-module-pattern-example-2-js-LC14" class="blob-code blob-code-inner js-file-line">    };</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="file-module-pattern-example-2-js-LC15" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
-        <td id="file-module-pattern-example-2-js-LC16" class="blob-code blob-code-inner js-file-line">  }</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
-        <td id="file-module-pattern-example-2-js-LC17" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L18" class="blob-num js-line-number" data-line-number="18"></td>
-        <td id="file-module-pattern-example-2-js-LC18" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">return</span> MyModule;</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L19" class="blob-num js-line-number" data-line-number="19"></td>
-        <td id="file-module-pattern-example-2-js-LC19" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L20" class="blob-num js-line-number" data-line-number="20"></td>
-        <td id="file-module-pattern-example-2-js-LC20" class="blob-code blob-code-inner js-file-line">} )( <span class="pl-c1">window</span> );</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L21" class="blob-num js-line-number" data-line-number="21"></td>
-        <td id="file-module-pattern-example-2-js-LC21" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L22" class="blob-num js-line-number" data-line-number="22"></td>
-        <td id="file-module-pattern-example-2-js-LC22" class="blob-code blob-code-inner js-file-line"><span class="pl-c">// example usage</span></td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L23" class="blob-num js-line-number" data-line-number="23"></td>
-        <td id="file-module-pattern-example-2-js-LC23" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> myMod <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">MyModule</span>();</td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L24" class="blob-num js-line-number" data-line-number="24"></td>
-        <td id="file-module-pattern-example-2-js-LC24" class="blob-code blob-code-inner js-file-line">myMod.myMethod(); <span class="pl-c">// alerts "my method"</span></td>
-      </tr>
-      <tr>
-        <td id="file-module-pattern-example-2-js-L25" class="blob-num js-line-number" data-line-number="25"></td>
-        <td id="file-module-pattern-example-2-js-LC25" class="blob-code blob-code-inner js-file-line">myMod.myOtherMethod(); <span class="pl-c">// alerts "my other method"</span></td>
-      </tr>
-</tbody></table>
-  </div>
-  </div>
-</div>
-      </div>
-    </div>
-</div>
+<script src="https://gist.github.com/carldanley/8453d2d1f910daa1b3dc.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><pre><code>var MyModule = ( function( window, undefined ) {
+
+  // this object is used to store private variables and methods across multiple instantiations
+  var privates = {};
+  
+  function MyModule() {
+    
+    this.myMethod = function myMethod() {
+      alert( 'my method' );
+    };
+
+    this.myOtherMethod = function myOtherMethod() {
+      alert( 'my other method' );
+    };
+
+  }
+
+  return MyModule;
+  
+} )( window );
+
+// example usage
+var myMod = new MyModule();
+myMod.myMethod(); // alerts "my method"
+myMod.myOtherMethod(); // alerts "my other method"
+</code></pre>
 </article>
 		</div>
 		<!--=========================
@@ -438,118 +296,31 @@
 <li>It's harder to patch public methods and variables that are referred to by something private.</li>  
 </ul>
 <h2>Example</h2>
-<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/ef95b006eaa08761b0ca.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><div id="gist6299044" class="gist">
-    <div class="gist-file">
-      <div class="gist-data">
-        <div class="js-gist-file-update-container js-task-list-container file-box">
-  <div id="file-revealing-module-pattern-example-js" class="file">
-  <div class="blob-wrapper data type-javascript">
-      <table class="highlight tab-size js-file-line-container" data-tab-size="8">
-      <tbody><tr>
-        <td id="file-revealing-module-pattern-example-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
-        <td id="file-revealing-module-pattern-example-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> MyModule <span class="pl-k">=</span> ( <span class="pl-k">function</span>( <span class="pl-smi">window</span>, <span class="pl-smi">undefined</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
-        <td id="file-revealing-module-pattern-example-js-LC2" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="file-revealing-module-pattern-example-js-LC3" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">function</span> <span class="pl-en">myMethod</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
-        <td id="file-revealing-module-pattern-example-js-LC4" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">alert</span>( <span class="pl-s"><span class="pl-pds">'</span>my method<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="file-revealing-module-pattern-example-js-LC5" class="blob-code blob-code-inner js-file-line">  }</td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
-        <td id="file-revealing-module-pattern-example-js-LC6" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
-        <td id="file-revealing-module-pattern-example-js-LC7" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">function</span> <span class="pl-en">myOtherMethod</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="file-revealing-module-pattern-example-js-LC8" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">alert</span>( <span class="pl-s"><span class="pl-pds">'</span>my other method<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
-        <td id="file-revealing-module-pattern-example-js-LC9" class="blob-code blob-code-inner js-file-line">  }</td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="file-revealing-module-pattern-example-js-LC10" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="file-revealing-module-pattern-example-js-LC11" class="blob-code blob-code-inner js-file-line">  <span class="pl-c">// explicitly return public methods when this object is instantiated</span></td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="file-revealing-module-pattern-example-js-LC12" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">return</span> {</td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="file-revealing-module-pattern-example-js-LC13" class="blob-code blob-code-inner js-file-line">    someMethod <span class="pl-k">:</span> myMethod,</td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
-        <td id="file-revealing-module-pattern-example-js-LC14" class="blob-code blob-code-inner js-file-line">    someOtherMethod <span class="pl-k">:</span> myOtherMethod</td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="file-revealing-module-pattern-example-js-LC15" class="blob-code blob-code-inner js-file-line">  };</td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
-        <td id="file-revealing-module-pattern-example-js-LC16" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
-        <td id="file-revealing-module-pattern-example-js-LC17" class="blob-code blob-code-inner js-file-line">} )( <span class="pl-c1">window</span> );</td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L18" class="blob-num js-line-number" data-line-number="18"></td>
-        <td id="file-revealing-module-pattern-example-js-LC18" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L19" class="blob-num js-line-number" data-line-number="19"></td>
-        <td id="file-revealing-module-pattern-example-js-LC19" class="blob-code blob-code-inner js-file-line"><span class="pl-c">//  example usage</span></td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L20" class="blob-num js-line-number" data-line-number="20"></td>
-        <td id="file-revealing-module-pattern-example-js-LC20" class="blob-code blob-code-inner js-file-line">MyModule.myMethod(); <span class="pl-c">// undefined</span></td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L21" class="blob-num js-line-number" data-line-number="21"></td>
-        <td id="file-revealing-module-pattern-example-js-LC21" class="blob-code blob-code-inner js-file-line">MyModule.myOtherMethod(); <span class="pl-c">// undefined</span></td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L22" class="blob-num js-line-number" data-line-number="22"></td>
-        <td id="file-revealing-module-pattern-example-js-LC22" class="blob-code blob-code-inner js-file-line">MyModule.someMethod(); <span class="pl-c">// alerts "my method"</span></td>
-      </tr>
-      <tr>
-        <td id="file-revealing-module-pattern-example-js-L23" class="blob-num js-line-number" data-line-number="23"></td>
-        <td id="file-revealing-module-pattern-example-js-LC23" class="blob-code blob-code-inner js-file-line">MyModule.someOtherMethod(); <span class="pl-c">// alerts "my other method"</span></td>
-      </tr>
-</tbody></table>
-  </div>
-  </div>
-</div>
-      </div>
-      <div class="gist-meta">
-        <a href="https://gist.github.com/carldanley/ef95b006eaa08761b0ca/raw/2c6ff12eed84f7e5dcfb99ac189d9f7fb26a4c3d/revealing-module-pattern-example.js" style="float:right">view raw</a>
-        <a href="https://gist.github.com/carldanley/ef95b006eaa08761b0ca#file-revealing-module-pattern-example-js">revealing-module-pattern-example.js</a>
-        hosted with ❤ by <a href="https://github.com">GitHub</a>
-      </div>
-    </div>
-</div>
+<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/ef95b006eaa08761b0ca.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><pre><code>var MyModule = ( function( window, undefined ) {
+  
+  function myMethod() {
+    alert( 'my method' );
+  }
+  
+  function myOtherMethod() {
+    alert( 'my other method' );
+  }
+  
+  // explicitly return public methods when this object is instantiated
+  return {
+    someMethod : myMethod,
+    someOtherMethod : myOtherMethod
+  };
+  
+} )( window );
+
+//  example usage
+MyModule.myMethod(); // undefined
+MyModule.myOtherMethod(); // undefined
+MyModule.someMethod(); // alerts "my method"
+MyModule.someOtherMethod(); // alerts "my other method"
+view rawrevealing-module-pattern-example.js hosted with â¤ by GitHub
+</code></pre>
 <p>This pattern can also be implemented using a privately shared cache (see <a href="http://carldanley.com/js-module-pattern/#file-module-pattern-example-2-js-L1">Example 2</a> of the <a href="http://carldanley.com/js-module-pattern/">module pattern</a> for an example.)</p>
 </article>
 		</div>
@@ -576,182 +347,47 @@
 <li>Harder to unit test and sometimes introduces hidden dependencies</li>  
 </ul>
 <h2>Example</h2>
-<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/6ac14bb0766e8bd146c5.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><div id="gist6299125" class="gist">
-    <div class="gist-file">
-      <div class="gist-data">
-        <div class="js-gist-file-update-container js-task-list-container file-box">
-  <div id="file-singleton-pattern-example-js" class="file">
-  <div class="blob-wrapper data type-javascript">
-      <table class="highlight tab-size js-file-line-container" data-tab-size="8">
-      <tbody><tr>
-        <td id="file-singleton-pattern-example-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
-        <td id="file-singleton-pattern-example-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> mySingleton <span class="pl-k">=</span> ( <span class="pl-k">function</span>( <span class="pl-smi">window</span>, <span class="pl-smi">undefined</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
-        <td id="file-singleton-pattern-example-js-LC2" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="file-singleton-pattern-example-js-LC3" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">var</span> instance <span class="pl-k">=</span> <span class="pl-c1">null</span>;</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
-        <td id="file-singleton-pattern-example-js-LC4" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="file-singleton-pattern-example-js-LC5" class="blob-code blob-code-inner js-file-line">  <span class="pl-c">// revealing module pattern that handles initialization of our new module</span></td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
-        <td id="file-singleton-pattern-example-js-LC6" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">function</span> <span class="pl-en">initializeNewModule</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
-        <td id="file-singleton-pattern-example-js-LC7" class="blob-code blob-code-inner js-file-line">    </td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="file-singleton-pattern-example-js-LC8" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">function</span> <span class="pl-en">myMethod</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
-        <td id="file-singleton-pattern-example-js-LC9" class="blob-code blob-code-inner js-file-line">      <span class="pl-c1">alert</span>( <span class="pl-s"><span class="pl-pds">'</span>my method<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="file-singleton-pattern-example-js-LC10" class="blob-code blob-code-inner js-file-line">    }</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="file-singleton-pattern-example-js-LC11" class="blob-code blob-code-inner js-file-line">    </td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="file-singleton-pattern-example-js-LC12" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">function</span> <span class="pl-en">myOtherMethod</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="file-singleton-pattern-example-js-LC13" class="blob-code blob-code-inner js-file-line">      <span class="pl-c1">alert</span>( <span class="pl-s"><span class="pl-pds">'</span>my other method<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
-        <td id="file-singleton-pattern-example-js-LC14" class="blob-code blob-code-inner js-file-line">    }</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="file-singleton-pattern-example-js-LC15" class="blob-code blob-code-inner js-file-line">    </td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
-        <td id="file-singleton-pattern-example-js-LC16" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">return</span> {</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
-        <td id="file-singleton-pattern-example-js-LC17" class="blob-code blob-code-inner js-file-line">      someMethod <span class="pl-k">:</span> myMethod,</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L18" class="blob-num js-line-number" data-line-number="18"></td>
-        <td id="file-singleton-pattern-example-js-LC18" class="blob-code blob-code-inner js-file-line">      someOtherMethod <span class="pl-k">:</span> myOtherMethod</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L19" class="blob-num js-line-number" data-line-number="19"></td>
-        <td id="file-singleton-pattern-example-js-LC19" class="blob-code blob-code-inner js-file-line">    };</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L20" class="blob-num js-line-number" data-line-number="20"></td>
-        <td id="file-singleton-pattern-example-js-LC20" class="blob-code blob-code-inner js-file-line">    </td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L21" class="blob-num js-line-number" data-line-number="21"></td>
-        <td id="file-singleton-pattern-example-js-LC21" class="blob-code blob-code-inner js-file-line">  }</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L22" class="blob-num js-line-number" data-line-number="22"></td>
-        <td id="file-singleton-pattern-example-js-LC22" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L23" class="blob-num js-line-number" data-line-number="23"></td>
-        <td id="file-singleton-pattern-example-js-LC23" class="blob-code blob-code-inner js-file-line">  <span class="pl-c">// handles the prevention of additional instantiations</span></td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L24" class="blob-num js-line-number" data-line-number="24"></td>
-        <td id="file-singleton-pattern-example-js-LC24" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">function</span> <span class="pl-en">getInstance</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L25" class="blob-num js-line-number" data-line-number="25"></td>
-        <td id="file-singleton-pattern-example-js-LC25" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">if</span>( <span class="pl-k">!</span> instance ) {</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L26" class="blob-num js-line-number" data-line-number="26"></td>
-        <td id="file-singleton-pattern-example-js-LC26" class="blob-code blob-code-inner js-file-line">      instance <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">initializeNewModule</span>();</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L27" class="blob-num js-line-number" data-line-number="27"></td>
-        <td id="file-singleton-pattern-example-js-LC27" class="blob-code blob-code-inner js-file-line">    }</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L28" class="blob-num js-line-number" data-line-number="28"></td>
-        <td id="file-singleton-pattern-example-js-LC28" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">return</span> instance;</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L29" class="blob-num js-line-number" data-line-number="29"></td>
-        <td id="file-singleton-pattern-example-js-LC29" class="blob-code blob-code-inner js-file-line">  }</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L30" class="blob-num js-line-number" data-line-number="30"></td>
-        <td id="file-singleton-pattern-example-js-LC30" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L31" class="blob-num js-line-number" data-line-number="31"></td>
-        <td id="file-singleton-pattern-example-js-LC31" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">return</span> {</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L32" class="blob-num js-line-number" data-line-number="32"></td>
-        <td id="file-singleton-pattern-example-js-LC32" class="blob-code blob-code-inner js-file-line">    getInstance <span class="pl-k">:</span> getInstance</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L33" class="blob-num js-line-number" data-line-number="33"></td>
-        <td id="file-singleton-pattern-example-js-LC33" class="blob-code blob-code-inner js-file-line">  };</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L34" class="blob-num js-line-number" data-line-number="34"></td>
-        <td id="file-singleton-pattern-example-js-LC34" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L35" class="blob-num js-line-number" data-line-number="35"></td>
-        <td id="file-singleton-pattern-example-js-LC35" class="blob-code blob-code-inner js-file-line">} )( <span class="pl-c1">window</span> );</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L36" class="blob-num js-line-number" data-line-number="36"></td>
-        <td id="file-singleton-pattern-example-js-LC36" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L37" class="blob-num js-line-number" data-line-number="37"></td>
-        <td id="file-singleton-pattern-example-js-LC37" class="blob-code blob-code-inner js-file-line"><span class="pl-c">// example usage</span></td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L38" class="blob-num js-line-number" data-line-number="38"></td>
-        <td id="file-singleton-pattern-example-js-LC38" class="blob-code blob-code-inner js-file-line">mySingleton.getInstance().someMethod(); <span class="pl-c">// alerts "my method"</span></td>
-      </tr>
-      <tr>
-        <td id="file-singleton-pattern-example-js-L39" class="blob-num js-line-number" data-line-number="39"></td>
-        <td id="file-singleton-pattern-example-js-LC39" class="blob-code blob-code-inner js-file-line">mySingleton.getInstance().someOtherMethod(); <span class="pl-c">// alerts "my other method"</span></td>
-      </tr>
-</tbody></table>
-  </div>
-  </div>
-</div>
-      </div>
-      <div class="gist-meta">
-        <a href="https://gist.github.com/carldanley/6ac14bb0766e8bd146c5/raw/3de203b2e93179e6a348bfd0e87f6557bb19fbd4/singleton-pattern-example.js" style="float:right">view raw</a>
-        <a href="https://gist.github.com/carldanley/6ac14bb0766e8bd146c5#file-singleton-pattern-example-js">singleton-pattern-example.js</a>
-        hosted with ❤ by <a href="https://github.com">GitHub</a>
-      </div>
-    </div>
-</div>
+<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/6ac14bb0766e8bd146c5.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><pre><code>var mySingleton = ( function( window, undefined ) {
+  
+  var instance = null;
+  
+  // revealing module pattern that handles initialization of our new module
+  function initializeNewModule() {
+    
+    function myMethod() {
+      alert( 'my method' );
+    }
+    
+    function myOtherMethod() {
+      alert( 'my other method' );
+    }
+    
+    return {
+      someMethod : myMethod,
+      someOtherMethod : myOtherMethod
+    };
+    
+  }
+  
+  // handles the prevention of additional instantiations
+  function getInstance() {
+    if( ! instance ) {
+      instance = new initializeNewModule();
+    }
+    return instance;
+  }
+  
+  return {
+    getInstance : getInstance
+  };
+  
+} )( window );
+
+// example usage
+mySingleton.getInstance().someMethod(); // alerts "my method"
+mySingleton.getInstance().someOtherMethod(); // alerts "my other method"
+view rawsingleton-pattern-example.js hosted with â¤ by GitHub
+</code></pre>
 </article>
 		</div>
 		<!--=========================
@@ -790,7 +426,7 @@
     is JavaScript's manifestation of the Singleton pattern.
 </p>
 <p class="ptext">
-    Several other patterns, such as, Factory, Prototype, and Façade are frequently implemented as Singletons when only one instance is needed.
+    Several other patterns, such as, Factory, Prototype, and FaÃ§ade are frequently implemented as Singletons when only one instance is needed.
 </p>
 <br>
 <h3 class="phead">Diagram</h3>
@@ -870,374 +506,92 @@
 
 <h2>Example</h2>
 
-<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/3a382adec88b9d035b94.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><div id="gist6371335" class="gist">
-    <div class="gist-file">
-      <div class="gist-data">
-        <div class="js-gist-file-update-container js-task-list-container file-box">
-  <div id="file-observer-pattern-example-js" class="file">
-    
+<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/3a382adec88b9d035b94.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><pre><code>// build the Subject base class
+var Subject = ( function( window, undefined ) {
 
-  <div class="blob-wrapper data type-javascript">
-      <table class="highlight tab-size js-file-line-container" data-tab-size="8">
-      <tbody><tr>
-        <td id="file-observer-pattern-example-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
-        <td id="file-observer-pattern-example-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c">// build the Subject base class</span></td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
-        <td id="file-observer-pattern-example-js-LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> Subject <span class="pl-k">=</span> ( <span class="pl-k">function</span>( <span class="pl-smi">window</span>, <span class="pl-smi">undefined</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="file-observer-pattern-example-js-LC3" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
-        <td id="file-observer-pattern-example-js-LC4" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">function</span> <span class="pl-en">Subject</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="file-observer-pattern-example-js-LC5" class="blob-code blob-code-inner js-file-line">    <span class="pl-v">this</span>._list <span class="pl-k">=</span> [];</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
-        <td id="file-observer-pattern-example-js-LC6" class="blob-code blob-code-inner js-file-line">  }</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
-        <td id="file-observer-pattern-example-js-LC7" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="file-observer-pattern-example-js-LC8" class="blob-code blob-code-inner js-file-line">  <span class="pl-c">// this method will handle adding observers to the internal list</span></td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
-        <td id="file-observer-pattern-example-js-LC9" class="blob-code blob-code-inner js-file-line">  <span class="pl-c1">Subject</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">observe</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">observeObject</span>( <span class="pl-smi">obj</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="file-observer-pattern-example-js-LC10" class="blob-code blob-code-inner js-file-line">    <span class="pl-en">console</span><span class="pl-c1">.log</span>( <span class="pl-s"><span class="pl-pds">'</span>added new observer<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="file-observer-pattern-example-js-LC11" class="blob-code blob-code-inner js-file-line">    <span class="pl-v">this</span>._list.<span class="pl-c1">push</span>( obj );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="file-observer-pattern-example-js-LC12" class="blob-code blob-code-inner js-file-line">  };</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="file-observer-pattern-example-js-LC13" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
-        <td id="file-observer-pattern-example-js-LC14" class="blob-code blob-code-inner js-file-line">  <span class="pl-c1">Subject</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">unobserve</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">unobserveObject</span>( <span class="pl-smi">obj</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="file-observer-pattern-example-js-LC15" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">for</span>( <span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>, len <span class="pl-k">=</span> <span class="pl-v">this</span>._list.<span class="pl-c1">length</span>; i <span class="pl-k">&lt;</span> len; i<span class="pl-k">++</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
-        <td id="file-observer-pattern-example-js-LC16" class="blob-code blob-code-inner js-file-line">      <span class="pl-k">if</span>( <span class="pl-v">this</span>._list[ i ] <span class="pl-k">===</span> obj ) {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
-        <td id="file-observer-pattern-example-js-LC17" class="blob-code blob-code-inner js-file-line">        <span class="pl-v">this</span>._list.<span class="pl-c1">splice</span>( i, <span class="pl-c1">1</span> );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L18" class="blob-num js-line-number" data-line-number="18"></td>
-        <td id="file-observer-pattern-example-js-LC18" class="blob-code blob-code-inner js-file-line">        <span class="pl-en">console</span><span class="pl-c1">.log</span>( <span class="pl-s"><span class="pl-pds">'</span>removed existing observer<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L19" class="blob-num js-line-number" data-line-number="19"></td>
-        <td id="file-observer-pattern-example-js-LC19" class="blob-code blob-code-inner js-file-line">        <span class="pl-k">return</span> <span class="pl-c1">true</span>;</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L20" class="blob-num js-line-number" data-line-number="20"></td>
-        <td id="file-observer-pattern-example-js-LC20" class="blob-code blob-code-inner js-file-line">      }</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L21" class="blob-num js-line-number" data-line-number="21"></td>
-        <td id="file-observer-pattern-example-js-LC21" class="blob-code blob-code-inner js-file-line">    }</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L22" class="blob-num js-line-number" data-line-number="22"></td>
-        <td id="file-observer-pattern-example-js-LC22" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">return</span> <span class="pl-c1">false</span>;</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L23" class="blob-num js-line-number" data-line-number="23"></td>
-        <td id="file-observer-pattern-example-js-LC23" class="blob-code blob-code-inner js-file-line">  };</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L24" class="blob-num js-line-number" data-line-number="24"></td>
-        <td id="file-observer-pattern-example-js-LC24" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L25" class="blob-num js-line-number" data-line-number="25"></td>
-        <td id="file-observer-pattern-example-js-LC25" class="blob-code blob-code-inner js-file-line">  <span class="pl-c1">Subject</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">notify</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">notifyObservers</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L26" class="blob-num js-line-number" data-line-number="26"></td>
-        <td id="file-observer-pattern-example-js-LC26" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">var</span> args <span class="pl-k">=</span> <span class="pl-c1">Array</span>.<span class="pl-c1">prototype</span>.slice.<span class="pl-c1">call</span>( arguments, <span class="pl-c1">0</span> );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L27" class="blob-num js-line-number" data-line-number="27"></td>
-        <td id="file-observer-pattern-example-js-LC27" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">for</span>( <span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>, len <span class="pl-k">=</span> <span class="pl-v">this</span>._list.<span class="pl-c1">length</span>; i <span class="pl-k">&lt;</span> len; i<span class="pl-k">++</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L28" class="blob-num js-line-number" data-line-number="28"></td>
-        <td id="file-observer-pattern-example-js-LC28" class="blob-code blob-code-inner js-file-line">      <span class="pl-v">this</span>._list[ i ].update.<span class="pl-c1">apply</span>( <span class="pl-c1">null</span>, args );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L29" class="blob-num js-line-number" data-line-number="29"></td>
-        <td id="file-observer-pattern-example-js-LC29" class="blob-code blob-code-inner js-file-line">    }</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L30" class="blob-num js-line-number" data-line-number="30"></td>
-        <td id="file-observer-pattern-example-js-LC30" class="blob-code blob-code-inner js-file-line">  };</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L31" class="blob-num js-line-number" data-line-number="31"></td>
-        <td id="file-observer-pattern-example-js-LC31" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L32" class="blob-num js-line-number" data-line-number="32"></td>
-        <td id="file-observer-pattern-example-js-LC32" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">return</span> Subject;</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L33" class="blob-num js-line-number" data-line-number="33"></td>
-        <td id="file-observer-pattern-example-js-LC33" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L34" class="blob-num js-line-number" data-line-number="34"></td>
-        <td id="file-observer-pattern-example-js-LC34" class="blob-code blob-code-inner js-file-line">} )( <span class="pl-c1">window</span> );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L35" class="blob-num js-line-number" data-line-number="35"></td>
-        <td id="file-observer-pattern-example-js-LC35" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L36" class="blob-num js-line-number" data-line-number="36"></td>
-        <td id="file-observer-pattern-example-js-LC36" class="blob-code blob-code-inner js-file-line"><span class="pl-c">// setup an object that fetchs stocks</span></td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L37" class="blob-num js-line-number" data-line-number="37"></td>
-        <td id="file-observer-pattern-example-js-LC37" class="blob-code blob-code-inner js-file-line"><span class="pl-k">function</span> <span class="pl-en">StockGrabber</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L38" class="blob-num js-line-number" data-line-number="38"></td>
-        <td id="file-observer-pattern-example-js-LC38" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L39" class="blob-num js-line-number" data-line-number="39"></td>
-        <td id="file-observer-pattern-example-js-LC39" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">var</span> subject <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Subject</span>();</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L40" class="blob-num js-line-number" data-line-number="40"></td>
-        <td id="file-observer-pattern-example-js-LC40" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L41" class="blob-num js-line-number" data-line-number="41"></td>
-        <td id="file-observer-pattern-example-js-LC41" class="blob-code blob-code-inner js-file-line">  <span class="pl-c1">this</span>.<span class="pl-en">addObserver</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">addObserver</span>( <span class="pl-smi">newObserver</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L42" class="blob-num js-line-number" data-line-number="42"></td>
-        <td id="file-observer-pattern-example-js-LC42" class="blob-code blob-code-inner js-file-line">    subject.observe( newObserver );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L43" class="blob-num js-line-number" data-line-number="43"></td>
-        <td id="file-observer-pattern-example-js-LC43" class="blob-code blob-code-inner js-file-line">  };</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L44" class="blob-num js-line-number" data-line-number="44"></td>
-        <td id="file-observer-pattern-example-js-LC44" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L45" class="blob-num js-line-number" data-line-number="45"></td>
-        <td id="file-observer-pattern-example-js-LC45" class="blob-code blob-code-inner js-file-line">  <span class="pl-c1">this</span>.<span class="pl-en">removeObserver</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">removeObserver</span>( <span class="pl-smi">deleteObserver</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L46" class="blob-num js-line-number" data-line-number="46"></td>
-        <td id="file-observer-pattern-example-js-LC46" class="blob-code blob-code-inner js-file-line">    subject.unobserve( deleteObserver );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L47" class="blob-num js-line-number" data-line-number="47"></td>
-        <td id="file-observer-pattern-example-js-LC47" class="blob-code blob-code-inner js-file-line">  };</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L48" class="blob-num js-line-number" data-line-number="48"></td>
-        <td id="file-observer-pattern-example-js-LC48" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L49" class="blob-num js-line-number" data-line-number="49"></td>
-        <td id="file-observer-pattern-example-js-LC49" class="blob-code blob-code-inner js-file-line">  <span class="pl-c1">this</span>.<span class="pl-en">fetchStocks</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">fetchStocks</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L50" class="blob-num js-line-number" data-line-number="50"></td>
-        <td id="file-observer-pattern-example-js-LC50" class="blob-code blob-code-inner js-file-line">    <span class="pl-c">// fake fetching the stocks</span></td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L51" class="blob-num js-line-number" data-line-number="51"></td>
-        <td id="file-observer-pattern-example-js-LC51" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">var</span> stocks <span class="pl-k">=</span> {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L52" class="blob-num js-line-number" data-line-number="52"></td>
-        <td id="file-observer-pattern-example-js-LC52" class="blob-code blob-code-inner js-file-line">      aapl <span class="pl-k">:</span> <span class="pl-c1">167.00</span>,</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L53" class="blob-num js-line-number" data-line-number="53"></td>
-        <td id="file-observer-pattern-example-js-LC53" class="blob-code blob-code-inner js-file-line">      goog <span class="pl-k">:</span> <span class="pl-c1">243.67</span>,</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L54" class="blob-num js-line-number" data-line-number="54"></td>
-        <td id="file-observer-pattern-example-js-LC54" class="blob-code blob-code-inner js-file-line">      msft <span class="pl-k">:</span> <span class="pl-c1">99.34</span></td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L55" class="blob-num js-line-number" data-line-number="55"></td>
-        <td id="file-observer-pattern-example-js-LC55" class="blob-code blob-code-inner js-file-line">    };</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L56" class="blob-num js-line-number" data-line-number="56"></td>
-        <td id="file-observer-pattern-example-js-LC56" class="blob-code blob-code-inner js-file-line">    </td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L57" class="blob-num js-line-number" data-line-number="57"></td>
-        <td id="file-observer-pattern-example-js-LC57" class="blob-code blob-code-inner js-file-line">    <span class="pl-c">// notify our observers of the stock change</span></td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L58" class="blob-num js-line-number" data-line-number="58"></td>
-        <td id="file-observer-pattern-example-js-LC58" class="blob-code blob-code-inner js-file-line">    subject.notify( stocks );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L59" class="blob-num js-line-number" data-line-number="59"></td>
-        <td id="file-observer-pattern-example-js-LC59" class="blob-code blob-code-inner js-file-line">  };</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L60" class="blob-num js-line-number" data-line-number="60"></td>
-        <td id="file-observer-pattern-example-js-LC60" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L61" class="blob-num js-line-number" data-line-number="61"></td>
-        <td id="file-observer-pattern-example-js-LC61" class="blob-code blob-code-inner js-file-line">}</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L62" class="blob-num js-line-number" data-line-number="62"></td>
-        <td id="file-observer-pattern-example-js-LC62" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L63" class="blob-num js-line-number" data-line-number="63"></td>
-        <td id="file-observer-pattern-example-js-LC63" class="blob-code blob-code-inner js-file-line"><span class="pl-c">// define a couple of different observers</span></td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L64" class="blob-num js-line-number" data-line-number="64"></td>
-        <td id="file-observer-pattern-example-js-LC64" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> StockUpdaterComponent <span class="pl-k">=</span> {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L65" class="blob-num js-line-number" data-line-number="65"></td>
-        <td id="file-observer-pattern-example-js-LC65" class="blob-code blob-code-inner js-file-line">  <span class="pl-en">update</span> <span class="pl-k">:</span> <span class="pl-k">function</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L66" class="blob-num js-line-number" data-line-number="66"></td>
-        <td id="file-observer-pattern-example-js-LC66" class="blob-code blob-code-inner js-file-line">    <span class="pl-en">console</span><span class="pl-c1">.log</span>( <span class="pl-s"><span class="pl-pds">'</span>"update" called on StockUpdater with: <span class="pl-pds">'</span></span>, arguments );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L67" class="blob-num js-line-number" data-line-number="67"></td>
-        <td id="file-observer-pattern-example-js-LC67" class="blob-code blob-code-inner js-file-line">  }</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L68" class="blob-num js-line-number" data-line-number="68"></td>
-        <td id="file-observer-pattern-example-js-LC68" class="blob-code blob-code-inner js-file-line">};</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L69" class="blob-num js-line-number" data-line-number="69"></td>
-        <td id="file-observer-pattern-example-js-LC69" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> StockChartsComponent <span class="pl-k">=</span> {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L70" class="blob-num js-line-number" data-line-number="70"></td>
-        <td id="file-observer-pattern-example-js-LC70" class="blob-code blob-code-inner js-file-line">  <span class="pl-en">update</span> <span class="pl-k">:</span> <span class="pl-k">function</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L71" class="blob-num js-line-number" data-line-number="71"></td>
-        <td id="file-observer-pattern-example-js-LC71" class="blob-code blob-code-inner js-file-line">    <span class="pl-en">console</span><span class="pl-c1">.log</span>( <span class="pl-s"><span class="pl-pds">'</span>"update" called on StockCharts with: <span class="pl-pds">'</span></span>, arguments );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L72" class="blob-num js-line-number" data-line-number="72"></td>
-        <td id="file-observer-pattern-example-js-LC72" class="blob-code blob-code-inner js-file-line">  }</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L73" class="blob-num js-line-number" data-line-number="73"></td>
-        <td id="file-observer-pattern-example-js-LC73" class="blob-code blob-code-inner js-file-line">};</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L74" class="blob-num js-line-number" data-line-number="74"></td>
-        <td id="file-observer-pattern-example-js-LC74" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L75" class="blob-num js-line-number" data-line-number="75"></td>
-        <td id="file-observer-pattern-example-js-LC75" class="blob-code blob-code-inner js-file-line"><span class="pl-c">// example usage</span></td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L76" class="blob-num js-line-number" data-line-number="76"></td>
-        <td id="file-observer-pattern-example-js-LC76" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> stockApp <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">StockGrabber</span>();</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L77" class="blob-num js-line-number" data-line-number="77"></td>
-        <td id="file-observer-pattern-example-js-LC77" class="blob-code blob-code-inner js-file-line">stockApp.addObserver( StockUpdaterComponent );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L78" class="blob-num js-line-number" data-line-number="78"></td>
-        <td id="file-observer-pattern-example-js-LC78" class="blob-code blob-code-inner js-file-line">stockApp.fetchStocks(); <span class="pl-c">// console logs: "update" called on StockUpdater with...</span></td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L79" class="blob-num js-line-number" data-line-number="79"></td>
-        <td id="file-observer-pattern-example-js-LC79" class="blob-code blob-code-inner js-file-line">stockApp.addObserver( StockChartsComponent );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L80" class="blob-num js-line-number" data-line-number="80"></td>
-        <td id="file-observer-pattern-example-js-LC80" class="blob-code blob-code-inner js-file-line">stockApp.fetchStocks(); <span class="pl-c">// console logs: "update" called on StockUpdater with... "update" called on StockCarts with...</span></td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L81" class="blob-num js-line-number" data-line-number="81"></td>
-        <td id="file-observer-pattern-example-js-LC81" class="blob-code blob-code-inner js-file-line">stockApp.removeObserver( StockUpdaterComponent );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L82" class="blob-num js-line-number" data-line-number="82"></td>
-        <td id="file-observer-pattern-example-js-LC82" class="blob-code blob-code-inner js-file-line">stockApp.fetchStocks(); <span class="pl-c">// console logs: "update" called on StockCharts with...</span></td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L83" class="blob-num js-line-number" data-line-number="83"></td>
-        <td id="file-observer-pattern-example-js-LC83" class="blob-code blob-code-inner js-file-line">stockApp.removeObserver( StockChartsComponent );</td>
-      </tr>
-      <tr>
-        <td id="file-observer-pattern-example-js-L84" class="blob-num js-line-number" data-line-number="84"></td>
-        <td id="file-observer-pattern-example-js-LC84" class="blob-code blob-code-inner js-file-line">stockApp.fetchStocks(); <span class="pl-c">// does nothing; no observers</span></td>
-      </tr>
-</tbody></table>
+  function Subject() {
+    this._list = [];
+  }
 
-  </div>
-
-  </div>
+  // this method will handle adding observers to the internal list
+  Subject.prototype.observe = function observeObject( obj ) {
+    console.log( 'added new observer' );
+    this._list.push( obj );
+  };
   
-</div>
+  Subject.prototype.unobserve = function unobserveObject( obj ) {
+    for( var i = 0, len = this._list.length; i &lt; len; i++ ) {
+      if( this._list[ i ] === obj ) {
+        this._list.splice( i, 1 );
+        console.log( 'removed existing observer' );
+        return true;
+      }
+    }
+    return false;
+  };
+  
+  Subject.prototype.notify = function notifyObservers() {
+    var args = Array.prototype.slice.call( arguments, 0 );
+    for( var i = 0, len = this._list.length; i &lt; len; i++ ) {
+      this._list[ i ].update.apply( null, args );
+    }
+  };
 
-      </div>
-      <div class="gist-meta">
-        <a href="https://gist.github.com/carldanley/3a382adec88b9d035b94/raw/f9d74f16850cc6009184241f4657e5b313e513e8/observer-pattern-example.js" style="float:right">view raw</a>
-        <a href="https://gist.github.com/carldanley/3a382adec88b9d035b94#file-observer-pattern-example-js">observer-pattern-example.js</a>
-        hosted with ❤ by <a href="https://github.com">GitHub</a>
-      </div>
-    </div>
-</div>
+  return Subject;
+
+} )( window );
+
+// setup an object that fetchs stocks
+function StockGrabber() {
+  
+  var subject = new Subject();
+  
+  this.addObserver = function addObserver( newObserver ) {
+    subject.observe( newObserver );
+  };
+  
+  this.removeObserver = function removeObserver( deleteObserver ) {
+    subject.unobserve( deleteObserver );
+  };
+  
+  this.fetchStocks = function fetchStocks() {
+    // fake fetching the stocks
+    var stocks = {
+      aapl : 167.00,
+      goog : 243.67,
+      msft : 99.34
+    };
+    
+    // notify our observers of the stock change
+    subject.notify( stocks );
+  };
+  
+}
+
+// define a couple of different observers
+var StockUpdaterComponent = {
+  update : function() {
+    console.log( '"update" called on StockUpdater with: ', arguments );
+  }
+};
+var StockChartsComponent = {
+  update : function() {
+    console.log( '"update" called on StockCharts with: ', arguments );
+  }
+};
+
+// example usage
+var stockApp = new StockGrabber();
+stockApp.addObserver( StockUpdaterComponent );
+stockApp.fetchStocks(); // console logs: "update" called on StockUpdater with...
+stockApp.addObserver( StockChartsComponent );
+stockApp.fetchStocks(); // console logs: "update" called on StockUpdater with... "update" called on StockCarts with...
+stockApp.removeObserver( StockUpdaterComponent );
+stockApp.fetchStocks(); // console logs: "update" called on StockCharts with...
+stockApp.removeObserver( StockChartsComponent );
+stockApp.fetchStocks(); // does nothing; no observers
+view rawobserver-pattern-example.js hosted with â¤ by GitHub
+</code></pre>
 
 
 <p>In the example above, the <code>Subject</code> object becomes a base class from which we build an example stock tracking application. You can see that the <code>StockGrabber</code> object uses the <code>Subject</code> object internally to handle notifications to other components of the application such as the <code>StockUpdaterComponent</code> and the <code>StockChartsComponent</code>.</p>
@@ -1276,272 +630,65 @@
 
 <h2>Example</h2>
 
-<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/e5854fe87bfd607ad96c.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><div id="gist6299977" class="gist">
-    <div class="gist-file">
-      <div class="gist-data">
-        <div class="js-gist-file-update-container js-task-list-container file-box">
-  <div id="file-mediator-pattern-example-js" class="file">
-    
+<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/e5854fe87bfd607ad96c.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><pre><code>var Mediator = ( function( window, undefined ) {
 
-  <div class="blob-wrapper data type-javascript">
-      <table class="highlight tab-size js-file-line-container" data-tab-size="8">
-      <tbody><tr>
-        <td id="file-mediator-pattern-example-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
-        <td id="file-mediator-pattern-example-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> Mediator <span class="pl-k">=</span> ( <span class="pl-k">function</span>( <span class="pl-smi">window</span>, <span class="pl-smi">undefined</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
-        <td id="file-mediator-pattern-example-js-LC2" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="file-mediator-pattern-example-js-LC3" class="blob-code blob-code-inner js-file-line">	<span class="pl-k">function</span> <span class="pl-en">Mediator</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
-        <td id="file-mediator-pattern-example-js-LC4" class="blob-code blob-code-inner js-file-line">		<span class="pl-v">this</span>._topics <span class="pl-k">=</span> {};</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="file-mediator-pattern-example-js-LC5" class="blob-code blob-code-inner js-file-line">	}</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
-        <td id="file-mediator-pattern-example-js-LC6" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
-        <td id="file-mediator-pattern-example-js-LC7" class="blob-code blob-code-inner js-file-line">	<span class="pl-c1">Mediator</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">subscribe</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">mediatorSubscribe</span>( <span class="pl-smi">topic</span>, <span class="pl-smi">callback</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="file-mediator-pattern-example-js-LC8" class="blob-code blob-code-inner js-file-line">		<span class="pl-k">if</span>( <span class="pl-k">!</span> <span class="pl-v">this</span>._topics.hasOwnProperty( topic ) ) {</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
-        <td id="file-mediator-pattern-example-js-LC9" class="blob-code blob-code-inner js-file-line">			<span class="pl-v">this</span>._topics[ topic ] <span class="pl-k">=</span> [];</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="file-mediator-pattern-example-js-LC10" class="blob-code blob-code-inner js-file-line">		}</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="file-mediator-pattern-example-js-LC11" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="file-mediator-pattern-example-js-LC12" class="blob-code blob-code-inner js-file-line">		<span class="pl-v">this</span>._topics[ topic ].<span class="pl-c1">push</span>( callback );</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="file-mediator-pattern-example-js-LC13" class="blob-code blob-code-inner js-file-line">		<span class="pl-k">return</span> <span class="pl-c1">true</span>;</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
-        <td id="file-mediator-pattern-example-js-LC14" class="blob-code blob-code-inner js-file-line">	};</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="file-mediator-pattern-example-js-LC15" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
-        <td id="file-mediator-pattern-example-js-LC16" class="blob-code blob-code-inner js-file-line">	<span class="pl-c1">Mediator</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">unsubscribe</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">mediatorUnsubscrive</span>( <span class="pl-smi">topic</span>, <span class="pl-smi">callback</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
-        <td id="file-mediator-pattern-example-js-LC17" class="blob-code blob-code-inner js-file-line">		<span class="pl-k">if</span>( <span class="pl-k">!</span> <span class="pl-v">this</span>._topics.hasOwnProperty( topic ) ) {</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L18" class="blob-num js-line-number" data-line-number="18"></td>
-        <td id="file-mediator-pattern-example-js-LC18" class="blob-code blob-code-inner js-file-line">			<span class="pl-k">return</span> <span class="pl-c1">false</span>;</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L19" class="blob-num js-line-number" data-line-number="19"></td>
-        <td id="file-mediator-pattern-example-js-LC19" class="blob-code blob-code-inner js-file-line">		}</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L20" class="blob-num js-line-number" data-line-number="20"></td>
-        <td id="file-mediator-pattern-example-js-LC20" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L21" class="blob-num js-line-number" data-line-number="21"></td>
-        <td id="file-mediator-pattern-example-js-LC21" class="blob-code blob-code-inner js-file-line">		<span class="pl-k">for</span>( <span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>, len <span class="pl-k">=</span> <span class="pl-v">this</span>._topics[ topic ].<span class="pl-c1">length</span>; i <span class="pl-k">&lt;</span> len; i<span class="pl-k">++</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L22" class="blob-num js-line-number" data-line-number="22"></td>
-        <td id="file-mediator-pattern-example-js-LC22" class="blob-code blob-code-inner js-file-line">			<span class="pl-k">if</span>( <span class="pl-v">this</span>._topics[ topic ][ i ] <span class="pl-k">===</span> callback ) {</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L23" class="blob-num js-line-number" data-line-number="23"></td>
-        <td id="file-mediator-pattern-example-js-LC23" class="blob-code blob-code-inner js-file-line">				<span class="pl-v">this</span>._topics[ topic ].<span class="pl-c1">splice</span>( i, <span class="pl-c1">1</span> );</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L24" class="blob-num js-line-number" data-line-number="24"></td>
-        <td id="file-mediator-pattern-example-js-LC24" class="blob-code blob-code-inner js-file-line">				<span class="pl-k">return</span> <span class="pl-c1">true</span>;</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L25" class="blob-num js-line-number" data-line-number="25"></td>
-        <td id="file-mediator-pattern-example-js-LC25" class="blob-code blob-code-inner js-file-line">			}</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L26" class="blob-num js-line-number" data-line-number="26"></td>
-        <td id="file-mediator-pattern-example-js-LC26" class="blob-code blob-code-inner js-file-line">		}</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L27" class="blob-num js-line-number" data-line-number="27"></td>
-        <td id="file-mediator-pattern-example-js-LC27" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L28" class="blob-num js-line-number" data-line-number="28"></td>
-        <td id="file-mediator-pattern-example-js-LC28" class="blob-code blob-code-inner js-file-line">		<span class="pl-k">return</span> <span class="pl-c1">false</span>;</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L29" class="blob-num js-line-number" data-line-number="29"></td>
-        <td id="file-mediator-pattern-example-js-LC29" class="blob-code blob-code-inner js-file-line">	};</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L30" class="blob-num js-line-number" data-line-number="30"></td>
-        <td id="file-mediator-pattern-example-js-LC30" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L31" class="blob-num js-line-number" data-line-number="31"></td>
-        <td id="file-mediator-pattern-example-js-LC31" class="blob-code blob-code-inner js-file-line">	<span class="pl-c1">Mediator</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">publish</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">mediatorPublish</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L32" class="blob-num js-line-number" data-line-number="32"></td>
-        <td id="file-mediator-pattern-example-js-LC32" class="blob-code blob-code-inner js-file-line">		<span class="pl-k">var</span> args <span class="pl-k">=</span> <span class="pl-c1">Array</span>.<span class="pl-c1">prototype</span>.slice.<span class="pl-c1">call</span>( arguments );</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L33" class="blob-num js-line-number" data-line-number="33"></td>
-        <td id="file-mediator-pattern-example-js-LC33" class="blob-code blob-code-inner js-file-line">		<span class="pl-k">var</span> topic <span class="pl-k">=</span> args.<span class="pl-c1">shift</span>();</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L34" class="blob-num js-line-number" data-line-number="34"></td>
-        <td id="file-mediator-pattern-example-js-LC34" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L35" class="blob-num js-line-number" data-line-number="35"></td>
-        <td id="file-mediator-pattern-example-js-LC35" class="blob-code blob-code-inner js-file-line">		<span class="pl-k">if</span>( <span class="pl-k">!</span> <span class="pl-v">this</span>._topics.hasOwnProperty( topic ) ) {</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L36" class="blob-num js-line-number" data-line-number="36"></td>
-        <td id="file-mediator-pattern-example-js-LC36" class="blob-code blob-code-inner js-file-line">			<span class="pl-k">return</span> <span class="pl-c1">false</span>;</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L37" class="blob-num js-line-number" data-line-number="37"></td>
-        <td id="file-mediator-pattern-example-js-LC37" class="blob-code blob-code-inner js-file-line">		}</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L38" class="blob-num js-line-number" data-line-number="38"></td>
-        <td id="file-mediator-pattern-example-js-LC38" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L39" class="blob-num js-line-number" data-line-number="39"></td>
-        <td id="file-mediator-pattern-example-js-LC39" class="blob-code blob-code-inner js-file-line">		<span class="pl-k">for</span>( <span class="pl-k">var</span> i <span class="pl-k">=</span> <span class="pl-c1">0</span>, len <span class="pl-k">=</span> <span class="pl-v">this</span>._topics[ topic ].<span class="pl-c1">length</span>; i <span class="pl-k">&lt;</span> len; i<span class="pl-k">++</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L40" class="blob-num js-line-number" data-line-number="40"></td>
-        <td id="file-mediator-pattern-example-js-LC40" class="blob-code blob-code-inner js-file-line">			<span class="pl-v">this</span>._topics[ topic ][ i ].<span class="pl-c1">apply</span>( <span class="pl-c1">undefined</span>, args );</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L41" class="blob-num js-line-number" data-line-number="41"></td>
-        <td id="file-mediator-pattern-example-js-LC41" class="blob-code blob-code-inner js-file-line">		}</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L42" class="blob-num js-line-number" data-line-number="42"></td>
-        <td id="file-mediator-pattern-example-js-LC42" class="blob-code blob-code-inner js-file-line">		<span class="pl-k">return</span> <span class="pl-c1">true</span>;</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L43" class="blob-num js-line-number" data-line-number="43"></td>
-        <td id="file-mediator-pattern-example-js-LC43" class="blob-code blob-code-inner js-file-line">	};</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L44" class="blob-num js-line-number" data-line-number="44"></td>
-        <td id="file-mediator-pattern-example-js-LC44" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L45" class="blob-num js-line-number" data-line-number="45"></td>
-        <td id="file-mediator-pattern-example-js-LC45" class="blob-code blob-code-inner js-file-line">	<span class="pl-k">return</span> Mediator;</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L46" class="blob-num js-line-number" data-line-number="46"></td>
-        <td id="file-mediator-pattern-example-js-LC46" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L47" class="blob-num js-line-number" data-line-number="47"></td>
-        <td id="file-mediator-pattern-example-js-LC47" class="blob-code blob-code-inner js-file-line">} )( <span class="pl-c1">window</span> );</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L48" class="blob-num js-line-number" data-line-number="48"></td>
-        <td id="file-mediator-pattern-example-js-LC48" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L49" class="blob-num js-line-number" data-line-number="49"></td>
-        <td id="file-mediator-pattern-example-js-LC49" class="blob-code blob-code-inner js-file-line"><span class="pl-c">// example subscriber function</span></td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L50" class="blob-num js-line-number" data-line-number="50"></td>
-        <td id="file-mediator-pattern-example-js-LC50" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> <span class="pl-en">Subscriber</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">ExampleSubscriber</span>( <span class="pl-smi">myVariable</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L51" class="blob-num js-line-number" data-line-number="51"></td>
-        <td id="file-mediator-pattern-example-js-LC51" class="blob-code blob-code-inner js-file-line">  <span class="pl-en">console</span><span class="pl-c1">.log</span>( myVariable );</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L52" class="blob-num js-line-number" data-line-number="52"></td>
-        <td id="file-mediator-pattern-example-js-LC52" class="blob-code blob-code-inner js-file-line">};</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L53" class="blob-num js-line-number" data-line-number="53"></td>
-        <td id="file-mediator-pattern-example-js-LC53" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L54" class="blob-num js-line-number" data-line-number="54"></td>
-        <td id="file-mediator-pattern-example-js-LC54" class="blob-code blob-code-inner js-file-line"><span class="pl-c">// example usages</span></td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L55" class="blob-num js-line-number" data-line-number="55"></td>
-        <td id="file-mediator-pattern-example-js-LC55" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> myMediator <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Mediator</span>();</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L56" class="blob-num js-line-number" data-line-number="56"></td>
-        <td id="file-mediator-pattern-example-js-LC56" class="blob-code blob-code-inner js-file-line">myMediator.subscribe( <span class="pl-s"><span class="pl-pds">'</span>some event<span class="pl-pds">'</span></span>, Subscriber );</td>
-      </tr>
-      <tr>
-        <td id="file-mediator-pattern-example-js-L57" class="blob-num js-line-number" data-line-number="57"></td>
-        <td id="file-mediator-pattern-example-js-LC57" class="blob-code blob-code-inner js-file-line">myMediator.publish( <span class="pl-s"><span class="pl-pds">'</span>some event<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>foo bar<span class="pl-pds">'</span></span> ); <span class="pl-c">// console logs "foo bar"</span></td>
-      </tr>
-</tbody></table>
+	function Mediator() {
+		this._topics = {};
+	}
 
-  </div>
+	Mediator.prototype.subscribe = function mediatorSubscribe( topic, callback ) {
+		if( ! this._topics.hasOwnProperty( topic ) ) {
+			this._topics[ topic ] = [];
+		}
 
-  </div>
-  
-</div>
+		this._topics[ topic ].push( callback );
+		return true;
+	};
 
-      </div>
-      <div class="gist-meta">
-        <a href="https://gist.github.com/carldanley/e5854fe87bfd607ad96c/raw/c1e7c30f3d7ecd614f1e302e051e518e4ffd3783/mediator-pattern-example.js" style="float:right">view raw</a>
-        <a href="https://gist.github.com/carldanley/e5854fe87bfd607ad96c#file-mediator-pattern-example-js">mediator-pattern-example.js</a>
-        hosted with ❤ by <a href="https://github.com">GitHub</a>
-      </div>
-    </div>
-</div>
+	Mediator.prototype.unsubscribe = function mediatorUnsubscrive( topic, callback ) {
+		if( ! this._topics.hasOwnProperty( topic ) ) {
+			return false;
+		}
+
+		for( var i = 0, len = this._topics[ topic ].length; i &lt; len; i++ ) {
+			if( this._topics[ topic ][ i ] === callback ) {
+				this._topics[ topic ].splice( i, 1 );
+				return true;
+			}
+		}
+
+		return false;
+	};
+
+	Mediator.prototype.publish = function mediatorPublish() {
+		var args = Array.prototype.slice.call( arguments );
+		var topic = args.shift();
+
+		if( ! this._topics.hasOwnProperty( topic ) ) {
+			return false;
+		}
+
+		for( var i = 0, len = this._topics[ topic ].length; i &lt; len; i++ ) {
+			this._topics[ topic ][ i ].apply( undefined, args );
+		}
+		return true;
+	};
+
+	return Mediator;
+
+} )( window );
+
+// example subscriber function
+var Subscriber = function ExampleSubscriber( myVariable ) {
+  console.log( myVariable );
+};
+
+// example usages
+var myMediator = new Mediator();
+myMediator.subscribe( 'some event', Subscriber );
+myMediator.publish( 'some event', 'foo bar' ); // console logs "foo bar"
+view rawmediator-pattern-example.js hosted with â¤ by GitHub
+</code></pre>
 
 
 </article>
@@ -1574,141 +721,35 @@
 
 <h2>Example</h2>
 
-<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/ec2204682f7b01844e69.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><div id="gist6377916" class="gist">
-    <div class="gist-file">
-      <div class="gist-data">
-        <div class="js-gist-file-update-container js-task-list-container file-box">
-  <div id="file-prototype-pattern-example-1-js" class="file">
-    
-
-  <div class="blob-wrapper data type-javascript">
-      <table class="highlight tab-size js-file-line-container" data-tab-size="8">
-      <tbody><tr>
-        <td id="file-prototype-pattern-example-1-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
-        <td id="file-prototype-pattern-example-1-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c">// build our blueprint object</span></td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
-        <td id="file-prototype-pattern-example-1-js-LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> <span class="pl-en">MyBluePrint</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">MyBluePrintObject</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="file-prototype-pattern-example-1-js-LC3" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
-        <td id="file-prototype-pattern-example-1-js-LC4" class="blob-code blob-code-inner js-file-line">  <span class="pl-c1">this</span>.<span class="pl-en">someFunction</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">someFunction</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="file-prototype-pattern-example-1-js-LC5" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">alert</span>( <span class="pl-s"><span class="pl-pds">'</span>some function<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
-        <td id="file-prototype-pattern-example-1-js-LC6" class="blob-code blob-code-inner js-file-line">  };</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
-        <td id="file-prototype-pattern-example-1-js-LC7" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="file-prototype-pattern-example-1-js-LC8" class="blob-code blob-code-inner js-file-line">  <span class="pl-c1">this</span>.<span class="pl-en">someOtherFunction</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">someOtherFunction</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
-        <td id="file-prototype-pattern-example-1-js-LC9" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">alert</span>( <span class="pl-s"><span class="pl-pds">'</span>some other function<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="file-prototype-pattern-example-1-js-LC10" class="blob-code blob-code-inner js-file-line">  };</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="file-prototype-pattern-example-1-js-LC11" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="file-prototype-pattern-example-1-js-LC12" class="blob-code blob-code-inner js-file-line">  <span class="pl-c1">this</span>.<span class="pl-en">showMyName</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">showMyName</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="file-prototype-pattern-example-1-js-LC13" class="blob-code blob-code-inner js-file-line">    <span class="pl-c1">alert</span>( <span class="pl-v">this</span>.<span class="pl-c1">name</span> );</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
-        <td id="file-prototype-pattern-example-1-js-LC14" class="blob-code blob-code-inner js-file-line">  };</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="file-prototype-pattern-example-1-js-LC15" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
-        <td id="file-prototype-pattern-example-1-js-LC16" class="blob-code blob-code-inner js-file-line">};</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
-        <td id="file-prototype-pattern-example-1-js-LC17" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L18" class="blob-num js-line-number" data-line-number="18"></td>
-        <td id="file-prototype-pattern-example-1-js-LC18" class="blob-code blob-code-inner js-file-line"><span class="pl-k">function</span> <span class="pl-en">MyObject</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L19" class="blob-num js-line-number" data-line-number="19"></td>
-        <td id="file-prototype-pattern-example-1-js-LC19" class="blob-code blob-code-inner js-file-line">  <span class="pl-v">this</span>.<span class="pl-c1">name</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>testing<span class="pl-pds">'</span></span>;</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L20" class="blob-num js-line-number" data-line-number="20"></td>
-        <td id="file-prototype-pattern-example-1-js-LC20" class="blob-code blob-code-inner js-file-line">}</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L21" class="blob-num js-line-number" data-line-number="21"></td>
-        <td id="file-prototype-pattern-example-1-js-LC21" class="blob-code blob-code-inner js-file-line"><span class="pl-c1">MyObject</span>.<span class="pl-c1">prototype</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">MyBluePrint</span>();</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L22" class="blob-num js-line-number" data-line-number="22"></td>
-        <td id="file-prototype-pattern-example-1-js-LC22" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L23" class="blob-num js-line-number" data-line-number="23"></td>
-        <td id="file-prototype-pattern-example-1-js-LC23" class="blob-code blob-code-inner js-file-line"><span class="pl-c">// example usage</span></td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L24" class="blob-num js-line-number" data-line-number="24"></td>
-        <td id="file-prototype-pattern-example-1-js-LC24" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> testObject <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">MyObject</span>();</td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L25" class="blob-num js-line-number" data-line-number="25"></td>
-        <td id="file-prototype-pattern-example-1-js-LC25" class="blob-code blob-code-inner js-file-line">testObject.someFunction(); <span class="pl-c">// alerts "some function"</span></td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L26" class="blob-num js-line-number" data-line-number="26"></td>
-        <td id="file-prototype-pattern-example-1-js-LC26" class="blob-code blob-code-inner js-file-line">testObject.someOtherFunction(); <span class="pl-c">// alerts "some other function"</span></td>
-      </tr>
-      <tr>
-        <td id="file-prototype-pattern-example-1-js-L27" class="blob-num js-line-number" data-line-number="27"></td>
-        <td id="file-prototype-pattern-example-1-js-LC27" class="blob-code blob-code-inner js-file-line">testObject.showMyName(); <span class="pl-c">// alerts "testing"</span></td>
-      </tr>
-</tbody></table>
-
-  </div>
-
-  </div>
+<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/ec2204682f7b01844e69.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><pre><code>// build our blueprint object
+var MyBluePrint = function MyBluePrintObject() {
   
-</div>
+  this.someFunction = function someFunction() {
+    alert( 'some function' );
+  };
+  
+  this.someOtherFunction = function someOtherFunction() {
+    alert( 'some other function' );
+  };
+  
+  this.showMyName = function showMyName() {
+    alert( this.name );
+  };
+  
+};
 
-      </div>
-      <div class="gist-meta">
-        <a href="https://gist.github.com/carldanley/ec2204682f7b01844e69/raw/2136fccbea6ed038d78f2c314899a51e10aaada0/prototype-pattern-example-1.js" style="float:right">view raw</a>
-        <a href="https://gist.github.com/carldanley/ec2204682f7b01844e69#file-prototype-pattern-example-1-js">prototype-pattern-example-1.js</a>
-        hosted with ❤ by <a href="https://github.com">GitHub</a>
-      </div>
-    </div>
-</div>
+function MyObject() {
+  this.name = 'testing';
+}
+MyObject.prototype = new MyBluePrint();
+
+// example usage
+var testObject = new MyObject();
+testObject.someFunction(); // alerts "some function"
+testObject.someOtherFunction(); // alerts "some other function"
+testObject.showMyName(); // alerts "testing"
+view rawprototype-pattern-example-1.js hosted with â¤ by GitHub
+</code></pre>
 
 </article>
 		</div>
@@ -1742,225 +783,55 @@
 
 <h2>Examples</h2>
 
-<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/28e40cc32c60909fb947.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><div id="gist6468018" class="gist">
-    <div class="gist-file">
-      <div class="gist-data">
-        <div class="js-gist-file-update-container js-task-list-container file-box">
-  <div id="file-facade-pattern-example-1-js" class="file">
-    
-
-  <div class="blob-wrapper data type-javascript">
-      <table class="highlight tab-size js-file-line-container" data-tab-size="8">
-      <tbody><tr>
-        <td id="file-facade-pattern-example-1-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
-        <td id="file-facade-pattern-example-1-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-c">// a simple facade that masks the various browser-specific methods</span></td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-1-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
-        <td id="file-facade-pattern-example-1-js-LC2" class="blob-code blob-code-inner js-file-line"><span class="pl-k">function</span> <span class="pl-en">addEvent</span>( <span class="pl-smi">element</span>, <span class="pl-smi">event</span>, <span class="pl-smi">callback</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-1-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="file-facade-pattern-example-1-js-LC3" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-1-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
-        <td id="file-facade-pattern-example-1-js-LC4" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">if</span>( <span class="pl-c1">window</span>.addEventListener ) {</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-1-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="file-facade-pattern-example-1-js-LC5" class="blob-code blob-code-inner js-file-line">    element.addEventListener( <span class="pl-c1">event</span>, callback, <span class="pl-c1">false</span> );</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-1-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
-        <td id="file-facade-pattern-example-1-js-LC6" class="blob-code blob-code-inner js-file-line">  } <span class="pl-k">else</span> <span class="pl-k">if</span>( <span class="pl-c1">document</span>.attachEvent ) {</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-1-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
-        <td id="file-facade-pattern-example-1-js-LC7" class="blob-code blob-code-inner js-file-line">    element.<span class="pl-c1">attachEvent</span>( <span class="pl-s"><span class="pl-pds">'</span>on<span class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-c1">event</span>, callback );</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-1-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="file-facade-pattern-example-1-js-LC8" class="blob-code blob-code-inner js-file-line">  } <span class="pl-k">else</span> {</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-1-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
-        <td id="file-facade-pattern-example-1-js-LC9" class="blob-code blob-code-inner js-file-line">    element[ <span class="pl-s"><span class="pl-pds">'</span>on<span class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-c1">event</span> ] <span class="pl-k">=</span> callback;</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-1-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="file-facade-pattern-example-1-js-LC10" class="blob-code blob-code-inner js-file-line">  }</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-1-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="file-facade-pattern-example-1-js-LC11" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-1-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="file-facade-pattern-example-1-js-LC12" class="blob-code blob-code-inner js-file-line">}</td>
-      </tr>
-</tbody></table>
-
-  </div>
-
-  </div>
+<script async="" src="//www.google-analytics.com/analytics.js"></script><script src="https://gist.github.com/carldanley/28e40cc32c60909fb947.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><pre><code>// a simple facade that masks the various browser-specific methods
+function addEvent( element, event, callback ) {
   
-</div>
-
-      </div>
-      <div class="gist-meta">
-        <a href="https://gist.github.com/carldanley/28e40cc32c60909fb947/raw/2b02b56a55f7f95f630d62ff760f250ad52c8206/facade-pattern-example-1.js" style="float:right">view raw</a>
-        <a href="https://gist.github.com/carldanley/28e40cc32c60909fb947#file-facade-pattern-example-1-js">facade-pattern-example-1.js</a>
-        hosted with ❤ by <a href="https://github.com">GitHub</a>
-      </div>
-    </div>
-</div>
+  if( window.addEventListener ) {
+    element.addEventListener( event, callback, false );
+  } else if( document.attachEvent ) {
+    element.attachEvent( 'on' + event, callback );
+  } else {
+    element[ 'on' + event ] = callback;
+  }
+  
+}
+view rawfacade-pattern-example-1.js hosted with â¤ by GitHub
+</code></pre>
 
 
 <p>The above is a basic example of the facade pattern.</p>
 
-<script src="https://gist.github.com/carldanley/9187f369adcfc5c25e4f.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><div id="gist6468149" class="gist">
-    <div class="gist-file">
-      <div class="gist-data">
-        <div class="js-gist-file-update-container js-task-list-container file-box">
-  <div id="file-facade-pattern-example-2-js" class="file">
+<script src="https://gist.github.com/carldanley/9187f369adcfc5c25e4f.js"></script><link rel="stylesheet" href="https://assets-cdn.github.com/assets/gist/embed-3313cb70789df61d3bb75cd878325a1266ccab50b6aac9b80f1691ae0694a216.css"><pre><code>var MyModule = ( function( window, undefined ) {
+
+  // revealing module pattern ftw
+  function MyModule() {
     
-
-  <div class="blob-wrapper data type-javascript">
-      <table class="highlight tab-size js-file-line-container" data-tab-size="8">
-      <tbody><tr>
-        <td id="file-facade-pattern-example-2-js-L1" class="blob-num js-line-number" data-line-number="1"></td>
-        <td id="file-facade-pattern-example-2-js-LC1" class="blob-code blob-code-inner js-file-line"><span class="pl-k">var</span> MyModule <span class="pl-k">=</span> ( <span class="pl-k">function</span>( <span class="pl-smi">window</span>, <span class="pl-smi">undefined</span> ) {</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L2" class="blob-num js-line-number" data-line-number="2"></td>
-        <td id="file-facade-pattern-example-2-js-LC2" class="blob-code blob-code-inner js-file-line">
-</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L3" class="blob-num js-line-number" data-line-number="3"></td>
-        <td id="file-facade-pattern-example-2-js-LC3" class="blob-code blob-code-inner js-file-line">  <span class="pl-c">// revealing module pattern ftw</span></td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L4" class="blob-num js-line-number" data-line-number="4"></td>
-        <td id="file-facade-pattern-example-2-js-LC4" class="blob-code blob-code-inner js-file-line">  <span class="pl-k">function</span> <span class="pl-en">MyModule</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L5" class="blob-num js-line-number" data-line-number="5"></td>
-        <td id="file-facade-pattern-example-2-js-LC5" class="blob-code blob-code-inner js-file-line">    </td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L6" class="blob-num js-line-number" data-line-number="6"></td>
-        <td id="file-facade-pattern-example-2-js-LC6" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">function</span> <span class="pl-en">someMethod</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L7" class="blob-num js-line-number" data-line-number="7"></td>
-        <td id="file-facade-pattern-example-2-js-LC7" class="blob-code blob-code-inner js-file-line">      <span class="pl-c1">alert</span>( <span class="pl-s"><span class="pl-pds">'</span>some method<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="file-facade-pattern-example-2-js-LC8" class="blob-code blob-code-inner js-file-line">    }</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L9" class="blob-num js-line-number" data-line-number="9"></td>
-        <td id="file-facade-pattern-example-2-js-LC9" class="blob-code blob-code-inner js-file-line">    </td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="file-facade-pattern-example-2-js-LC10" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">function</span> <span class="pl-en">someOtherMethod</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="file-facade-pattern-example-2-js-LC11" class="blob-code blob-code-inner js-file-line">      <span class="pl-c1">alert</span>( <span class="pl-s"><span class="pl-pds">'</span>some other method<span class="pl-pds">'</span></span> );</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="file-facade-pattern-example-2-js-LC12" class="blob-code blob-code-inner js-file-line">    }</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="file-facade-pattern-example-2-js-LC13" class="blob-code blob-code-inner js-file-line">    </td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L14" class="blob-num js-line-number" data-line-number="14"></td>
-        <td id="file-facade-pattern-example-2-js-LC14" class="blob-code blob-code-inner js-file-line">    <span class="pl-c">// expose publicly available methods</span></td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="file-facade-pattern-example-2-js-LC15" class="blob-code blob-code-inner js-file-line">    <span class="pl-k">return</span> {</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L16" class="blob-num js-line-number" data-line-number="16"></td>
-        <td id="file-facade-pattern-example-2-js-LC16" class="blob-code blob-code-inner js-file-line">      </td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L17" class="blob-num js-line-number" data-line-number="17"></td>
-        <td id="file-facade-pattern-example-2-js-LC17" class="blob-code blob-code-inner js-file-line">      <span class="pl-c">// in our normal revealing module pattern, we'd do the following:</span></td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L18" class="blob-num js-line-number" data-line-number="18"></td>
-        <td id="file-facade-pattern-example-2-js-LC18" class="blob-code blob-code-inner js-file-line">      someMethod <span class="pl-k">:</span> someMethod,</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L19" class="blob-num js-line-number" data-line-number="19"></td>
-        <td id="file-facade-pattern-example-2-js-LC19" class="blob-code blob-code-inner js-file-line">      </td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L20" class="blob-num js-line-number" data-line-number="20"></td>
-        <td id="file-facade-pattern-example-2-js-LC20" class="blob-code blob-code-inner js-file-line">      <span class="pl-c">// in the facade pattern, we mask the internals so no one has direct access by doing this:</span></td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L21" class="blob-num js-line-number" data-line-number="21"></td>
-        <td id="file-facade-pattern-example-2-js-LC21" class="blob-code blob-code-inner js-file-line">      <span class="pl-en">someMethod</span> <span class="pl-k">:</span> <span class="pl-k">function</span>() {</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L22" class="blob-num js-line-number" data-line-number="22"></td>
-        <td id="file-facade-pattern-example-2-js-LC22" class="blob-code blob-code-inner js-file-line">        someMethod();</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L23" class="blob-num js-line-number" data-line-number="23"></td>
-        <td id="file-facade-pattern-example-2-js-LC23" class="blob-code blob-code-inner js-file-line">      }</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L24" class="blob-num js-line-number" data-line-number="24"></td>
-        <td id="file-facade-pattern-example-2-js-LC24" class="blob-code blob-code-inner js-file-line">      </td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L25" class="blob-num js-line-number" data-line-number="25"></td>
-        <td id="file-facade-pattern-example-2-js-LC25" class="blob-code blob-code-inner js-file-line">    };</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L26" class="blob-num js-line-number" data-line-number="26"></td>
-        <td id="file-facade-pattern-example-2-js-LC26" class="blob-code blob-code-inner js-file-line">    </td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L27" class="blob-num js-line-number" data-line-number="27"></td>
-        <td id="file-facade-pattern-example-2-js-LC27" class="blob-code blob-code-inner js-file-line">  }</td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L28" class="blob-num js-line-number" data-line-number="28"></td>
-        <td id="file-facade-pattern-example-2-js-LC28" class="blob-code blob-code-inner js-file-line">  </td>
-      </tr>
-      <tr>
-        <td id="file-facade-pattern-example-2-js-L29" class="blob-num js-line-number" data-line-number="29"></td>
-        <td id="file-facade-pattern-example-2-js-LC29" class="blob-code blob-code-inner js-file-line">} )( <span class="pl-c1">window</span> );</td>
-      </tr>
-</tbody></table>
-
-  </div>
-
-  </div>
+    function someMethod() {
+      alert( 'some method' );
+    }
+    
+    function someOtherMethod() {
+      alert( 'some other method' );
+    }
+    
+    // expose publicly available methods
+    return {
+      
+      // in our normal revealing module pattern, we'd do the following:
+      someMethod : someMethod,
+      
+      // in the facade pattern, we mask the internals so no one has direct access by doing this:
+      someMethod : function() {
+        someMethod();
+      }
+      
+    };
+    
+  }
   
-</div>
-
-      </div>
-      <div class="gist-meta">
-        <a href="https://gist.github.com/carldanley/9187f369adcfc5c25e4f/raw/063ea43f3e4250aec84ea03472bcc5ec63561d76/facade-pattern-example-2.js" style="float:right">view raw</a>
-        <a href="https://gist.github.com/carldanley/9187f369adcfc5c25e4f#file-facade-pattern-example-2-js">facade-pattern-example-2.js</a>
-        hosted with ❤ by <a href="https://github.com">GitHub</a>
-      </div>
-    </div>
-</div>
+} )( window );
+view rawfacade-pattern-example-2.js hosted with â¤ by GitHub
+</code></pre>
 
 
 <p>The above is a more advanced version of the facade pattern that adds security to internal methods.</p>
@@ -1974,7 +845,7 @@
 			START : POST
 		=============================-->
 		<div class="post-wrapper">
-<h1>JavaScript design patterns – Part 1: Singleton, composite, and façade</h1>
+<h1>JavaScript design patterns â€“ Part 1: Singleton, composite, and faÃ§ade</h1>
 <div id="articlecontentAdobe">
 <a name="articlecontentAdobe_text" style="visibility:hidden"></a><div class="text parbase section"><div class="Semantic LayoutCellSides LayoutBreakAfter TextMedium TextBreak">
 						<p>This is the first article in a series about common design patterns used in JavaScript. Design patterns are proven ways of programming to help make your code more maintainable, scalable, and decoupled, all of which are necessary when creating large JavaScript applications, especially in large groups.</p>
@@ -1998,8 +869,8 @@
         <code class="CodeBlock">var Singleton = {
     prop: 1,
     another_prop: 'value',
-    method: function() {…},
-    another_method: function() {…}
+    method: function() {â€¦},
+    another_method: function() {â€¦}
 };
 </code>
     </div>
@@ -2022,7 +893,7 @@
             private_method();
             return private_property;
         },
-        another_method: function() {…}
+        another_method: function() {â€¦}
     }
 }());
 
@@ -2038,13 +909,13 @@
 <a name="articlecontentAdobe_codeblock_1" style="visibility:hidden"></a><div class="parbase codeblock compbase section"><div class="PanelFillLight PanelBevelTop LayoutCell LayoutRow">
         <code class="CodeBlock">var Namespace = {
     Util: {
-        util_method1: function() {…},
-        util_method2: function() {…}
+        util_method1: function() {â€¦},
+        util_method2: function() {â€¦}
     },
     Ajax: {
-        ajax_method: function() {…}
+        ajax_method: function() {â€¦}
     },
-    some_method: function() {…}
+    some_method: function() {â€¦}
 };
 
 // Here's what it looks like when it's used
@@ -2212,16 +1083,16 @@ container.show();
 				</div>
 <a name="articlecontentAdobe_numberedheader_1" style="visibility:hidden"></a><div class="parbase compbase numberedheader section"><h3 class="TextH3 LayoutCellSides LayoutRow">
         <a id="articlecontentAdobe_numberedheader_1"></a>
-        Façade</h3>
+        FaÃ§ade</h3>
 </div>
 <a name="articlecontentAdobe_text_7" style="visibility:hidden"></a><div class="text parbase section"><div class="Semantic LayoutCellSides LayoutBreakAfter TextMedium TextBreak">
-						<p>The façade pattern is the final design pattern in this article, which is just a function or other piece of code that simplifies a more complex interface. This is actually quite common, and, one could argue, most functions are actually made for this very purpose. The goal of a façade is to simplify a larger piece of logic into one simple function call.</p>
-<h4>Examples of the façade</h4>
-<p>You just might be using the&nbsp;façade&nbsp;pattern all the time without realizing that you're using any design pattern at all. Just about every single library that you use in any programming language uses the facade pattern to some degreebecause generally their purpose is to make complex things simpler.</p>
+						<p>The faÃ§ade pattern is the final design pattern in this article, which is just a function or other piece of code that simplifies a more complex interface. This is actually quite common, and, one could argue, most functions are actually made for this very purpose. The goal of a faÃ§ade is to simplify a larger piece of logic into one simple function call.</p>
+<h4>Examples of the faÃ§ade</h4>
+<p>You just might be using the&nbsp;faÃ§ade&nbsp;pattern all the time without realizing that you're using any design pattern at all. Just about every single library that you use in any programming language uses the facade pattern to some degreebecause generally their purpose is to make complex things simpler.</p>
 <p>Let's look at jQuery for an example. jQuery has a single function (<code>jquery()</code>) to do so many things; It can query the DOM, create elements, or just convert DOM elements into jQuery objects. If you just look at querying the DOM, and take a peek at the number of lines of code used to create that capability, you'd probably say to yourself, "I'm glad I didn't have to write this," because it is very long and complex code. They have successfully used the<br>
-<span style="font-size: 13px; background-color: rgb(255, 255, 255);">façade&nbsp;</span>pattern to convert hundreds of lines of complex code into a single, short function call for your convenience.</p>
+<span style="font-size: 13px; background-color: rgb(255, 255, 255);">faÃ§ade&nbsp;</span>pattern to convert hundreds of lines of complex code into a single, short function call for your convenience.</p>
 <h4>Finishing up</h4>
-<p>The façade pattern is pretty easy to understand but if you are interested you can learn more from the <a href="http://www.joezimjs.com/javascript/javascript-design-patterns-facade/" target="_blank" onclick="s_objectID=&quot;http://www.joezimjs.com/javascript/javascript-design-patterns-facade/_1&quot;;return this.s_oc?this.s_oc(e):true">JavaScript Design Patterns: Façade</a> post on my personal blog.<br>
+<p>The faÃ§ade pattern is pretty easy to understand but if you are interested you can learn more from the <a href="http://www.joezimjs.com/javascript/javascript-design-patterns-facade/" target="_blank" onclick="s_objectID=&quot;http://www.joezimjs.com/javascript/javascript-design-patterns-facade/_1&quot;;return this.s_oc?this.s_oc(e):true">JavaScript Design Patterns: FaÃ§ade</a> post on my personal blog.<br>
 </p>
 </div>
 				</div>
@@ -2229,7 +1100,7 @@ container.show();
         Where to go from here</h3>
 </div>
 <a name="articlecontentAdobe_text_15" style="visibility:hidden"></a><div class="text parbase section"><div class="Semantic LayoutCellSides LayoutBreakAfter TextMedium TextBreak">
-						<p>In this part of the JavaScript Design Patterns series I covered the singleton, composite, and façade. In Part 2 of this series, you're introduced to another 3 design patterns: <a href="/devnet/archive/html5/articles/javascript-design-patterns-pt2-adapter-decorator-factory.html" onclick="s_objectID=&quot;http://www.adobe.com/devnet/archive/html5/articles/javascript-design-patterns-pt2-adapter-decorat_2&quot;;return this.s_oc?this.s_oc(e):true">adapter, decorator, and factory</a>. Part 3 discusses 3 more design patterns:&nbsp;<a href="/devnet/archive/html5/articles/javascript-design-patterns-pt3-proxy-observer-command.html" onclick="s_objectID=&quot;http://www.adobe.com/devnet/archive/html5/articles/javascript-design-patterns-pt3-proxy-observer-_2&quot;;return this.s_oc?this.s_oc(e):true">proxy, observer, and command</a>.</p>
+						<p>In this part of the JavaScript Design Patterns series I covered the singleton, composite, and faÃ§ade. In Part 2 of this series, you're introduced to another 3 design patterns: <a href="/devnet/archive/html5/articles/javascript-design-patterns-pt2-adapter-decorator-factory.html" onclick="s_objectID=&quot;http://www.adobe.com/devnet/archive/html5/articles/javascript-design-patterns-pt2-adapter-decorat_2&quot;;return this.s_oc?this.s_oc(e):true">adapter, decorator, and factory</a>. Part 3 discusses 3 more design patterns:&nbsp;<a href="/devnet/archive/html5/articles/javascript-design-patterns-pt3-proxy-observer-command.html" onclick="s_objectID=&quot;http://www.adobe.com/devnet/archive/html5/articles/javascript-design-patterns-pt3-proxy-observer-_2&quot;;return this.s_oc?this.s_oc(e):true">proxy, observer, and command</a>.</p>
 <p>I also have already completed a series on JavaScript design patterns on my personal blog that also includes a few patterns that I didn't feature in this series. You can find all of the posts in that series on <a href="http://www.joezimjs.com/tag/design-patterns/" target="_blank" onclick="s_objectID=&quot;http://www.joezimjs.com/tag/design-patterns/_1&quot;;return this.s_oc?this.s_oc(e):true">my blog</a>.</p>
 </div>
 				</div>
@@ -2370,7 +1241,7 @@ container.show();
                     <h3>Definition</h3>
 
                     <div style="width:80%;padding:6px 0;">
-                        Provide a unified interface to a set of interfaces in a subsystem. Façade defines a higher-level interface that makes the subsystem easier to use.
+                        Provide a unified interface to a set of interfaces in a subsystem. FaÃ§ade defines a higher-level interface that makes the subsystem easier to use.
                     </div>
 
                     <br>
@@ -2393,24 +1264,24 @@ container.show();
 <h3 class="phead">Summary</h3>
 
 <p class="ptext">
-    The Façade pattern provides an interface which shields clients from complex functionality in one or more subsystems.
+    The FaÃ§ade pattern provides an interface which shields clients from complex functionality in one or more subsystems.
     It is a simple pattern that may seem trivial but it is powerful and extremely useful.
     It is often present in systems that are built around a multi-layer architecture.
 </p>
 <p class="ptext">
-    The intent of the Façade is to provide a high-level interface (properties and methods) that makes a subsystem or toolkit easy to use for the client.
+    The intent of the FaÃ§ade is to provide a high-level interface (properties and methods) that makes a subsystem or toolkit easy to use for the client.
 </p>
 <p class="ptext">
     On the server, in a multi-layer web application you frequently have a presentation layer which is a client to a service layer.
     Communication between these two layers takes place via a well-defined API.
-    This API, or façade, hides the complexities of the business objects and their interactions from the presentation layer.
+    This API, or faÃ§ade, hides the complexities of the business objects and their interactions from the presentation layer.
 </p>
 <p class="ptext">
-    Another area where Façades are used is in refactoring. Suppose you have a confusing or messy set of legacy objects that the client should not be concerned about.
-    You can hide this code behind a Façade. The Façade exposes only what is necessary and presents a cleaner and easy-to-use interface.
+    Another area where FaÃ§ades are used is in refactoring. Suppose you have a confusing or messy set of legacy objects that the client should not be concerned about.
+    You can hide this code behind a FaÃ§ade. The FaÃ§ade exposes only what is necessary and presents a cleaner and easy-to-use interface.
 </p>
 <p class="ptext">
-    Façades are frequently combined with other design patterns.  Facades themselves are often implemented as singleton factories.
+    FaÃ§ades are frequently combined with other design patterns.  Facades themselves are often implemented as singleton factories.
 </p>
 <br>
 
@@ -2603,7 +1474,7 @@ container.show();
     once memory has been allocated for it. In JavaScript, as almost everything
     is an object, we're most often interested in
     <span class="emphasis"><em>object</em></span><a id="I_indexterm9_d1e1551" class="indexterm"></a> constructors.</p><p>Object constructors are used to create specific types of
-    objects—both preparing the object for use and accepting arguments a
+    objectsâ€”both preparing the object for use and accepting arguments a
     constructor can use to set the values of member properties and methods
     when the object is first created (<a class="xref" href="ch09s01.html#constructor" title="Figure&nbsp;9-1.&nbsp;Constructor pattern">Figure&nbsp;9-1</a>).</p><div class="figure-float"><div class="figure"><a id="constructor"></a><div class="figure-contents"><div class="mediaobject"><a id="I_mediaobject9_d1e1564"></a><img src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326906.png" alt="Constructor pattern" width="362" height="142" data-mfp-src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326906.png"></div></div><p class="title">Figure&nbsp;9-1.&nbsp;Constructor pattern</p></div></div><div class="sect2" title="Object Creation"><div class="titlepage"><div><div><h2 class="title"><a id="object-creation"></a>Object Creation</h2></div></div></div><p><a id="I_indexterm9_d1e1573" class="indexterm"></a><a id="I_indexterm9_d1e1578" class="indexterm"></a>The two common ways to create new objects in JavaScript
       are as follows:</p><a id="I_programlisting9_d1e1584"></a><pre class="programlisting_javascript"><code class="c1">// Each of the following options will create a new empty object:</code>
@@ -2902,7 +1773,7 @@ container.show();
         value of our <code class="literal">incrementCounter()</code> or
         <code class="literal">resetCounter()</code>. The
         <code class="literal">counter</code> variable is actually fully shielded from
-        our global scope so it acts just like a private variable would—its
+        our global scope so it acts just like a private variable wouldâ€”its
         existence is limited to within the module's closure so that the only
         code able to access its scope, are our two functions. Our methods are
         effectively namespaced so in the test section of our code, we need to
@@ -3078,7 +1949,7 @@ container.show();
 
 <code class="p">}());</code>
 </pre></div><div class="sect3" title="Toolkit and framework-specific module pattern implementations"><div class="titlepage"><div><div><h3 class="title"><a id="id441430"></a>Toolkit and framework-specific module pattern
-        implementations</h3></div></div></div><p></p><div class="sect4" title="Dojo"><div class="titlepage"><div><div><h4 class="title"><a id="id1893712"></a>Dojo</h4></div></div></div><p>Dojo <a id="I_indexterm9_d1e1999" class="indexterm"></a><a id="I_indexterm9_d1e2004" class="indexterm"></a>provides a convenience method for working with objects
+        implementations</h3></div></div></div><div class="sect4" title="Dojo"><div class="titlepage"><div><div><h4 class="title"><a id="id1893712"></a>Dojo</h4></div></div></div><p>Dojo <a id="I_indexterm9_d1e1999" class="indexterm"></a><a id="I_indexterm9_d1e2004" class="indexterm"></a>provides a convenience method for working with objects
           called <code class="literal">dojo.setObject()</code>. This
           takes as its first argument a dot-separated string such as <code class="literal">myObj.parent.child</code>, which refers to a
           property called <code class="literal">child</code> within an object
@@ -3235,7 +2106,7 @@ container.show();
         why is the Module pattern a good choice? For starters, it's a lot
         cleaner for developers coming from an object-oriented background than
         the idea of true encapsulation, at least from a JavaScript
-        perspective.</p><p>Second, it supports private data—so, in the Module pattern,
+        perspective.</p><p>Second, it supports private dataâ€”so, in the Module pattern,
         public parts of our code are able to touch the private parts, however
         the outside world is unable to touch the class's private parts (thanks
         to David Engfer for the joke).</p></div><div class="sect3" title="Disadvantages"><div class="titlepage"><div><div><h3 class="title"><a id="id613119"></a>Disadvantages</h3></div></div></div><p><a id="I_indexterm9_d1e2138" class="indexterm"></a>The disadvantages of the Module pattern are that, as we
@@ -3262,7 +2133,7 @@ container.show();
 		=============================-->
 		<div class="post-wrapper">
 <div class="sect1" title="The Revealing Module Pattern"><div class="titlepage"><div><div><h1 class="title"><a id="the-revealing-module-pattern"></a>The Revealing Module Pattern</h1></div></div></div><p><a id="I_indexterm9_d1e2160" class="indexterm"></a><a id="I_indexterm9_d1e2163" class="indexterm"></a>Now that we're a little more familiar with the Module
-    pattern, let's take a look at a slightly improved version—Christian
+    pattern, let's take a look at a slightly improved versionâ€”Christian
     Heilmann's Revealing Module pattern<a id="I_indexterm9_d1e2169" class="indexterm"></a>.</p><p>The Revealing Module pattern came about as Heilmann was frustrated
     with the fact that he had to repeat the name of the main object when he
     wanted to call one public method from another or access public variables.
@@ -3442,7 +2313,7 @@ container.show();
 <code class="c1">// Option 3: window.myApplication || ( window.myApplication = {} );</code>
 <code class="c1">// Option 4: var myApplication = $.fn.myApplication = function() {};</code>
 <code class="c1">// Option 5: var myApplication = myApplication === undefined ? {} : myApplication;</code>
-</pre><p>You'll often see developers opting for Option 1 or Option 2—they
+</pre><p>You'll often see developers opting for Option 1 or Option 2â€”they
       are both straightforward and are equivalent in terms of their end
       result.</p><p>Option 3 assumes that you're working in the global namespace, but
       it can also be written as:</p><a id="I_programlisting13_d1e8848"></a><pre class="programlisting_javascript"><code class="nx">myApplication</code> <code class="o">||</code> <code class="p">(</code><code class="nx">myApplication</code> <code class="o">=</code> <code class="p">{});</code>
@@ -3477,10 +2348,10 @@ $.fn.myPlugin.defaults = {};
 myPlugin.defaults = {};</pre><p>This results in better compression (minification) and can save on
       scope lookups.</p><p>Option 5 is a little similar to Option 4, but is a long form that
       evaluates whether <code class="literal">myApplication</code> is
-      <code class="literal">undefined</code> inline—such that it's defined as an object
-      if not—and set to an existing value for <code class="literal">myApplication</code>
+      <code class="literal">undefined</code> inlineâ€”such that it's defined as an object
+      if notâ€”and set to an existing value for <code class="literal">myApplication</code>
       if so.</p><p>It is shown just for the sake of being thorough, but in most
-      situations, Options 1–4 will more than suffice for most needs.</p><p>There is, of course, a great deal of variance in how and where
+      situations, Options 1â€“4 will more than suffice for most needs.</p><p>There is, of course, a great deal of variance in how and where
       object literals are used for organizing and structuring code. For
       smaller applications wishing to expose a nested API for a particular
       self-enclosed module, you may just find yourself using the Revealing
@@ -4047,7 +2918,7 @@ myPlugin.defaults = {};</pre><p>This results in better compression (minification
     that is unaware of a previous reference to them, they do not provide a
     method for easy retrieval. This is because it is neither the object nor
     "class" that's returned by a Singleton; it's a structure. Think of how
-    closured variables aren't actually closures—the function scope that
+    closured variables aren't actually closuresâ€”the function scope that
     provides the closure is the closure. In JavaScript, Singletons serve as a
     shared resource namespace which isolate implementation code from the
     global namespace so as to provide a single point of access for functions.
@@ -4826,7 +3697,7 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
         that calls the same data source and generalize them later on, we can
         use pub/sub from the start and save time.</p><p>Using Observers,<a id="I_indexterm9_d1e2773" class="indexterm"></a><a id="I_indexterm9_d1e2778" class="indexterm"></a> we can also easily separate application-wide
         notifications regarding different events down to whatever level of
-        granularity we're comfortable with—something that can be less
+        granularity we're comfortable withâ€”something that can be less
         elegantly done using other patterns.</p><p>Notice how in our sample below, one topic notification is made
         when a user indicates that he wants to make a search query and another
         is made when the request returns and actual data is available for
@@ -4951,7 +3822,7 @@ console.log( singleA === singleB ); // true</pre><p>What makes the Singleton is 
     software design (<a class="xref" href="ch09s06.html#mediator" title="Figure&nbsp;9-5.&nbsp;Mediator pattern">Figure&nbsp;9-5</a>).</p><div class="figure-float"><div class="figure"><a id="mediator"></a><div class="figure-contents"><div class="mediaobject"><a id="I_mediaobject9_d1e2845"></a><img src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326898.png" alt="Mediator pattern" width="520" height="314" data-mfp-src="/library/view/learning-javascript-design/9781449334840/httpatomoreillycomsourceoreillyimages1326898.png"></div></div><p class="title">Figure&nbsp;9-5.&nbsp;Mediator pattern</p></div></div><p>In implementation terms, the Mediator pattern is essentially a
     shared subject in the Observer pattern. This might assume that a direction
     Publish/Subscribe relationship between objects or modules in such systems
-    is sacrificed in order to maintain a central point of contact.</p><p>It may also be considered supplemental—perhaps used for
+    is sacrificed in order to maintain a central point of contact.</p><p>It may also be considered supplementalâ€”perhaps used for
     application-level notifications such as a communication between different
     subsystems that are themselves complex and may desire internal component
     decoupling through Publish/Subscribe relationships.</p><p>Another analogy would be DOM <a id="I_indexterm9_d1e2856" class="indexterm"></a><a id="I_indexterm9_d1e2861" class="indexterm"></a>event bubbling and event delegation. If all subscriptions in
@@ -5624,7 +4495,7 @@ function iAmClearlyCrazy( data ) {
     instead. We inform the Factory what
     type of object is required (e.g., "Button", "Panel") and it instantiates
     this, returning it to us for use.</p><p>This is particularly useful if the object creation process is
-    relatively complex—e.g., if it strongly depends on dynamic factors or
+    relatively complexâ€”e.g., if it strongly depends on dynamic factors or
     application configuration.</p><p>Examples of this pattern can be found in UI libraries such as ExtJS,
     where the methods for creating objects or components may be further
     subclassed.</p><p>The following is an example that builds upon our previous snippets
@@ -5888,5 +4759,6 @@ function iAmClearlyCrazy( data ) {
 		<!--=========================
 			END : POST
 		=============================-->
-	</body>
+	
+</body>
 </html>
