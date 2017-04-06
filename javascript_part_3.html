@@ -54,7 +54,7 @@ code {
 	background-color: #EEE;
     font-family: Consolas,monospace;
     border: solid 1px #CCC;
-    padding: 3px;
+    padding: 0 3px;
     border-radius: 3px;
     display: inline-block;
     font-size: 14px;
@@ -70,7 +70,7 @@ pre:after {
 	color: #FFF;
 }
 
-.home-screen { border: 1px solid #777; padding: 4em 0; }
+.home-screen { border: 1px solid #777; padding: 4em 0; margin: 2em 0; }
 .home-screen * { font-family: 'PT Sans', Arial, sans-serif; font-size: 3em; font-weight: normal; }
 
 /* = Index
@@ -79,8 +79,8 @@ pre:after {
 	counter-reset: section;
 }
 .tutorial-index h1:before {
-    counter-increment: section;
-    content: counter(section) " : ";
+    /*counter-increment: section;
+    content: counter(section) " : ";*/
 }
 .tutorial-index h1 {font-size: 1.2em; padding: 5px 0; font-family: 'Open Sans', Arial, sans-serif; line-height: normal;}
 .tutorial-index a { display: block; float: left; width: 50%;}
@@ -129,84 +129,84 @@ table tr:nth-of-type(odd) {
 		</style>
 	</head>
 	<body>
-	<div class="links"><a href="javascript_part_3.html">Part 3</a> | <a href="javascript_part_4.html">Part 4</a> | <a href="javascript_part_5.html">Part 5</a> | <a href="ES6-javascript_part_6.html">Part 6</a></div>
+	<div class="links tc"><a href="javascript_part_3.html">Part 3</a> | <a href="javascript_part_4.html">Part 4</a> | <a href="javascript_part_5.html">Part 5</a> | <a href="ES6-javascript_part_6.html">Part 6</a></div>
 		<div class="home-screen tc cf">
 			<h1>JavaScript Tutorials</h1>
 			<h4>- Part 3 -</h4>
 		</div>
 		<!--================= START :: Tutorial Index =================-->
 <div class="tutorial-index cf">
-	<a href="#t-01"><h1>Dealing with Design Patterns</h1></a>
-	<a href="#t-02"><h1>Index</h1></a>
-	<a href="#t-03"><h1>Seven JavaScript Quirks I Wish I'd Known About</h1></a>
-	<a href="#t-04"><h1>Named function expressions demystified</h1></a>
-	<a href="#t-05"><h1>"Real" Mixins with JavaScript Classes</h1></a>
-	<a href="#t-06"><h1>JavaScript Mixins</h1></a>
-	<a href="#t-07"><h1>Building a simple PubSub system in JavaScript</h1></a>
-	<a href="#t-08"><h1>Build A Simple Javascript App The MVC Way</h1></a>
-	<a href="#t-09"><h1>PubSub Design Pattern</h1></a>
-	<a href="#t-10"><h1>Glossary of Modern JavaScript Concepts: Part 1</h1></a>
-	<a href="#t-11"><h1>ES6 Features</h1></a>
-	<a href="#t-12"><h1>"What's the typeof null?", and other confusing JavaScript Types</h1></a>
-	<a href="#t-13"><h1>Asynchronous vs Deferred JavaScript</h1></a>
-	<a href="#t-14"><h1>An Overview of Client-Side Storage</h1></a>
-	<a href="#t-15"><h1>Back to JavaScript Basics: VARIABLES!</h1></a>
-	<a href="#t-16"><h1>Quick Tip: How to Sort an Array of Objects in JavaScript</h1></a>
-	<a href="#t-17"><h1>Effective Functional JavaScript: First-class and Higher Order Functions</h1></a>
-	<a href="#t-18"><h1>Ingredients of Effective Functional JavaScript: Closures, Partial Application and Currying</h1></a>
-	<a href="#t-19"><h1>Pub-Sub Event Manager</h1></a>
-	<a href="#t-20"><h1>Currying in JavaScript</h1></a>
-	<a href="#t-21"><h1>Currying the callback, or the essence of futures...</h1></a>
-	<a href="#t-22"><h1>Rethinking JavaScript: Eliminate the switch statement for better code</h1></a>
-	<a href="#t-23"><h1>Functional JavaScript: Function Composition For Every Day Use.</h1></a>
-	<a href="#t-24"><h1>Currying in JavaScript</h1></a>
-	<a href="#t-25"><h1>[object Object] Things You Didn't Know About valueOf</h1></a>
-	<a href="#t-26"><h1>Prototypal Inheritance</h1></a>
-	<a href="#t-27"><h1>How to impress me in an interview</h1></a>
-	<a href="#t-28"><h1>A 10 minute primer to JavaScript modules, module formats, module loaders and module bundlers</h1></a>
-	<a href="#t-29"><h1>Rethinking JavaScript: Replace break by going functional</h1></a>
-	<a href="#t-30"><h1>An Introduction to Functional JavaScript</h1></a>
-	<a href="#t-31"><h1>Filtering and Chaining in Functional JavaScript</h1></a>
-	<a href="#t-32"><h1>A Beginner's Guide to Currying in Functional JavaScript</h1></a>
-	<a href="#t-33"><h1>Higher-Order Functions in JavaScript</h1></a>
-	<a href="#t-34"><h1>Recursion in Functional JavaScript</h1></a>
-	<a href="#t-35"><h1>How to Build and Structure a Node.js MVC Application</h1></a>
-	<a href="#t-36"><h1>A Beginner's Guide to JavaScript Variables and Datatypes</h1></a>
-	<a href="#t-37"><h1>10 Node.js Best Practices: Enlightenment from the Node Gurus</h1></a>
-	<a href="#t-38"><h1>10 Tips to Become a Better Node Developer in 2017</h1></a>
-	<a href="#t-39"><h1>Function Composition: Building Blocks for Maintainable Code</h1></a>
-	<a href="#t-40"><h1>Creating Unwritable Properties with Object.defineProperty</h1></a>
-	<a href="#t-41"><h1>Advanced objects in JavaScript</h1></a>
-	<a href="#t-42"><h1>JavaScript: Function Invocation Patterns</h1></a>
-	<a href="#t-43"><h1>Javascript: Object Prototypes</h1></a>
-	<a href="#t-44"><h1>Maps, Sets and Iterators in JavaScript</h1></a>
-	<a href="#t-45"><h1>ES6 Iterators and Generators in Practice</h1></a>
-	<a href="#t-46"><h1>ES6 Iterators and Generators -- 6 exercises and solutions</h1></a>
-	<a href="#t-47"><h1>What you should know about JavaScript regular expressions</h1></a>
-	<a href="#t-48"><h1>all this</h1></a>
-	<a href="#t-49"><h1>Everything you wanted to know about JavaScript scope</h1></a>
-	<a href="#t-50"><h1>Advanced Javascript: Objects, Arrays, and Array-Like objects</h1></a>
-	<a href="#t-51"><h1>Advanced Javascript: Logical Operators and truthy / falsy</h1></a>
-	<a href="#t-52"><h1>Design Patterns - Decorating in JavaScript</h1></a>
-	<a href="#t-53"><h1>Design Patterns - The Builder Pattern in JavaScript</h1></a>
-	<a href="#t-54"><h1>Better JavaScript with ES6, Pt. II: A Deep Dive into Classes</h1></a>
-	<a href="#t-55"><h1>Recursion in JavaScript with ES6, destructuring and rest/spread</h1></a>
-	<a href="#t-56"><h1>A Gentle Introduction to Composition in JavaScript</h1></a>
-	<a href="#t-57"><h1>Enhancing Mixins with Decorator Functions</h1></a>
-	<a href="#t-58"><h1>Currying - the Underrated Concept in Javascript</h1></a>
-	<a href="#t-59"><h1>An Introduction to Functional Programming in JavaScript</h1></a>
-	<a href="#t-60"><h1>Don't Be Scared Of Functional Programming</h1></a>
-	<a href="#t-61"><h1>Classes, Inheritance And Mixins In JavaScript</h1></a>
-	<a href="#t-62"><h1>JavaScript Mixins: Beyond Simple Object Extension</h1></a>
-	<a href="#t-63"><h1>Beautiful Mixins</h1></a>
-	<a href="#t-64"><h1>JavaScript and Functional Programming</h1></a>
-	<a href="#t-65"><h1>Functional programming with Javascript</h1></a>
-	<a href="#t-66"><h1>Understanding JavaScript's async await</h1></a>
-	<a href="#t-67"><h1>Gettin' Freaky Functional w/Curried JavaScript</h1></a>
-	<a href="#t-68"><h1>Composing Synchronous and Asynchronous Functions in JavaScript</h1></a>
-	<a href="#t-69"><h1>Tidying Up a JavaScript Application with Higher-Order Functions</h1></a>
-	<a href="#t-70"><h1>Building a simple offline-capable Notepad app using ServiceWorker</h1></a>
-	<a href="#t-71"><h1>Getting Started with Service Workers</h1></a>
+	<a href="#t-01"><h1>01 : Dealing with Design Patterns</h1></a>
+	<a href="#t-02"><h1>02 : Index</h1></a>
+	<a href="#t-03"><h1>03 : Seven JavaScript Quirks I Wish I'd Known About</h1></a>
+	<a href="#t-04"><h1>04 : Named function expressions demystified</h1></a>
+	<a href="#t-05"><h1>05 : "Real" Mixins with JavaScript Classes</h1></a>
+	<a href="#t-06"><h1>06 : JavaScript Mixins</h1></a>
+	<a href="#t-07"><h1>07 : Building a simple PubSub system in JavaScript</h1></a>
+	<a href="#t-08"><h1>08 : Build A Simple Javascript App The MVC Way</h1></a>
+	<a href="#t-09"><h1>09 : PubSub Design Pattern</h1></a>
+	<a href="#t-10"><h1>10 : Glossary of Modern JavaScript Concepts: Part 1</h1></a>
+	<a href="#t-11"><h1>11 : ES6 Features</h1></a>
+	<a href="#t-12"><h1>12 : "What's the typeof null?", and other confusing JavaScript Types</h1></a>
+	<a href="#t-13"><h1>13 : Asynchronous vs Deferred JavaScript</h1></a>
+	<a href="#t-14"><h1>14 : An Overview of Client-Side Storage</h1></a>
+	<a href="#t-15"><h1>15 : Back to JavaScript Basics: VARIABLES!</h1></a>
+	<a href="#t-16"><h1>16 : Quick Tip: How to Sort an Array of Objects in JavaScript</h1></a>
+	<a href="#t-17"><h1>17 : Effective Functional JavaScript: First-class and Higher Order Functions</h1></a>
+	<a href="#t-18"><h1>18 : Ingredients of Effective Functional JavaScript: Closures, Partial Application and Currying</h1></a>
+	<a href="#t-19"><h1>19 : Pub-Sub Event Manager</h1></a>
+	<a href="#t-20"><h1>20 : Currying in JavaScript</h1></a>
+	<a href="#t-21"><h1>21 : Currying the callback, or the essence of futures...</h1></a>
+	<a href="#t-22"><h1>22 : Rethinking JavaScript: Eliminate the switch statement for better code</h1></a>
+	<a href="#t-23"><h1>23 : Functional JavaScript: Function Composition For Every Day Use.</h1></a>
+	<a href="#t-24"><h1>24 : Currying in JavaScript</h1></a>
+	<a href="#t-25"><h1>25 : [object Object] Things You Didn't Know About valueOf</h1></a>
+	<a href="#t-26"><h1>26 : Prototypal Inheritance</h1></a>
+	<a href="#t-27"><h1>27 : How to impress me in an interview</h1></a>
+	<a href="#t-28"><h1>28 : A 10 minute primer to JavaScript modules, module formats, module loaders and module bundlers</h1></a>
+	<a href="#t-29"><h1>29 : Rethinking JavaScript: Replace break by going functional</h1></a>
+	<a href="#t-30"><h1>30 : An Introduction to Functional JavaScript</h1></a>
+	<a href="#t-31"><h1>31 : Filtering and Chaining in Functional JavaScript</h1></a>
+	<a href="#t-32"><h1>32 : A Beginner's Guide to Currying in Functional JavaScript</h1></a>
+	<a href="#t-33"><h1>33 : Higher-Order Functions in JavaScript</h1></a>
+	<a href="#t-34"><h1>34 : Recursion in Functional JavaScript</h1></a>
+	<a href="#t-35"><h1>35 : How to Build and Structure a Node.js MVC Application</h1></a>
+	<a href="#t-36"><h1>36 : A Beginner's Guide to JavaScript Variables and Datatypes</h1></a>
+	<a href="#t-37"><h1>37 : 10 Node.js Best Practices: Enlightenment from the Node Gurus</h1></a>
+	<a href="#t-38"><h1>38 : 10 Tips to Become a Better Node Developer in 2017</h1></a>
+	<a href="#t-39"><h1>39 : Function Composition: Building Blocks for Maintainable Code</h1></a>
+	<a href="#t-40"><h1>40 : Creating Unwritable Properties with Object.defineProperty</h1></a>
+	<a href="#t-41"><h1>41 : Advanced objects in JavaScript</h1></a>
+	<a href="#t-42"><h1>42 : JavaScript: Function Invocation Patterns</h1></a>
+	<a href="#t-43"><h1>43 : Javascript: Object Prototypes</h1></a>
+	<a href="#t-44"><h1>44 : Maps, Sets and Iterators in JavaScript</h1></a>
+	<a href="#t-45"><h1>45 : ES6 Iterators and Generators in Practice</h1></a>
+	<a href="#t-46"><h1>46 : ES6 Iterators and Generators -- 6 exercises and solutions</h1></a>
+	<a href="#t-47"><h1>47 : What you should know about JavaScript regular expressions</h1></a>
+	<a href="#t-48"><h1>48 : all this</h1></a>
+	<a href="#t-49"><h1>49 : Everything you wanted to know about JavaScript scope</h1></a>
+	<a href="#t-50"><h1>50 : Advanced Javascript: Objects, Arrays, and Array-Like objects</h1></a>
+	<a href="#t-51"><h1>51 : Advanced Javascript: Logical Operators and truthy / falsy</h1></a>
+	<a href="#t-52"><h1>52 : Design Patterns - Decorating in JavaScript</h1></a>
+	<a href="#t-53"><h1>53 : Design Patterns - The Builder Pattern in JavaScript</h1></a>
+	<a href="#t-54"><h1>54 : Better JavaScript with ES6, Pt. II: A Deep Dive into Classes</h1></a>
+	<a href="#t-55"><h1>55 : Recursion in JavaScript with ES6, destructuring and rest/spread</h1></a>
+	<a href="#t-56"><h1>56 : A Gentle Introduction to Composition in JavaScript</h1></a>
+	<a href="#t-57"><h1>57 : Enhancing Mixins with Decorator Functions</h1></a>
+	<a href="#t-58"><h1>58 : Currying - the Underrated Concept in Javascript</h1></a>
+	<a href="#t-59"><h1>59 : An Introduction to Functional Programming in JavaScript</h1></a>
+	<a href="#t-60"><h1>60 : Don't Be Scared Of Functional Programming</h1></a>
+	<a href="#t-61"><h1>61 : Classes, Inheritance And Mixins In JavaScript</h1></a>
+	<a href="#t-62"><h1>62 : JavaScript Mixins: Beyond Simple Object Extension</h1></a>
+	<a href="#t-63"><h1>63 : Beautiful Mixins</h1></a>
+	<a href="#t-64"><h1>64 : JavaScript and Functional Programming</h1></a>
+	<a href="#t-65"><h1>65 : Functional programming with Javascript</h1></a>
+	<a href="#t-66"><h1>66 : Understanding JavaScript's async await</h1></a>
+	<a href="#t-67"><h1>67 : Gettin' Freaky Functional w/Curried JavaScript</h1></a>
+	<a href="#t-68"><h1>68 : Composing Synchronous and Asynchronous Functions in JavaScript</h1></a>
+	<a href="#t-69"><h1>69 : Tidying Up a JavaScript Application with Higher-Order Functions</h1></a>
+	<a href="#t-70"><h1>70 : Building a simple offline-capable Notepad app using ServiceWorker</h1></a>
+	<a href="#t-71"><h1>71 : Getting Started with Service Workers</h1></a>
 </div>
 		<!--================= END :: Tutorial Index =================-->
 		
