@@ -510,7 +510,7 @@ plus5(3);  // returns 8
 <div class="language-js highlighter-rouge"><pre><code>const myCar = {
  brand: 'Ford',
  type: 'Sedan'
- Color: ‘Red'
+ Color: 'Red'
 };
 
 const getBrand = () =&gt; {
@@ -964,7 +964,7 @@ squareAll([5, 7, 5]);
 };
 </code></pre>
 
-<p>So now we've ‘abstracted' our little pattern. We can use it like this:</p>
+<p>So now we've 'abstracted' our little pattern. We can use it like this:</p>
 
 <pre><code>var rightmostCurriedMap = rightmostCurry(map);
 
@@ -1130,7 +1130,7 @@ var curriedAdd = function(a) {
         return a + b;
     };
 };</code></pre>
-<p>A function which returns the result of evaluating a quadratic expression demonstrates more clearly the ‘nesting' of functions which currying produces.</p>
+<p>A function which returns the result of evaluating a quadratic expression demonstrates more clearly the 'nesting' of functions which currying produces.</p>
 <pre><code>var quadratic = function(a, b, c, x) {
     return a * x * x + b * x + c;
 };
@@ -1186,7 +1186,7 @@ var curriedQuadratic = function(a) {
         // Some other computation involving a
     }
 };</code></pre>
-<p>Now consider a variadic function, like <code>Math.max</code>, which returns the largest number amongst its arguments. Despite the fact that it can in fact be called with any number of arguments, including 0 and 1, it has a length property of 2. Consequently, our ‘smarter' curry function will only work with <code>Math.max</code> up to a point. This will throw a type error, even though <code>Math.max</code> will accept three arguments quite happily:</p>
+<p>Now consider a variadic function, like <code>Math.max</code>, which returns the largest number amongst its arguments. Despite the fact that it can in fact be called with any number of arguments, including 0 and 1, it has a length property of 2. Consequently, our 'smarter' curry function will only work with <code>Math.max</code> up to a point. This will throw a type error, even though <code>Math.max</code> will accept three arguments quite happily:</p>
 <pre><code>curryByLength(Math.max)(1)(2)(3);</code></pre>
 <p>Currying <code>Math.max</code> limits its utility to discriminating between two numbers, not <em>n</em> numbers. We can easily think of similar examples—other variadic functions, functions with optional arguments, and similarly clever abuses of JavaScript's dynamic arguments to create complex APIs. jQuery's <code>bind</code> method could be considered <a href="http://api.jquery.com/bind/">an example</a> of this: the event handler can be passed to the method as either the second or the third argument, depending on whether the user wishes to use the optional <code>eventData</code> parameter or not.</p>
 <p>It is easy to see that there is no general way of resolving this issue: currying is essentially at odds with variadic functions and the ability to change the number of arguments a function accepts at runtime. However, one's choices are not limited simply to the approaches discussed above; there are alternatives, even if they do not fully dispose of the problem of dynamic arity.</p>
@@ -1231,7 +1231,7 @@ var curriedQuadratic = function(a) {
     
     return _curry;
 };</code></pre>
-<p>For common use cases such as functions which accept 2 or 3 arguments, one can write simple aliases using <code>ncurry</code>, while one can always use <code>ncurry</code> ‘inline' where necessary.</p>
+<p>For common use cases such as functions which accept 2 or 3 arguments, one can write simple aliases using <code>ncurry</code>, while one can always use <code>ncurry</code> 'inline' where necessary.</p>
 <pre><code>var curry  = ncurry(2),
     curry3 = ncurry(3);
 
@@ -8624,7 +8624,7 @@ urgent instanceof Coloured
   <li><a href="http://raganwald.com/2015/08/05/method-advice.html">Method Advice in Modern JavaScript</a></li>
   <li><a href="http://raganwald.com/2015/12/23/super-considered-hmmmful.html"><code class="highlighter-rouge">super()</code> considered hmmm-ful</a></li>
   <li><a href="http://raganwald.com/2015/12/28/mixins-subclass-factories-and-method-advice.html">JavaScript Mixins, Subclass Factories, and Method Advice</a></li>
-  <li><a href="http://raganwald.com/2015/12/31/this-is-not-an-essay-about-traits-in-javascript.html">This is not an essay about ‘Traits in Javascript'</a></li>
+  <li><a href="http://raganwald.com/2015/12/31/this-is-not-an-essay-about-traits-in-javascript.html">This is not an essay about 'Traits in Javascript'</a></li>
 </ul>
 
 <p>notes:</p>
@@ -9071,7 +9071,7 @@ new CanadianAirForceRoundel().roundels()
 
 <h3 id="combining-advice-with-simple-mixins">combining advice with simple mixins</h3>
 
-<p>The above adjustment to ‘mixin' is fine for simple overwriting, but what about when we wish to modify or extend a method's behaviour while still invoking the original? Recall that our <code class="highlighter-rouge">TimeSensitiveTodo</code> example performed a simple override of <code class="highlighter-rouge">getColourRGB</code>, but its implementation of <code class="highlighter-rouge">toHTML</code> used <code class="highlighter-rouge">super</code> to invoke the method it was overriding.</p>
+<p>The above adjustment to 'mixin' is fine for simple overwriting, but what about when we wish to modify or extend a method's behaviour while still invoking the original? Recall that our <code class="highlighter-rouge">TimeSensitiveTodo</code> example performed a simple override of <code class="highlighter-rouge">getColourRGB</code>, but its implementation of <code class="highlighter-rouge">toHTML</code> used <code class="highlighter-rouge">super</code> to invoke the method it was overriding.</p>
 
 <p>Our adjustment will not allow a method in the class to invoke the body of a method in a mixin. So we can't use it to implement <code class="highlighter-rouge">TimeSensitiveTodo</code>. For that, we need a different tool, <a href="http://raganwald.com/2015/08/05/method-advice.html">method advice</a>.</p>
 
@@ -9324,7 +9324,7 @@ class Person {
   <li><a href="http://raganwald.com/2015/08/05/method-advice.html">Method Advice in Modern JavaScript</a></li>
   <li><a href="http://raganwald.com/2015/12/23/super-considered-hmmmful.html"><code class="highlighter-rouge">super()</code> considered hmmm-ful</a></li>
   <li><a href="http://raganwald.com/2015/12/28/mixins-subclass-factories-and-method-advice.html">JavaScript Mixins, Subclass Factories, and Method Advice</a></li>
-  <li><a href="http://raganwald.com/2015/12/31/this-is-not-an-essay-about-traits-in-javascript.html">This is not an essay about ‘Traits in Javascript'</a></li>
+  <li><a href="http://raganwald.com/2015/12/31/this-is-not-an-essay-about-traits-in-javascript.html">This is not an essay about 'Traits in Javascript'</a></li>
 </ul>
 
 <p>notes:</p>
@@ -10567,7 +10567,7 @@ bootstrapper();
 					<a id="t43" name="t43"></a><h1>43 : JavaScript's Magical Tips Every Developer Should Remember</h1>
 					<span class="ref-site">https://blog.zipboard.co/javascripts-magical-tips-every-developer-should-remember-631b699fc251</span>
 					<div class="tutorial__content">
-<div class="section-inner sectionLayout--insetColumn"><p name="f692" id="f692" class="graf graf--p graf-after--figure">Over the course of developing our product at <a href="http://zipboard.co" data-href="http://zipboard.co" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">zipBoard</a>, JavaScript has been our bedrock for all intents and purposes. As per <a href="http://stackoverflow.com/research/developer-survey-2016#developer-profile" data-href="http://stackoverflow.com/research/developer-survey-2016#developer-profile" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">this developer survey</a> at Stack Overflow, we're in good company on this front. JavaScript is <em class="markup--em markup--p-em">the</em> most popular technology for full stack development. While I have been focusing mainly on NodeJS, and somewhat AngularJS, I have realized that there are always some tricks and tips involved in every programming language irrespective of its nature of existence.</p><p name="c962" id="c962" class="graf graf--p graf-after--p">I have seen (<em class="markup--em markup--p-em">so many times</em>) that we programmers can tend to make things over complicated, which in-turn leads to problems and chaos in the developing environment. It is beautifully explained by <a href="https://medium.com/@_ericelliott" data-href="https://medium.com/@_ericelliott" data-anchor-type="2" data-user-id="c359511de780" data-action-value="c359511de780" data-action="show-user-card" data-action-type="hover" class="markup--user markup--p-user" target="_blank">Eric Elliott</a> in his post.</p><p name="2a87" id="2a87" class="graf graf--p graf-after--mixtapeEmbed">Without further ado let's get started with the cool tips for JavaScript:</p><p name="c940" id="c940" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">1. Use "var" when creating a new variable.</strong><br>Whenever you are creating a new variable always keep in mind to use "var" in front of the variable name unless you want to create a global variable. This is so because if you create a variable without using "var" its scope will automatically be global which sometime creates issues, unless required.</p><p name="4776" id="4776" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">2. Always use "===" as comparator instead of "==" (Strict equal)</strong><br>Use "===" instead of "==" because when you use "==" there is automatic type conversion involved which can lead to undesirable results.</p><pre name="127a" id="127a" class="graf graf--pre graf-after--p">3 == ‘3' // true<br>3 === ‘3' //false</pre><p name="d794" id="d794" class="graf graf--p graf-after--pre">This happens because in "===" the comparison takes place among the value and type.</p><pre name="6b6d" id="6b6d" class="graf graf--pre graf-after--p">[10] == 10   // is true<br>[10] === 10  // is false<br>'10' == 10   // is true<br>'10' === 10  // is false<br>[] == 0      // is true<br>[] === 0     // is false<br>'' == false  // is true<br>'' === false // is false</pre><p name="e2b8" id="e2b8" class="graf graf--p graf-after--pre"><strong class="markup--strong markup--p-strong">3. ‘undefined, null, 0, false, NaN, ‘' (empty string)' are all false conditions.</strong></p><p name="a3c4" id="a3c4" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">4. Empty an array</strong></p><pre name="a93c" id="a93c" class="graf graf--pre graf-after--p">var sampleArray = [2, 223, 54, 31];<br>sampleArray.length = 0; // sampleArray becomes []</pre><p name="a4ab" id="a4ab" class="graf graf--p graf-after--pre"><strong class="markup--strong markup--p-strong">5. Rounding number to N decimal places</strong></p><pre name="c301" id="c301" class="graf graf--pre graf-after--p">var n = 2.4134213123;<br>n = n.toFixed(4); // computes n = "2.4134"</pre><p name="5c55" id="5c55" class="graf graf--p graf-after--pre"><strong class="markup--strong markup--p-strong">6. Verify that your computation will produce finite result or not.</strong></p><pre name="0e19" id="0e19" class="graf graf--pre graf-after--p">isFinite(0/0);       // false<br>isFinite('foo');     // true<br>isFinite('10');      // true<br>isFinite(10);        // true<br>isFinite(undefined); // false<br>isFinite();          // false  <br>isFinite(null);      // true</pre><p name="d1db" id="d1db" class="graf graf--p graf-after--pre">Lets take an example to understand the use case of this function, suppose you have written a database query over a table which contains large amount of data and after the execution of query you are not certain about all the possible result values of that query. The data of query changes on something that you put dynamically in the query. In such a case you are not sure about finite property of the result and if you use that result directly it can give you infinite condition, which can break your code.</p><p name="ebba" id="ebba" class="graf graf--p graf-after--p">Hence, it is recommended to use <code class="markup--code markup--p-code">isFinite()</code> before any such operations so that infinite values can be handled properly.</p><p name="de4e" id="de4e" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">7. Use a switch/case statement instead of a series of if/else</strong></p><p name="6efb" id="6efb" class="graf graf--p graf-after--p">Using switch/case is faster when there are more than 2 cases, and it is more elegant (better organized code). Avoid using it when you have more than 10 cases.</p><p name="7ccc" id="7ccc" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">8. Use of "use strict" inside your file</strong><br>The string "use strict" will keep you from worrying about declaration of a variable which I mentioned in 1st point.</p><pre name="623b" id="623b" class="graf graf--pre graf-after--p"><em class="markup--em markup--pre-em">// This is bad, since you do create a global without having anyone to tell you<br></em>(function () {<br>   a = 42;<br>   console.log(a);<br>   <em class="markup--em markup--pre-em">// → 42</em><br>})();<br>console.log(a);<em class="markup--em markup--pre-em"><br>// → 42</em></pre><p name="c128" id="c128" class="graf graf--p graf--startsWithDoubleQuote graf-after--pre">"use strict" will keep you away from making above mistake. Using "use strict", you can get quite a few more errors:</p><pre name="8c59" id="8c59" class="graf graf--pre graf-after--p">(function () {<br>   "use strict";<br>   a = 42;<em class="markup--em markup--pre-em"><br>   // Error: Uncaught ReferenceError: a is not defined<br></em>})();</pre><p name="0d08" id="0d08" class="graf graf--p graf-after--pre">You could be wondering why you can't put "use strict" outside the wrapping function. Well, you can, but it will be applied globally. That's still not bad; but it will affect if you have code which comes from other libraries, or if you bundle everything in one file.</p><p name="3301" id="3301" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">9. Use &amp;&amp; and || to create magic</strong></p><pre name="cf60" id="cf60" class="graf graf--pre graf--startsWithDoubleQuote graf-after--p">"" || "foo"<em class="markup--em markup--pre-em"><br>// → "foo"</em></pre><pre name="477f" id="477f" class="graf graf--pre graf-after--pre">undefined || 42<em class="markup--em markup--pre-em"><br>// → 42</em></pre><pre name="cbff" id="cbff" class="graf graf--pre graf-after--pre">function doSomething () {<br>   return { foo: "bar" };<br>}<br>var expr = true;<br>var res = expr &amp;&amp; doSomething();<br>res &amp;&amp; console.log(res);<br><em class="markup--em markup--pre-em">// → { foo: "bar" }</em></pre><p name="cced" id="cced" class="graf graf--p graf-after--pre"><strong class="markup--strong markup--p-strong">Additionally, don't forget to use a code beautifier when coding. Use </strong><a href="http://www.jslint.com/" data-href="http://www.jslint.com/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"><strong class="markup--strong markup--p-strong">JSLint</strong></a><strong class="markup--strong markup--p-strong"> and </strong><a href="https://en.wikipedia.org/wiki/Minification_%28programming%29" data-href="https://en.wikipedia.org/wiki/Minification_(programming)" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"><strong class="markup--strong markup--p-strong">minification</strong></a><strong class="markup--strong markup--p-strong"> (</strong><a href="https://pypi.python.org/pypi/jsmin" data-href="https://pypi.python.org/pypi/jsmin" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"><strong class="markup--strong markup--p-strong">JSMin</strong></a><strong class="markup--strong markup--p-strong">, for example) before going live. This will help you maintain a coding standard in your project and make it as standard as possible.</strong></p><p name="b73c" id="b73c" class="graf graf--p graf-after--p">The above is a mere reflection of the power of JavaScript.</p><p name="9db0" id="9db0" class="graf graf--p graf-after--p graf--trailing">Thanks for reading!</p></div>
+<div class="section-inner sectionLayout--insetColumn"><p name="f692" id="f692" class="graf graf--p graf-after--figure">Over the course of developing our product at <a href="http://zipboard.co" data-href="http://zipboard.co" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">zipBoard</a>, JavaScript has been our bedrock for all intents and purposes. As per <a href="http://stackoverflow.com/research/developer-survey-2016#developer-profile" data-href="http://stackoverflow.com/research/developer-survey-2016#developer-profile" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">this developer survey</a> at Stack Overflow, we're in good company on this front. JavaScript is <em class="markup--em markup--p-em">the</em> most popular technology for full stack development. While I have been focusing mainly on NodeJS, and somewhat AngularJS, I have realized that there are always some tricks and tips involved in every programming language irrespective of its nature of existence.</p><p name="c962" id="c962" class="graf graf--p graf-after--p">I have seen (<em class="markup--em markup--p-em">so many times</em>) that we programmers can tend to make things over complicated, which in-turn leads to problems and chaos in the developing environment. It is beautifully explained by <a href="https://medium.com/@_ericelliott" data-href="https://medium.com/@_ericelliott" data-anchor-type="2" data-user-id="c359511de780" data-action-value="c359511de780" data-action="show-user-card" data-action-type="hover" class="markup--user markup--p-user" target="_blank">Eric Elliott</a> in his post.</p><p name="2a87" id="2a87" class="graf graf--p graf-after--mixtapeEmbed">Without further ado let's get started with the cool tips for JavaScript:</p><p name="c940" id="c940" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">1. Use "var" when creating a new variable.</strong><br>Whenever you are creating a new variable always keep in mind to use "var" in front of the variable name unless you want to create a global variable. This is so because if you create a variable without using "var" its scope will automatically be global which sometime creates issues, unless required.</p><p name="4776" id="4776" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">2. Always use "===" as comparator instead of "==" (Strict equal)</strong><br>Use "===" instead of "==" because when you use "==" there is automatic type conversion involved which can lead to undesirable results.</p><pre name="127a" id="127a" class="graf graf--pre graf-after--p">3 == '3' // true<br>3 === '3' //false</pre><p name="d794" id="d794" class="graf graf--p graf-after--pre">This happens because in "===" the comparison takes place among the value and type.</p><pre name="6b6d" id="6b6d" class="graf graf--pre graf-after--p">[10] == 10   // is true<br>[10] === 10  // is false<br>'10' == 10   // is true<br>'10' === 10  // is false<br>[] == 0      // is true<br>[] === 0     // is false<br>'' == false  // is true<br>'' === false // is false</pre><p name="e2b8" id="e2b8" class="graf graf--p graf-after--pre"><strong class="markup--strong markup--p-strong">3. 'undefined, null, 0, false, NaN, '' (empty string)' are all false conditions.</strong></p><p name="a3c4" id="a3c4" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">4. Empty an array</strong></p><pre name="a93c" id="a93c" class="graf graf--pre graf-after--p">var sampleArray = [2, 223, 54, 31];<br>sampleArray.length = 0; // sampleArray becomes []</pre><p name="a4ab" id="a4ab" class="graf graf--p graf-after--pre"><strong class="markup--strong markup--p-strong">5. Rounding number to N decimal places</strong></p><pre name="c301" id="c301" class="graf graf--pre graf-after--p">var n = 2.4134213123;<br>n = n.toFixed(4); // computes n = "2.4134"</pre><p name="5c55" id="5c55" class="graf graf--p graf-after--pre"><strong class="markup--strong markup--p-strong">6. Verify that your computation will produce finite result or not.</strong></p><pre name="0e19" id="0e19" class="graf graf--pre graf-after--p">isFinite(0/0);       // false<br>isFinite('foo');     // true<br>isFinite('10');      // true<br>isFinite(10);        // true<br>isFinite(undefined); // false<br>isFinite();          // false  <br>isFinite(null);      // true</pre><p name="d1db" id="d1db" class="graf graf--p graf-after--pre">Lets take an example to understand the use case of this function, suppose you have written a database query over a table which contains large amount of data and after the execution of query you are not certain about all the possible result values of that query. The data of query changes on something that you put dynamically in the query. In such a case you are not sure about finite property of the result and if you use that result directly it can give you infinite condition, which can break your code.</p><p name="ebba" id="ebba" class="graf graf--p graf-after--p">Hence, it is recommended to use <code class="markup--code markup--p-code">isFinite()</code> before any such operations so that infinite values can be handled properly.</p><p name="de4e" id="de4e" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">7. Use a switch/case statement instead of a series of if/else</strong></p><p name="6efb" id="6efb" class="graf graf--p graf-after--p">Using switch/case is faster when there are more than 2 cases, and it is more elegant (better organized code). Avoid using it when you have more than 10 cases.</p><p name="7ccc" id="7ccc" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">8. Use of "use strict" inside your file</strong><br>The string "use strict" will keep you from worrying about declaration of a variable which I mentioned in 1st point.</p><pre name="623b" id="623b" class="graf graf--pre graf-after--p"><em class="markup--em markup--pre-em">// This is bad, since you do create a global without having anyone to tell you<br></em>(function () {<br>   a = 42;<br>   console.log(a);<br>   <em class="markup--em markup--pre-em">// → 42</em><br>})();<br>console.log(a);<em class="markup--em markup--pre-em"><br>// → 42</em></pre><p name="c128" id="c128" class="graf graf--p graf--startsWithDoubleQuote graf-after--pre">"use strict" will keep you away from making above mistake. Using "use strict", you can get quite a few more errors:</p><pre name="8c59" id="8c59" class="graf graf--pre graf-after--p">(function () {<br>   "use strict";<br>   a = 42;<em class="markup--em markup--pre-em"><br>   // Error: Uncaught ReferenceError: a is not defined<br></em>})();</pre><p name="0d08" id="0d08" class="graf graf--p graf-after--pre">You could be wondering why you can't put "use strict" outside the wrapping function. Well, you can, but it will be applied globally. That's still not bad; but it will affect if you have code which comes from other libraries, or if you bundle everything in one file.</p><p name="3301" id="3301" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">9. Use &amp;&amp; and || to create magic</strong></p><pre name="cf60" id="cf60" class="graf graf--pre graf--startsWithDoubleQuote graf-after--p">"" || "foo"<em class="markup--em markup--pre-em"><br>// → "foo"</em></pre><pre name="477f" id="477f" class="graf graf--pre graf-after--pre">undefined || 42<em class="markup--em markup--pre-em"><br>// → 42</em></pre><pre name="cbff" id="cbff" class="graf graf--pre graf-after--pre">function doSomething () {<br>   return { foo: "bar" };<br>}<br>var expr = true;<br>var res = expr &amp;&amp; doSomething();<br>res &amp;&amp; console.log(res);<br><em class="markup--em markup--pre-em">// → { foo: "bar" }</em></pre><p name="cced" id="cced" class="graf graf--p graf-after--pre"><strong class="markup--strong markup--p-strong">Additionally, don't forget to use a code beautifier when coding. Use </strong><a href="http://www.jslint.com/" data-href="http://www.jslint.com/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"><strong class="markup--strong markup--p-strong">JSLint</strong></a><strong class="markup--strong markup--p-strong"> and </strong><a href="https://en.wikipedia.org/wiki/Minification_%28programming%29" data-href="https://en.wikipedia.org/wiki/Minification_(programming)" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"><strong class="markup--strong markup--p-strong">minification</strong></a><strong class="markup--strong markup--p-strong"> (</strong><a href="https://pypi.python.org/pypi/jsmin" data-href="https://pypi.python.org/pypi/jsmin" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"><strong class="markup--strong markup--p-strong">JSMin</strong></a><strong class="markup--strong markup--p-strong">, for example) before going live. This will help you maintain a coding standard in your project and make it as standard as possible.</strong></p><p name="b73c" id="b73c" class="graf graf--p graf-after--p">The above is a mere reflection of the power of JavaScript.</p><p name="9db0" id="9db0" class="graf graf--p graf-after--p graf--trailing">Thanks for reading!</p></div>
 					</div>
 				</article>
 				<!--================= END :: Tutorial =================-->
@@ -13302,7 +13302,7 @@ function BaseClass(name) {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="skimlinks-unlinked">this.name</span> = name;<br>
 }</p>
 <p><span class="skimlinks-unlinked">BaseClass.prototype.foo</span> = function (arg) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;return ‘This is the foo method with argument: ‘ + arg;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return 'This is the foo method with argument: ' + arg;<br>
 };</p>
 <p>function SubClass(name) {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;// Call the base class' constructor.<br>
@@ -13311,11 +13311,11 @@ function BaseClass(name) {<br>
 <p>// SubClass' prototype is based on BaseClass' prototype<br>
 SubClass.prototype = Object.create(BaseClass.prototype);</p>
 <p><span class="skimlinks-unlinked">SubClass.prototype.sub</span> = function () {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;return ‘This is the sub method.'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return 'This is the sub method.'<br>
 }</p>
 <p><span class="skimlinks-unlinked">SubClass.prototype.foo</span> = function (arg) {<br>
 &nbsp;&nbsp;&nbsp;&nbsp;// Call the base class foo method on the current instance<br>
-&nbsp;&nbsp;&nbsp;&nbsp;return <span class="skimlinks-unlinked">BaseClass.prototype.foo.call(this</span>, arg) + ‘ SUB';<br>
+&nbsp;&nbsp;&nbsp;&nbsp;return <span class="skimlinks-unlinked">BaseClass.prototype.foo.call(this</span>, arg) + ' SUB';<br>
 }</p></blockquote>
 <p>Ok, so what stands out the most in this code is this line:</p>
 <blockquote><p>SubClass.prototype = Object.create(BaseClass.prototype);</p></blockquote>
@@ -13326,7 +13326,7 @@ SubClass.prototype = Object.create(BaseClass.prototype);</p>
 <p>Now if you don't know what call or apply do, you should check this:<br>
 <a href="http://stackoverflow.com/questions/1986896/what-is-the-difference-between-call-and-apply">http://stackoverflow.com/questions/1986896/what-is-the-difference-between-call-and-apply</a></p>
 <p>OO languages usually offer a way to explicitly call a super class' constructor or method, JavaScript is no exception. With JavaScript, you just call the constructor/method using either call() or apply() and pass a reference to the current instance as the first argument. This is a neat feature of JavaScript which allows you to effectively borrow methods from any other class to use on the current instance.</p>
-<p>If you're used to languages like Java, C# and Python, you might find the class definitions above unusual – In these languages you have an explicit ‘class' keyword and you define the methods INSIDE the class block. If however, you have written C++ before, this might seem a little less confusing because C++ allows you to define methods of a class outside of the class definition block.&nbsp;While JavaScript does let you define methods inside the constructor's function block, this makes inheritance more difficult to achieve and I would strongly recommend that you follow the technique above (I swear you won't regret it).</p>
+<p>If you're used to languages like Java, C# and Python, you might find the class definitions above unusual – In these languages you have an explicit 'class' keyword and you define the methods INSIDE the class block. If however, you have written C++ before, this might seem a little less confusing because C++ allows you to define methods of a class outside of the class definition block.&nbsp;While JavaScript does let you define methods inside the constructor's function block, this makes inheritance more difficult to achieve and I would strongly recommend that you follow the technique above (I swear you won't regret it).</p>
 										</div>
 					</div>
 				</article>
@@ -16206,7 +16206,7 @@ showState();</code></pre>
 
 <h2>Prototypes in Javascript</h2>
 
-<p>Most guides / tutorials start explaining JavaScript objects by going directly to ‘<strong>constructor functions</strong>', I think this is a mistake, as they introduce a fairly complex concept early on making Javascript look difficult and confusing from the start. Let's leave this for later. First let's start with the basics of prototypes.</p>
+<p>Most guides / tutorials start explaining JavaScript objects by going directly to '<strong>constructor functions</strong>', I think this is a mistake, as they introduce a fairly complex concept early on making Javascript look difficult and confusing from the start. Let's leave this for later. First let's start with the basics of prototypes.</p>
 
 <h2>Prototype chains (aka prototype inheritance)</h2>
 
@@ -16238,13 +16238,13 @@ zack.__proto__ = alien
 
 // zack is now linked to alien
 // it 'inherits' the properties of alien
-console.log(zack.kind); //=&gt; ‘alien'
+console.log(zack.kind); //=&gt; 'alien'
 
 // assign person as the prototype of zack
 zack.__proto__ = person
 
 // and now zack is linked to person
-console.log(zack.kind); //=&gt; ‘person'
+console.log(zack.kind); //=&gt; 'person'
 </code></pre></figure>
 
 
@@ -16299,7 +16299,7 @@ console.log(person.kind); //=&gt; 'person'
 </code></pre></figure>
 
 
-<p>Note that the property ‘kind' now exists in both person and zack.</p>
+<p>Note that the property 'kind' now exists in both person and zack.</p>
 
 <h2>Object.create</h2>
 
@@ -16312,14 +16312,14 @@ console.log(person.kind); //=&gt; 'person'
 // creates a new object which prototype is person
 var zack = Object.create(person);
   
-console.log(zack.kind); // =&gt; ‘person'
+console.log(zack.kind); // =&gt; 'person'
 </code></pre></figure>
 
 
 <p>You can pass an object to Object.create to add specific properties for the new object</p>
 
 <figure class="code"><figcaption><span></span></figcaption><pre><code>var zack = Object.create(person, {age: {value:  13} });
-console.log(zack.age); // =&gt; ‘13'
+console.log(zack.age); // =&gt; '13'
 </code></pre></figure>
 
 
@@ -16357,18 +16357,18 @@ console.log(foo instanceof Foo ) //=&gt; true
 
 <p>In essence functions when used with the keyword <strong>new</strong> behave like factories, meaning that they create new objects. The new object they create is linked to the function by its prototype, more on this later. So in JavaScript we call this an <strong>instance</strong> of the function.</p>
 
-<h3>‘this' is assigned implicitly</h3>
+<h3>'this' is assigned implicitly</h3>
 
-<p>When we use ‘<strong>new</strong>', JavaScript injects an implicit reference to the new object being created in the form of the ‘<strong>this</strong>' keyword. It also returns this reference implicitly at the end of the function.</p>
+<p>When we use '<strong>new</strong>', JavaScript injects an implicit reference to the new object being created in the form of the '<strong>this</strong>' keyword. It also returns this reference implicitly at the end of the function.</p>
 
 <p>When we do this:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><pre><code>function Foo() {
-  this.kind = ‘foo'
+  this.kind = 'foo'
 }
 
 var foo = new Foo(); 
-foo.kind //=&gt; ‘foo'
+foo.kind //=&gt; 'foo'
 </code></pre></figure>
 
 
@@ -16378,20 +16378,20 @@ foo.kind //=&gt; ‘foo'
   var this = {}; // this is not valid, just for illustration
   this.__proto__ = Foo.prototype;
   
-  this.kind = ‘foo'
+  this.kind = 'foo'
   
   return this;
 }
 </code></pre></figure>
 
 
-<p>But keep in mind that the implicit ‘<strong>this</strong>' is only assigned to a new object when using ‘<strong>new</strong>'. If you forget ‘<strong>new</strong>' keyword then ‘<strong>this</strong>' will be the global object. Of course forgetting <strong>new</strong> is a cause of multiple bugs, so don't forget <strong>new</strong>.</p>
+<p>But keep in mind that the implicit '<strong>this</strong>' is only assigned to a new object when using '<strong>new</strong>'. If you forget '<strong>new</strong>' keyword then '<strong>this</strong>' will be the global object. Of course forgetting <strong>new</strong> is a cause of multiple bugs, so don't forget <strong>new</strong>.</p>
 
 <p>One convention that I like is capitalizing the first letter of a function when it is intented to be used as a function constructor, so you now straightaway to you are missing the <strong>new</strong> keyword.</p>
 
-<h3>The ‘function prototype'</h3>
+<h3>The 'function prototype'</h3>
 
-<p>Every function in JavaScript has a special property called ‘<strong>prototype</strong>'.</p>
+<p>Every function in JavaScript has a special property called '<strong>prototype</strong>'.</p>
 
 <figure class="code"><figcaption><span></span></figcaption><pre><code>function Foo(){
 }
@@ -16400,15 +16400,15 @@ Foo.prototype
 </code></pre></figure>
 
 
-<p>As confusing as it may sound, this ‘<strong>prototype</strong>' property is not the real prototype (<strong>__proto__</strong>) of the function.</p>
+<p>As confusing as it may sound, this '<strong>prototype</strong>' property is not the real prototype (<strong>__proto__</strong>) of the function.</p>
 
 <figure class="code"><figcaption><span></span></figcaption><pre><code>Foo.__proto__ === Foo.prototype //=&gt; false
 </code></pre></figure>
 
 
-<p>This of course generates a lot of confusion as people use the term ‘<strong>prototype</strong>' to refer to different things. I think that a good clarification is to always refer to the special ‘<strong>prototype</strong>' property of functions as ‘<strong>the function prototype</strong>', never just ‘<strong>prototype</strong>'.</p>
+<p>This of course generates a lot of confusion as people use the term '<strong>prototype</strong>' to refer to different things. I think that a good clarification is to always refer to the special '<strong>prototype</strong>' property of functions as '<strong>the function prototype</strong>', never just '<strong>prototype</strong>'.</p>
 
-<p>The ‘<strong>prototype</strong>' property points to the object that will be asigned as the prototype of instances created with that function when using ‘<strong>new</strong>'. Confusing? This is easier to explain with an example:</p>
+<p>The '<strong>prototype</strong>' property points to the object that will be asigned as the prototype of instances created with that function when using '<strong>new</strong>'. Confusing? This is easier to explain with an example:</p>
 
 <figure class="code"><figcaption><span></span></figcaption><pre><code>function Person(name) {
   this.name = name;
@@ -16416,10 +16416,10 @@ Foo.prototype
 
 // the function person has a prototype property
 // we can add properties to this function prototype
-Person.prototype.kind = ‘person'
+Person.prototype.kind = 'person'
 
 // when we create a new object using new
-var zack = new Person(‘Zack');
+var zack = new Person('Zack');
 
 // the prototype of the new object points to person.prototype
 zack.__proto__ == Person.prototype //=&gt; true
@@ -16461,7 +16461,7 @@ console.log(person.alive);
 </code></pre></figure>
 
 
-<p>It is extremely easy to see what is happening here. We have just created a prototype inheritance chain between ‘person' and ‘Animal'. If you ask for a property or method in ‘person' it will be looked up in that object first, if it is not found there it then will be looked up in the prototype.</p>
+<p>It is extremely easy to see what is happening here. We have just created a prototype inheritance chain between 'person' and 'Animal'. If you ask for a property or method in 'person' it will be looked up in that object first, if it is not found there it then will be looked up in the prototype.</p>
 
 <p><strong>proto</strong> looks scary because of all the underscores around the name, but in reality it is quite easy and straightforward to understand and use. Unfortunately the <strong>proto</strong> property is an internal properties only exposed by some browsers (e.g. Chrome, Firefox). So it cannot be used safely.</p>
 
@@ -16487,7 +16487,7 @@ console.log(person.legs); //2
 
 <ul>
 <li>We need to create a constructor function</li>
-<li>Then we assign ‘Animal' as the prototype of that constructor</li>
+<li>Then we assign 'Animal' as the prototype of that constructor</li>
 <li>Then we run the function to get the instance we want</li>
 </ul>
 
@@ -17066,7 +17066,7 @@ window.addEventListener('load', createCallBack("Second Message"));
 tarzan.__proto__ = book;</code></pre>
 <p>Now that this&nbsp;prototype has been set, we can call <em>showBookInfo</em>&nbsp;on the tarzan object. Can you guess what the output will be?</p>
 <pre><code>console.log( tarzan.showBookInfo() );</code></pre>
-<p>The console returns "Tarzan by Book Author". Did you guess this? Do you know why? When we call showBookInfo on the tarzan object, it first looks for showBookInfo on itself. Because that method does not exist, it will look in the prototype chain. It finds that book is its prototype, so it searches for this method on that object. It finds it and executes the function. Within that function we have references to <strong><em>this.title</em>&nbsp;</strong>and <strong><em>this.author</em></strong>. The tarzan object has a <strong>title</strong> property, so that value is returned (remember tarzan is the object the executed the code). However the tarzan object does not have an <strong>author</strong> property. Again javascript looks down the prototype chain and finds that the prototype has that property ‘Book Author', and therefor it returns that value.</p>
+<p>The console returns "Tarzan by Book Author". Did you guess this? Do you know why? When we call showBookInfo on the tarzan object, it first looks for showBookInfo on itself. Because that method does not exist, it will look in the prototype chain. It finds that book is its prototype, so it searches for this method on that object. It finds it and executes the function. Within that function we have references to <strong><em>this.title</em>&nbsp;</strong>and <strong><em>this.author</em></strong>. The tarzan object has a <strong>title</strong> property, so that value is returned (remember tarzan is the object the executed the code). However the tarzan object does not have an <strong>author</strong> property. Again javascript looks down the prototype chain and finds that the prototype has that property 'Book Author', and therefor it returns that value.</p>
 <p>Do you have a better understand of the object prototype? I would love to hear your thoughts on this. Lets move on</p>
 <pre><code>You may have heard that almost everything is javascript is an object. And lets not forget what an object is in javascript. See my previous post. Objects are just containers with key-value pairs. Things like&nbsp;undefined, null, boolean, string and&nbsp;number are what we call primitive types in javascript. There is actually a 6th primitive type introduced in ES6 called symbol. Everything else is an object. Now there is a base object that every object inherits from. This base object, is called Object&nbsp;and does NOT have a prototype. Lets create some sample objects&nbsp;and see their prototypes
 
@@ -18024,7 +18024,7 @@ var vehicle = new Vehicle;
 vehicle.wheelCount;         // 4
 </code></pre>
 
-<p>The Vehicle instance picked up the <code>wheelCount</code> from <code>Vehicle</code>‘s prototype</p>
+<p>The Vehicle instance picked up the <code>wheelCount</code> from <code>Vehicle</code>'s prototype</p>
 
 <p>Now this "inheritance" is more than simply copying properties to the new objects. The object is set up to <em>delegate</em> any properties which haven't been explicitly set up to its constructor's prototype. That means that we can change the prototype later, and still see the changes in the instance.</p>
 
@@ -18094,7 +18094,7 @@ car instanceof Car;     // true
 car instanceof Vehicle; // true
 </code></pre>
 
-<p>Now, there's a problem here. The <code>Vehicle</code> constructor only gets called once, to set up <code>Car</code>‘s prototype. We need to give it a color there. We can't make different cars have different colors, which is not ideal. Some JavaScript frameworks have gotten around this by defining their own implementations of classes.</p>
+<p>Now, there's a problem here. The <code>Vehicle</code> constructor only gets called once, to set up <code>Car</code>'s prototype. We need to give it a color there. We can't make different cars have different colors, which is not ideal. Some JavaScript frameworks have gotten around this by defining their own implementations of classes.</p>
 
 <h2>And for my last trick…</h2>
 
@@ -19070,7 +19070,7 @@ document.addEventListener('click', clickHandler);
 
 performLongTask();
 console.log('Finished Executing');</code></pre>
-<p class="p1"><span class="s1">We have a function called ‘performLongTask' that performs some task for 4 seconds (yes very long indeed). We wire-up a click event on the document and run&nbsp;the long task function. What do you think will happen? You have go ahead and run this in your browser. Because the long running task takes&nbsp;4 seconds, that will give you enough time to click anywhere on the document body. After 4 seconds, the console outputs the results. It may or may not surprise you BUT the button event appears last! Its almost as if you clicked on the button last. But no, you clicked on the button whiles the long task was performing. When you did that, the callback was put on the event queue. Only after all the javascript running on the execution stack was done did the callback function execute. Next example.</span></p>
+<p class="p1"><span class="s1">We have a function called 'performLongTask' that performs some task for 4 seconds (yes very long indeed). We wire-up a click event on the document and run&nbsp;the long task function. What do you think will happen? You have go ahead and run this in your browser. Because the long running task takes&nbsp;4 seconds, that will give you enough time to click anywhere on the document body. After 4 seconds, the console outputs the results. It may or may not surprise you BUT the button event appears last! Its almost as if you clicked on the button last. But no, you clicked on the button whiles the long task was performing. When you did that, the callback was put on the event queue. Only after all the javascript running on the execution stack was done did the callback function execute. Next example.</span></p>
 <pre><code>var http = require('http');
 http.get('http://www.scriptonitejs.com', function(){ console.log('got a response');});
 console.log('all done here');</code></pre>
@@ -19120,7 +19120,7 @@ fs.writeFile("kofi.txt", fileContent, function(err) {
   }
 });
 console.log("Done Executing");</code></pre>
-<p class="p1"><span class="s1">What we are doing here is very simple. We are require the node file system module. This will enable us to read and write data to the file system (it is like using import in other languages). We use the writeFile method to write/create a new file in our working directory. We call this file called ‘kofi.txt'. We then pass a callback to our writeFile method. As you already know this will simply execute that function once the file is written. All we do in our callback is to console log a successful message. Lets kick this up notch. How about instead of using console log, we use native node methods to reads the file after the file is written to disk. This means that when the writeFile is successful, we read that content. Like this&nbsp;</span></p>
+<p class="p1"><span class="s1">What we are doing here is very simple. We are require the node file system module. This will enable us to read and write data to the file system (it is like using import in other languages). We use the writeFile method to write/create a new file in our working directory. We call this file called 'kofi.txt'. We then pass a callback to our writeFile method. As you already know this will simply execute that function once the file is written. All we do in our callback is to console log a successful message. Lets kick this up notch. How about instead of using console log, we use native node methods to reads the file after the file is written to disk. This means that when the writeFile is successful, we read that content. Like this&nbsp;</span></p>
 <pre><code>var fs = require('fs');
 var fileContent = "Data to be written to file";
 fs.writeFile("kofi.txt", fileContent, function(err) {
@@ -19698,7 +19698,7 @@ can improve the code we write.</p>
 
 <h2>The Single Responsibility Principle</h2>
 
-<blockquote><p>“A class should have one, and only one, reason to change or,<br>there should never be more than one reason for a class to change.”</p><footer><strong>Robert C. Martin</strong></footer></blockquote>
+<blockquote><p>"A class should have one, and only one, reason to change or,<br>there should never be more than one reason for a class to change."</p><footer><strong>Robert C. Martin</strong></footer></blockquote>
 
 
 <p>This principle is based upon the fact that whenever a class handles more than one responsibility then
@@ -19722,7 +19722,7 @@ extract separate interfaces, and make the clients depend upon these interfaces.<
 
 <h2>The Open Closed Principle</h2>
 
-<blockquote><p>“You should be able to extend a class behavior, without modifying<br>it.<br>or,<br>A class should be open for extension but closed to<br>modification.”</p><footer><strong>Robert C. Martin and Bertrand Meyer</strong></footer></blockquote>
+<blockquote><p>"You should be able to extend a class behavior, without modifying<br>it.<br>or,<br>A class should be open for extension but closed to<br>modification."</p><footer><strong>Robert C. Martin and Bertrand Meyer</strong></footer></blockquote>
 
 
 <p>If you have been working in any brand of software development for any reasonable amount of time
@@ -19766,7 +19766,7 @@ modules, anything. Use this principle, and you'll improve the maintainability of
 
 <h2>The Liskov Substitution Principle</h2>
 
-<blockquote><p>“Derived classes must be substitutable for their base classes or,<br>What is wanted here is something like the following substitution<br>property: If for each object o1 of type S there is an object o2 of<br>type T such that for all programs P defined in terms of T, the<br>behavior of P is unchanged when o1 is substituted for o2 then S is<br>a subtype of T.”</p><footer><strong>Robert C. Martin and Barbara Liskov</strong></footer></blockquote>
+<blockquote><p>"Derived classes must be substitutable for their base classes or,<br>What is wanted here is something like the following substitution<br>property: If for each object o1 of type S there is an object o2 of<br>type T such that for all programs P defined in terms of T, the<br>behavior of P is unchanged when o1 is substituted for o2 then S is<br>a subtype of T."</p><footer><strong>Robert C. Martin and Barbara Liskov</strong></footer></blockquote>
 
 
 <p>As mentioned in the previous section, we make use of abstractions (and polymorphism) to let our
@@ -19780,7 +19780,7 @@ aware of it(thus avoiding hard-coded dependencies).</p>
 
 <p>If you listen to Hanselminutes podcast featuring Robert C. Martin, Robert puts the classical example
 of the Rectangle base class and the Square class that derives from it. So you have a Rectangle class
-in your application, and you want to use a new Square class, so you think… well a Square “is-a”
+in your application, and you want to use a new Square class, so you think… well a Square "is-a"
 Rectangle isn't it? (it just has the same width and height) So you make it derive from the Rectangle
 class and wire it up so when you set the width, the height will be set as well and vice versa. Bang!
 Problem is that another developer that is working with Rectangles, doesn't need to know what
@@ -19796,7 +19796,7 @@ and OCP (new derived types will force you to modify that switch block).</p>
 
 <h2>The Interface Segregation Principle</h2>
 
-<blockquote><p>“Make fine grained interfaces that are client specific or, Clients<br>should not be forced to depend upon interfaces that they do not<br>use”</p><footer><strong>Robert C. Martin</strong></footer></blockquote>
+<blockquote><p>"Make fine grained interfaces that are client specific or, Clients<br>should not be forced to depend upon interfaces that they do not<br>use"</p><footer><strong>Robert C. Martin</strong></footer></blockquote>
 
 
 <p>This principle may be one of the least importance due to its very focused field of application: fat
@@ -19815,7 +19815,7 @@ depend on their respective interfaces.</p>
 
 <h2>The Dependency Inversion Principle</h2>
 
-<blockquote><p>“Depend on abstractions, not on concretions or, A. High level<br>modules should not depend upon low level modules. Both should<br>depend upon abstractions. Abstractions should not depend upon<br>details B. Abstraction should not depend upon details. Details<br>should depend upon abstractions.”</p><footer><strong>Robert C. Martin</strong></footer></blockquote>
+<blockquote><p>"Depend on abstractions, not on concretions or, A. High level<br>modules should not depend upon low level modules. Both should<br>depend upon abstractions. Abstractions should not depend upon<br>details B. Abstraction should not depend upon details. Details<br>should depend upon abstractions."</p><footer><strong>Robert C. Martin</strong></footer></blockquote>
 
 
 <p>When I introduced the OCP before in this article, I said that the way to implement it was to make
@@ -19837,7 +19837,7 @@ system.</p>
 
 <p>The DIP addresses this problem saying no to hard-coded and top-down dependencies. The high-
 level modules should not depend upon the low-level modules, everything has to depend upon
-abstractions (thereby we get and “inverted” dependency). This way, the high level modules don't
+abstractions (thereby we get and "inverted" dependency). This way, the high level modules don't
 know exactly what they depend upon, they just know they are using something that must adhere
 to a given interface, and thus, everything that follows that interface contract can be plugged in
 (or plugged out). If you extend the principle to the whole system you end up with a set of highly
@@ -20592,7 +20592,7 @@ var scene = {
 
 <h2>Appendix A. Classes in JavaScript, Welcome ECMAScript 6 <a id="appendix-a-classes-in-javascript-welcome-ECMAScript-6"></a></h2>
 
-<p>Somewhere above in this article I said something like <em>“… there are not such thing as classes in JavaScript…”</em> and I was telling the truth. You may be interesting in knowing that <em>classes</em> are a part of the specification of the next version of JavaScript – ECMAScript6 <em>Harmony</em>.</p>
+<p>Somewhere above in this article I said something like <em>"… there are not such thing as classes in JavaScript…"</em> and I was telling the truth. You may be interesting in knowing that <em>classes</em> are a part of the specification of the next version of JavaScript – ECMAScript6 <em>Harmony</em>.</p>
 
 <pre><code>class MobileGameObject {
   constructor(position) {
@@ -20633,7 +20633,7 @@ class Barbarian extends DrawableGameObject {
 
 <p>To us C# developers used to the reliable value of <code>this</code>, JavaScript can be a little bit crazy and confusing. The only thing you need to know to be able to use <code>this</code> without fear in JavaScript is to forget how it works in C# and understand the following:</p>
 
-<blockquote><p>The `this` parameter refers to an object that's implicitly associated with the function invocation as is termed the *function context*. (…)</p><p>(…)as it turns out, what this parameter points to isn't, as in Java, defined by how the function is declared, but by how it is *invoked*.</p><footer><strong>Secrets of The JavaScript Ninja - The “this” parameter</strong></footer></blockquote>
+<blockquote><p>The `this` parameter refers to an object that's implicitly associated with the function invocation as is termed the *function context*. (…)</p><p>(…)as it turns out, what this parameter points to isn't, as in Java, defined by how the function is declared, but by how it is *invoked*.</p><footer><strong>Secrets of The JavaScript Ninja - The "this" parameter</strong></footer></blockquote>
 
 
 <p>So:</p>
@@ -21299,7 +21299,7 @@ obliterate('minion');
 
 <h3>ES6 Classes</h3>
 
-<p>A new addition to JavaScript you might have heard about and celebrated are ES6 classes. The existence of ES6 classes doesn't mean that JavaScript gets classes just like C# and we're not going to worry about constructor functions and prototypical inheritance anymore. <strong>ES6 classes are “just” syntactic sugar over the existing inheritance model and the way we craft objects in JavaScript</strong>. That being said, it is a great declarative way to represent constructor/prototype pairs.</p>
+<p>A new addition to JavaScript you might have heard about and celebrated are ES6 classes. The existence of ES6 classes doesn't mean that JavaScript gets classes just like C# and we're not going to worry about constructor functions and prototypical inheritance anymore. <strong>ES6 classes are "just" syntactic sugar over the existing inheritance model and the way we craft objects in JavaScript</strong>. That being said, it is a great declarative way to represent constructor/prototype pairs.</p>
 
 <p>A JavaScript class looks very similar to a C# class:</p>
 
@@ -21866,7 +21866,7 @@ var catalog = new UsersCatalog();
 </code></pre>
 
 
-<p>You can solve this issue in either of two ways. You can take advantage of JavaScript support for closures, declare a <code>self</code> variable that “captures” the value of <code>this</code> and use it within the closure function as depicted below (very common practice in JavaScript):</p>
+<p>You can solve this issue in either of two ways. You can take advantage of JavaScript support for closures, declare a <code>self</code> variable that "captures" the value of <code>this</code> and use it within the closure function as depicted below (very common practice in JavaScript):</p>
 
 <pre><code>function UsersCatalogWithClosure(){
     "use strict";
@@ -21981,7 +21981,7 @@ jQuery.fn.load = function( url, params, callback ) {
 
 <p>As you will come to appreciate by the end of the series, JavaScript has a minimalistic design and a limited number of primitive constructs that can be used and composed to achieve higher level abstractions and constructs that are native to other languages, one of these being namespaces.</p>
 
-<p>Since we do not have namespaces in JavaScript and yet we want to avoid declaring all of our variables in the global “namespace” (where they would be visible to every single module):</p>
+<p>Since we do not have namespaces in JavaScript and yet we want to avoid declaring all of our variables in the global "namespace" (where they would be visible to every single module):</p>
 
 <pre><code>var dice = "d12";
 dice;
@@ -22298,7 +22298,7 @@ console.log(`using new operator:`, ${new SafeMinion('pirate', 50)}`);
 
 <h2>Data Hiding in JavaScript</h2>
 
-<p>In <a href="/blog/2015/11/23/an-introduction-to-object-oriented-programming-in-javascript-for-c-sharp-developers/">Understanding The Basics of JavaScript Objects</a> you learned two patterns to achieve data hiding in JavaScript: <em>closures</em> and <em>ES6 symbols</em>, and how only <em>closures</em> provide real data privacy whilst <em>ES6 symbols</em> makes it harder to access “private” data.</p>
+<p>In <a href="/blog/2015/11/23/an-introduction-to-object-oriented-programming-in-javascript-for-c-sharp-developers/">Understanding The Basics of JavaScript Objects</a> you learned two patterns to achieve data hiding in JavaScript: <em>closures</em> and <em>ES6 symbols</em>, and how only <em>closures</em> provide real data privacy whilst <em>ES6 symbols</em> makes it harder to access "private" data.</p>
 
 <p>Since <em>constructor functions</em> are just functions, you can use both <em>closures</em> and <em>ES6 symbols</em> to implement private properties and methods. Using <em>closures</em> is as easy as declaring variables in your <em>function constructor</em> body and referencing them from the methods that you want to expose:</p>
 
@@ -22373,7 +22373,7 @@ flyingMinion.fliesTo(3,3);
 </code></pre>
 
 
-<p>But you must remember how <a href="/blog/2015/11/23/an-introduction-to-object-oriented-programming-in-javascript-for-c-sharp-developers/"><em>ES6 symbols</em> don't offer true privacy since you can use <code>Object.getOwnPropertySymbols</code> to retrieve the symbols from an object and thus the “private” property</a>, so prefer using <em>closures</em> over <em>symbols</em>.</p>
+<p>But you must remember how <a href="/blog/2015/11/23/an-introduction-to-object-oriented-programming-in-javascript-for-c-sharp-developers/"><em>ES6 symbols</em> don't offer true privacy since you can use <code>Object.getOwnPropertySymbols</code> to retrieve the symbols from an object and thus the "private" property</a>, so prefer using <em>closures</em> over <em>symbols</em>.</p>
 
 <h2>Object Initializers vs Constructor Functions</h2>
 
@@ -22540,7 +22540,7 @@ Calling a constructor function without the `new` operator can cause bugs and unw
 					<div class="tutorial__content">
 <div class="entry-content">
 
-<p>Thus far you’ve seen how we can achieve <em>encapsulation</em> in JavaScript by using either <em>object initializers</em> or <em>constructor functions</em> with the <code>new</code> operator. You have also learned how to attain <em>data hiding</em> through both <em>closures</em> and <em>ES6 symbols</em>. The next step is <strong>inheritance</strong> !</p>
+<p>Thus far you've seen how we can achieve <em>encapsulation</em> in JavaScript by using either <em>object initializers</em> or <em>constructor functions</em> with the <code>new</code> operator. You have also learned how to attain <em>data hiding</em> through both <em>closures</em> and <em>ES6 symbols</em>. The next step is <strong>inheritance</strong> !</p>
 
 <!-- more -->
 
@@ -22607,7 +22607,7 @@ JavaScript prototypical inheritance is more flexible. Composing objects is very 
 
 <tr>
 <td>
-C# doesn’t support multiple inheritance.
+C# doesn't support multiple inheritance.
 </td>
 <td>
 JavaScript lets you compose an object with as many prototypes as you want. (Concatenative inheritance)
@@ -22629,7 +22629,7 @@ JavaScript achieves information hiding via closures and symbols.
 
 <p>Where C# focuses on classes and creating taxonomies, JavaScript focuses on objects and can achieve a class-free inheritance that is much more flexible and extensible than the C# counterpart. Where C# classes are immutable at runtime, JavaScript prototypes can be augmented or modified at runtime. Where C# provides a lot of keywords and constructs that let you be very thorough and explicit about how someone would interact or work with a class of your creation, JavaScript does away with these concepts in favor of a simpler inheritance model. Where C# provides a pretty clear path on how to do inheritance, JavaScript gives you so much freedom that it can be daunting at times.</p>
 
-<p>Now that we’ve seen the differences between C# and JavaScript inheritance models, let’s dive into <em>prototypical inheritance</em>.</p>
+<p>Now that we've seen the differences between C# and JavaScript inheritance models, let's dive into <em>prototypical inheritance</em>.</p>
 
 <h2>JavaScript Prototypical Inheritance</h2>
 
@@ -22641,15 +22641,15 @@ JavaScript achieves information hiding via closures and symbols.
 
 <p>But <em>what are object prototypes really</em>?</p>
 
-<blockquote><h2>What About ES6 Classes? Don’t They Bring Class-Based Inheritance to JavaScript?</h2>
+<blockquote><h2>What About ES6 Classes? Don't They Bring Class-Based Inheritance to JavaScript?</h2>
 
-<p>If you have had the opportunity to look at ES6 classes you may be wondering. <em>Well this looks like class-based inheritance, doesn’t it?</em> Well the syntax is a little bit deceptive because although ES6 classes really look like C# classes the reality is very different: <strong>ES6 Classes are just syntactic sugar over the existing inheritance model</strong>.</p>
+<p>If you have had the opportunity to look at ES6 classes you may be wondering. <em>Well this looks like class-based inheritance, doesn't it?</em> Well the syntax is a little bit deceptive because although ES6 classes really look like C# classes the reality is very different: <strong>ES6 Classes are just syntactic sugar over the existing inheritance model</strong>.</p>
 
-<p>We will dive deeper into ES6 classes later in these series and you’ll be able to see the equivalent of a ES6 class in plain class-less JavaScript code.</p></blockquote>
+<p>We will dive deeper into ES6 classes later in these series and you'll be able to see the equivalent of a ES6 class in plain class-less JavaScript code.</p></blockquote>
 
 <h2>Object Prototypes</h2>
 
-<p>A prototype is, in essence, just an object. <em>How does an object become a prototype?</em> Well it depends if you use an <em>object initializer</em>, <em>Object.create</em> or a <em>constructor function</em> to create your objects. Let’s take a look at all of these approaches.</p>
+<p>A prototype is, in essence, just an object. <em>How does an object become a prototype?</em> Well it depends if you use an <em>object initializer</em>, <em>Object.create</em> or a <em>constructor function</em> to create your objects. Let's take a look at all of these approaches.</p>
 
 <p><em>You can <a href="http://bit.ly/javascriptmancy-oop-fundamentals-inheritance">experiment with all examples in this article directly within this jsBin</a>.</em></p>
 
@@ -22685,7 +22685,7 @@ console.log(`giant scorpion has ${giantScorpion.hp} hit points`);
 </code></pre>
 
 
-<p>Indeed we can see how <code>giantScorpion</code> which doesn’t have an <code>hp</code> property itself is accessing the <code>hp</code> property of its prototype. And <em>what happens with the <code>name</code> property that is shared by both?</em></p>
+<p>Indeed we can see how <code>giantScorpion</code> which doesn't have an <code>hp</code> property itself is accessing the <code>hp</code> property of its prototype. And <em>what happens with the <code>name</code> property that is shared by both?</em></p>
 
 <pre><code>// if a property is shared between an object and its prototype
 // there's no need to traverse the prototype chain
@@ -22695,9 +22695,9 @@ giantScorpion.stings();
 </code></pre>
 
 
-<p>In this example we call the <code>stings</code> method that in turn calls the <code>toString</code> method which returns <code>this.name</code>. Because the <code>name</code> variable exists in the <code>giantScorpion</code> object, there’s no need to traverse the <em>prototypical chain</em>. As a result the property <code>giantScorpion.name</code> is used to generate the string representation of <code>giantScorpion</code> and we get <code>"scorpion pierces your shoulder..."</code> (instead of <code>"minion pierces your shoulder..."</code>).</p>
+<p>In this example we call the <code>stings</code> method that in turn calls the <code>toString</code> method which returns <code>this.name</code>. Because the <code>name</code> variable exists in the <code>giantScorpion</code> object, there's no need to traverse the <em>prototypical chain</em>. As a result the property <code>giantScorpion.name</code> is used to generate the string representation of <code>giantScorpion</code> and we get <code>"scorpion pierces your shoulder..."</code> (instead of <code>"minion pierces your shoulder..."</code>).</p>
 
-<p>From here on you have two options in regards to how to use your prototype, you can use one prototype instance per object instance or share a prototype across many objects. While there’s nothing stopping you from one prototype per object, the real benefits of inheritance in terms of code reuse come from sharing the same prototype across several objects:</p>
+<p>From here on you have two options in regards to how to use your prototype, you can use one prototype instance per object instance or share a prototype across many objects. While there's nothing stopping you from one prototype per object, the real benefits of inheritance in terms of code reuse come from sharing the same prototype across several objects:</p>
 
 <pre><code>let smallScorpion = {
   '__proto__': minion, // here we set the minion as prototype
@@ -22716,11 +22716,11 @@ let giantSpider = {
 
 <p>Where the properties and methods in <code>minion</code> are contained within a single object. Whereas if we ignored inheritance we would need to define and allocate them in each specific derived object (in this case <code>giantScorpion</code>, <code>smallScorpion</code> and <code>giantSpider</code>) with the additional memory footprint.</p>
 
-<p>You may be wondering, <em>wait, the <code>minion</code> object had a property <code>hp</code>, doesn’t that mean that all derived objects are coupled? That if I change <code>hp</code> in one object it will affect all others?</em></p>
+<p>You may be wondering, <em>wait, the <code>minion</code> object had a property <code>hp</code>, doesn't that mean that all derived objects are coupled? That if I change <code>hp</code> in one object it will affect all others?</em></p>
 
-<p>Well spotted! When you use the same prototype with several objects you want to avoid storing state in your prototype. While having properties with primitive values such as <code>numbers</code> and <code>strings</code> won’t couple your objects, having properties with arrays or objects as values will definitely couple them. This can be better illustrated with an example.</p>
+<p>Well spotted! When you use the same prototype with several objects you want to avoid storing state in your prototype. While having properties with primitive values such as <code>numbers</code> and <code>strings</code> won't couple your objects, having properties with arrays or objects as values will definitely couple them. This can be better illustrated with an example.</p>
 
-<p>First, if you try to set the value of a property located in your prototype you’ll just create a new property in the derived object that will shadow that of the <em>prototype</em>. Properties with primitive values in <em>prototypes</em> act sort of as <em>initial or default values</em>:</p>
+<p>First, if you try to set the value of a property located in your prototype you'll just create a new property in the derived object that will shadow that of the <em>prototype</em>. Properties with primitive values in <em>prototypes</em> act sort of as <em>initial or default values</em>:</p>
 
 <pre><code>console.log(`Small scorpion has ${smallScorpion.hp} hp`);
 // =&gt; Small scorpion has 10 hp
@@ -22783,9 +22783,9 @@ giantSpider.eats({name: 'goblin', hp: 100, toString(){return this.name}});
 
 <h2>Object Prototypes with Object.Create or OLOO</h2>
 
-<p><code>__proto__</code> is in an Annex of the ECMA standard and only works in browsers. If you don’t feel comfortable with this, or you are working with JavaScript in another environment like <em>node.js</em> then you can use <em>ES5</em> <code>Object.create</code>.</p>
+<p><code>__proto__</code> is in an Annex of the ECMA standard and only works in browsers. If you don't feel comfortable with this, or you are working with JavaScript in another environment like <em>node.js</em> then you can use <em>ES5</em> <code>Object.create</code>.</p>
 
-<p><code>Object.create</code> let’s you create a new object that will have as prototype another object of your choice. It works like a factory function for creating objects with a given <em>prototype</em>. For instance, if we adapt this example:</p>
+<p><code>Object.create</code> let's you create a new object that will have as prototype another object of your choice. It works like a factory function for creating objects with a given <em>prototype</em>. For instance, if we adapt this example:</p>
 
 <pre><code>let giantScorpion = {
   '__proto__': minion, // here we set the minion as prototype
@@ -22871,7 +22871,7 @@ anotherCrazyTeleportingMinion.healthReport();
 
 <p>You are not limited to a one level deep <em>prototype chain</em> with just an object and a <em>prototype</em>, you can create big inheritance structures just like in C#.</p>
 
-<p>Let’s say that we want to create a <code>wizard</code>. We can make it inherit from the <code>TeleportingMinion</code>:</p>
+<p>Let's say that we want to create a <code>wizard</code>. We can make it inherit from the <code>TeleportingMinion</code>:</p>
 
 <pre><code>let wizard = {
    '__proto__': new TeleportingMinion(),
@@ -22939,9 +22939,9 @@ druid.healthReport();
 
 <h2>What About Concatenative Protypical Inheritance?</h2>
 
-<p>In this first dive into OOP we are going to go from <em>prototypical</em> inheritance, to mimicking <em>classical inheritance</em> and to <em>ES6 classes</em>, the most natural path for a C# developer coming to JavaScript. The flavor of <em>prototypical inheritance</em> that enables having a similar inheritance flow to that of classes is the <em>delegation-based inheritance</em> and that’s why we have focused on it first.</p>
+<p>In this first dive into OOP we are going to go from <em>prototypical</em> inheritance, to mimicking <em>classical inheritance</em> and to <em>ES6 classes</em>, the most natural path for a C# developer coming to JavaScript. The flavor of <em>prototypical inheritance</em> that enables having a similar inheritance flow to that of classes is the <em>delegation-based inheritance</em> and that's why we have focused on it first.</p>
 
-<p>We will come back to <em>concatenative inheritance</em> and object composition after we’ve reviewed <em>ES6 classes</em>. Stay tuned!</p>
+<p>We will come back to <em>concatenative inheritance</em> and object composition after we've reviewed <em>ES6 classes</em>. Stay tuned!</p>
 
 <h2>Object Initializers vs Object.create vs Constructor Functions</h2>
 
@@ -23012,13 +23012,13 @@ Can only define getters and setters via `Object.defineProperty`
 
 <h2>Concluding</h2>
 
-<p>Let’s summarize what you’ve learned so far about <em>prototypical inheritance</em>. JavaScript doesn’t have the concept of <em>traditional class-based inheritance</em> since it doesn’t have real classes. Instead JavaScript <em>inheritance</em> revolves around objects, just simple objects. You can use any object as a <em>prototype</em> and create new objects that are based on this prototype and that can inherit properties and methods from it.</p>
+<p>Let's summarize what you've learned so far about <em>prototypical inheritance</em>. JavaScript doesn't have the concept of <em>traditional class-based inheritance</em> since it doesn't have real classes. Instead JavaScript <em>inheritance</em> revolves around objects, just simple objects. You can use any object as a <em>prototype</em> and create new objects that are based on this prototype and that can inherit properties and methods from it.</p>
 
-<p>In order to establish an <em>inheritance relationship</em> between an object and a <em>prototype</em> you can either use the <code>__proto__</code> property within an <em>object initializer</em>, <code>Object.create</code> or the <code>prototype</code> property within a <em>constructor function</em>. The two first methods that completely prescind of functions are also called <em>OLOO</em> (Objects Linked to Other Objects) and provide a simpler approach to <em>prototypical inheritance</em> as there’s one less element you need to think about (the <em>constructor function</em>). You can have an <em>inheritance tree</em> with many levels of depth where an object has a <em>prototype</em> which in turn has a <em>prototype</em>, and so on.</p>
+<p>In order to establish an <em>inheritance relationship</em> between an object and a <em>prototype</em> you can either use the <code>__proto__</code> property within an <em>object initializer</em>, <code>Object.create</code> or the <code>prototype</code> property within a <em>constructor function</em>. The two first methods that completely prescind of functions are also called <em>OLOO</em> (Objects Linked to Other Objects) and provide a simpler approach to <em>prototypical inheritance</em> as there's one less element you need to think about (the <em>constructor function</em>). You can have an <em>inheritance tree</em> with many levels of depth where an object has a <em>prototype</em> which in turn has a <em>prototype</em>, and so on.</p>
 
-<p>Whenever you try to access a property or method of an object that has a prototype the JavaScript runtime will try to find that property or method within the object itself, if it can’t find it, it will continue down the <em>prototypical chain</em> until it finds it. This is known as <em>delegation-based inheritance</em> and is the most common flavor of <em>prototypical inheritance</em> in JavaScript. If you use the same prototype object for several objects in this delegating fashion you should avoid storing state in the <em>prototype</em> since it may couple all your “derived” objects.</p>
+<p>Whenever you try to access a property or method of an object that has a prototype the JavaScript runtime will try to find that property or method within the object itself, if it can't find it, it will continue down the <em>prototypical chain</em> until it finds it. This is known as <em>delegation-based inheritance</em> and is the most common flavor of <em>prototypical inheritance</em> in JavaScript. If you use the same prototype object for several objects in this delegating fashion you should avoid storing state in the <em>prototype</em> since it may couple all your "derived" objects.</p>
 
-<p>There’s also <em>concatenative inheritance</em> which consists on copying properties from a prototype to an object and which leads to object composition. We will take a look into that later within the series.</p>
+<p>There's also <em>concatenative inheritance</em> which consists on copying properties from a prototype to an object and which leads to object composition. We will take a look into that later within the series.</p>
 
 
 
@@ -23036,7 +23036,7 @@ Can only define getters and setters via `Object.defineProperty`
 <hr>
 <ol>
 <li id="fn:1">
-<p>The <code>__proto__</code> property has been available in some browsers prior to ES6 but it wasn’t part of the ECMA standard up until ES6. Because it not being part of any standard and thus not having a specific defined behavior it was very unreliable to use. With ES6 you can use it with your object initializers as it makes very easy to understand the prototype chain. <code>__proto__</code> only works on browsers, if you are working with node you can use Object.create and follow a very similar flow.<a href="#fnref:1" rev="footnote">↩</a></p></li>
+<p>The <code>__proto__</code> property has been available in some browsers prior to ES6 but it wasn't part of the ECMA standard up until ES6. Because it not being part of any standard and thus not having a specific defined behavior it was very unreliable to use. With ES6 you can use it with your object initializers as it makes very easy to understand the prototype chain. <code>__proto__</code> only works on browsers, if you are working with node you can use Object.create and follow a very similar flow.<a href="#fnref:1" rev="footnote">↩</a></p></li>
 </ol>
 </div>
 
@@ -23107,7 +23107,7 @@ Can only define getters and setters via `Object.defineProperty`
 </code></pre>
 
 
-<p>Ok, now you have a skeleton that can attack other skeletons! Yippi! Let’s image that your most bitter enemy has a vast army of goblins:</p>
+<p>Ok, now you have a skeleton that can attack other skeletons! Yippi! Let's image that your most bitter enemy has a vast army of goblins:</p>
 
 <pre><code>public class Goblin{
     public int Hp {get;set;}
@@ -23208,11 +23208,11 @@ public class Fence: IAttackable {}
 
 <p>In summary, in this example we rewrote the <code>Attacks</code> method to take advantage of <em>polymorphism</em> so that our <code>Skeleton</code> can attack anything that implements that <code>IAttackable</code> interface.</p>
 
-<p>From being able to attack only Skeletons, we went to attacking many types of monsters implemented with many many functions, to reduce that to a single function thanks to <em>polymorphism</em>. The benefits don’t come only from the fact that we have a single function instead of many, but from the increased extensibility of this new solution. Thanks to <em>polymorphism</em> this <code>Attacks</code> function will work with new creatures, defensive structures, and virtually anything that hasn’t been thought of yet as long as it implements the contract defined by the <code>IAttackable</code> interface.</p>
+<p>From being able to attack only Skeletons, we went to attacking many types of monsters implemented with many many functions, to reduce that to a single function thanks to <em>polymorphism</em>. The benefits don't come only from the fact that we have a single function instead of many, but from the increased extensibility of this new solution. Thanks to <em>polymorphism</em> this <code>Attacks</code> function will work with new creatures, defensive structures, and virtually anything that hasn't been thought of yet as long as it implements the contract defined by the <code>IAttackable</code> interface.</p>
 
 <h2>Polymorphism in JavaScript</h2>
 
-<p><em>Polymorphism</em> in JavaScript is much simpler than in C#. As a dynamically typed language, JavaScript exhibits what is known as <em><a href="http://en.wikipedia.org/wiki/Duck_typing">duck typing</a></em>, whereby an object’s semantics are based on the object’s own methods and properties and not on the inheritance chain or interface implementations (like in C#). This means that if an object has the interface required by a function it will just work. Let’s see JavaScript <em>duck typing</em> with the same example from the previous section:</p>
+<p><em>Polymorphism</em> in JavaScript is much simpler than in C#. As a dynamically typed language, JavaScript exhibits what is known as <em><a href="http://en.wikipedia.org/wiki/Duck_typing">duck typing</a></em>, whereby an object's semantics are based on the object's own methods and properties and not on the inheritance chain or interface implementations (like in C#). This means that if an object has the interface required by a function it will just work. Let's see JavaScript <em>duck typing</em> with the same example from the previous section:</p>
 
 <pre><code>let skeleton = {
     health: 50,
@@ -23247,7 +23247,7 @@ skeleton.attacks(tower);
 </code></pre>
 
 
-<p>JavaScript doesn’t care about the type of <code>monster</code>, it only cares about it exposing a matching interface <code>monster.health</code>. We push this point even further in this example:</p>
+<p>JavaScript doesn't care about the type of <code>monster</code>, it only cares about it exposing a matching interface <code>monster.health</code>. We push this point even further in this example:</p>
 
 <pre><code>skeleton.attacks.health = 50;
 skeleton.attacks(skeleton.attacks);
@@ -23263,7 +23263,7 @@ console.log(skeleton.attacks.health);
 
 <blockquote><p>If it walks like a duck, swims like a duck and quacks like a duck, I call it a duck.</p></blockquote>
 
-<p>If it has a <code>health</code> property, then it is something that can be attacked. And this is why in previous articles I claimed that inheritance is not a means of <em>polymorphism</em> in JavaScript in the same way that it is in C#. Let’s see a summary of the differences between C# <em>polymorphism</em> and JavaScript <em>duck tiping</em>:</p>
+<p>If it has a <code>health</code> property, then it is something that can be attacked. And this is why in previous articles I claimed that inheritance is not a means of <em>polymorphism</em> in JavaScript in the same way that it is in C#. Let's see a summary of the differences between C# <em>polymorphism</em> and JavaScript <em>duck tiping</em>:</p>
 
 <table class="table">
 <thead>
@@ -23285,7 +23285,7 @@ In JavaScript it all comes down to having the expected properties or methods whe
 
 <tr>
 <td>
-In C# you establish an explicit expectation about which type can be used within a function in the function’s signature.
+In C# you establish an explicit expectation about which type can be used within a function in the function's signature.
 </td>
 <td>
 In JavaScript the expectation is determined by how an object is used within a function implementation.
@@ -23294,10 +23294,10 @@ In JavaScript the expectation is determined by how an object is used within a fu
 
 <tr>
 <td>
-In order to take advantage of polymorphism you need to be very intentional about it since it requires a specific architecture in your application. In practice, it means that you’ll need to create additional classes or interfaces.
+In order to take advantage of polymorphism you need to be very intentional about it since it requires a specific architecture in your application. In practice, it means that you'll need to create additional classes or interfaces.
 </td>
 <td>
-JavaScript duck typing gives you the most granular level of polymorphism with no additional investment required. You don’t need to create additional classes or equivalents.
+JavaScript duck typing gives you the most granular level of polymorphism with no additional investment required. You don't need to create additional classes or equivalents.
 </td>
 </tr>
 
@@ -23348,11 +23348,11 @@ In JavaScript any point is extensible.
 <h2> Emulating a C# Class in JavaScript</h2>
 
 
-<p>In order to create the equivalent of a <em>class</em> in JavaScript you need to combine a <em>constructor function</em> with a <em>prototype</em>. Let’s do a quick review of each of these constructs and see how combining them results in something similar to a C# class.</p>
+<p>In order to create the equivalent of a <em>class</em> in JavaScript you need to combine a <em>constructor function</em> with a <em>prototype</em>. Let's do a quick review of each of these constructs and see how combining them results in something similar to a C# class.</p>
 
 <blockquote><p>I am going to be using the word <em>class</em> a lot and I am going to be referring to a <em>constructor function</em> and <em>prototype</em> pair, the equivalent to C# <em>classes</em> in JavaScript prior to <em>ES6</em>.</p>
 
-<p>I won’t refer to <em>ES6 classes</em> unless I say <em>ES6 classes</em>.</p></blockquote>
+<p>I won't refer to <em>ES6 classes</em> unless I say <em>ES6 classes</em>.</p></blockquote>
 
 <h3>Constructor Functions</h3>
 
@@ -23411,7 +23411,7 @@ console.log(`Conan has these weapons: ${conan.weapons}`);
 
 <h3>Prototypical Inheritance</h3>
 
-<p>In previous articles of these series we saw how inheritance in JavaScript is slightly different than what we are accustomed to in C#. For one, there are no <em>classes</em>. Furthermore, inheritance doesn’t play as big a part in polymorphism since JavaScript is a dynamically typed language that relies in <em>duck typing</em>.</p>
+<p>In previous articles of these series we saw how inheritance in JavaScript is slightly different than what we are accustomed to in C#. For one, there are no <em>classes</em>. Furthermore, inheritance doesn't play as big a part in polymorphism since JavaScript is a dynamically typed language that relies in <em>duck typing</em>.</p>
 
 <p>JavaScript is all about objects, and achieves inheritance not via <em>class inheritance</em> but via <strong>prototypical inheritance</strong>, that is, objects that inherit from other objects which act as prototypes (a sort of blueprint).</p>
 
@@ -23441,7 +23441,7 @@ conan.saysHi();
 </code></pre>
 
 
-<p>We can appreciate how both objects <code>krull</code> and <code>conan</code> expose the <code>saysHi</code> method even though it wasn’t part of the <code>Barbarian</code> <em>constructor function</em>. This is possible due to the <em>prototype chain</em> existing between object (<code>krull</code>) and <em>prototype</em> (<code>Barbarian.prototype</code>) which allows the object to delegate method calls to the <em>prototype</em>.</p>
+<p>We can appreciate how both objects <code>krull</code> and <code>conan</code> expose the <code>saysHi</code> method even though it wasn't part of the <code>Barbarian</code> <em>constructor function</em>. This is possible due to the <em>prototype chain</em> existing between object (<code>krull</code>) and <em>prototype</em> (<code>Barbarian.prototype</code>) which allows the object to delegate method calls to the <em>prototype</em>.</p>
 
 <p>A common idiom to avoid the need to write the <code>Function.prototype.property</code> each time you want to augment the prototype is to assign the <em>prototype</em> to a new object:</p>
 
@@ -23501,7 +23501,7 @@ console.log(
 </code></pre>
 
 
-<p>Now that we have reviewed both <em>constructor functions</em> and <em>prototypes</em> let’s see how putting them together brings us nearer to C# <em>inheritance model</em>.</p>
+<p>Now that we have reviewed both <em>constructor functions</em> and <em>prototypes</em> let's see how putting them together brings us nearer to C# <em>inheritance model</em>.</p>
 
 <h2>Constructor Function + Prototype = Class</h2>
 
@@ -23563,19 +23563,19 @@ console.log(logen.weapons.map(w =&gt; w.name));
 
 <h3>Access Modifiers</h3>
 
-<p>We don’t have access modifiers in JavaScript: <em>public</em>, <em>protected</em> and <em>private</em> do not exist. Every property that you add to an object is public and accessible by anyone that has access to that object. That being said there are two patterns that you can use to get something similar to private variables and methods and the benefits of <em>information hiding</em>. You’ve learned about them in previous articles:</p>
+<p>We don't have access modifiers in JavaScript: <em>public</em>, <em>protected</em> and <em>private</em> do not exist. Every property that you add to an object is public and accessible by anyone that has access to that object. That being said there are two patterns that you can use to get something similar to private variables and methods and the benefits of <em>information hiding</em>. You've learned about them in previous articles:</p>
 
 <ul>
 <li><strong>Closures</strong>: You can use them to capture the value of variables from outer scopes (in this case the methods of a class are closures that capture variables defined within a <em>constructor function</em>). These variables are not part of the object itself, they are just captured by the object methods, and therefore are not accessible through the object.</li>
-<li><strong>ES6 Symbols</strong>: When you use <em>symbols</em> to index properties and methods in your objects, because a symbol is unique, you can only access these properties or methods if you have access to the symbol. When using a <em>symbol</em> the object has a property indexed by that <em>symbol</em> that is public, but even if you have access to the object, because you don’t have a reference to the symbol, you cannot access the property. <sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup></li>
+<li><strong>ES6 Symbols</strong>: When you use <em>symbols</em> to index properties and methods in your objects, because a symbol is unique, you can only access these properties or methods if you have access to the symbol. When using a <em>symbol</em> the object has a property indexed by that <em>symbol</em> that is public, but even if you have access to the object, because you don't have a reference to the symbol, you cannot access the property. <sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup></li>
 </ul>
 
 
-<p>Let’s see how we can use each of these approaches with our JavaScript <em>classes</em> and the implications of either choice.</p>
+<p>Let's see how we can use each of these approaches with our JavaScript <em>classes</em> and the implications of either choice.</p>
 
 <h4>Classes and Information Hiding with Closures</h4>
 
-<p>In order to use <em>closures</em> to achieve data privacy you need to have a function that encloses a variable. This poses a small problem if we want to follow the <em>constructor function</em> for state plus <em>prototype</em> for behavior pattern. That’s because the <em>prototype</em> methods are defined outside of the <em>constructor</em> function and therefore cannot enclose any of the variables defined within it.</p>
+<p>In order to use <em>closures</em> to achieve data privacy you need to have a function that encloses a variable. This poses a small problem if we want to follow the <em>constructor function</em> for state plus <em>prototype</em> for behavior pattern. That's because the <em>prototype</em> methods are defined outside of the <em>constructor</em> function and therefore cannot enclose any of the variables defined within it.</p>
 
 <p>As a result, if we want to use <em>closures</em> to manage <em>data privacy</em> we need to move our methods from the <em>prototype</em> into the <em>constructor function</em>:</p>
 
@@ -23615,7 +23615,7 @@ PrivateBarbarian.prototype = {
 </code></pre>
 
 
-<p>In the example above we’ve done the following changes:</p>
+<p>In the example above we've done the following changes:</p>
 
 <ul>
 <li>We have modified the <em>constructor function</em> so that the <code>weapons</code> variable is not a property of the object that would be created with the function but a simple variable inside the function itself.</li>
@@ -23659,7 +23659,7 @@ console.log(privateBarbarian.toString());
 </code></pre>
 
 
-<p>In summary, if you want to use <em>closures</em> to manage <em>data privacy</em> with <em>classes</em> you are going to need to define your methods inside the <em>constructor function</em> and not the <em>prototype</em>. This means that each single instance will have its own method property, and therefore they won’t be shared by all instances via the <em>prototype</em>. As a result this <em>information hiding</em> strategy will make you incur in a bigger memory footprint.</p>
+<p>In summary, if you want to use <em>closures</em> to manage <em>data privacy</em> with <em>classes</em> you are going to need to define your methods inside the <em>constructor function</em> and not the <em>prototype</em>. This means that each single instance will have its own method property, and therefore they won't be shared by all instances via the <em>prototype</em>. As a result this <em>information hiding</em> strategy will make you incur in a bigger memory footprint.</p>
 
 <h4>Classes and Information Hiding With ES6 Symbols</h4>
 
@@ -23723,7 +23723,7 @@ ${this[weapons].find(w =&gt; w.equipped).name}`;
 </code></pre>
 
 
-<p>Using the <code>weapons</code> symbol we can create a <code>weapons</code> property that can only be indexed if you have access to the symbol itself. Because the symbol is part of the <code>characters</code> module scope it’s only accessible to that function scope and therefore the <code>SymbolicBarbarian</code> <em>class</em> that also lives in that same scope. As a result the <code>weapons</code> property behaves like a private property of the <code>SymbolicBarbarian</code> <em>class</em>:</p>
+<p>Using the <code>weapons</code> symbol we can create a <code>weapons</code> property that can only be indexed if you have access to the symbol itself. Because the symbol is part of the <code>characters</code> module scope it's only accessible to that function scope and therefore the <code>SymbolicBarbarian</code> <em>class</em> that also lives in that same scope. As a result the <code>weapons</code> property behaves like a private property of the <code>SymbolicBarbarian</code> <em>class</em>:</p>
 
 <pre><code>var symbolicBarbarian = new window.characters.SymbolicBarbarian('khaaarg');
 symbolicBarbarian.equipsWeapon({name: 'katana sword'});
@@ -23795,9 +23795,9 @@ console.log(swordWieldingBarbarian.name);
 </code></pre>
 
 
-<p>Because these are properties of the <em>constructor function</em> and not of any instance in particular, they’ll only be accessible by having a reference to the <em>constructor function</em>. Additionally these members of methods will only be able to access other <em>static</em> members and methods since they are not tied to any instance in particular.</p>
+<p>Because these are properties of the <em>constructor function</em> and not of any instance in particular, they'll only be accessible by having a reference to the <em>constructor function</em>. Additionally these members of methods will only be able to access other <em>static</em> members and methods since they are not tied to any instance in particular.</p>
 
-<p>A static class is that which has only static members and methods, is sealed and cannot be instantiated. In a similar way to what you’ve seen in these examples, you can define a <em>static class</em> as a <em>constructor function</em> that only has <em>“static” members and methods</em> – properties assigned to the <em>constructor function</em> itself. This is going to give you a similar feeling to using <em>static classes</em> in C# but it is a little bit of a stretch since you can still instantiate objects with that <em>constructor function</em> and have it be part of an inheritance chain. You can solve both these problems by throwing an error when the <em>constructor function</em> is called:</p>
+<p>A static class is that which has only static members and methods, is sealed and cannot be instantiated. In a similar way to what you've seen in these examples, you can define a <em>static class</em> as a <em>constructor function</em> that only has <em>"static" members and methods</em> – properties assigned to the <em>constructor function</em> itself. This is going to give you a similar feeling to using <em>static classes</em> in C# but it is a little bit of a stretch since you can still instantiate objects with that <em>constructor function</em> and have it be part of an inheritance chain. You can solve both these problems by throwing an error when the <em>constructor function</em> is called:</p>
 
 <pre><code>function DateHelpers(){ throw Error('static class'); };
 DateHelpers.ToJavaScriptMonth = function(month){
@@ -23816,7 +23816,7 @@ DateHelpers.ToJavaScriptMonth = function(month){
 <ul>
 <li><strong>Argument inspection</strong>: Inspect how many arguments are passed to a function and which are their types then decide what to do.</li>
 <li><strong>Options object</strong>: Provide an options object that contains the arguments to the method. You get the benefits of named parameters and high extensibility.</li>
-<li><strong>ES6 defaults and destructuring</strong>: <em>Defaults</em> let you provide different signatures as default values will be used if some arguments are not passed into the function. <em>Destructuring</em> let’s you unwrap options objects in a very straightforward fashion.</li>
+<li><strong>ES6 defaults and destructuring</strong>: <em>Defaults</em> let you provide different signatures as default values will be used if some arguments are not passed into the function. <em>Destructuring</em> let's you unwrap options objects in a very straightforward fashion.</li>
 <li><strong>Function Programming and Polymorphic Functions</strong>: You can define polymorphic functions by composing several functions that will be called in turn until you get a result from any of them.</li>
 </ul>
 
@@ -23825,15 +23825,15 @@ DateHelpers.ToJavaScriptMonth = function(month){
 
 <h2>Mimicking Classical Inheritance in JavaScript</h2>
 
-<p>This is what you’ve learned to this point:</p>
+<p>This is what you've learned to this point:</p>
 
 <ul>
 <li>We can emulate a single C# <em>class</em> with a <em>constructor function</em> and <em>prototype pair</em></li>
 <li>The <em>constructor function</em> defines the properties of each instance and the <em>prototype</em> its methods</li>
 <li>We can take advantage of the <em>prototype chain</em> to create an <em>inheritance tree</em></li>
-<li>There’s no access modifiers but you can get <em>private members</em> by using closures and <em>ES6 symbols</em>. Closures force you to move methods from the <em>prototype</em> to the <em>constructor function</em> before you can use them</li>
+<li>There's no access modifiers but you can get <em>private members</em> by using closures and <em>ES6 symbols</em>. Closures force you to move methods from the <em>prototype</em> to the <em>constructor function</em> before you can use them</li>
 <li>You can add static members and methods to a <em>class</em> by augmenting its <em>constructor function</em></li>
-<li>You can use any function overloading technique that you’ve learned in these series to overload <em>class</em> methods.</li>
+<li>You can use any function overloading technique that you've learned in these series to overload <em>class</em> methods.</li>
 </ul>
 
 
@@ -23847,7 +23847,7 @@ DateHelpers.ToJavaScriptMonth = function(month){
 </ol>
 
 
-<p>Let’s see how to achieve <em>classical inheritance</em> with an example:</p>
+<p>Let's see how to achieve <em>classical inheritance</em> with an example:</p>
 
 <pre><code>// Inheritance Hierarchy:
 //   DrawableGameObject -&gt; MobileGameObject
@@ -23932,7 +23932,7 @@ koloss.heals(conan);
 
 <p>You can follow a similar pattern to the one you used in the <em>constructor function</em> to override or extend any method defined in a base <em>class</em>.</p>
 
-<p>Let’s override the <code>heals</code> method:</p>
+<p>Let's override the <code>heals</code> method:</p>
 
 <pre><code>// constructor function
 function WhiteShaman(name, position, sprite){
@@ -23988,7 +23988,7 @@ WhiteShaman.prototype.toString = function(target){
 
 <h2>Simplifying Classical Inheritance in ES5</h2>
 
-<p>Now that you’ve arrived at the end of this article you may be thinking that writing <em>classes</em> in JavaScript is a ton of work. And you are completely right. That’s why it’s helpful to write a helper to make things easier for you and remove the boilerplate code.</p>
+<p>Now that you've arrived at the end of this article you may be thinking that writing <em>classes</em> in JavaScript is a ton of work. And you are completely right. That's why it's helpful to write a helper to make things easier for you and remove the boilerplate code.</p>
 
 <p>Ideally we would define a function that would let us create a <em>class</em> by providing:</p>
 
@@ -24026,9 +24026,9 @@ WhiteShaman.prototype.toString = function(target){
 </code></pre>
 
 
-<p>The <code>newClass</code> function takes the three ingredients for a <em>class</em>: <em>constructor</em>, <em>prototype</em> and <em>base class</em> and assembles them all together for you. It will make sure to create a new <em>constructor function</em> that calls the base <em>constructor</em> before your own class <em>constructor</em>. It will also create an appropriate <em>prototype</em> by creating an object with the base <em>class</em> prototype and combining it with your own <em>class</em> prototype. If you don’t provide a base <em>class</em> to extend it will use the <code>Object</code> <em>class</em> as default.</p>
+<p>The <code>newClass</code> function takes the three ingredients for a <em>class</em>: <em>constructor</em>, <em>prototype</em> and <em>base class</em> and assembles them all together for you. It will make sure to create a new <em>constructor function</em> that calls the base <em>constructor</em> before your own class <em>constructor</em>. It will also create an appropriate <em>prototype</em> by creating an object with the base <em>class</em> prototype and combining it with your own <em>class</em> prototype. If you don't provide a base <em>class</em> to extend it will use the <code>Object</code> <em>class</em> as default.</p>
 
-<p>Let’s see the <code>newClass</code> function in action and define a new <code>Berserker</code> <em>class</em>:</p>
+<p>Let's see the <code>newClass</code> function in action and define a new <code>Berserker</code> <em>class</em>:</p>
 
 <pre><code>var Berserker = newClass({
   constructor: function(name, position, sprite, animalSpirit){
@@ -24059,16 +24059,16 @@ dwarfBerserker.equipsWeapon({name: 'Double bearded Axe'});
 
 <p>In this article you learned how to mimic C# <em>classes</em> and <em>classical inheritance</em> in JavaScript.</p>
 
-<p>You saw how combining a <em>constructor function</em> and a <em>prototype</em> object let’s you create something comparable to a class, where the <em>constructor function</em> defines your <em>class members</em> and the <em>prototype</em> defines your <em>class methods</em>. You then learned about <em>data privacy</em> with closures and symbols and how to write <em>static members, methods and classes</em> in JavaScript.</p>
+<p>You saw how combining a <em>constructor function</em> and a <em>prototype</em> object let's you create something comparable to a class, where the <em>constructor function</em> defines your <em>class members</em> and the <em>prototype</em> defines your <em>class methods</em>. You then learned about <em>data privacy</em> with closures and symbols and how to write <em>static members, methods and classes</em> in JavaScript.</p>
 
 <p>We continued extending the scope from a single class to multiple classes and you discovered how to achieve an equivalent experience to <em>classical inheritance</em> in C#. We could achieve this by calling a base <em>class</em> <em>constructor function</em> for a derived <em>class constructor</em> and by establishing a <em>prototypical chain</em> between each <em>class</em> prototype. We wrapped the article discussing how to override and extend <em>class</em> methods, and how to simplify <em>class inheritance</em> in JavaScript using a helper.</p>
 
-<p>If you reflect a little bit about what you’ve learned in this article you’ll probably come to wonder: <em>Really? Does writing a class in JavaScript need to be this hard?</em>. Well that’s exactly what <em>ES6 classes</em> are trying to remedy by providing a much more familiar, simple and nicer syntax to writing <em>classes</em> in JavaScript. And that’s what you’ll learn in the next article.</p>
+<p>If you reflect a little bit about what you've learned in this article you'll probably come to wonder: <em>Really? Does writing a class in JavaScript need to be this hard?</em>. Well that's exactly what <em>ES6 classes</em> are trying to remedy by providing a much more familiar, simple and nicer syntax to writing <em>classes</em> in JavaScript. And that's what you'll learn in the next article.</p>
 <div class="footnotes">
 <hr>
 <ol>
 <li id="fn:1">
-<p>Remember that you can get access to all symbols used within an object via <code>getOwnPropertySymbols</code> and therefore <em>symbols</em> don’t offer true privacy like <em>closures</em> do.<a href="#fnref:1" rev="footnote">↩</a></p></li>
+<p>Remember that you can get access to all symbols used within an object via <code>getOwnPropertySymbols</code> and therefore <em>symbols</em> don't offer true privacy like <em>closures</em> do.<a href="#fnref:1" rev="footnote">↩</a></p></li>
 </ol>
 </div>
 
@@ -24092,7 +24092,7 @@ dwarfBerserker.equipsWeapon({name: 'Double bearded Axe'});
 </ol>
 
 
-<p>In any case, <em>ES6 classes</em> are great for developers that are coming to JavaScript from a static typed language like C# because they offer a perfect entry point into the language. You can start using <em>classes</em> just like you’d do in C#, and little by little learn more about the specific capabilities of JavaScript.</p>
+<p>In any case, <em>ES6 classes</em> are great for developers that are coming to JavaScript from a static typed language like C# because they offer a perfect entry point into the language. You can start using <em>classes</em> just like you'd do in C#, and little by little learn more about the specific capabilities of JavaScript.</p>
 
 <p><strong>Behold! ES6 classes!</strong></p>
 
@@ -24101,7 +24101,7 @@ dwarfBerserker.equipsWeapon({name: 'Double bearded Axe'});
 
 <p></p>
 
-<h2>From ES5 “Classes” to ES6 Classes</h2>
+<h2>From ES5 "Classes" to ES6 Classes</h2>
 
 <p><em>You can <a href="http://bit.ly/javascriptmancy-oop-es6-classes">experiment with all examples in this article directly within this jsBin</a>.</em></p>
 
@@ -24174,7 +24174,7 @@ ClassyBarbarian.prototype = {
 
 <p>The <code>class</code> keyword followed by the <em>class</em> name now act as a container for the whole <em>class</em>. The syntax for the body is very reminescent of the <em>shorthand method syntax</em> of object initializers that you learned in <a href="/blog/2015/10/08/mastering-the-arcane-art-of-javascript-mancy-on-summoning-servants-and-critters-or-the-basics-of-objects/">the basics section of these series</a>.</p>
 
-<p>Instead of writing a method with the <code>function</code> keyword as in <code>saysHi: function(){}</code> we use the shorthand version that is nearer to the C# method syntax <code>saysHi(){</code>. The <em>constructor function</em> becomes the <code>constructor</code> inside the <em>class</em> and <strong>the methods are separated by new lines and not by commas</strong>. In addition to methods you can also define <a href="/blog/2015/10/08/mastering-the-arcane-art-of-javascript-mancy-on-summoning-servants-and-critters-or-the-basics-of-objects/">getters and setters</a> just like you’d do within object literals.</p>
+<p>Instead of writing a method with the <code>function</code> keyword as in <code>saysHi: function(){}</code> we use the shorthand version that is nearer to the C# method syntax <code>saysHi(){</code>. The <em>constructor function</em> becomes the <code>constructor</code> inside the <em>class</em> and <strong>the methods are separated by new lines and not by commas</strong>. In addition to methods you can also define <a href="/blog/2015/10/08/mastering-the-arcane-art-of-javascript-mancy-on-summoning-servants-and-critters-or-the-basics-of-objects/">getters and setters</a> just like you'd do within object literals.</p>
 
 <p>Once defined, you can create <em>class</em> instances using the <code>new</code> keyword:</p>
 
@@ -24221,7 +24221,7 @@ Berserker.prototype.rageAttack = function(target){
 </code></pre>
 
 
-<p>The <code>extends</code> keyword ensures that the <code>Berserker</code> class extends (inherits from) the <code>Barbarian</code> class. The <code>super</code> keyword within the <code>constructor</code> let’s you call the base <em>class</em> <em>constructor</em>.</p>
+<p>The <code>extends</code> keyword ensures that the <code>Berserker</code> class extends (inherits from) the <code>Barbarian</code> class. The <code>super</code> keyword within the <code>constructor</code> let's you call the base <em>class</em> <em>constructor</em>.</p>
 
 <pre><code>var logen = new Berserker('Logen, the Bloody Nine', 'wolf');
 console.log(`Logen is a barbarian: ${logen instanceof Barbarian}`);
@@ -24316,7 +24316,7 @@ console.log(randomSword.toString());
 </code></pre>
 
 
-<p><em>ES6 classes</em> don’t offer a syntax to declare <em>static members</em> but you can still use the approach you learned in the previous article. With <em>ES5 classes</em> we augmented the <em>contructor function</em> with the <em>static member</em>. With <em>ES6 classes</em> we can do the same:</p>
+<p><em>ES6 classes</em> don't offer a syntax to declare <em>static members</em> but you can still use the approach you learned in the previous article. With <em>ES5 classes</em> we augmented the <em>contructor function</em> with the <em>static member</em>. With <em>ES6 classes</em> we can do the same:</p>
 
 <pre><code>Sword.materials = ['wood', 'iron', 'steel'];
 console.log(Sword.materials);
@@ -24340,7 +24340,7 @@ console.log(Sword.materials);
 
 <p>When it comes to <em>ES6 classes</em> and <em>information hiding</em> we are in the same place as we were prior to <em>ES6</em>: Every property inside the <code>constructor</code> of a class and every method within the <code>class</code> declaration body is public. <strong>You need to rely on closures or <em>ES6 symbols</em> to achieve data privacy</strong>.</p>
 
-<p>Just like with <em>ES5 classes</em>, if you want to use closures to declare private members or methods you’ll need to move the method consuming these private members inside the <em>class</em> <code>constructor</code>. This will ensure that the method can enclose the private member or method. For instance:</p>
+<p>Just like with <em>ES5 classes</em>, if you want to use closures to declare private members or methods you'll need to move the method consuming these private members inside the <em>class</em> <code>constructor</code>. This will ensure that the method can enclose the private member or method. For instance:</p>
 
 <pre><code>class PrivateBarbarian {
 
@@ -24447,7 +24447,7 @@ console.log(symbolicBarbarian.toString())
     <tbody>
     <tr>
         <td>
-        Let’s you achieve true privacy.
+        Let's you achieve true privacy.
         </td>
         <td>
         You cannot achieve true privacy because a client could use getOwnPropertySymbols to obtain to your symbols and therefore your private variables.
@@ -24468,7 +24468,7 @@ console.log(symbolicBarbarian.toString())
 
 <h2>ES6 Classes Behind the Curtain</h2>
 
-<p>Throughout this article you’ve been able to see how, thanks to the fact that <em>ES6 classes</em> are just syntactic sugar over JavaScript existing OOP constructs, we can fill in the gaps when there are features lacking from <em>ES6 classes</em> like static members or data privacy.</p>
+<p>Throughout this article you've been able to see how, thanks to the fact that <em>ES6 classes</em> are just syntactic sugar over JavaScript existing OOP constructs, we can fill in the gaps when there are features lacking from <em>ES6 classes</em> like static members or data privacy.</p>
 
 <p>This is a hint that we can use <em>ES6 classes</em> just like we could a <em>constructor function</em> and a <em>prototype</em> pair. For instance we can augment an <em>ES6 class</em> prototype at any time with new capabilities and all instances of that class will get instant access to those features (via the <em>prototype chain</em>):</p>
 
@@ -24503,12 +24503,12 @@ khaaar.entersGodMode();
 
 <p>It is important that you understand that <em>ES6</em> classes are just syntactic sugar over the existing inheritance model. As such you can take advantage of what you learned in previous article of these series to implement static members, data privacy via closures and symbols, augment a <em>class</em> prototype at runtime, and anything you can imagine.</p>
 
-<p>Now that you know how to write OOP in JavaScript using a C# style it’s time to move beyond <em>classical inheritance</em> and embrace JavaScript dynamic nature and flexibility. Up next! Mixins and Object Composition!</p>
+<p>Now that you know how to write OOP in JavaScript using a C# style it's time to move beyond <em>classical inheritance</em> and embrace JavaScript dynamic nature and flexibility. Up next! Mixins and Object Composition!</p>
 <div class="footnotes">
 <hr>
 <ol>
 <li id="fn:1">
-<p>Remember that you can get access to all symbols used within an object via <code>getOwnPropertySymbols</code> and therefore <em>symbols</em> don’t offer true privacy like <em>closures</em> do.<a href="#fnref:1" rev="footnote">↩</a></p></li>
+<p>Remember that you can get access to all symbols used within an object via <code>getOwnPropertySymbols</code> and therefore <em>symbols</em> don't offer true privacy like <em>closures</em> do.<a href="#fnref:1" rev="footnote">↩</a></p></li>
 </ol>
 </div>
 
@@ -24524,9 +24524,9 @@ khaaar.entersGodMode();
 					<div class="tutorial__content">
 <div class="entry-content">
 
-<p>In the previous articles of <a href="http://www.barbarianmeetscoding.com/blog/categories/javascriptmancy/">this series</a> you have dived into Object Oriented Programming in JavaScript. You’ve learned about object initializers, factory functions, about constructor functions, prototypical inheritance, polymorphism, how to mimick C# classes with ES5 and even about ES6 classes.</p>
+<p>In the previous articles of <a href="http://www.barbarianmeetscoding.com/blog/categories/javascriptmancy/">this series</a> you have dived into Object Oriented Programming in JavaScript. You've learned about object initializers, factory functions, about constructor functions, prototypical inheritance, polymorphism, how to mimick C# classes with ES5 and even about ES6 classes.</p>
 
-<p>So far we’ve kept ourselves very close to techniques and concepts that you are accustomed to in C# so as to make you a comfortable inhabitant of the world of JavaScript. So! Now that you are almost a mighty JavaScript-mancer we’re going to let go of C# for a little while and embrace the dynamic nature of JavaScript. Welcome to a world of flexibility and freedom! The realm of object composition!</p>
+<p>So far we've kept ourselves very close to techniques and concepts that you are accustomed to in C# so as to make you a comfortable inhabitant of the world of JavaScript. So! Now that you are almost a mighty JavaScript-mancer we're going to let go of C# for a little while and embrace the dynamic nature of JavaScript. Welcome to a world of flexibility and freedom! The realm of object composition!</p>
 
 <p>This time by the hand of <strong>Mixins</strong>.</p>
 
@@ -24541,9 +24541,9 @@ khaaar.entersGodMode();
 
 <p>This is all well and good. We live in a complex world and OOP helps us manage that complexity through simplified versions of reality called <em>classes</em> and <em>objects</em>.</p>
 
-<p>A side effect of using <em>classes</em> is that it creates a <em>taxonomy</em> or a <em>classification</em> of the entities in the world around us. This classification, because of the nature of classes and inheritance, tends to be a very rigid one that doesn’t tolerate change very well. <em>Change</em> not strictly in the sense of adding a new property to a class but in accommodating the system of <em>classes</em> to new knowledge about the problem domain.</p>
+<p>A side effect of using <em>classes</em> is that it creates a <em>taxonomy</em> or a <em>classification</em> of the entities in the world around us. This classification, because of the nature of classes and inheritance, tends to be a very rigid one that doesn't tolerate change very well. <em>Change</em> not strictly in the sense of adding a new property to a class but in accommodating the system of <em>classes</em> to new knowledge about the problem domain.</p>
 
-<p>We saw an example of this particular problem in <a href="http://www.barbarianmeetscoding.com/blog/2015/11/23/an-introduction-to-object-oriented-programming-in-javascript-for-c-sharp-developers/">“Introduction to Object-Oriented Programming in JavaScript”</a> (<em>anoher article in the series</em>) where we defined these three classes <code>Minion</code>, <code>Wizard</code> and <code>Thief</code>:</p>
+<p>We saw an example of this particular problem in <a href="http://www.barbarianmeetscoding.com/blog/2015/11/23/an-introduction-to-object-oriented-programming-in-javascript-for-c-sharp-developers/">"Introduction to Object-Oriented Programming in JavaScript"</a> (<em>anoher article in the series</em>) where we defined these three classes <code>Minion</code>, <code>Wizard</code> and <code>Thief</code>:</p>
 
 <pre><code>class Minion {
   constructor(name, hp){
@@ -24587,15 +24587,15 @@ class Thief extends Minion {
 
 <p>And a problem space in which we have a <code>Wizard</code> as someone who can cast spells, and a <code>Thief</code> as someone who can steal. In this context we learned something new about our domain, the existence of <em>Bards</em> as creatures of myth that could both casts spells, steal, and even play an instrument!</p>
 
-<p>But the system of <em>classes</em> that we had created, our current taxonomy that represents our view of the world right now doesn’t accommodate very well the idea of a <code>Bard</code>… is it a <code>Wizard</code>? Is it a <code>Thief</code>? Is it something else? It cannot be both! Can it!? And so in order to bring this knowledge into our system, we need to do a major redesign of our <em>classes</em>, redefine our whole taxonomy, or duplicate code and forsake the benefits that could come from polymorphism.</p>
+<p>But the system of <em>classes</em> that we had created, our current taxonomy that represents our view of the world right now doesn't accommodate very well the idea of a <code>Bard</code>… is it a <code>Wizard</code>? Is it a <code>Thief</code>? Is it something else? It cannot be both! Can it!? And so in order to bring this knowledge into our system, we need to do a major redesign of our <em>classes</em>, redefine our whole taxonomy, or duplicate code and forsake the benefits that could come from polymorphism.</p>
 
-<p>So <em>classes</em> create taxonomies. Taxonomies are rigid and don’t tolerate change well. <em>Is there anything else?</em> Well there’s also a problem with the <strong>when</strong>, when do we create these <em>classes</em> and <em>taxonomies</em>? And how does that affects how we work?</p>
+<p>So <em>classes</em> create taxonomies. Taxonomies are rigid and don't tolerate change well. <em>Is there anything else?</em> Well there's also a problem with the <strong>when</strong>, when do we create these <em>classes</em> and <em>taxonomies</em>? And how does that affects how we work?</p>
 
 <p>A very wise person, Douglas Crockford, reflected over this and realized that we build these taxonomies when we start a project, which is the moment when we least know about our domain and problem space. We are creating these very rigid systems to represent a domain we are usually not familiar with. Systems that will inevitably need to change as we find out more about the domain but that are not well suited to adapt to change.</p>
 
 <p><strong>Is there a better way?</strong></p>
 
-<p>Well, yes sir there is. It is <strong>class-free object oriented programming</strong> and Douglas calls it the single most important contribution of JavaScript to humanity <sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>. In this article and the next we will focus in how you can achieve this approach to object oriented programming, where <em>classes</em> disappear and we just focus on <em>objects</em>. Sounds exciting, doesn’t it?</p>
+<p>Well, yes sir there is. It is <strong>class-free object oriented programming</strong> and Douglas calls it the single most important contribution of JavaScript to humanity <sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>. In this article and the next we will focus in how you can achieve this approach to object oriented programming, where <em>classes</em> disappear and we just focus on <em>objects</em>. Sounds exciting, doesn't it?</p>
 
 <h2>Free Yourself From Classes With Object Composition and Mixins</h2>
 
@@ -24699,7 +24699,7 @@ bard.castsSpell(lightningSpell, orc);
 </code></pre>
 
 
-<p>The objects that encapsulate a bit of reusable behavior (<code>canSteal</code>, <code>canPlayMusic</code>, etc) is what we call <strong>mixins</strong>. We compose them, or mix them, with other objects to provide them with additional behavior. You don’t need to use a <em>factory function</em> like in the previous examples, you can compose a simple object if so you wish:</p>
+<p>The objects that encapsulate a bit of reusable behavior (<code>canSteal</code>, <code>canPlayMusic</code>, etc) is what we call <strong>mixins</strong>. We compose them, or mix them, with other objects to provide them with additional behavior. You don't need to use a <em>factory function</em> like in the previous examples, you can compose a simple object if so you wish:</p>
 
 <pre><code>var orcMagician = Object.assign(
     {name: 'orcmag', hp: 100, mana: 50},
@@ -24715,7 +24715,7 @@ orcMagician.castsSpell(lightningSpell, wizard);
 
 <p>The <em>factory function</em> just adds that extra level of convenience to create many objects.</p>
 
-<p>Let’s continue strengthening this idea of object composition and flexibility with a new example. Imagine that you want to be able to see your legions displayed on a map so you can take better strategic decisions in your path to ruling the known universe. Well, you can define a <code>canBePositioned</code> object that encapsulates this behavior that you need:</p>
+<p>Let's continue strengthening this idea of object composition and flexibility with a new example. Imagine that you want to be able to see your legions displayed on a map so you can take better strategic decisions in your path to ruling the known universe. Well, you can define a <code>canBePositioned</code> object that encapsulates this behavior that you need:</p>
 
 <pre><code>var canBePositioned = {
     x : 0,
@@ -24738,7 +24738,7 @@ Object.assign(orcMagician, canBePositioned);
 </code></pre>
 
 
-<p>All of the sudden we can position and move them to our heart’s content. And if we define a very simple ASCII two-dimensional map like this one:</p>
+<p>All of the sudden we can position and move them to our heart's content. And if we define a very simple ASCII two-dimensional map like this one:</p>
 
 <pre><code>function Map(width, height, creatures){
 
@@ -24806,9 +24806,9 @@ __________________________________________________
 <p>You may be thinking… <em>Well, I can do this with C# and classical inheritance any day</em>. And indeed you can, but some interesting ideas about the object composition approach are that:</p>
 
 <ul>
-<li><strong>We don’t need any upfront design effort to make our application extensible</strong>. In C# you need to define the extensibility points of a system because you need to use the right artifacts like interfaces, composition over inheritance, design patterns like strategy, etc. In JavaScript we don’t need to over-architect our solution, or carefully design our application for extensibility purposes. You get a new feature, you define a new behavior, compose it with your existing objects and start using it.</li>
+<li><strong>We don't need any upfront design effort to make our application extensible</strong>. In C# you need to define the extensibility points of a system because you need to use the right artifacts like interfaces, composition over inheritance, design patterns like strategy, etc. In JavaScript we don't need to over-architect our solution, or carefully design our application for extensibility purposes. You get a new feature, you define a new behavior, compose it with your existing objects and start using it.</li>
 <li><strong>Object composition happens at runtime</strong>. You have your program running, your objects doing whatever objects do and all of the sudden <em>BOOM!</em> Object composability and your objects get new features and can do new interesting things. New things like changing from a text representation to a 2D representation or a 3D representation and who knows what more.</li>
-<li><strong>It doesn’t need to affect the original objects at all</strong>. You can keep your objects as they are, clone them and apply the composition on the clones. This can enable interesting approaches like having different bounded contexts (like in DDD<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>) with slightly diverse domain models adapted to a particular context needs and goals.</li>
+<li><strong>It doesn't need to affect the original objects at all</strong>. You can keep your objects as they are, clone them and apply the composition on the clones. This can enable interesting approaches like having different bounded contexts (like in DDD<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>) with slightly diverse domain models adapted to a particular context needs and goals.</li>
 <li><strong>You can compose an object with many other objects representing different behaviors (like a multiple inheritance of sorts)</strong>. This tends to be harder to do in classical inheritance based languages like C# where you are limited to a single base class or to a flavor of composition that requires a lot of boilerplate code, forward planning and design.</li>
 </ul>
 
@@ -24820,15 +24820,15 @@ __________________________________________________
 <p>As wonderful as <em>mixin</em> objects are they have some severe limitations:</p>
 
 <ul>
-<li>They don’t support data privacy</li>
+<li>They don't support data privacy</li>
 <li>They can create undesired coupling between objects</li>
 <li>They are subject to name collisions</li>
 </ul>
 
 
-<p>Let’s take a closer look at each of these.</p>
+<p>Let's take a closer look at each of these.</p>
 
-<p><em>Mixin</em> objects don’t support true data privacy because they don’t support closures. You can use <em>ES6 symbols</em> though and keep your symbols tucked away within a module where you define your <em>mixins</em>.</p>
+<p><em>Mixin</em> objects don't support true data privacy because they don't support closures. You can use <em>ES6 symbols</em> though and keep your symbols tucked away within a module where you define your <em>mixins</em>.</p>
 
 <p>If you are not careful, <em>mixin</em> objects can create undesired coupling between disparate objects. For instance, if you use the same <em>mixin</em> to extend several other objects, because the <em>extending</em> consists it copying properties, you can end up having several objects that have a reference to the same object. This will result in undesired side-effects and a horrible source of bugs.</p>
 
@@ -24890,7 +24890,7 @@ raist.movesTo(10, 20);
 
 <p><em>Functional mixins</em> are <em>mixins</em> implemented as functions instead of objects. They let you implement <em>data privacy</em> through closures and avoid undesired coupling between objects by working as a factory for <em>mixins</em>.</p>
 
-<p>Let’s see how we can turn our previously defined behaviors from <em>mixin</em> objects to <em>functional mixins</em>:</p>
+<p>Let's see how we can turn our previously defined behaviors from <em>mixin</em> objects to <em>functional mixins</em>:</p>
 
 <pre><code>let canCastSpellsFn = (state) =&gt; ({
   castsSpell(spell, target){
@@ -24918,7 +24918,7 @@ let canPlayMusicFn = (state) =&gt; ({
 
 <ul>
 <li>Because the <code>state</code> object is passed as a argument to the <em>mixin</em> it can remain private between object and <em>mixin</em>.</li>
-<li>Because each time the <em>functional mixin</em> object is called it returns a new object there’s no problem with coupling state between objects (as it happened with <em>mixin</em> objects).</li>
+<li>Because each time the <em>functional mixin</em> object is called it returns a new object there's no problem with coupling state between objects (as it happened with <em>mixin</em> objects).</li>
 </ul>
 
 
@@ -25003,9 +25003,9 @@ bart.castsSpell(lightningSpell, landaf);
 </code></pre>
 
 
-<p>As you’ve appreciated in these examples, <em>functional mixins</em> solve the limitations of <em>mixin</em> objects in terms of data privacy and coupling between extended objects.</p>
+<p>As you've appreciated in these examples, <em>functional mixins</em> solve the limitations of <em>mixin</em> objects in terms of data privacy and coupling between extended objects.</p>
 
-<p>There’s still one limitation to contend with which are name collisions, that is, the possibility that two <em>mixins</em> provide behaviors with the same name. You can handle name collisions in two ways: live with them or use <em>namespacing</em>.</p>
+<p>There's still one limitation to contend with which are name collisions, that is, the possibility that two <em>mixins</em> provide behaviors with the same name. You can handle name collisions in two ways: live with them or use <em>namespacing</em>.</p>
 
 <p>Since <code>Object.assign</code> works overwriting object properties from right to left you can embrace this feature and take advantage of it when you need to replace behaviors with new ones:</p>
 
@@ -25065,7 +25065,7 @@ var canEatMany = {
 
 <p>You have two options when combining <em>ES6 classes</em> with <em>mixins</em>. You can either compose your already instantiated objects with a <em>mixin</em> on a <em>per-case</em> basis, or you can compose your <em>class</em> prototype with a <em>mixin</em> and automatically provide all existing and future instances of that <em>class</em> with new behaviors.</p>
 
-<p>Let’s imagine we have a <code>Warrior</code> class that will help us illustrate this with an example:</p>
+<p>Let's imagine we have a <code>Warrior</code> class that will help us illustrate this with an example:</p>
 
 <pre><code>class Warrior{
 
@@ -25113,7 +25113,7 @@ caramon.steals(bard, 'lute');
 
 <p>Alternatively, we can compose the <code>Warrior</code> <em>class</em> prototype with a <em>mixin</em> and provide all existing and future instances of this class with new behavior. This is an excellent way to define a series of reusable behaviors and compose them with our domain model classes as we see fit.</p>
 
-<p>For instance, let’s make all warriors capable of being positioned in a map via the <code>canBePositioned</code> <em>mixin</em>:</p>
+<p>For instance, let's make all warriors capable of being positioned in a map via the <code>canBePositioned</code> <em>mixin</em>:</p>
 
 <pre><code>Object.assign(Warrior.prototype, canBePositioned);
 </code></pre>
@@ -25135,7 +25135,7 @@ riverwind.movesTo(20,20);
 
 <h2>Object.assign in Depth</h2>
 
-<p>We’ve used <code>Object.assign</code> a lot during this article and even in previous articles. We know that it copies properties from several source objects into a target object. <em>But does it copy all properties? What about the properties within an object prototype? Does it do a deep copy of the source objects? Or just a shallow copy?</em> That’s what we’ll answer to in this section.</p>
+<p>We've used <code>Object.assign</code> a lot during this article and even in previous articles. We know that it copies properties from several source objects into a target object. <em>But does it copy all properties? What about the properties within an object prototype? Does it do a deep copy of the source objects? Or just a shallow copy?</em> That's what we'll answer to in this section.</p>
 
 <p>The <code>Object.assign</code> method is a new <code>Object</code> static method in <em>ES6</em> that <strong>lets you copy all enumerable own properties</strong> from one or several <em>source</em> objects into a single <em>target</em> object.</p>
 
@@ -25160,7 +25160,7 @@ console.log(`companyPlusOne and companyOfTheRingt are the same: ${companyPlusOne
 </code></pre>
 
 
-<p>If you don’t want to mutate any of your existing objects, you can use a new object <code>{}</code> as <em>target</em>:</p>
+<p>If you don't want to mutate any of your existing objects, you can use a new object <code>{}</code> as <em>target</em>:</p>
 
 <pre><code>// clone an object (shallow-copy)
 var clonedCompany = Object.assign(/*target*/ {}, /*source*/ companyOfTheRing);
@@ -25199,13 +25199,13 @@ console.log(companyOfTheRing.equipment);
 
 <h3>Enumerable Properties?</h3>
 
-<p>Enumerability is an internal characteristic of object properties in JavaScript. It determines whether or not an object property can be enumerated via the for/in loop. You’ll learn more about enumerability in <em>Object Internals</em> and <em>Data Structures</em></p>
+<p>Enumerability is an internal characteristic of object properties in JavaScript. It determines whether or not an object property can be enumerated via the for/in loop. You'll learn more about enumerability in <em>Object Internals</em> and <em>Data Structures</em></p>
 
 <p>When you create an object with an <em>object initializer</em> or a <em>constructor function</em> all properties are enumerable.</p>
 
 <h2>Object.assign Alternatives for ES5 JavaScript-mancers</h2>
 
-<p>This article has relied heavily in the use of <code>Object.assign</code>, a new method in <em>ES6</em> that lets you extend an target object with many other objects. <em>Does that mean that you cannot use mixins and object composition if you are not using ES6?</em> No! You can definitely use object composition and mixins if you haven’t made the jump to <em>ES6</em> yet.</p>
+<p>This article has relied heavily in the use of <code>Object.assign</code>, a new method in <em>ES6</em> that lets you extend an target object with many other objects. <em>Does that mean that you cannot use mixins and object composition if you are not using ES6?</em> No! You can definitely use object composition and mixins if you haven't made the jump to <em>ES6</em> yet.</p>
 
 <p>Chances are that you already are using a library that offers a similar functionality to <code>Object.assign</code>. For instance, <em>jQuery</em> has the <code>$.extend</code> method, <em>underscore</em> the <code>_.extend</code> and <code>_.assign</code> methods and so does <em>lodash</em>:</p>
 
@@ -25217,7 +25217,7 @@ console.log(companyOfTheRing.equipment);
 </ul>
 
 
-<p>If you are not using any of these libraries don’t worry, you can also implement your own version of <code>Object.assign</code> using this code example below:</p>
+<p>If you are not using any of these libraries don't worry, you can also implement your own version of <code>Object.assign</code> using this code example below:</p>
 
 <pre><code>function assign(){
   var args = Array.prototype.slice.call(arguments, 0),
@@ -25248,11 +25248,11 @@ thor.castsSpell(lightningSpell, orc);
 </code></pre>
 
 
-<p>If you are not familiar with the <code>reduceRight</code> function don’t worry, we will take a look at this method and others in the functional programming section of the series. The only thing you need to know right now is that it traverses the <code>sources</code> array from right to left, it applies the <code>assignObject</code> function to each item within the array, accumulates the results in the <code>target</code> object which is fed back into the <code>assignObject</code> function for the next item.</p>
+<p>If you are not familiar with the <code>reduceRight</code> function don't worry, we will take a look at this method and others in the functional programming section of the series. The only thing you need to know right now is that it traverses the <code>sources</code> array from right to left, it applies the <code>assignObject</code> function to each item within the array, accumulates the results in the <code>target</code> object which is fed back into the <code>assignObject</code> function for the next item.</p>
 
 <h2>Concluding</h2>
 
-<p>Developing software is a complex trade. We try to model the world around us by creating abstractions and simplifications in which we only use the details that we need to solve the problem at hand. Object-Oriented Programming attempts to help reduce the complexities of developing software by defining well defined classes that represent simplified versions of real world entities. However, using classes result in rigid taxonomies that aren’t well suited to absorbing change.</p>
+<p>Developing software is a complex trade. We try to model the world around us by creating abstractions and simplifications in which we only use the details that we need to solve the problem at hand. Object-Oriented Programming attempts to help reduce the complexities of developing software by defining well defined classes that represent simplified versions of real world entities. However, using classes result in rigid taxonomies that aren't well suited to absorbing change.</p>
 
 <p><em>Class-free object oriented programming</em> appears as an alternative solution to classic OOP that is more adaptable to change and more flexible. An example of <em>class-free</em> OOP is object composability through <em>mixins</em>. <em>Mixins</em> are objects or functions that encapsulate a reusable piece of functionality or behavior. You can apply these <em>mixins</em> to your domain model objects by using <code>Object.assign</code> and what is known as <em>concatenative inheritance</em> (the second type of <em>prototypical inheritance</em> we discussed in earlier articles in this series).</p>
 
@@ -25262,7 +25262,7 @@ thor.castsSpell(lightningSpell, orc);
 
 <p>In the next articles in the series we will look at other interesting approaches to achieving <em>class-free object oriented programming</em>: traits and stamps.</p>
 
-<p>P.S. Last week <a href="http://justinfagnani.com/">Justin Fagnani</a> wrote a super interesting article about implementing <a href="http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/">“Real” mixins with ES6 classes</a>. Check it out if you want to learn yet another technique with Mixins!</p>
+<p>P.S. Last week <a href="http://justinfagnani.com/">Justin Fagnani</a> wrote a super interesting article about implementing <a href="http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/">"Real" mixins with ES6 classes</a>. Check it out if you want to learn yet another technique with Mixins!</p>
 
 <div class="footnotes">
 <hr>
@@ -25290,7 +25290,7 @@ thor.castsSpell(lightningSpell, orc);
 
 <p>JavaScript provides different ways to declare and use functions, each with their own nuances and limitations, so given that they are such a fundamental part of the language it is important that you are aware of these characteristics when you are writing JavaScript applications.</p>
 
-<p>Welcome to another step in your journey to JavaScript mastery! Let’s get started!</p>
+<p>Welcome to another step in your journey to JavaScript mastery! Let's get started!</p>
 
 
 
@@ -25321,9 +25321,9 @@ function castFireballSpell(){
 </code></pre>
 
 
-<p>As you can appreciate, in their most common incarnations function expressions and function declarations look very similar. That’s why it is especially important to understand that they do are different, have different characteristics and behave in different ways from each other.</p>
+<p>As you can appreciate, in their most common incarnations function expressions and function declarations look very similar. That's why it is especially important to understand that they do are different, have different characteristics and behave in different ways from each other.</p>
 
-<p>Let’s examine them in greater detail.</p>
+<p>Let's examine them in greater detail.</p>
 
 <h3>Function Expressions</h3>
 
@@ -25450,11 +25450,11 @@ castManyFireballsSpell(3);
 </code></pre>
 
 
-<p>So, in summary, <strong>the fact that common function expressions are anonymous affects negatively to their readability, debugging and the user of recursion</strong>. Let’s see some ways to ameliorate these issues.</p>
+<p>So, in summary, <strong>the fact that common function expressions are anonymous affects negatively to their readability, debugging and the user of recursion</strong>. Let's see some ways to ameliorate these issues.</p>
 
 <h4>Named Function expressions</h4>
 
-<p>You can solve the problem of anonymity that we’ve seen thus far by using <strong>named function expressions</strong>. You can declare named function expressions by adding a name after the <code>function</code> keyword:</p>
+<p>You can solve the problem of anonymity that we've seen thus far by using <strong>named function expressions</strong>. You can declare named function expressions by adding a name after the <code>function</code> keyword:</p>
 
 <pre><code>// named function expression
 var castFireballSpell = function castFireballSpell(){
@@ -25715,7 +25715,7 @@ function disintegrate(thing){
 
 <h2>Coming Next</h2>
 
-<p>Hope you have enjoyed this article about the different ways you can write functions in JavaScript. Up next, I will discuss the most common patterns to achieve default values, multiple arguments, function overloading when writing JavaScript functions and I’ll show you how some of the new features in ES 2015 provide native support for some of these.</p>
+<p>Hope you have enjoyed this article about the different ways you can write functions in JavaScript. Up next, I will discuss the most common patterns to achieve default values, multiple arguments, function overloading when writing JavaScript functions and I'll show you how some of the new features in ES 2015 provide native support for some of these.</p>
 
 
 <pre>
@@ -26301,7 +26301,7 @@ function narrate(){
 
 <p>In the next few articles of the <a href="http://www.barbarianmeetscoding.com/blog/categories/javascriptmancy/">javascript-mancy series</a> I will detail several patterns you can use in JavaScript to achieve default arguments, multiple arguments and function overloading.</p>
 
-<p>We’ll start with how to use default arguments and values in JavaScript both with the current version on JavaScript (ES5) and the upcoming ECMAScript 2015 that brings native support for defaults.</p>
+<p>We'll start with how to use default arguments and values in JavaScript both with the current version on JavaScript (ES5) and the upcoming ECMAScript 2015 that brings native support for defaults.</p>
 
 
 
@@ -26324,9 +26324,9 @@ this.conf = conf || new Configstore(pkg.name, {
 </code></pre>
 
 
-<p><em>These two examples have been taken from <a href="https://github.com/jquery/jquery/blob/master/src/ajax/load.js">jQuery</a> and <a href="https://github.com/yeoman/yo/blob/master/lib/router.js">yo</a> if you’d like to take a closer look</em></p>
+<p><em>These two examples have been taken from <a href="https://github.com/jquery/jquery/blob/master/src/ajax/load.js">jQuery</a> and <a href="https://github.com/yeoman/yo/blob/master/lib/router.js">yo</a> if you'd like to take a closer look</em></p>
 
-<p>Well, that’s how you declare defaults in JavaScript. Since there is no native support for default arguments (as of ES5), you make use of the <code>||</code> (OR) operator that returns the first <a href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a> expression of those being evaluated or the last expression if none is truthy:</p>
+<p>Well, that's how you declare defaults in JavaScript. Since there is no native support for default arguments (as of ES5), you make use of the <code>||</code> (OR) operator that returns the first <a href="https://developer.mozilla.org/en-US/docs/Glossary/Truthy">truthy</a> expression of those being evaluated or the last expression if none is truthy:</p>
 
 <pre><code>// using any web dev tools in your browser
 &gt; false || 42 || false
@@ -26411,7 +26411,7 @@ jaime.castIceCone(10, { direction: 'towards Mordor'})
 </code></pre>
 
 
-<p>Defaults in JavaScript are not limited to <a href="https://msdn.microsoft.com/en-us/library/dd264739.aspx">“constant” expressions like in C# <em>optional arguments</em></a>. In JavaScript you can use even objects and the new destructuring syntax to assign object properties to variables directly.</p>
+<p>Defaults in JavaScript are not limited to <a href="https://msdn.microsoft.com/en-us/library/dd264739.aspx">"constant" expressions like in C# <em>optional arguments</em></a>. In JavaScript you can use even objects and the new destructuring syntax to assign object properties to variables directly.</p>
 
 <p>In the example below we use the object <code>{direction: 'in front of you'}</code> as a default value for the second argument and automatically declare a variable <code>direction</code> and assign the <code>'in front of you'</code> value to it:</p>
 
@@ -26468,7 +26468,7 @@ function castSpell(spell=function(){console.log('holy shit a callback!');}){
 
 <p>Time for some more useful function patterns in JavaScript!</p>
 
-<p>In this article I’ll show you how to handle multiple parameters – the equivalent to <code>params</code> in C# – in the current version on JavaScript (ES5) and in the upcoming ECMAScript 2015 that brings great support for multiple parameters with the <em>rest parameter syntax</em>.</p>
+<p>In this article I'll show you how to handle multiple parameters – the equivalent to <code>params</code> in C# – in the current version on JavaScript (ES5) and in the upcoming ECMAScript 2015 that brings great support for multiple parameters with the <em>rest parameter syntax</em>.</p>
 
 
 <h2>A Pattern For Using Multiple Arguments In Functions Today</h2>
@@ -26515,7 +26515,7 @@ heal(JonSnow, 'super heal', /* modifier */ 2);
 </code></pre>
 
 
-<p>It is up to you to implement the body of a function and handle each case as you see fit. But <strong>what happens when you want to write a function that takes an arbitrary number of arguments?</strong> In C# whenever we want to write such a function we use the <a href="https://msdn.microsoft.com/en-us/library/w5zay9db.aspx"><code>params</code> keyword</a>. In JavaScript on the other hand, and as of ES5, there’s no keyword nor operator that allows us to declare that a function will take an arbitrary number of arguments and handle it within the function body in a seamless manner.</p>
+<p>It is up to you to implement the body of a function and handle each case as you see fit. But <strong>what happens when you want to write a function that takes an arbitrary number of arguments?</strong> In C# whenever we want to write such a function we use the <a href="https://msdn.microsoft.com/en-us/library/w5zay9db.aspx"><code>params</code> keyword</a>. In JavaScript on the other hand, and as of ES5, there's no keyword nor operator that allows us to declare that a function will take an arbitrary number of arguments and handle it within the function body in a seamless manner.</p>
 
 <p>The only approach possible is to use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments">the <code>arguments</code> object</a> that is present within every function in JavaScript and which provides access to the arguments used to call a function:</p>
 
@@ -26559,7 +26559,7 @@ function Minion(name, type){
 
 <p>There are a couple of specially interesting things to point out in this example.</p>
 
-<p>The first one is the fact that we are sending arguments of different types to the function and they are all treated seamlessly. That’s an example of <a href="http://en.wikipedia.org/wiki/Duck_typing">duck typing</a> in action where <em>an object is defined by what it can do and not by what the object type is</em>. As long as the values that we pass as arguments support the interface the function implementation expects – in this case the <code>toString</code> method – everything will work just fine.</p>
+<p>The first one is the fact that we are sending arguments of different types to the function and they are all treated seamlessly. That's an example of <a href="http://en.wikipedia.org/wiki/Duck_typing">duck typing</a> in action where <em>an object is defined by what it can do and not by what the object type is</em>. As long as the values that we pass as arguments support the interface the function implementation expects – in this case the <code>toString</code> method – everything will work just fine.</p>
 
 <p>The second thing to point out is the use of the <code>Array.prototype.slice</code> function to convert the <code>arguments</code> variable into a real array <code>victims</code>. While you could think that <code>arguments</code> is an array, it is not (this is another of JavaScript quirks right here), it is an <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments"><strong>array-like</strong> object</a> that you can index, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Enumerability_and_ownership_of_properties">enumerate</a>, and that has a <code>length</code> property:</p>
 
@@ -26626,7 +26626,7 @@ inspectArgumentsFunctions();
 </code></pre>
 
 
-<p>When using the rest parameters syntax, the <code>victims</code> parameter becomes an array so there’s no need to perform additional conversions.</p>
+<p>When using the rest parameters syntax, the <code>victims</code> parameter becomes an array so there's no need to perform additional conversions.</p>
 
 <p><em>You can test <a href="http://jsfiddle.net/vintharas/1hj34wx8/">the example above on this jsFiddle snippet</a>.</em></p>
 
@@ -26637,9 +26637,9 @@ inspectArgumentsFunctions();
 
 <h2>A Sidenote on Using Array.prototype.slice On Arguments</h2>
 
-<p>While I was writing this article I found out that there’s a drawback when using <code>Array.prototype.slice</code> to convert <code>arguments</code> in a array: It prevents the browser JavaScript engine from performing optimizations.</p>
+<p>While I was writing this article I found out that there's a drawback when using <code>Array.prototype.slice</code> to convert <code>arguments</code> in a array: It prevents the browser JavaScript engine from performing optimizations.</p>
 
-<p>The recommended approach is to use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#Array_generic_methods"><code>Array.slice</code> generic method</a> – Array generic methods are specially implemented to be used on other types – but it is not a part of the ECMAScript specification (not even of ES6/2015) and is only implemented in certain browsers (try testing <code>Array.slice</code> in the web developer console on Chrome, Firefox and Internet Explorer and you’ll see that it only exists in Firefox).</p>
+<p>The recommended approach is to use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#Array_generic_methods"><code>Array.slice</code> generic method</a> – Array generic methods are specially implemented to be used on other types – but it is not a part of the ECMAScript specification (not even of ES6/2015) and is only implemented in certain browsers (try testing <code>Array.slice</code> in the web developer console on Chrome, Firefox and Internet Explorer and you'll see that it only exists in Firefox).</p>
 
 <p>You have two options:</p>
 
@@ -26674,7 +26674,7 @@ inspectArgumentsFunctions();
 
 
 
-<p>There’s a slight problem when you attempt to do function overloading in JavaScript like you would in C#… <strong>you can’t do it</strong>:</p>
+<p>There's a slight problem when you attempt to do function overloading in JavaScript like you would in C#… <strong>you can't do it</strong>:</p>
 
 <pre><code>// One does not simply overload functions in JavaScript willy nilly
 console.log("one does not simply overload functions in JavaScript")
@@ -26692,11 +26692,11 @@ console.log("functions get overwritten if you declare them multiple times, even 
 </code></pre>
 
 
-<p>In JavaScript, you cannot override a function by defining a new function with the same name and a different signature, if you try to do so, you’ll just succeed in completely overwriting your original function with a new implementation.</p>
+<p>In JavaScript, you cannot override a function by defining a new function with the same name and a different signature, if you try to do so, you'll just succeed in completely overwriting your original function with a new implementation.</p>
 
 <h2>How Do We Achieve Function Overloading In JavaScript Then?</h2>
 
-<p>Well, as with many things in JavaScript, you’ll need to take advantage of the flexibility and freedom the language gives you to emulate function overloading yourself. One common pattern for achieving function overloading is to use the <code>arguments</code> object and <strong>inspect the arguments</strong> that are passed into a function:</p>
+<p>Well, as with many things in JavaScript, you'll need to take advantage of the flexibility and freedom the language gives you to emulate function overloading yourself. One common pattern for achieving function overloading is to use the <code>arguments</code> object and <strong>inspect the arguments</strong> that are passed into a function:</p>
 
 <pre><code>// Instead
 // #1 you can do argument inspection, which sucks
@@ -26733,7 +26733,7 @@ raiseSkeletonWithArgumentInspecting('king');
 
 <p>This approach can get very unwieldy, very fast. As the overloaded functions and their parameter increase in number, the function becomes harder and harder to read, maintain and extend.</p>
 
-<p>At this point you may be thinking: <em>“…checking the type of the arguments being passed?? seriously?!?”</em> and I concur with you, that’s why I like to use this next approach instead.</p>
+<p>At this point you may be thinking: <em>"…checking the type of the arguments being passed?? seriously?!?"</em> and I concur with you, that's why I like to use this next approach instead.</p>
 
 <p>A better way to achieve function overloading is to use an <em>options</em> object that acts as a container for the different parameters a function can consume:</p>
 
@@ -26793,7 +26793,7 @@ raiseSkeletonWithOptions({creatureType:'king'});
 
 <h2>ECMAScript 2015 Helps You Out with Function Overloading</h2>
 
-<p>Although ES2015 doesn’t come with classic function overloading it <a href="http://www.barbarianmeetscoding.com/blog/2015/05/11/mastering-the-arcane-art-of-javascript-mancy-for-c-sharp-developers-useful-function-patterns-default-arguments/">comes with default arguments</a> which give you better support for function overloading than what we’ve had so far:</p>
+<p>Although ES2015 doesn't come with classic function overloading it <a href="http://www.barbarianmeetscoding.com/blog/2015/05/11/mastering-the-arcane-art-of-javascript-mancy-for-c-sharp-developers-useful-function-patterns-default-arguments/">comes with default arguments</a> which give you better support for function overloading than what we've had so far:</p>
 
 <pre><code>function castIceCone(mana=5, {direction='in front of you'}={}){
     var caster = this || 'God almighty';
@@ -26816,9 +26816,9 @@ jaime.castIceConePro(10, { direction: 'towards Mordor'})
 
 <h2>A Glimpse Into Functional Programming and Polymorphic Functions</h2>
 
-<p>Yet another interesting pattern for achieving function overloading in JavaScript is to rely on JavaScript great support for functional programming. In the world of functional programming there’s the concept of <strong>polymorphic functions</strong>, that is, functions which exhibit different behaviors based on their arguments.</p>
+<p>Yet another interesting pattern for achieving function overloading in JavaScript is to rely on JavaScript great support for functional programming. In the world of functional programming there's the concept of <strong>polymorphic functions</strong>, that is, functions which exhibit different behaviors based on their arguments.</p>
 
-<p>Let’s start by decomposing the previous examples into smaller functions:</p>
+<p>Let's start by decomposing the previous examples into smaller functions:</p>
 
 <p><em>You can <a href="http://bit.ly/javascriptmancy-function-overload-functionally">experiment with this example directly within this jsBin</a> or downloading the source code from <a href="https://github.com/vintharas/javascriptmancy">GitHub</a>.</em></p>
 
@@ -26895,11 +26895,11 @@ console.log(raiseAdvanced({number: 10, type: 'ghoul'}))
 </code></pre>
 
 
-<p>This is the OCP (Open-Closed Principle)<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> in full glory. Functional programming is pretty awesome right? We will take a deeper dive into functional programmming later within the series and you’ll get the chance to experiment a lot more with higher-order functions and function composition alike. But if you can’t wait, don’t let me stop you, by all means, jump on!</p>
+<p>This is the OCP (Open-Closed Principle)<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> in full glory. Functional programming is pretty awesome right? We will take a deeper dive into functional programmming later within the series and you'll get the chance to experiment a lot more with higher-order functions and function composition alike. But if you can't wait, don't let me stop you, by all means, jump on!</p>
 
 <h2>Concluding</h2>
 
-<p>Although JavaScript doesn’t support function overloading you can achieve the same behavior by using different approaches.</p>
+<p>Although JavaScript doesn't support function overloading you can achieve the same behavior by using different approaches.</p>
 
 <p>You can either take advantage of the <code>arguments</code> object and <strong>inspect the arguments</strong> that are being passed to a function at runtime, solution that you should only use with the simplest of implementations as it becomes unwieldly and hard to maintain as parameters and overloads are added to a function.</p>
 
@@ -26909,7 +26909,7 @@ console.log(raiseAdvanced({number: 10, type: 'ghoul'}))
 
 <p>Finally, you can take advantage of functional programming,compose your functions from smaller functions and use a dispatching mechanism to select which function is called based on the arguments.</p>
 
-<p>And that is that :). Hope you have enjoyed reading the article. Have a nice day! See you next time with functions in ECMAScript 2015 and JavaScript’s version of LINQ.</p>
+<p>And that is that :). Hope you have enjoyed reading the article. Have a nice day! See you next time with functions in ECMAScript 2015 and JavaScript's version of LINQ.</p>
 
 <div class="footnotes">
 <hr>
@@ -28028,6 +28028,301 @@ function function1(){
 <p>So we learned how to define the different object types within JavaScript and create properties and methods within them. We also learned a nifty addEvent function and got to use our object in a basic real world example.</p>
 
 <p>This concludes the basics of JavaScript Object Orientation. Hopefully, this may start you on your way to building your own JavaScript library! If you liked this article and are interested in other JavaScript related topics, post them in the comments as I'd be happy to continue writing them. Thanks for reading.</p><p>Why not also check out the range of <a href="https://codecanyon.net/popular_item/by_category?category=javascript" target="_self">JavaScript items</a> on CodeCanyon. You can find scripts for creating&nbsp;<a href="https://codecanyon.net/search?category=javascript%2Fsliders" target="_self">sliders</a>, <a href="https://codecanyon.net/search?category=javascript%2Fcountdowns" target="_self">countdowns</a>, <a href="https://codecanyon.net/search?category=javascript%2Floaders-and-uploaders" target="_self">loaders and uploaders</a>,&nbsp;and much more.</p></div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-97" name="t-97"></a><h1>97 : Object-Oriented programming with JavaScript</h1>
+					<span class="ref-site">http://viralpatel.net/blogs/object-oriented-programming-with-javascript/</span>
+					<div class="tutorial__content">
+<div class="entry-inner">
+							<p><img src="http://img.viralpatel.net/2009/07/object-oriented-programming-cars.png" /><strong>Object-Oriented programming</strong> is one of the widely used programming paradigm that uses abstraction to create model based on real world. It is a model organized around "objects" rather than "actions" and data rather than logic. Historically, a program has been viewed as a logical procedure that takes input data, processes it, and produces output data. Object-oriented programming (OOP) uses <strong>"objects"</strong> – data structures consisting of <strong>datafields</strong> and <strong>methods</strong> – and their interactions to design applications and computer programs. Each object can be seen as a tiny machine which is responsible for the set of task assign to it.</p>
+<p>Today, many popular programming languages (such as Java, JavaScript, C#, C++, Python, PHP etc) support <strong>object-oriented programming</strong> (OOP). </p>
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+
+
+<p>JavaScript has strong object-oriented programming capabilities. Although there is differences in object-oriented capability of javascript compared to other languages.</p>
+<h2>Terminology</h2>
+<p>First let us see few terminologies that we use in object-oriented programming.</p>
+<p><strong>Class</strong>: Defines the characteristics of the Object.<br>
+<strong>Constructor</strong>: A method called at the moment of instantiation.<br>
+<strong>Object</strong>: An Instance of a Class.<br>
+<strong>Method</strong>: An Object capability as walk.<br>
+<strong>Property</strong>: An Object characteristic, such as color.<br>
+<strong>Inheritance</strong>: A Class can inherit characteristics from another Class.<br>
+<strong>Encapsulation</strong>: A Class defines only the characteristics of the Object, a method defines only how the method executes.<br>
+<strong>Abstraction</strong>: The conjunction of complex inheritance, methods, properties of an Object must be able to simulate a reality model.<br>
+<strong>Polymorphism</strong>: Different Classes might define the same method or property.</p>
+<h2>The Class in JavaScript</h2>
+<p>Unlike Java, C++ etc, JavaScript does not contains class statement. JavaScript is a prototype-based language. JavaScript uses functions as classes. Defining a class is as easy as defining a function. In the example below we define a new class called Car. </p>
+<pre><code>//Define the class Car
+function Car() { }
+</code></pre>
+<h2>The Object (Class Instance) in JavaScript</h2>
+<p>For creating instances of any class i.e. objects use <strong>new</strong> keyword. For example, in below code snippet we created two instances of class Car.</p>
+<pre><code>//Define the class Car
+function Car() { }
+
+var car1 = new Car();
+var car2 = new Car();
+</code></pre>
+<h2>The Constructor in JavaScript</h2>
+<p>In object oriented methodology, a Constructor is a method that is used to initiate the properties of any class instance. Thus the constructor gets called when the class is instantiated.<br>
+As in JavaScript there is no class keyword and the function serves as class definition, there is no need of defining constructor explicitly. The function defined for the class acts as constructor. For example, in following code snippet we have called an alert statement when class Car is instantiated.</p>
+<pre><code>//Define the class Car
+function Car() {
+	alert("Class CAR Instantiated");
+}
+
+var car1 = new Car();
+var car2 = new Car();
+</code></pre>
+<h2> The Property (object attribute) in JavaScript</h2>
+<p>Properties are the variable that are member of an object and can define the state of any instance of Class. Property of a class can be accessed within the class using <code><strong>this</strong></code> keyword. For example, in following code snippet we have assign a property <em>speed</em> to Car.</p>
+<pre><code>//Define the class Car
+function Car(speed) {
+	alert("Class CAR Instantiated");
+	this.speed = speed;
+}
+
+var car1 = new Car(40);
+var car2 = new Car(60);
+
+alert("Car1 Speed: " + car1.speed);
+alert("Car2 Speed: " + car2.speed);
+</code></pre>
+<p>One thing we should note here is that for inheritance works correctly, the Properties should be set in the prototype property of the class (function). The above example becomes:</p>
+<pre><code>//Define the class Car
+function Car(speed) {
+	alert("Class CAR Instantiated");
+	this.speed = speed;
+}
+Car.prototype.speed= 'Car Speed';
+
+var car1 = new Car(40);
+var car2 = new Car(60);
+
+alert("Car1 Speed: " + car1.speed);
+alert("Car2 Speed: " + car2.speed);
+</code></pre>
+<h2>The methods in JavaScript</h2>
+<p>To define methods in a Class, all you have to do is just define a attribute and assign an function to it.  For example, in below code snippet we defined a method <code>setSpeed()</code> for class <code>Car</code>.</p>
+<pre><code>//Define the class Car
+function Car(speed) {
+	alert("Class CAR Instantiated");
+	this.speed = speed;
+}
+Car.prototype.speed= 'Car Speed';
+Car.prototype.setSpeed = function(speed) {
+	this.speed = speed;
+	alert("Car speed changed");
+}
+
+var car1 = new Car(40);
+var car2 = new Car(60);
+
+car1.setSpeed(120);
+car2.setSpeed(140);
+</code></pre>
+<h2>Inheritance in JavaScript</h2>
+<p>JavaScript supports single class inheritance. To create a child class that inherit parent class, we create a Parent class object and assign it to the Child class. In following example we created a child class Ferrari from parent class Car.</p>
+<pre><code>//Define the Car class
+function Car() { }
+Car.prototype.speed= 'Car Speed';
+Car.prototype.setSpeed = function(speed) {
+	this.speed = speed;
+	alert("Car speed changed");
+}
+
+
+//Define the Ferrari class
+function Ferrari() { }
+Ferrari.prototype = new Car();
+
+
+// correct the constructor pointer because it points to Car
+Ferrari.prototype.constructor = Ferrari;
+
+// replace the setSpeed method
+Ferrari.prototype.setSpeed = function(speed) {
+	this.speed = speed;
+	alert("Ferrari speed changed");
+}
+
+var car = new Ferrari();
+car.setSpeed();
+</code></pre>
+<h2>Encapsulation in JavaScript</h2>
+<p>In JavaScript, encapsulation is achieved by the inheritance. The child class inherit all the properties and methods of parent class and needs to override the method only that needs to be changed. This encapsulation by which every class inherits the methods of its parent and only needs to define things it wishes to change. </p>
+<p><strong>Update</strong>: A new tutorial cover these Javascript OOPs topics in details. Please refer: <a href="http://viralpatel.net/blogs/javascript-objects-functions/"><strong>JavaScript 101: Objects and Functions</strong></a></p>
+
+
+													</div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-98" name="t-98"></a><h1>98 : JavaScript 101: Objects and Functions</h1>
+					<span class="ref-site"></span>
+					<div class="tutorial__content">
+<div class="entry-inner">
+							
+<h2>JavaScript Object and their Prototypes</h2>
+<p>Objects in JavaScript is nothing but collection of attributes (or properties to be more inline with ECMA definition). And a property is defined as a key-value pair. Object in JavaScript can be created using many ways, but for now we are gonna use a simple one.<br>
+Lets create a Person called John:</p>
+<!-- Quick Adsense WordPress Plugin: http://quicksense.net/ -->
+
+
+<pre><code>var John = {
+             'name'  : 'John Doe',
+             'age'   : '25'
+};
+</code></pre>
+<p>This object has two property 'name' and 'age'. Note that the value of a property is not at all limited to primitive types but can be any other javascript object. So for example 'John' may have another property 'address', whose value can be an Array of different address objects.  Apart from the properties defined in object, every JavaScript object has another secret internal property called '__proto__'. This property points to the prototype of the John. But what is the prototype of John? Well for John here, its JavaScript's parent of all objects, The Object. And what is the prototype of The Object? Its <i>null</i>.<br>
+Below image might make this more clear:</p>
+<p><img src="http://img.viralpatel.net/2014/01/javascript-object.png" /></p>
+<h2>Prototype Chaining and Inheritance</h2>
+<p>We now know that each object in JavaScript has another __proto__ property which refers to its prototype. If I am to create an object, and explicitly assign __proto__ another object… what would that mean?</p>
+<pre><code>var Man = {
+   gender: 'male'
+};
+var John = {
+   name: 'John Doe',
+   age: 25,
+   __proto__: Man
+}
+</code></pre>
+<p><img src="http://img.viralpatel.net/2014/01/javascript-prototype-chain.png" /></p>
+<p>This would mean John <i>prototypically inherits</i> from Man. All properties of Man can be directly accessed through John, this is because whenever any property is accessed via John and if it is not found in John it will be looked in the prototype of John.</p>
+<pre><code>console.log(John.name); // John Doe
+console.log(John.age); // 25
+console.log(John.gender); // male
+</code></pre>
+<p>Further, this prototypical inheritance is not limited to two levels and can be extended to any level. This sort of chaining is called <b>Prototype Chaining</b>.</p>
+<p>The rule to resolve any property is: If a property is not found in an object, it is looked into the prototype chain of the object all the way to Object unless found earlier. If property is not found, we get a property undefined error.</p>
+<h2>Function</h2>
+<p>A function is a special type of Object which may be invoked as a routine. A function may have properties, and some lines of code which determines the behavior of the function. For example, we can have a function named isEven() which takes a number as parameter and tell us whether a number is even or not.</p>
+<pre><code>function isEven(no){
+   return no % 2 === 0;
+}
+</code></pre>
+<p>Further functions can be used to create Objects acting as a Constructor for the class. All that is required is to use <code>new</code> operator when calling that function. For example, I can write following Person function to create different Person objects:</p>
+<pre><code>function Person(name, age){
+   this.name = name;
+   this.age = age;
+   this.shoutYourName = function(){
+                              alert('My name is ' + name +'!');
+                        };
+}
+//create Objects
+var John = new Person('John'25);
+var Donn = new Person('Donn'29);
+
+console.log(John.name);  //John
+console.log(John.age);  //25
+John.shoutYourName();   //alerts 'My name is John!'
+</code></pre>
+<p>Now the question is what gets create and stored in memory above functions are created? What's the prototype of it? And how is it that same functions can act as Constructors to create new objects?</p>
+<p>To answer these question,<br>
+A function that is called using <i>new</i> operator for creation of new objects is called a Constructor Function.<br>
+Creating a function creates an object of type <code>Function</code>. That means, any new function will have its __proto__ point to prototype of 'Function'.<br>
+<b>As a side note:</b> <i>Function is a global internal Object, it doesn't have any properties of its own but inherits them from Function.prototype.</i><br>
+Further, objects of type Function have another property called 'prototype' pointing to the prototype of the objects which will be created using this function.</p>
+<p>In case of above example:<br>
+1. Person is an object of type Function. And this also means Person has its __proto__ property pointed to Function.prototype<br>
+2. Person has a property 'prototype' pointing to an object which will be assigned to  __proto__ property of objects created by Person, in our case, John and Donn. Lets call this prototype object Person.prototype. So this would mean any objects created using Person will be prototypically inherited from Person.</p>
+<pre><code>console.log(John.__proto__ === Person.prototype)     //true
+console.log(Donn.__proto__ === Person.prototype)     //true
+console.log(Person.__proto__ === Function.prototype) //true
+</code></pre>
+<h3>Structure of Person.prototype</h3>
+<p>As already mentioned above, all objects created using Person will have their __proto__ pointing to Person.prototype. This means, these objects will Prototypically inherit from Person.prototype</p>
+<ol>
+<li> __proto__ of Person.prototype points to Object. </li>
+<li> And extra property added to Person.prototype will be prototypically available to objects created by calling new Person(). And using <code>this</code> reference inside properties of Person.prototype will refer to  properties of Person. So, after creating the objects John and Donn, if I am to add below code:
+<pre><code>Person.prototype.getAllCapsName = function(){
+return this.name.toUpperCase();
+};
+</code></pre>
+<p>this property <code>getAllCapsName</code> will be immediately available in already created objects 'John' and 'Donn'. And that's because, saying it again, __proto__ of John and Donn is pointing to Person.prototype object,i.e, John and Donn prototypically-inherits from Person.</p>
+<pre><code>console.log(John.getAllCapsName()) //JOHN
+console.log(John.__proto__.getAllCapsName()) //Can't access property of John using this.
+                                             //this refers to Person.prototype object
+console.log(Person.prorotype.getAllCapsName()) //Can't access property using this.
+</code></pre>
+</li>
+<li> Person.prototype has another special property called <code>constructor</code>, which points to the original function object Person. And due to above point:
+<pre><code>console.log(Person.prototype.constructor===Person) //true
+ console.log(John.constructor)// print Person function 
+ console.log(Person.prototype.constructor)// print Person function 
+ console.log(John.constructor===Person) //true
+ console.log(John.__proto__.constructor===Person.prototype.constructor) //true
+ console.log(John.__proto__.constructor===Person.prototype.constructor) //true
+</code></pre>
+</li>
+</ol>
+<p>In case things are still hazy, image below might help:</p>
+<p><img src="http://img.viralpatel.net/2014/01/javascript-constructor-object.png" /></p>
+<p>Now since behavior of all objects created using one Constructor Function will be same, it makes more sense to add the behavior in the prototype of Constructor Function than in the Constructor Function. I.e. to add functions properties inside Person.prototype than in Person. This is because any function-property in Person (say shoutYourName()) will be copied in John and Donn. But, any function-property in Person.prototype will be available to John and Donn through __proto__ reference.<br>
+So if I am to change the definition of shoutYourName for John, behavior of Donn will not be affected. But it's not the case with getAllCapsName().</p>
+<p>Let see this working:</p>
+<pre><code>var Person = function(name, age){
+    this.name = name;
+    this.age = age;
+    this.shoutYourName = function(){
+        return 'SHOUTING '+ this.name;
+    };
+};
+
+var John = new Person('John',25);
+var Donn = new Person('Donn',25);
+
+console.log(John.shoutYourName()) // SHOUTING John
+console.log(Donn.shoutYourName()) // SHOUTING Donn
+
+Person.prototype.shhhYourName = function(){
+    return 'shhh ' + this.name;
+};
+
+console.log(John.shhhYourName()) // shhh John
+console.log(Donn.shhhYourName()) // shhh Donn
+
+//changing definition of only John
+John.shoutYourName = function(){
+    return 'SHOUTING ' + this.name + '!!!!!';
+};
+
+//changing definition in prototype
+Person.prototype.shhhYourName = function(){
+    return 'shhh ' + this.name + '!!!!!';
+};
+
+console.log(John.shoutYourName()) // SHOUTING John!!!!!
+console.log(Donn.shoutYourName()) // SHOUTING Donn
+
+console.log(John.shhhYourName()) // shhh John!!!!!
+console.log(Donn.shhhYourName()) // shhh Donn!!!!!
+</code></pre>
+
+<p>Hope it helped to have a better understanding of Objects and Functions is JavaScript.<br>
+and The End. :)</p>
+
+
+													</div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article style="display:none;">
+					<a id="t-96" name="t-96"></a><h1>96 : The Basics of Object-Oriented JavaScript</h1>
+					<span class="ref-site"></span>
+					<div class="tutorial__content">
+						
 					</div>
 				</article>
 				<!--================= END :: Tutorial =================-->
