@@ -16,6 +16,7 @@ body {
 	font-family: 'PT Sans', Arial, sans-serif;
 	
 }
+em, strong { font-weight: bold; }
 h1 { font-size: 1.6em; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
 h2, h3, h6 { 
 	font-size: 1.3em;
@@ -53,7 +54,7 @@ code {
 	background-color: #EEE;
     font-family: Consolas,monospace;
     border: solid 1px #CCC;
-    padding: 3px;
+    padding: 0 3px;
     border-radius: 3px;
     display: inline-block;
     font-size: 14px;
@@ -69,7 +70,7 @@ pre:after {
 	color: #FFF;
 }
 
-.home-screen { border: 1px solid #777; padding: 4em 0; }
+.home-screen { border: 1px solid #777; padding: 4em 0; margin: 2em 0; }
 .home-screen * { font-family: 'PT Sans', Arial, sans-serif; font-size: 3em; font-weight: normal; }
 
 /* = Index
@@ -78,8 +79,8 @@ pre:after {
 	counter-reset: section;
 }
 .tutorial-index h1:before {
-    counter-increment: section;
-    content: counter(section) " : ";
+    /*counter-increment: section;
+    content: counter(section) " : ";*/
 }
 .tutorial-index h1 {font-size: 1.2em; padding: 5px 0; font-family: 'Open Sans', Arial, sans-serif; line-height: normal;}
 .tutorial-index a { display: block; float: left; width: 50%;}

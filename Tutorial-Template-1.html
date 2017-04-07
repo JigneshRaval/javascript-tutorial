@@ -7,104 +7,129 @@
 	<!--<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>-->
 	<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i|PT+Serif:400,700" rel="stylesheet">
 	<style>
-		* { box-sizing: border-box; }
-		body { 
-		font-family: 'Open Sans', Arial, sans-serif;
-		font-size: 14px;
-		line-height: 1.8;
-		padding: 0.5em;
-		font-family: 'PT Sans', Arial, sans-serif;
-		
-		}
-		img { display: block; margin: 0 auto; max-width: 100%; }
-		pre { 
-		border: 1px dashed #333; 
-		padding: 1em 2em; 
-		font-family: Consolas,monospace; 
-		background-color: #EEE; 
-		overflow-x: scroll; 
-		font-size: 14px;  
-		white-space: pre-wrap; 
-		word-wrap: break-word; 
-		}
-		pre {
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
-		margin: 1em auto;
-		border: 1px dashed #333;
-		width: 100%;
-		padding: 1em 1.5em;
-		font-family: Inconsolata, Consolas, monospace, sans-serif;
-		font-size: 1em;
-		line-height: 1.5;
-		overflow: auto;
-		background: #F7FAFB;
-		border-radius: 3px;
-		position:relative;
-		}
-		code { background-color: #EEE; padding: 3px; font-family: Consolas,monospace; }
-		pre code { background-color: transparent; padding: 0; display: block; }
-		
-		pre:after {
-		content: "<CODE>";
-			position: absolute;
-			top:0;
-			right: 0;
-			padding: 5px 15px;
-			background: #999;
-			color: #FFF;
-			}
-			.tutorial-index {
-			counter-reset: section;
-			}
-			.tutorial-index h1:before {
-			/*counter-increment: section;
-			content: counter(section) " : ";*/
-			}
-			.tutorial-index h1 {font-size: 1.2em; padding: 5px 0; font-family: 'Open Sans', Arial, sans-serif; line-height: normal;}
-			.tutorial-index a { display: block; float: left; width: 50%;}
-			.tutorial-index a { text-decoration: none; }
-			h1 { font-size: 1.6em; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
-			
-			.main { counter-reset: mainsection; }
-			.main h1 { font-size: 1.6em; border-bottom: 2px solid #000; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
-			/*.main h1:before {
-			counter-increment: mainsection;
-			content: counter(mainsection) " : ";
-			}*/
-			
-			
-			
-			h2, h3, h6 { 
-			font-size: 1.2em;
-			font-family: 'PT Serif', Arial, serif;
-			padding-left: 1em;
-			border-left: 2px solid #868686; 
-			}
-			.cf:before,
-			.cf:after {
-			content: " ";
-			display: table;
-			}
-			.cf:after {
-			clear: both;
-			}
-			table { border-collapse: collapse;}
-			table td { border: 1px solid #999; padding: 5px;}
-			
-			@media print {
-			.main h1 {page-break-before: always;}
-			}
-			.tc { text-align: center}
-			.home-screen { border: 1px solid #777; padding: 4em 0; }
-			.home-screen * {    font-family: 'PT Sans', Arial, sans-serif;
-			font-size: 3em;
-			font-weight: normal;}
-			
+* { box-sizing: border-box; }
+body { 
+	font-family: 'Open Sans', Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.7;
+	padding: 0.5em;
+	font-family: 'PT Sans', Arial, sans-serif;
+	
+}
+em, strong { font-weight: bold; }
+h1 { font-size: 1.6em; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
+h2, h3, h6 { 
+	font-size: 1.3em;
+	font-family: 'PT Serif', Arial, serif;
+	padding-left: 1em;
+	border-left: 2px solid #868686; 
+}
+img { display: block; margin: 0 auto; max-width: 100%; }
+pre { 
+	border: 1px dashed #333; 
+	padding: 1em 2em; 
+	font-family: Consolas,monospace; 
+	background-color: #EEE; 
+	overflow-x: scroll; 
+	font-size: 14px;  
+	white-space: pre-wrap; 
+	word-wrap: break-word; 
+}
+pre {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 1em auto;
+    border: 1px dashed #333;
+    width: 100%;
+    padding: 1em 1.5em;
+    font-family: Inconsolata, Consolas, monospace, sans-serif;
+    font-size: 1em;
+	line-height: 1.5;
+    overflow: auto;
+    background: #F7FAFB;
+    border-radius: 3px;
+	position:relative;
+}
+code { 
+	background-color: #EEE;
+    font-family: Consolas,monospace;
+    border: solid 1px #CCC;
+    padding: 0 3px;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 14px;
+}
+pre code { background-color: transparent; padding: 0; display: block; border: 0px solid; }
+pre:after {
+	content: "<CODE>";
+	position: absolute;
+	top:0;
+	right: 0;
+	padding: 5px 15px;
+	background: #999;
+	color: #FFF;
+}
+
+.home-screen { border: 1px solid #777; padding: 4em 0; margin: 2em 0; }
+.home-screen * { font-family: 'PT Sans', Arial, sans-serif; font-size: 3em; font-weight: normal; }
+
+/* = Index
+-------------------------------*/
+.tutorial-index {
+	counter-reset: section;
+}
+.tutorial-index h1:before {
+    /*counter-increment: section;
+    content: counter(section) " : ";*/
+}
+.tutorial-index h1 {font-size: 1.2em; padding: 5px 0; font-family: 'Open Sans', Arial, sans-serif; line-height: normal;}
+.tutorial-index a { display: block; float: left; width: 50%;}
+.tutorial-index a { text-decoration: none; }
+
+
+/* = Main
+-------------------------------*/
+.main { counter-reset: mainsection; }
+.main h1 { font-size: 1.6em; border-bottom: 2px solid #000; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
+.main h1:before {
+    /*counter-increment: mainsection;
+    content: counter(mainsection) " : ";
+	*/
+}
+
+/* = ClearFix
+-------------------------------*/
+.cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
+.cf:after {
+    clear: both;
+}
+.tc { text-align: center}
+
+/* = TABLE
+-------------------------------*/
+table { width: 100%; max-width: 100%; margin: 1em 0; border-collapse: collapse;}
+table td, table th { border: 1px solid #cdcfd0; padding: 10px;}
+table th { border-bottom-width: 2px; background-color: #e8e9ea; }
+table tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+@media print {
+    .main article h1 { 
+		page-break-before: always; 
+	}
+	pre, code, pre code, pre span, code span, pre code span {
+		/*page-break-inside: avoid;
+		-webkit-column-break-inside : avoid;*/
+	}
+}
 		</style>
 	</head>
 	<body>
-		<div class="links"><a href="javascript_part_3.html">Part 3</a> | <a href="javascript_part_4.html">Part 4</a> | <a href="javascript_part_5.html">Part 5</a> | <a href="ES6-javascript_part_6.html">Part 6</a></div>
+		<div class="links tc"><a href="javascript_part_3.html">Part 3</a> | <a href="javascript_part_4.html">Part 4</a> | <a href="javascript_part_5.html">Part 5</a> | <a href="ES6-javascript_part_6.html">Part 6</a></div>
 		
 		<div class="home-screen tc">
 			<h1>JavaScript Tutorials</h1>
