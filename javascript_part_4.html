@@ -235,6 +235,9 @@ table tr:nth-of-type(odd) {
 	<a href="#t-94"><h1>94 : Mastering the Arcane Art of Javascript-mancy for C# Developers - Chapter 5: Even More Useful Function Patterns - Function Overloading</h1></a>
 	<a href="#t-95"><h1>95 : Object-Oriented JavaScript</h1></a>
 	<a href="#t-96"><h1>96 : The Basics of Object-Oriented JavaScript</h1></a>
+	<a href="#t-97"><h1>97 : Object-Oriented programming with JavaScript</h1></a>
+	<a href="#t-98"><h1>98 : JavaScript 101: Objects and Functions</h1></a>
+	<a href="#t-99"><h1>99 : Javascript Async Control Flow</h1></a>
 	
 </div>
 		<!--================= END :: Tutorial Index =================-->
@@ -28318,11 +28321,139 @@ and The End. :)</p>
 				<!--================= END :: Tutorial =================-->
 				
 				<!--================= START :: Tutorial =================-->
-				<article style="display:none;">
-					<a id="t-96" name="t-96"></a><h1>96 : The Basics of Object-Oriented JavaScript</h1>
-					<span class="ref-site"></span>
+				<article>
+					<a id="t-99" name="t-99"></a><h1>99 : Javascript Async Control Flow</h1>
+					<span class="ref-site">https://kaye.us/javascript-async-control-flow/</span>
 					<div class="tutorial__content">
-						
+<div class="post-content">
+        <p>In this post we'll explore an enlightened approach to managing control flow in asynchronous javascript applications. We'll look at powerful new ES6 patterns and the happy future that <code>awaits</code> with ES7.</p>
+
+<p>So we are all on the same page, when we discuss <a href="https://en.wikipedia.org/wiki/Control_flow">control flow</a> we mean the following:</p>
+
+<blockquote>
+  <p>Control flow refers to the specification of the order in which the individual statements, instructions or function calls of an imperative program are executed or evaluated.</p>
+</blockquote>
+
+<h2 id="whyitsanissue">Why it's an issue  </h2>
+
+<p><em>Writing synchronous code in Javascript is a breeze.</em></p>
+
+<p>The code executes in the order it is written. As long as you're aware of hoisting and a few other gotchas, what you see is what you get. Beautiful.</p>
+
+<pre><code>var invitations,  
+    newUser = createUser(name),
+    friends = getFacebookFriends(name),
+
+if (friends) {  
+  invitations = inviteFacebookFriends(friends);
+}
+</code></pre>
+
+<p>On the other hand, writing asynchronous code can be pretty tricky.</p>
+
+<p>If you've worked with Javascript for any amount of time you likely remember when callbacks were the only tool in the javascript engineer's toolbox:</p>
+
+<pre><code>createUser(name, function() {  
+  getFacebookFriends(name, function(friends) {
+    if (friends) {
+      inviteFacebookFriends(friends, function(invitations) {
+        // ad infinitum
+      });
+    };
+  });
+});
+</code></pre>
+
+<p>This pattern is aptly referred to as <em>Callback hell.</em> <mark>This is the antithesis of intuitive control flow</mark>. Not to mention, the bottom half of our code more closely resembles Scheme than Javascript.</p>
+
+<p>Things improved significantly when promises hit the scene. With a bit of refactoring, our little example now looked like this:</p>
+
+<pre><code>createUser(name)  
+  .then(getFacebookFriends)
+  .then(function(friends) {
+    if (friends) {
+      return inviteFacebookFriends(friends);
+    } else {
+      throw new AntiSocialError('No friends to invite');
+    }
+  })
+  .catch(displayError);
+</code></pre>
+
+<p>Not bad, right? While it is worlds better than nested callbacks, it is not without its weaknesses. Imagine a scenario where each of those methods needed to implement complex conditional logic. We have two options on how to refactor: </p>
+
+<ol>
+<li>Sacrifice readability and push our complex logic into the promise chain.  </li>
+<li>Reduce maintainability and wrap our logic in concrete methods which are consumed by the chain.</li>
+</ol>
+
+<p>In either case the promise chain pattern begins to fall short for anything that goes beyond simple decoration and linear sequences.</p>
+
+<h2 id="anenlightenedapproach">An enlightened approach  </h2>
+
+<p>With the recent approval of the <del>ES6</del> ES2015 standard, and the promising <code>async</code> feature in ES7, we have a whole set of exciting new tools in our toolbox. </p>
+
+<p>Let's begin by looking at the brilliant new ES7 proposals, then we'll circle back to leveraging new powerful new ES2015 patterns today.</p>
+
+<h3 id="es7asyncfunctions">ES7 Async Functions</h3>
+
+<p><code>async</code> is an <a href="http://tc39.github.io/ecmascript-asyncawait/">ES7 proposal</a> which aims at reducing the complexity of working with asyncronous operations. The general gist is that one can <code>await</code> the resolution of a promise within an <code>async</code> function. Let's look at an example:</p>
+
+<pre><code>async function setupNewUser(name) {  
+  var invitations,
+      newUser = await createUser(name),
+      friends = await getFacebookFriends(name);
+
+  if (friends) {
+    invitations = await inviteFacebookFriends(friends);
+  }
+
+  // some more logic
+}
+</code></pre>
+
+<p>Notice how similar it looks to our synchronous example above? The only hints that the functions we are calling perform asynchronous operations are the little <code>async</code> and <code>await</code> keywords. </p>
+
+<p>What is happening is that we are awaiting the result of our asnyc functions. Once those promises resolve, they are assigned to our variables and execution continues. Our control flow is once again transparent.</p>
+
+<p>However, <code>async</code> and <code>await</code> are still a ways off, so how do we leverage this powerful pattern today?</p>
+
+<h3 id="es2015promisesandgenerators">ES2015 Promises and Generators</h3>
+
+<p>You don't have to wait until ES7 is ratified to be an async rockstar. There are several feather-light utilities available which will give you much the same functionality, such as Mozilla's <a href="http://taskjs.org/">task.js</a> and TJ Holowaychuk's <a href="https://github.com/tj/co">co</a>, to name a few.</p>
+
+<p>How do they work you ask? Simple! They use ES2015 generator functions and promises to achieve control flow nirvana.</p>
+
+<p>You will recall that a generator is a special function whose execution can pause and be resumed at many points. It does so by evaluating a <code>yield</code> expression which can resume execution of the generator after some indeterminate amount of time.</p>
+
+<p>We'll rewrite our example using task.js, but you could just as easily use another utility.</p>
+
+<pre><code>function setupNewUser(name) {  
+  return spawn(function*() {
+    var invitations,
+        newUser = yield createUser(name),
+        friends = yield getFacebookFriends(name);
+
+    if (friends) {
+      invitations = yield inviteFacebookFriends(friends);
+    }
+  }
+}
+</code></pre>
+
+<p>These small utilities work by yielding to a function which returns a <code>promise</code>. When that <code>promise</code> resolves, it calls the generator's <code>next()</code> function, resuming execution.</p>
+
+<p>With those simple tools and an ES2015 transpiler in hand you are now empowered to write cleaner, simpler, more maintainable asynchronous javascript!</p>
+
+<h2 id="futherreading">Futher reading  </h2>
+
+<ul>
+<li><a href="http://tc39.github.io/ecmascript-asyncawait/">Async Functions</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators">Iterators and generators - JavaScript | MDN</a></li>
+<li><a href="http://davidwalsh.name/async-generators">Going Async With ES6 Generators</a></li>
+<li><a href="https://github.com/mozilla/task.js">Task.js: Beautiful Concurrency for JavaScript</a></li>
+</ul>
+    </div>
 					</div>
 				</article>
 				<!--================= END :: Tutorial =================-->
