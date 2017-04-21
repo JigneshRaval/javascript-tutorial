@@ -6,23 +6,26 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!--<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>-->
 	<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i|PT+Serif:400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700|Raleway:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 	<style>
 * { box-sizing: border-box; }
 body { 
-	font-family: 'Open Sans', Arial, sans-serif;
 	font-size: 14px;
 	line-height: 1.7;
 	padding: 0.5em;
 	font-family: 'PT Sans', Arial, sans-serif;
+	/*font-family: 'Open Sans', Arial, sans-serif;
+	font-family: 'Raleway', Arial, sans-serif;*/
 	
 }
 em, strong { font-weight: bold; }
-h1 { font-size: 1.6em; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
+h1 { font-size: 2em; font-family: 'Oswald', Arial, serif; padding: 10px 0; margin: 0; font-weight: 400; }
 h2, h3, h6 { 
 	font-size: 1.3em;
-	font-family: 'PT Serif', Arial, serif;
+	font-family: 'Oswald', Arial, serif;
 	padding-left: 1em;
-	border-left: 2px solid #868686; 
+	border-left: 2px solid #868686;
+	font-weight: 400;
 }
 img { display: block; margin: 0 auto; max-width: 100%; }
 pre { 
@@ -90,7 +93,7 @@ pre:after {
 /* = Main
 -------------------------------*/
 .main { counter-reset: mainsection; }
-.main h1 { font-size: 1.6em; border-bottom: 2px solid #000; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
+.main h1 { border-bottom: 2px solid #000; padding: 10px 0; margin: 0; }
 .main h1:before {
     /*counter-increment: mainsection;
     content: counter(mainsection) " : ";
@@ -137,7 +140,7 @@ table tr:nth-of-type(odd) {
 		</div>
 		<!--================= START :: Tutorial Index =================-->
 		<div class="tutorial-index cf">
-			<a href="#t-01"><h1>01 : Index</h1></a>
+			<a href="#t-01"><h1>01 : Javascript – How Prototypal Inheritance really works</h1></a>
 			<a href="#t-02"><h1>02 : Index</h1></a>
 			<a href="#t-03"><h1>03 : Index</h1></a>
 			<a href="#t-04"><h1>04 : Index</h1></a>
@@ -153,6 +156,526 @@ table tr:nth-of-type(odd) {
 		<main class="main">
 			
 			<section class="section__one">
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-10" name="t-10"></a><h1>01 : Javascript – How Prototypal Inheritance really works</h1>
+					<span class="ref-site">http://blog.vjeux.com/2011/javascript/how-prototypal-inheritance-really-works.html</span>
+					<div class="tutorial__content">
+<div class="entry">
+				<p>Everywhere on the web we read that Javascript has prototypal inheritance. However Javascript only provides by default a specific case of prototypal inheritance with the <code>new</code> operator. Therefore, most of the explanations are really confusing to read. This article aims to clarify what is prototypal inheritance and how to really use it on Javascript.</p>
+<h3>Prototypal Inheritance Definition</h3>
+<p>When you read about Javascript prototypal inheritance, you often see a definition like this:</p>
+<blockquote><p>When accessing the properties of an object, JavaScript will traverse the prototype chain upwards until it finds a property with the requested name. <a href="http://bonsaiden.github.com/JavaScript-Garden/#object.prototype">Javascript Garden</a></p></blockquote>
+<p>Most Javascript implementations use <code><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/proto">__proto__</a></code> property  to represent the next object in the prototype chain. We will see along this article what is the difference between <code>__proto__</code> and <code>prototype</code>.</p>
+<div style="background: #FAF9E2; border: solid #DDDAAA; border-width: initial; color: #5D5636; margin-bottom: 0em; padding: 0.75em 15px; text-align: center;">
+<strong>Note</strong>: <code>__proto__</code> is non-standard and should not be used in your code. It is used in the article to explain how Javascript inheritance works.
+</div>
+<p>The following code shows how the Javascript engine retrieves a property (for reading).</p>
+
+<pre><code>function getProperty(obj, prop) {
+  if (obj.hasOwnProperty(prop))
+    return obj[prop]
+&nbsp;
+  else if (obj.__proto__ !== null)
+    return getProperty(obj.__proto__, prop)
+&nbsp;
+  else
+    return undefined
+}</code></pre>
+
+<p>Let's take the usual class example: a 2D Point. A Point has two coordinates <code>x</code>, <code>y</code> and a method <code>print</code>.</p>
+<p>Using the definition of the prototypal inheritance written before, we will make an object Point with three properties: <code>x</code>, <code>y</code> and <code>print</code>. In order to create a new point, we just make a new object with <code>__proto__</code> set to <code>Point</code>.</p>
+
+<pre><code>var Point = {
+  x: 0,
+  y: 0,
+  print: function () { console.log(this.x, this.y); }
+};
+&nbsp;
+var p = {x: 10, y: 20, __proto__: Point};
+p.print(); // 10 20</code></pre>
+
+<h3>Javascript Weird Prototypal Inheritance</h3>
+<p>What is confusing is that everyone teaches Javascript prototypal inheritance with this definition but does not give this code. Instead they give something like this:</p>
+
+<pre><code>function Point(x, y) {
+  this.x = x;
+  this.y = y;
+}
+Point.prototype = {
+  print: function () { console.log(this.x, this.y); }
+};
+&nbsp;
+var p = new Point(10, 20);
+p.print(); // 10 20</code></pre>
+
+<p>This is completely different from the code given above. Point is now a function, we use a <code>prototype</code> property, the <code>new</code> operator. What the hell!?</p>
+<h4>How <code>new</code> works</h4>
+<p><a href="http://brendaneich.com/">Brendan Eich</a> wanted Javascript to look like traditional Object Oriented programming languages such as Java and C++. In those, we use the <code>new</code> operator to make a new instance of a class. So he wrote a <code>new</code> operator for Javascript.</p>
+<ul>
+<li>C++ has the notion of constructor, that initializes the instance attributes. Therefore, the <code>new</code> operator must target a function.</li>
+<li>We need to put the methods of the object somewhere. Since we are working on a prototypal language, let's put it in the prototype property of the function.</li>
+</ul>
+<p>The <code>new</code> operator takes a function <code>F</code> and arguments: <code>new F(arguments...)</code>. It does three easy steps:</p>
+<ol>
+<li><strong>Create the instance of the class</strong>. It is an empty object with its <code>__proto__</code> property set to <code>F.prototype</code>.
+</li>
+<li><strong>Initialize the instance</strong>. The function <code>F</code> is called with the arguments passed and <code>this</code> set to be the instance.
+</li>
+<li><strong>Return the instance</strong></li>
+</ol>
+<p>Now that we understand what the <code>new</code> operator does, we can implement it in Javascript.</p>
+
+<pre><code>     function New (f) {
+/*1*/  var n = { '__proto__': f.prototype };
+       return function () {
+/*2*/    f.apply(n, arguments);
+/*3*/    return n;
+       };
+     }</code></pre>
+
+<p>And just a small test to see that it works.</p>
+
+<pre><code>function Point(x, y) {
+  this.x = x;
+  this.y = y;
+}
+Point.prototype = {
+  print: function () { console.log(this.x, this.y); }
+};
+&nbsp;
+var p1 = new Point(10, 20);
+p1.print(); // 10 20
+console.log(p1 instanceof Point); // true
+&nbsp;
+var p2 = New (Point)(10, 20);
+p2.print(); // 10 20
+console.log(p2 instanceof Point); // true</code></pre>
+
+<h3>Real Prototypal Inheritance in Javascript</h3>
+<p>The <a href="http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-262.pdf">Javascript specifications</a> only gives us the <code>new</code> operator to work with. However, Douglas Crockford found a way to exploit the <code>new</code> operator to do real Prototypal Inheritance! He wrote the <a href="http://javascript.crockford.com/prototypal.html">Object.create</a> function.</p>
+
+<pre><code>Object.create = function (parent) {
+  function F() {}
+  F.prototype = parent;
+  return new F();
+};</code></pre>
+
+<p>This looks really strange but what it does is really simple. It just creates a new object with its prototype set to whatever you want. It could be written as this if we allow the use of <code>__proto__</code>:</p>
+
+<pre><code>Object.create = function (parent) {
+  return { '__proto__': parent };
+};</code></pre>
+
+<p>The following code is our Point example with the use of real prototypal inheritance.</p>
+
+<pre><code>var Point = {
+  x: 0,
+  y: 0,
+  print: function () { console.log(this.x, this.y); }
+};
+&nbsp;
+var p = Object.create(Point);
+p.x = 10;
+p.y = 20;
+p.print(); // 10 20</code></pre>
+
+<h3>Conclusion</h3>
+<p>We have seen what prototypal inheritance is and how Javascript implements only a specific way to do it. </p>
+<p>However, the use of real prototypal inheritance (Object.create and __proto__) has some downsides:</p>
+<ul>
+<li><strong>Not standard</strong>: <code>__proto__</code> is non-standard and even deprecated. Also native Object.create and Douglas Crockford implementation are not exactly equivalent.</li>
+<li><strong>Not optimized</strong>: Object.create (native or custom) has not yet been as heavily optimized as the <code>new</code> construction. It can be up to <a href="http://jsperf.com/object-create-vs-crockford-vs-jorge-vs-constructor/16">10 times slower</a>.</li>
+</ul>
+
+<h3>Bonus</h3>
+<p>If you can understand with this picture (from the ECMAScript standard) how Prototypal Inheritance works, you get a free cookie!</p>
+<p><img src="http://i.imgur.com/cCzkv.png"></p>
+			  <div style="clear:both;"></div>
+			</div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-10" name="t-10"></a><h1>02 : JavaScript: sequencing function calls</h1>
+					<span class="ref-site">http://krasimirtsonev.com/blog/article/JavaScript-sequencing-function-calls-parallel-functional-chain</span>
+					<div class="tutorial__content">
+<article>
+                
+                <p>While I'm working on <a href="https://github.com/krasimir/auxilio">Auxilio</a> I end up in a sitatuation where I have to call few javascript functions in a sequence. It's an interesting how this could be solved and I'll be happy if you share your opinion for such problem.</p>
+
+<p>(The source code of the developed class is available here <a href="https://github.com/krasimir/chain">https://github.com/krasimir/chain</a>)</p>
+
+<p><a href="https://github.com/krasimir/auxilio">Auxilio</a> supports something which I call <em>scripting</em>. I.e. it allows the developers to write their own js scripts and run them in the context of Chrome. The extension offers <a href="https://github.com/krasimir/auxilio/blob/master/commands.md">a bunch of helper global methods</a> and ability to write your <a href="https://github.com/krasimir/dotfiles/tree/master/auxilio/profile">own commands</a>. For example:</p>
+
+<pre><code>cd("D:/work/projects"); // changes the current directory
+ci("little fix"); // git commits the current changes with a message = little fix
+push("master"); // push the commit to branch master
+</code></pre>
+
+<p>That's cool and saves a lot of time. However, after few weeks using the extension I've written a lot of scripts and it looks like I'll continue writing more. The problem is that I don't like how the code looks like. It has a lot of sugar around it. The real functional code of the above example looks like that:</p>
+
+<pre><code>function MyScriptForUpdating(args, callback) {
+    var message = args.join(" ");
+    cd("D:/work/projects", function() {
+        ci(message, function() {
+            push("master", callback);
+        })
+    })
+}
+</code></pre>
+
+<p>Not very nice! The first thing that you will notice is that there is a <em>callback</em> passed in every function call. That's mandatory and it is deeply integrated in the architecture of <a href="https://github.com/krasimir/auxilio">Auxilio</a>. You need to wait till the command ends, especially when you are executing things like <em>git push</em>. There is a chain of functions and each other should wait till the previous one does its job. Most of the predefined methods return data and probably the developer will need this information. That's how every script works as well. There is a callback as a second argument and this function should be called no matter what.</p>
+<p>&nbsp;</p>
+<p>I have external js files which contain more then 10 nested functions. It doesn't look good for sure. So, I started thinking about a simple class which will save me some time and will make my code much cleaner. Here are the requirements:</p>
+
+<ul>
+<li>it should accept an array of functions</li>
+<li>it should run them sequencely</li>
+<li>it should allow parameter sending from one command to the other</li>
+<li>it should have a callback indicating that all the methods are called</li>
+</ul>
+
+<p>Very often, when I'm designing an API, I'm writing few lines of code which actually use the API. Doing this I'm able to see how the real use looks like. Based on the points above I started with this:</p>
+
+<pre><code>Chain([
+    function() { },
+    function() { },
+    function() { }
+])
+</code></pre>
+
+<p>That's not bad, but passing the array as an argument of a function is kinda restricting. I like the <a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#revealingmodulepatternjavascript">revealing module pattern</a> and decided to use it here. The above piece of code became:</p>
+
+<pre><code>Chain.run([
+    function() { },
+    function() { },
+    function() { }
+])
+</code></pre>
+
+<p>At this moment I realized the there is no need to send an array. I could just pass the functions as parameters and after that use <em>arguments</em> to fetch them one by one.</p>
+
+<pre><code>Chain.run(
+    function() { },
+    function() { },
+    function() { }
+)
+...
+var run = function() {
+    for(var i=0; func=arguments[i]; i++) {
+        func();
+    }
+}
+</code></pre>
+
+<p>The usage of revealing module pattern allows me to implement the <a href="http://addyosmani.com/resources/essentialjsdesignpatterns/book/#observerpatternjavascript">observer pattern</a>. I.e. to add a handler for the end of the functional chain.</p>
+
+<pre><code>Chain
+    .on("done", function() {
+        console.log("end");
+    }).run(
+        function() { },
+        function() { },
+        function() { }
+    )
+</code></pre>
+
+<p>Every closure which I'm adding to the queue will have two arguments - the result of the previous function and callback.</p>
+
+<pre><code>Chain
+    .on("done", function(re) {
+        console.log("end");
+    }).run(
+        function(res, next) { },
+        function(res, next) { },
+        function(res, next) { }
+    )
+</code></pre>
+
+<p>If the <em>next</em> method is not called the script stops.</p>
+
+<p>So far, so good. I know how my API should look like and I can start coding. Here is the first version of the run method:</p>
+
+<pre><code>var Chain = (function() {
+
+    var _resultOfPreviousFunc = null,
+        self = this;
+
+    var run = function() {
+        if(arguments.length &gt; 0) {
+            var funcs = [];
+            for(var i=0; f=arguments[i]; i++) funcs.push(f);
+            var element = funcs.shift();
+            if(typeof element === 'function') {
+                element(_resultOfPreviousFunc, function(res) {
+                    _resultOfPreviousFunc = res;
+                    run.apply(self, funcs);
+                })
+            }
+        } else {
+            // indicate end of the chain
+        }
+        return api;
+    }
+
+    return api = {
+        run: run
+    }
+
+})();
+</code></pre>
+
+<p>What is coming to every javascript function, i.e. the <em>arguments</em> object, is not exactly an array. It doesn't have <em>shift</em> method, so I simply create a real array and add all the sent functions there. After that the first method of the newly array is fetched and called. In its callback the run method is fired again. The process continues till there is no more commands.</p>
+<p>&nbsp;</p>
+<p>Later I decided that I don't want to write <em>function(res, next) { ... }</em> every time. It will be nice if I can type something like:</p>
+
+<pre><code>Chain.run(
+    [cd, "D:/work/projects"],
+    [ci, "little fix"],
+    [push, "master"]
+)
+</code></pre>
+
+<p>Every of my functions have a callback at the end and accept unknown number of arguments. I.e.:</p>
+
+<pre><code>var cd = function(path, callback) {
+    ...
+}
+var push = function(branch, remote, callback) {
+
+}
+</code></pre>
+
+<p>The following piece of code covers this use case:</p>
+
+<pre><code>if(typeof element === 'function') {
+    ...
+} else if(typeof element === 'object' &amp;&amp; element.length &gt; 0) {
+    var f = element.shift();
+    var callback = function(res) {
+        _resultOfPreviousFunc = res;
+        run.apply(self, funcs);
+    }
+    f.apply(f, element.concat([callback]));
+}
+</code></pre>
+
+<p>I know that the first element of the provided array is the function which I have to call. Every thing after that is actually parameter to the function. There is no callback added, so I have to write that by myself. At the end simple attach the callback to the arguments send to the command. The problem in this implementation is that I can't get the result of the previous command. It could be done like that:</p>
+
+<pre><code>f.apply(f, element.concat([_resultOfPreviousFunc, callback]));
+</code></pre>
+
+<p>But this means that every function will receive at least two arguments no matter what. And I had commands which accept only a callback.</p>
+
+<p>Here is the full source code of the class containing the observer pattern logic.</p>
+
+<pre><code>var Chain = (function() {
+
+    var _listeners = {},
+        _resultOfPreviousFunc = null,
+        self = this,
+        api = {};
+
+    var on = function(type, listener) {
+        if(!_listeners[type]) _listeners[type] = [];
+        _listeners[type].push(listener);
+        return api;
+    }
+    var off = function(type, listener) {
+        if(_listeners[type]) {
+            var arr = [];
+            for(var i=0; f=_listeners[type][i]; i++) {
+                if(f !== listener) {
+                    arr.push(f);
+                }
+            }
+            _listeners[type] = arr;
+        }
+        return api;
+    }
+    var dispatch = function(type, param) {
+        if(_listeners[type]) {
+            for(var i=0; f=_listeners[type][i]; i++) {
+                f(param);
+            }
+        }
+    }
+    var run = function() {
+        if(arguments.length &gt; 0) {
+            var funcs = [];
+            for(var i=0; f=arguments[i]; i++) funcs.push(f);
+            var element = funcs.shift();
+            if(typeof element === 'function') {
+                element(_resultOfPreviousFunc, function(res) {
+                    _resultOfPreviousFunc = res;
+                    run.apply(self, funcs);
+                })
+            } else if(typeof element === 'object' &amp;&amp; element.length &gt; 0) {
+                var f = element.shift();
+                var callback = function(res) {
+                    _resultOfPreviousFunc = res;
+                    run.apply(self, funcs);
+                }
+                f.apply(f, element.concat([callback]));
+            }
+
+        } else {
+            dispatch("done", _resultOfPreviousFunc);
+        }
+        return api;
+    }
+
+    return api = {
+        run: run,
+        on: on,
+        off: off
+    }
+
+})();
+</code></pre>
+
+<p>Here is how to use the class:</p>
+
+<h3 id="1-simple">#1 (simple)</h3>
+
+<pre><code>Chain.run(
+    function(res, next) {
+        console.log("A"); next(10);
+    },
+    function(res, next) {
+        console.log("B", res); next(res+1);
+    },
+    function(res, next) {
+        console.log("C", res); next();
+    }
+);
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>A
+B 10
+C 11
+</code></pre>
+
+<h3 id="2-passing-function-as-array">#2 (passing function as array)</h3>
+
+<pre><code>var A = function(str, callback) {
+    console.log("Hello " + str + "!");
+    callback();
+}
+var B = function(str1, str2, callback) {
+    console.log("How " + str1 + " " + str2 + "?");
+    callback();
+}
+Chain.run(
+    [A, "world"],
+    [B, "are", "you"],
+    function(res, next) {
+        next();
+    }
+);
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>Hello world!
+How are you?
+</code></pre>
+
+<h3 id="3-1-2-listening-for-chain-ending">#3 (#1 + #2 + listening for chain ending)</h3>
+
+<pre><code>var chainFinished = function(res) {
+    console.log("End", res);
+}
+var customFunc = function(arg1, arg2, callback) {
+    console.log("customFunc", arg1, arg2);
+    callback("result(customFunc)");
+}
+
+Chain.on("done", chainFinished).run(
+    function(res, next) {
+        console.log("A", res);
+        setTimeout(function() {
+            next("result(A)");
+        }, 2000)        
+    },
+    [customFunc, "Hello", "World"],
+    function(res, next) {
+        console.log("B", res);
+        next("result(B)");
+    }
+);
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>A null
+customFunc Hello World 
+B result(customFunc)
+End result(B)
+</code></pre>
+
+<p>The class's code above is also available in GitHub <a href="https://github.com/krasimir/chain">here</a>, so feel free to fork it and let me know if you have any ideas how to improve it.</p>
+                
+            </article>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article style="display:none;">
+					<a id="t-10" name="t-10"></a><h1>01 : Index</h1>
+					<span class="ref-site"></span>
+					<div class="tutorial__content">
+						
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article style="display:none;">
+					<a id="t-10" name="t-10"></a><h1>01 : Index</h1>
+					<span class="ref-site"></span>
+					<div class="tutorial__content">
+						
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article style="display:none;">
+					<a id="t-10" name="t-10"></a><h1>01 : Index</h1>
+					<span class="ref-site"></span>
+					<div class="tutorial__content">
+						
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article style="display:none;">
+					<a id="t-10" name="t-10"></a><h1>01 : Index</h1>
+					<span class="ref-site"></span>
+					<div class="tutorial__content">
+						
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article style="display:none;">
+					<a id="t-10" name="t-10"></a><h1>01 : Index</h1>
+					<span class="ref-site"></span>
+					<div class="tutorial__content">
+						
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
 				
 				<!--================= START :: Tutorial =================-->
 				<article style="display:none;">
