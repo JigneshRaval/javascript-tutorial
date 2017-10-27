@@ -1,0 +1,316 @@
+<html><head>
+		<meta charset="utf-8">
+		<title>Angular2/4 Tips :: Part 1</title>
+		<meta name="title" content="">
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!--<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i|PT+Serif:400,700" rel="stylesheet">-->
+		<style>
+* { box-sizing: border-box; }
+body { 
+	font-family: 'Open Sans', Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.7;
+	padding: 0.5em;
+	font-family: 'PT Sans', Arial, sans-serif;
+	
+}
+em, strong { font-weight: bold; }
+h1 { font-size: 1.6em; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
+h2, h3, h6 { 
+	font-size: 1.3em;
+	font-family: 'PT Serif', Arial, serif;
+	padding-left: 1em;
+	border-left: 2px solid #868686; 
+}
+img { display: block; margin: 0 auto; max-width: 100%; }
+pre { 
+	border: 1px dashed #333; 
+	padding: 1em 2em; 
+	font-family: Consolas,monospace; 
+	background-color: #EEE; 
+	overflow-x: scroll; 
+	font-size: 14px;  
+	white-space: pre-wrap; 
+	word-wrap: break-word; 
+}
+pre {
+-moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 1em auto;
+    border: 1px dashed #333;
+    width: 100%;
+    padding: 1em 1.5em;
+    font-family: Inconsolata, Consolas, monospace, sans-serif;
+    font-size: 1em;
+	line-height: 1.5;
+    overflow: auto;
+    background: #F7FAFB;
+    border-radius: 3px;
+	position:relative;
+}
+code { 
+	background-color: #EEE;
+    font-family: Consolas,monospace;
+    border: solid 1px #CCC;
+    padding: 0 8px;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 14px;
+}
+pre code { background-color: transparent; padding: 0; display: block; border: 0px solid; }
+pre:after {
+	content: "<CODE>";
+	position: absolute;
+	top:0;
+	right: 0;
+	padding: 5px 15px;
+	background: #999;
+	color: #FFF;
+}
+
+.home-screen { border: 1px solid #777; padding: 4em 0; margin: 2em 0; }
+.home-screen * { font-family: 'PT Sans', Arial, sans-serif; font-size: 3em; font-weight: normal; }
+
+/* = Index
+-------------------------------*/
+.tutorial-index {
+	counter-reset: section;
+}
+.tutorial-index h1:before {
+    /*counter-increment: section;
+    content: counter(section) " : ";*/
+}
+.tutorial-index h1 {font-size: 1.2em; padding: 5px 0; font-family: 'Open Sans', Arial, sans-serif; line-height: normal;}
+.tutorial-index a { display: block; float: left; width: 50%;}
+.tutorial-index a { text-decoration: none; }
+
+
+/* = Main
+-------------------------------*/
+.main { counter-reset: mainsection; }
+.main h1 { font-size: 1.6em; border-bottom: 2px solid #000; font-family: 'PT Serif', Arial, serif; padding: 10px 0; margin: 0; }
+.main h1:before {
+    /*counter-increment: mainsection;
+    content: counter(mainsection) " : ";
+	*/
+}
+
+/* = ClearFix
+-------------------------------*/
+.cf:before,
+.cf:after {
+    content: " ";
+    display: table;
+}
+.cf:after {
+    clear: both;
+}
+.tc { text-align: center}
+
+/* = TABLE
+-------------------------------*/
+table { width: 100%; max-width: 100%; margin: 1em 0; border-collapse: collapse;}
+table td, table th { border: 1px solid #cdcfd0; padding: 10px;}
+table th { border-bottom-width: 2px; background-color: #e8e9ea; }
+table tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+@media print {
+    .main article h1 { 
+		page-break-before: always; 
+	}
+	pre, code, pre code, pre span, code span, pre code span {
+		/*page-break-inside: avoid;
+		-webkit-column-break-inside : avoid;*/
+	}
+}
+		</style>
+	</head>
+	<body>
+	<div class="links tc"><a href="javascript_part_3.html">Part 3</a> | <a href="javascript_part_4.html">Part 4</a> | <a href="javascript_part_5.html">Part 5</a> | <a href="ES6-javascript_part_6.html">Part 6</a></div>
+		<div class="home-screen tc cf">
+			<h1>Angular2/4 Tips</h1>
+			<h4>- Part 1 -</h4>
+		</div>
+		<!--================= START :: Tutorial Index =================-->
+<div class="tutorial-index cf">
+	<a href="#t-01"><h1>01 : What is the proper use of an EventEmitter?</h1></a>
+	<a href="#t-02"><h1>02 : Index</h1></a>
+	<a href="#t-03"><h1>03 : Seven JavaScript Quirks I Wish I'd Known About</h1></a>
+	<a href="#t-04"><h1>04 : Named function expressions demystified</h1></a>
+</div>
+		<!--================= END :: Tutorial Index =================-->
+		
+		<main class="main cf">
+			
+			<section class="section__one">
+			
+			<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-01" name="t-01"></a><h1>01 : What is the proper use of an EventEmitter?</h1>
+					<span class="ref-site">https://stackoverflow.com/questions/36076700/what-is-the-proper-use-of-an-eventemitter</span>
+					<div class="tutorial__content">
+<div class="post-text" itemprop="text">
+<h1>No, you should not subscribe manually to it.</h1>
+
+<p><a href="https://angular.io/docs/ts/latest/api/core/index/EventEmitter-class.html" rel="noreferrer">EventEmitter</a> is an angular2 abstraction and its only purpose is to emit events in components. Quoting a <a href="https://stackoverflow.com/questions/33380696/unable-to-figure-out-correct-eventemitter-or-observable-syntax-in-angular2-servi/33382275#comment54684990_33382275">comment</a> from Rob Wormald</p>
+
+<blockquote>
+  <p>[...] EventEmitter is really an Angular abstraction, and should be used pretty much only for emitting custom Events in components. Otherwise, just use Rx as if it was any other library.</p>
+</blockquote>
+
+<p>This is stated really clear in EventEmitter's documentation.</p>
+
+<blockquote>
+  <p>Use by directives and components to emit custom Events.</p>
+</blockquote>
+
+<h2>What's wrong about using it?</h2>
+
+<p>Angular2 will never guarantee us that EventEmitter will continue being an Observable. So that means refactoring our code if it changes. The only API we must access is its <code>emit()</code> method. We should never subscribe manually to an EventEmitter.</p>
+
+<p>All the stated above is more clear in this Ward Bell's <a href="http://www.bennadel.com/blog/3038-eventemitter-is-an-rxjs-observable-stream-in-angular-2-beta-6.htm#comments_47949" rel="noreferrer">comment</a> (recommended to read the article, and the <a href="http://www.bennadel.com/blog/3045-ward-bell-do-not-expect-eventemitter-to-be-observable-in-angular-2.htm" rel="noreferrer">answer</a> to that comment). Quoting for reference</p>
+
+<blockquote>
+  <p>Do NOT count on EventEmitter continuing to be an Observable!</p>
+  
+  <p>Do NOT count on those Observable operators being there in the future!</p>
+  
+  <p>These will be deprecated soon and probably removed before release.</p>
+  
+  <p>Use EventEmitter only for event binding between a child and parent component. Do not subscribe to it. Do not call any of those methods. Only call <code>eve.emit()</code> </p>
+</blockquote>
+
+<p>His comment is in line with Rob's comment long time ago. </p>
+
+<h2>So, how to use it properly?</h2>
+
+<p>Simply use it to emit events from your component. Take a look a the following example.</p>
+
+<pre class=" prettyprint prettyprinted language-js" style=""><code class=" language-js">@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    selector <span class="token punctuation">:</span> <span class="token string">'child'</span><span class="token punctuation">,</span>
+    template <span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+        &lt;button (click)="sendNotification()"&gt;Notify my parent!&lt;/button&gt;
+    `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">Child</span> <span class="token punctuation">{</span>
+    @<span class="token function">Output</span><span class="token punctuation">(</span><span class="token punctuation">)</span> notifyParent<span class="token punctuation">:</span> EventEmitter<span class="token operator">&lt;</span>any<span class="token operator">&gt;</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">EventEmitter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">sendNotification</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>notifyParent<span class="token punctuation">.</span><span class="token function">emit</span><span class="token punctuation">(</span><span class="token string">'Some value to send to the parent'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    selector <span class="token punctuation">:</span> <span class="token string">'parent'</span><span class="token punctuation">,</span>
+    template <span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`
+        &lt;child (notifyParent)="getNotification($event)"&gt;&lt;/child&gt;
+    `</span></span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">Parent</span> <span class="token punctuation">{</span>
+    <span class="token function">getNotification</span><span class="token punctuation">(</span>evt<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// Do something with the notification (evt) sent by the child!</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+
+<h2>How not to use it?</h2>
+
+<pre class=" prettyprint prettyprinted language-js" style=""><code class=" language-js"><span class="token keyword">class</span> <span class="token class-name">MyService</span> <span class="token punctuation">{</span>
+    @<span class="token function">Output</span><span class="token punctuation">(</span><span class="token punctuation">)</span> myServiceEvent <span class="token punctuation">:</span> EventEmitter<span class="token operator">&lt;</span>any<span class="token operator">&gt;</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">EventEmitter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+<p>Stop right there... you're already wrong...</p>
+
+<p>Hopefully these two simple examples will clarify EventEmitter's proper usage.</p>
+
+<p><strong>TL;DR</strong> answer :</p>
+
+<p><strong>No, don't subscribe manually to them, don't use them in services. Use them as is shown in the documentation only to emit events in components. Don't defeat angular's abstraction.</strong></p>
+    </div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-02" name="t-02"></a><h1>02 : What's the difference between @ViewChild and @ContentChild?</h1>
+					<span class="ref-site">https://stackoverflow.com/questions/34326745/whats-the-difference-between-viewchild-and-contentchild</span>
+					<div class="tutorial__content">
+<div class="post-text" itemprop="text">
+<p>I'll answer your question using <strong>Shadow DOM</strong> and <strong>Light DOM</strong> terminology (it have come from web components, see <a href="http://webcomponents.org/polyfills/shadow-dom/" rel="noreferrer">here</a>). In general:</p>
+
+<ul>
+<li><strong><em>Shadow DOM</em></strong> - is an internal DOM of your component that is defined <strong>by you</strong> (as a <strong>creator of the component</strong>) and hidden from an end-user. For example:</li>
+</ul>
+
+<pre class=" prettyprint language-ts prettyprinted" style=""><code class=" language-ts"><span class="lit">@Component</span><span class="pun">({</span><span class="pln">
+  selector</span><span class="pun">:</span><span class="pln"> </span><span class="str">'some-component'</span><span class="pun">,</span><span class="pln">
+  template</span><span class="pun">:</span><span class="pln"> </span><span class="pun">`</span><span class="pln">
+    </span><span class="pun">&lt;</span><span class="pln">h1</span><span class="pun">&gt;</span><span class="pln">I am </span><span class="typ">Shadow</span><span class="pln"> DOM</span><span class="pun">!&lt;/</span><span class="pln">h1</span><span class="pun">&gt;</span><span class="pln">
+    </span><span class="pun">&lt;</span><span class="pln">h2</span><span class="pun">&gt;</span><span class="typ">Nice</span><span class="pln"> to meet you </span><span class="pun">:)&lt;/</span><span class="pln">h2</span><span class="pun">&gt;</span><span class="pln">
+    </span><span class="pun">&lt;</span><span class="pln">ng</span><span class="pun">-</span><span class="pln">content</span><span class="pun">&gt;&lt;/</span><span class="pln">ng</span><span class="pun">-</span><span class="pln">content</span><span class="pun">&gt;</span><span class="pln">
+  </span><span class="pun">`;</span><span class="pln">
+</span><span class="pun">})</span><span class="pln">
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">SomeComponent</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="com">/* ... */</span><span class="pln"> </span><span class="pun">}</span></code></pre>
+
+<ul>
+<li><strong><em>Light DOM</em></strong> - is a DOM that <strong>an end-user of your component</strong> supply into your component. For example:</li>
+</ul>
+
+<pre class=" prettyprint language-ts prettyprinted" style=""><code class=" language-ts"><span class="lit">@Component</span><span class="pun">({</span><span class="pln">
+  selector</span><span class="pun">:</span><span class="pln"> </span><span class="str">'another-component'</span><span class="pun">,</span><span class="pln">
+  directives</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="typ">SomeComponent</span><span class="pun">],</span><span class="pln">
+  template</span><span class="pun">:</span><span class="pln"> </span><span class="pun">`</span><span class="pln">
+    </span><span class="pun">&lt;</span><span class="pln">some</span><span class="pun">-</span><span class="pln">component</span><span class="pun">&gt;</span><span class="pln">
+      </span><span class="pun">&lt;</span><span class="pln">h1</span><span class="pun">&gt;</span><span class="typ">Hi</span><span class="pun">!</span><span class="pln"> I am </span><span class="typ">Light</span><span class="pln"> DOM</span><span class="pun">!&lt;/</span><span class="pln">h1</span><span class="pun">&gt;</span><span class="pln">
+      </span><span class="pun">&lt;</span><span class="pln">h2</span><span class="pun">&gt;</span><span class="typ">So</span><span class="pln"> happy to see you</span><span class="pun">!&lt;/</span><span class="pln">h2</span><span class="pun">&gt;</span><span class="pln">
+    </span><span class="pun">&lt;/</span><span class="pln">some</span><span class="pun">-</span><span class="pln">component</span><span class="pun">&gt;</span><span class="pln">
+  </span><span class="pun">`</span><span class="pln">
+</span><span class="pun">})</span><span class="pln">
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">AnotherComponent</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="com">/* ... */</span><span class="pln"> </span><span class="pun">}</span></code></pre>
+
+<p>So, the answer to your question is pretty simple:</p>
+
+<blockquote>
+  <p>The difference between <code>@ViewChildren</code> and <code>@ContentChildren</code> is that <code>@ViewChildren</code> look for elements in Shadow DOM while <code>@ContentChildren</code> look for them in Light DOM.</p>
+</blockquote>
+    </div>
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article style="display:none;">
+					<a id="t1" name="t1"></a><h1>Index</h1>
+					<span class="ref-site"></span>
+					<div class="tutorial__content">
+						
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article>
+					<a id="t-02" name="t-02"></a><h1>02 : Index</h1><span class="ref-site">https://stackoverflow.com/questions/36076700/what-is-the-proper-use-of-an-eventemitter</span>
+					<div class="tutorial__content">
+
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+				<!--================= START :: Tutorial =================-->
+				<article style="display:none;">
+					<a id="t1" name="t1"></a><h1>Index</h1>
+					<span class="ref-site"></span>
+					<div class="tutorial__content">
+						
+					</div>
+				</article>
+				<!--================= END :: Tutorial =================-->
+				
+			</section>
+			
+		</main>
+	
+			</body></html>
