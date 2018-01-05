@@ -281,11 +281,153 @@ table tr:nth-of-type(odd) {
 				<!--================= END :: Tutorial =================-->
 				
 				<!--================= START :: Tutorial =================-->
-				<article style="display:none;">
-					<a id="t1" name="t1"></a><h1>Index</h1>
-					<span class="ref-site"></span>
+				<article>
+					<a id="t1" name="t1"></a><h1>Angular HTTP Interceptor</h1>
+					<span class="ref-site">https://stackoverflow.com/questions/44396890/angular-4-http-interceptor</span>
 					<div class="tutorial__content">
-						
+<h3>Example 1 using Angular 4.3+</h3>
+<p>Http interceptor is already implemented in Angular 4.3.4 and is described in the documentation.</p>
+
+<p>You need to implement the intercept method of HttpInterceptor interface, do something with the request, and call the next.handle(req) method.</p>
+
+<pre>
+// Example 1 using Angular 4.3+
+//=========================================
+import {Injectable} from '@angular/core';
+import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest} from '@angular/common/http';
+import { Observable } from 'rxjs/Rx';
+
+@Injectable()
+export class NoopInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest&lt;any>, next: HttpHandler): Observable&lt;HttpEvent&lt;any>> {
+    const changedReq = req.clone({headers: req.headers.set('My-Header', 'MyHeaderValue')});
+    return next.handle(changedReq);
+  }
+}</pre>
+
+<p>It's also necessary to register interceptor in app's providers section</p>
+
+<pre>
+// app.module.ts
+import {NgModule} from '@angular/core';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+
+@NgModule({
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: NoopInterceptor,
+    multi: true,
+  }],
+})
+export class AppModule {}
+</pre>
+
+<h3>Example 2 using Angular 2 and 4</h3>
+<pre>
+// Example 2 using Angular 2 and 4
+// https://scotch.io/@kashyapmukkamala/using-http-interceptor-with-angular2
+//=====================
+
+// http.interceptor.ts
+//========================
+import { Injectable } from '@angular/core';
+import { ConnectionBackend, RequestOptions, Request, RequestOptionsArgs, Response, Http, Headers } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+//import { environment } from '../environments/environment';
+
+@Injectable()
+export class InterceptedHttp extends Http {
+    constructor(backend: ConnectionBackend, defaultOptions: RequestOptions) {
+        console.log('defaultOptions :', defaultOptions);
+        super(backend, defaultOptions);
+    }
+
+    request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+        return super.request(url, options);
+    }
+
+    get(url: string, options?: RequestOptionsArgs): Observable<Response> {
+        url = this.updateUrl(url);
+        console.log("GET :", url, options.params);
+        return super.get(url, this.getRequestOptionArgs(options));
+    }
+
+    post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
+        url = this.updateUrl(url);
+        console.log("POST :", url, options);
+        return super.post(url, body, this.getRequestOptionArgs(options));
+    }
+
+    put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
+        url = this.updateUrl(url);
+        return super.put(url, body, this.getRequestOptionArgs(options));
+    }
+
+    delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
+        url = this.updateUrl(url);
+        return super.delete(url, this.getRequestOptionArgs(options));
+    }
+
+    private updateUrl(req: string) {
+        return window.location.origin + req;
+    }
+
+    private getRequestOptionArgs(options?: RequestOptionsArgs): RequestOptionsArgs {
+        if (options == null) {
+            options = new RequestOptions();
+        }
+        if (options.headers == null) {
+            options.headers = new Headers();
+        }
+        options.headers.append('Content-Type', 'application/json');
+
+        return options;
+    }
+}
+</pre>
+
+<pre>
+// http.factory.ts
+//========================
+import { XHRBackend, Http, RequestOptions } from '@angular/http';
+import { InterceptedHttp } from './http.interceptor';
+
+export function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
+    return new InterceptedHttp(xhrBackend, requestOptions);
+}
+</pre>
+
+<pre>
+// app.module.ts
+//========================
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import {HttpModule, Http, XHRBackend, RequestOptions} from '@angular/http';
+
+import {AppComponent} from "./app.component";
+import {httpFactory} from "./http.factory";
+
+@NgModule({
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule
+    ],
+    bootstrap: [AppComponent],
+    providers: [
+        {
+            provide: Http,
+            useFactory: httpFactory,
+            deps: [XHRBackend, RequestOptions]
+        }
+    ]
+})
+export class AppModule { }
+</pre>
 					</div>
 				</article>
 				<!--================= END :: Tutorial =================-->
