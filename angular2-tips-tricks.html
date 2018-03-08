@@ -715,26 +715,162 @@ img.src = "";
 				<!--================= END :: Tutorial =================-->
 				
 				<!--================= START :: Tutorial =================-->
-				<article style="display:none;">
-					<a id="t1" name="t1"></a><h1>Index</h1>
-					<span class="ref-site"></span>
+				<article>
+					<a id="t1" name="t1"></a><h1>Detect the End of CSS Animations and Transitions with JavaScript</h1>
+					<span class="ref-site">https://jonsuh.com/blog/detect-the-end-of-css-animations-and-transitions-with-javascript/</span>
 					<div class="tutorial__content">
-						
+						<h3>Detecting and executing when transitions end with jQuery</h3>
+<pre>$(".button").click(function(){
+  $(this).addClass("animate");
+  $(this).one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+              function(event) {
+    // Do something when the transition ends
+  });
+});</pre>
+<h3>Detect the supported event property name</h3>
+<pre>
+// Function from David Walsh: http://davidwalsh.name/css-animation-callback
+function whichTransitionEvent(){
+  var t,
+      el = document.createElement("fakeelement");
+
+  var transitions = {
+    "transition"      : "transitionend",
+    "OTransition"     : "oTransitionEnd",
+    "MozTransition"   : "transitionend",
+    "WebkitTransition": "webkitTransitionEnd"
+  }
+
+  for (t in transitions){
+    if (el.style[t] !== undefined){
+      return transitions[t];
+    }
+  }
+}
+
+var transitionEvent = whichTransitionEvent();
+
+$(".button").click(function(){
+  $(this).addClass("animate");
+  $(this).one(transitionEvent,
+              function(event) {
+    // Do something when the transition ends
+  });
+});</pre>
+<pre>
+// Example
+&lt;button class="button">Click me&lt;/button>
+
+
+function whichTransitionEvent(){
+  var t,
+      el = document.createElement("fakeelement");
+
+  var transitions = {
+    "transition"      : "transitionend",
+    "OTransition"     : "oTransitionEnd",
+    "MozTransition"   : "transitionend",
+    "WebkitTransition": "webkitTransitionEnd"
+  }
+
+  for (t in transitions){
+    if (el.style[t] !== undefined){
+      return transitions[t];
+    }
+  }
+}
+
+var transitionEvent = whichTransitionEvent();
+
+$(".button").click(function(){
+  $(this).addClass("animate");
+  $(this).one(transitionEvent,
+              function(event) {
+    alert("The transition has ended!");
+    $(this).removeClass("animate");
+  });
+});
+	</pre>
+<h3>Detect when animations (keyframes) end</h3>
+<pre>
+function whichAnimationEvent(){
+  var t,
+      el = document.createElement("fakeelement");
+
+  var animations = {
+    "animation"      : "animationend",
+    "OAnimation"     : "oAnimationEnd",
+    "MozAnimation"   : "animationend",
+    "WebkitAnimation": "webkitAnimationEnd"
+  }
+
+  for (t in animations){
+    if (el.style[t] !== undefined){
+      return animations[t];
+    }
+  }
+}
+
+var animationEvent = whichAnimationEvent();
+
+$(".button").click(function(){
+  $(this).addClass("animate");
+  $(this).one(animationEvent,
+              function(event) {
+    // Do something when the animation ends
+  });
+});
+</pre>
+<h3>Vanilla JavaScript</h3>
+<p>With Vanilla JavaScript, it’s slightly trickier. Using the <code class="highlighter-rouge">whichTransitionEvent</code> function, bind <code class="highlighter-rouge">transitionEvent</code> with <code class="highlighter-rouge">addEventListener</code>.</p>
+<pre>var button = document.querySelector(".button"),
+    transitionEvent = whichTransitionEvent();
+
+button.addEventListener("click", function() {
+  if (button.classList) {
+    button.classList.add("animate");
+  } else {
+    button.className += " " + "animate";
+  }
+
+  button.addEventListener(transitionEvent, customFunction);
+});
+
+function customFunction(event) {
+  button.removeEventListener(transitionEvent, customFunction);
+
+  // Do something when the transition ends
+}</pre>
+<p>The second argument must be a function name as opposed to <code class="highlighter-rouge">function({})</code>. This is important because we must unbind the listener, otherwise the listener will keep running, causing it to run multiple times.</p>
 					</div>
 				</article>
 				<!--================= END :: Tutorial =================-->
 				
 				<!--================= START :: Tutorial =================-->
 				<article>
-					<a id="t-02" name="t-02"></a><h1>02 : Index</h1><span class="ref-site">https://stackoverflow.com/questions/36076700/what-is-the-proper-use-of-an-eventemitter</span>
+					<a id="t-02" name="t-02"></a><h1>02 : JavaScript - Removing anonymous event listeners</h1><span class="ref-site">https://stackoverflow.com/questions/36076700/what-is-the-proper-use-of-an-eventemitter</span>
 					<div class="tutorial__content">
+<p>In order to remove this listener you have to know the name of it. But it’s anonymous! What are we to do? The answer is ridiculously simple: don’t use anonymous functions. You could instead name the function in the listener, then remove it when the function has run:</p>
+<pre>
+el.addEventListener('click', function _func() { 
+	foo(bar,baz); 
+	el.removeEventListener('click', _func); 
+});</pre>
+<p>Alternatively, you could assign the function to a variable, then use that variable as the listener:</p>
+<pre>var _func = function() { 
+	foo(bar,baz); 
+} 
+el.addEventListener('click', _func);
 
+//	And remove it by using the variable name again:
+el.removeEventListener('click', _func);
+</pre>
 					</div>
 				</article>
 				<!--================= END :: Tutorial =================-->
 				
 				<!--================= START :: Tutorial =================-->
-				<article style="display:none;">
+				<article>
 					<a id="t1" name="t1"></a><h1>Index</h1>
 					<span class="ref-site"></span>
 					<div class="tutorial__content">
